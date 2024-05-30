@@ -1,0 +1,136 @@
+		@media (min-width: 600px) {
+    #map {
+        width: 50%; /* Orta boyutlu cihazlar için genişliği %50 yap */
+    }
+}
+
+@media (min-width: 900px) {
+    #map {
+        width: 30%; /* Büyük cihazlar için genişliği %30 yap */
+    }
+}
+		
+
+
+/* Geri ve İleri butonları */
+#prevButton, #nextButton {
+    position: absolute;
+    top: 20px;
+    left: 50%; /* Sayfanın yatay ortasından başla */
+    padding: 8px 16px; /* Daha küçük padding değerleri */
+    font-size: 16px; /* Yazı boyutunu azalt */
+    color: white; /* Yazı rengi beyaz */
+    background-color: #007bff; /* Mavi arka plan */
+    border: none; /* Kenar çizgisi kaldır */
+    border-radius: 5px; /* Kenarları yuvarlak yap */
+    cursor: pointer; /* Fare imlecini düğme üzerine getirildiğinde işaretçi olarak değiştir */
+}
+
+#prevButton {
+    transform: translateX(-60%); /* Sol tarafa doğru çevir */
+	    margin-left: -90px; /* İki buton arasına boşluk ekleyin */
+}
+
+#nextButton {
+    transform: translateX(20%); /* Sağ tarafa doğru çevir */
+    margin-left: 60px; /* İki buton arasına boşluk ekleyin */
+}
+		.btn{
+			margin-bottom:1%;
+		}
+		.container {
+			margin-top:8%;
+		}
+        .ui-datepicker, .form-control, button.btn {
+            font-size: 16px;  /* Artırılmış font boyutu */
+        }
+        .form-control, button.btn {
+            height: auto; /* Daha büyük tıklama alanı */
+            padding: 10px; /* Artırılmış padding */
+        }
+        @media (max-width: 576px) { /* Küçük ekranlar için stil ayarlamaları */
+		        /* Geri ve İleri butonları */
+ #prevButton, #nextButton {
+    position: absolute;
+    top: 20px;
+    left: 50%; /* Sayfanın yatay ortasından başla */
+    padding: 8px 16px; /* Daha küçük padding değerleri */
+    font-size: 16px; /* Yazı boyutunu azalt */
+    color: white; /* Yazı rengi beyaz */
+    background-color: #007bff; /* Mavi arka plan */
+    border: none; /* Kenar çizgisi kaldır */
+    border-radius: 5px; /* Kenarları yuvarlak yap */
+    cursor: pointer; /* Fare imlecini düğme üzerine getirildiğinde işaretçi olarak değiştir */
+}
+
+#prevButton {
+    transform: translateX(-160%); /* Sol tarafa doğru çevir */
+	        margin-left: -40px;
+}
+
+#nextButton {
+    transform: translateX(20%); /* Sağ tarafa doğru çevir */
+}
+				.btn{
+			margin-bottom:7%;
+		}
+		.container {
+			margin-top:25%;
+		}
+            .form-group, .form-check {
+                margin-bottom: 20px; /* Daha fazla boşluk */
+            }
+            button.btn {
+                width: 100%; /* Tam genişlik */
+            }
+        }
+
+	
+			#map {
+            height: 400px;
+            width: 100%;
+        }
+
+		
+.error-message {
+    background-color: #f8d7da; /* Hafif kırmızı arkaplan */
+    color: #721c24; /* Koyu kırmızı metin rengi */
+    padding: 15px; /* İç boşluk */
+    border: 1px solid #f5c6cb; /* Kenarlık */
+    border-radius: 5px; /* Köşeleri yuvarlatma */
+    margin-bottom: 20px; /* Alt boşluk */
+    font-family: Arial, sans-serif; /* Yazı tipi */
+    position: relative; /* Kapatma düğmesi için */
+    opacity: 1; /* Şeffaflık başlangıç değeri */
+    transition: opacity 0.6s; /* Geçiş süresi */
+    display: none; /* Varsayılan olarak gizli */
+}
+
+.closebtn {
+    position: absolute; /* Mutlak konumlandırma */
+    top: 10px; /* Üstten boşluk */
+    right: 4px; /* Sağdan boşluk */
+    color: #721c24; /* Koyu kırmızı metin rengi */
+    font-weight: bold; /* Kalın yazı */
+    cursor: pointer; /* İşaretçi tipi */
+    font-size: 20px; /* Yazı boyutu */
+}
+
+.closebtn:hover {
+    color: #000; /* Üzerine gelindiğinde siyah renk */
+}
+
+.error {
+    border: 2px solid red; /* Kırmızı kenarlık */
+}
+
+        /* Geçersiz input için stil */
+        .invalid {
+            border: 2px solid red;
+        }
+        
+        /* Başlangıçta input stilini sıfırlayın */
+        input {
+            border: 2px solid #ccc;
+            padding: 10px;
+        }
