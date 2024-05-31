@@ -203,7 +203,7 @@ echo '
         <body>
             <h1>Booking Details</h1>
             <p><strong>Booking Number:</strong> $bookingNumber</p>
-            <p><strong>Route:</strong> <a href='https://newyorkpedicabservices.com/hourlyogulcan/route/index.php?bookingNumber=$bookingNumber' target='_blank'> View Route</a></p>    
+            <p><strong>Route:</strong> <a href='https://newyorkpedicabservices.com/book-scheduled-hourly-pedicab-service/route/index.php?bookingNumber=$bookingNumber' target='_blank'> View Route</a></p>    
             <p><strong>Type:</strong> Hourly Pedicab Service</p>
             <p><strong>First Name:</strong> $firstName</p>
             <p><strong>Last Name:</strong> $lastName</p>

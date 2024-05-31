@@ -222,7 +222,7 @@ $htmlContent1 = <<<EOD
          <body>
              <h1>Booking Details</h1>
              <p><strong>CONFIRMATION: Central Park Pedicab Tour - </strong> $bookingNumber</p>
-             <p><strong>Route:</strong> <a href='https://newyorkpedicabservices.com/scheduledcentralparkogulcan/route/index.php?bookingNumber=$bookingNumber' target='_blank'> View Route</a></p>	
+             <p><strong>Route:</strong> <a href='https://newyorkpedicabservices.com/book-scheduled-central-pedicab-tour/route/index.php?bookingNumber=$bookingNumber' target='_blank'> View Route</a></p>	
              <p><strong>Type:</strong> Central Park Pedicab Tour</p>
              <p><strong>First Name:</strong> $firstName</p>
              <p><strong>Last Name:</strong> $lastName</p>

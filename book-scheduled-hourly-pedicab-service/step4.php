@@ -230,7 +230,7 @@
                   </table>
 
 
-      </form> <form action="https://newyorkpedicabservices.com/hourlyogulcan/charge.php" method="post" id="payment-form">
+      </form> <form action="https://newyorkpedicabservices.com/book-scheduled-hourly-pedicab-service/charge.php" method="post" id="payment-form">
         <div class="form-row">
             <div id="card-element">
                 <!-- Stripe.js injects the Card Element -->
