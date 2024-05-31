@@ -192,7 +192,7 @@
                         <tr>
                            <th scope="row">Duration of Service</th>
                            <td><?php 
-						  if  ($serviceDuration == 90 OR $serviceDuration == 90){
+						  if  ($serviceDuration == 30 OR $serviceDuration == 90){
 							  
 							  echo $serviceDuration . " mins";
 						  }
@@ -261,7 +261,14 @@
     <input title="" type="hidden" name="operationFare" value="<?=$operationFare?>">	
 		<input title="" type="hidden" name="serviceDetails" value="<?=$serviceDetails?>">	
 	<input title="" type="hidden" name="serviceDuration" value="<?=$serviceDuration?>">		
-       <center> <button type="submit">$<?=number_format($bookingFee, 2)?> Pay</button></center>
+       <center> <button type="submit">$<?php 
+	  if ($paymentMethod != "fullcard"){
+	 echo number_format($bookingFee, 2);
+	  }
+	  else {
+		echo	  number_format($totalFare, 2);
+	  }
+	  ?> Pay</button></center>
     </form>
                </div>
             </div>

@@ -13,36 +13,34 @@ $destinationAddress = $sonuc['destinationAddress'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no"/>
+    <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no"/>
     <title>Map Display</title>
-<style>
-    /* Body ve html etiketleri için padding ve margin sıfırla */
-    html, body {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        overflow: hidden; /* Taşma durumlarını engelle */
-        width: 100%;
-        display: block;
-    }
+    <style>
+        /* Body ve html etiketleri için padding ve margin sıfırla */
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden; /* Taşma durumlarını engelle */
+            width: 100%;
+            display: block;
+        }
 
-    /* Harita konteyner stilini tam ekran yap */
-    #map {
-        height: 100%;
-        width: 100%;
-    }
-</style>
-
-
+        /* Harita konteyner stilini tam ekran yap */
+        #map {
+            height: 100%;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
-    <div id="map" style="margin-top:30px;"></div>
+    <div id="map"></div>
 <script>
 function initMap() {
     var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 12,
         center: {lat: 40.7831, lng: -73.9712},
-		  styles: [{featureType: 'road', elementType: 'geometry', stylers: [{color: '#f5f1e6'}]}]
+        styles: [{featureType: 'road', elementType: 'geometry', stylers: [{color: '#f5f1e6'}]}]
     });
 
     var directionsService = new google.maps.DirectionsService();
@@ -50,6 +48,7 @@ function initMap() {
         map: map,
         polylineOptions: {
             strokeColor: 'black',
+            strokeOpacity: 0.5, // Opaklığı düşür
             strokeWeight: 6,
             zIndex: 1
         },
@@ -59,6 +58,7 @@ function initMap() {
         map: map,
         polylineOptions: {
             strokeColor: 'orange',
+            strokeOpacity: 0.5, // Opaklığı düşür
             strokeWeight: 6,
             zIndex: 2
         },
@@ -68,6 +68,7 @@ function initMap() {
         map: map,
         polylineOptions: {
             strokeColor: 'blue',
+            strokeOpacity: 0.5, // Opaklığı düşür
             strokeWeight: 6,
             zIndex: 3
         },
@@ -77,6 +78,7 @@ function initMap() {
         map: map,
         polylineOptions: {
             strokeColor: 'green',
+            strokeOpacity: 0.5, // Opaklığı düşür
             strokeWeight: 6,
             zIndex: 4
         },
@@ -141,7 +143,6 @@ function addCustomMarkers(route, map, startLabel, endLabel) {
     });
 }
 </script>
-
 
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBg9HV0g-8ddiAHH6n2s_0nXOwHIk2f1DY&callback=initMap"></script>  
 </body>

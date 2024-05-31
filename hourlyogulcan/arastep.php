@@ -1,7 +1,4 @@
-<?php
-   ini_set('display_errors', 1);
-   error_reporting(E_ALL);
-   
+<?php 
     if ($_POST){
  // Formdan alınan bilgiler
  	     // Formdan alınan bilgiler
@@ -199,10 +196,7 @@ if ($paymentMethod === "card") {
        ]
    ];
    
-   if (!array_key_exists($paymentMethod, $minFares)) {
-       die("Geçersiz ödeme metodu: $paymentMethod");
-   }
-   
+
    $key = ($isWeekend ? 'weekend' : 'week') . ($month == "December" ? 'December' : '');
    $minBookingFee = $minFares[$paymentMethod][$key]['Booking Fee'];
    $minDriverFare = $minFares[$paymentMethod][$key]['Driver Fare'];
@@ -211,9 +205,12 @@ if ($paymentMethod === "card") {
 // Minimum ücretler ile karşılaştır
 $bookingFee = max($bookingFee, $minBookingFee);
 $driverFare = max($driverFare, $minDriverFare);
+   if ($paymentMethod === "fullcard") {
+       $bookingFee *= 1.2;
+	   $driverFare *= 1.2;
+   }
 $totalFare = max($bookingFee + $driverFare, $minTotalFare);
 
-   
    
    
    ?>

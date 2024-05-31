@@ -244,7 +244,14 @@
 	<input title="" type="hidden" name="hub" value="<?=$hub?>">		
 	<input title="" type="hidden" name="baseFare" value="<?=$baseFare?>">
     <input title="" type="hidden" name="operationFare" value="<?=$operationFare?>">	
-      <center>  <button type="submit">$<?=number_format($bookingFee, 2)?> Pay</button></center>
+      <center>  <button type="submit">$<?php 
+	  if ($paymentMethod != "fullcard"){
+	 echo number_format($bookingFee, 2);
+	  }
+	  else {
+		echo	  number_format($totalFare, 2);
+	  }
+	  ?> Pay</button></center>
     </form>
                </div>
             </div>

@@ -175,6 +175,12 @@
                         I will pay the driver with debit/credit card (10% fee applies to the driver fare)
                         </label>
                      </div>
+					  <div class="form-check">
+                        <input title="" class="form-check-input" type="radio" required name="paymentMethod" id="payCard" value="fullcard" <?php echo isset($_GET['paymentMethod']) && $_GET['paymentMethod'] == 'fullcard' ? 'checked' : ''; ?>>
+                        <label class="form-check-label" for="payCard">
+                        I will pay all upfront to New York Pedicab Services and New York Pedicab Services will pay the driver (20% fee applies to the full fare)
+                        </label>
+                     </div>
                   </div>
 				      <input title="" type="hidden" name="firstName" value="<?=$_GET["firstName"]?>">
     <input title="" type="hidden" name="lastName" value="<?=$_GET["lastName"]?>">

@@ -1,54 +1,38 @@
 <?php 
 require_once('../inc/db.php');
 $bookingNumber = $_GET["bookingNumber"];
-$sorgu = $baglanti->prepare("SELECT * FROM pointatob WHERE bookingNumber=:bookingNumber");
-$sorgu->execute(['bookingNumber' => $bookingNumber]);
-$sonuc = $sorgu->fetch();
-// Sonucun olup olmadığını kontrol et
-if (!$sonuc) {
 $sorgu = $baglanti->prepare("SELECT * FROM hourly WHERE bookingNumber=:bookingNumber");
 $sorgu->execute(['bookingNumber' => $bookingNumber]);
 $sonuc = $sorgu->fetch();
-$deneme2 = $sonuc['pickupAddress'];
-$destinationAddress = $sonuc['destinationCoords'];
-$hub = $sonuc['hub'];
-}
-else {
-$deneme2 = $sonuc['pickupAddress'];
-$destinationAddress = $sonuc['destinationCoords'];
-$hub = $sonuc['hub'];
-}
 
+$deneme2 = $sonuc['pickupAddress'];
+$destinationAddress = $sonuc['destinationCoords'];
+$hub = $sonuc['hub'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no"/>
     <title>Map Display</title>
-<style>
-    /* Body ve html etiketleri için padding ve margin sıfırla */
-    html, body {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        overflow: hidden; /* Taşma durumlarını engelle */
-        width: 100%;
-        display: block;
-    }
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            width: 100%;
+            display: block;
+        }
 
-    /* Harita konteyner stilini tam ekran yap */
-    #map {
-        height: 100%;
-        width: 100%;
-    }
-</style>
-
-
+        #map {
+            height: 100%;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
-    <div id="map" style="margin-top:30px;"></div>
+    <div id="map"></div>
 <script>
 function initMap() {
     var map = new google.maps.Map(document.getElementById('map'), {
@@ -58,11 +42,11 @@ function initMap() {
     });
 
     var directionsService = new google.maps.DirectionsService();
-    var directionsRendererRed = new google.maps.DirectionsRenderer({
+    var directionsRendererBlack = new google.maps.DirectionsRenderer({
         map: map,
         suppressMarkers: true,
         polylineOptions: {
-            strokeColor: '#FF0000',
+            strokeColor: '#000000',
             strokeOpacity: 0.8,
             strokeWeight: 6
         }
@@ -76,32 +60,21 @@ function initMap() {
             strokeWeight: 6
         }
     });
-    var directionsRendererBlack = new google.maps.DirectionsRenderer({
-        map: map,
-        suppressMarkers: true,
-        polylineOptions: {
-            strokeColor: '#000000',
-            strokeOpacity: 0.8,
-            strokeWeight: 6
-        }
-    });
 
     var pickupAddress = <?php echo json_encode($deneme2); ?>;
     var destinationAddress = <?php echo json_encode($destinationAddress); ?>;
     var hubAddress = <?php echo json_encode($hub); ?>;
 
-    // Calculate route from A to B (red)
-    calculateAndDisplayRoute(directionsService, directionsRendererRed, map, pickupAddress, destinationAddress, "A", "B");
-    // Calculate route from B to H (blue)
-    calculateAndDisplayRoute(directionsService, directionsRendererBlue, map, destinationAddress, hubAddress, "B", "H");
-    // Calculate route from H to A (black)
-    calculateAndDisplayRoute(directionsService, directionsRendererBlack, map, hubAddress, pickupAddress, "H", "A");
+    // Calculate route from Hub to Start (black)
+    calculateAndDisplayRoute(directionsService, directionsRendererBlack, map, hubAddress, pickupAddress, "H", "S", true, 0.0001);
+    // Calculate route from Finish to Hub (blue)
+    calculateAndDisplayRoute(directionsService, directionsRendererBlue, map, destinationAddress, hubAddress, "F", "H", true, -0.0001);
 }
 
-function calculateAndDisplayRoute(directionsService, directionsRenderer, map, origin, destination, startLabel, endLabel) {
+function calculateAndDisplayRoute(directionsService, directionsRenderer, map, origin, destination, startLabel, endLabel, addMarkers = true, offset = 0) {
     directionsService.route({
-        origin: origin,
-        destination: destination,
+        origin: offsetLocation(origin, offset),
+        destination: offsetLocation(destination, offset),
         travelMode: 'BICYCLING',
         provideRouteAlternatives: true
     }, function(response, status) {
@@ -109,13 +82,29 @@ function calculateAndDisplayRoute(directionsService, directionsRenderer, map, or
             var fastestRouteIndex = findFastestRouteIndex(response.routes);
             directionsRenderer.setDirections(response);
             directionsRenderer.setRouteIndex(fastestRouteIndex);
-            addCustomMarkers(response.routes[fastestRouteIndex], map, startLabel, endLabel);
+            if (addMarkers) {
+                addCustomMarkers(response.routes[fastestRouteIndex], map, startLabel, endLabel);
+            }
         } else {
             window.alert('Directions request failed due to ' + status);
         }
     });
 }
 
+function offsetLocation(location, offset) {
+    var geocoder = new google.maps.Geocoder();
+    var newLocation = location;
+    geocoder.geocode({'address': location}, function(results, status) {
+        if (status === 'OK') {
+            var latLng = results[0].geometry.location;
+            newLocation = {
+                lat: latLng.lat() + offset,
+                lng: latLng.lng() + offset
+            };
+        }
+    });
+    return newLocation;
+}
 
 function findFastestRouteIndex(routes) {
     var index = 0;
@@ -146,7 +135,6 @@ function addCustomMarkers(route, map, startLabel, endLabel) {
     });
 }
 </script>
-
-      <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBg9HV0g-8ddiAHH6n2s_0nXOwHIk2f1DY&callback=initMap"></script>  
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBg9HV0g-8ddiAHH6n2s_0nXOwHIk2f1DY&callback=initMap"></script>
 </body>
 </html>

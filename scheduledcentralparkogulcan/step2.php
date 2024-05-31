@@ -418,11 +418,11 @@ $countryCode = substr($phoneNumber, 0, strlen($phoneNumber) - 10);
                            <td><?=$numPassengers?></td>
                         </tr>
                         <tr>
-                           <th scope="row">Date of Pick Up</th>
+                           <th scope="row">Date of Tour</th>
                            <td><?=$pickUpDate?></td>
                         </tr>
                         <tr>
-                           <th scope="row">Time of Pick Up</th>
+                           <th scope="row">Time of Tour</th>
                            <td><?php echo $hours . ":" .  $minutes . " " . $ampm;?></td>
                         </tr>
                         <tr>
@@ -430,11 +430,11 @@ $countryCode = substr($phoneNumber, 0, strlen($phoneNumber) - 10);
                            <td><?=$rideDuration?> mins</td>
                         </tr>
                         <tr>
-                           <th scope="row">Pick Up Address</th>
+                           <th scope="row">Start Address</th>
                            <td><?=$deneme2?></td>
                         </tr>
                         <tr>
-                           <th scope="row">Destination Address</th>
+                           <th scope="row">Finish Address</th>
                            <td><?=$destinationAddress?></td>
                         </tr>
                         <tr>

@@ -67,7 +67,7 @@ echo ($sonuc["hour"] < 10 ? "0" . $sonuc["hour"] : $sonuc["hour"]) . ":"
      . ($sonuc["minutes"] == 0 ? "0" . $sonuc["minutes"] : $sonuc["minutes"])
      . " " . $sonuc["ampm"];
 ?><br>
-Duration = <?=$sonuc["duration"]?><br>
+Service Duration = <?=$sonuc["serviceDuration"]?><br>
 Passengers = <?=$sonuc["numberOfPassengers"]?><br>
 Name = <?=$sonuc["firstName"] . ' ' . $sonuc["lastName"]?><br>
 Phone = <?=$sonuc["phoneNumber"]?><br>

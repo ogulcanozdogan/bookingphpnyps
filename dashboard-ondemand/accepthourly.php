@@ -133,7 +133,7 @@ while ($sonuc = $sorgu->fetch()) {
     $phoneNumbers[] = $formattedPhone;
 
 }
-$message = "Central Park Pedicab Tour assigned.
+$message = "Hourly Pedicab Tour assigned.
 {". $bookingNumber ."}";
 
 // Her bir telefon numarasına mesaj gönder

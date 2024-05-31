@@ -8,6 +8,7 @@
 </head>
 <body>
 <?php
+$hata = '';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 require_once('vendor/autoload.php');
@@ -182,9 +183,28 @@ $baglanti->prepare($sqlUpdate)->execute();
 
              if ($durum)
              {
-                echo '<script>swal("Successful","Succesfully payment.","success").then((value)=>{ window.location.href = "index.php"});
+               echo '
+<h1>Booking Details</h1>
+<p><strong>CONFIRMATION: Point A to B Pedicab Ride - </strong>' . htmlspecialchars($bookingNumber) . '</p>
+<p><strong>Below are the confirmed details of your booking:</strong></p>
+<p><strong>Type:</strong> Point A to B Pedicab Ride</p>
+<p><strong>First Name:</strong> ' . htmlspecialchars($firstName) . '</p>
+<p><strong>Last Name:</strong> ' . htmlspecialchars($lastName) . '</p>
+<p><strong>Email Address:</strong> ' . htmlspecialchars($emailAddress) . '</p>
+<p><strong>Phone Number:</strong> ' . htmlspecialchars($phoneNumber) . '</p>
+<p><strong>Number of Passengers:</strong> ' . htmlspecialchars($numPassengers) . '</p>
+<p><strong>Date of Pick Up:</strong> ' . htmlspecialchars($pickUpDate) . '</p>
+<p><strong>Time of Pick Up:</strong> ' . htmlspecialchars($timeOfPickUp) . '</p>
+<p><strong>Duration of Ride:</strong> ' . htmlspecialchars($rideDuration) . ' minutes</p>
+<p><strong>Pick Up Address:</strong> ' . htmlspecialchars($pickUpAddress) . '</p>
+<p><strong>Booking Fee:</strong> $' . htmlspecialchars($bookingFee) . ' paid on ' . htmlspecialchars($pickUpDate) . '</p>
+<p><strong>Driver Fare:</strong> $' . htmlspecialchars($driverFare) . ' with ' . htmlspecialchars($paymentMethod) . '</p>
+<p><strong>Thank you for choosing New York Pedicab Services.</strong></p>
+<strong>New York Pedicab Services</strong>
+<strong>(212) 961-7435</strong>
+<strong>info@newyorkpedicabservices.com</strong>
+';
 
-                </script>';  
 				
 				
 // İlk E-posta
@@ -192,6 +212,7 @@ $email1 = new \SendGrid\Mail\Mail();
 $email1->setFrom("info@newyorkpedicabservices.com", "NYPS");
 $email1->setSubject("Point A to B Pedicab Ride - " . $bookingNumber);
 $email1->addTo("info@newyorkpedicabservices.com", "NYPS");
+
 $htmlContent1 = <<<EOD
 <html>
 <body>
@@ -208,22 +229,48 @@ $htmlContent1 = <<<EOD
     <p><strong>Time of Pick Up:</strong> $timeOfPickUp</p>
     <p><strong>Pick Up Duration:</strong> {$pickUpDuration} minutes</p>
     <p><strong>Duration of Ride:</strong> {$rideDuration} minutes</p>
-    <p><strong>Return Duration:</strong> {$returnDuration} minutes</p>	
+    <p><strong>Return Duration:</strong> {$returnDuration} minutes</p>    
     <p><strong>Operation Duration:</strong> {$operationDurationFormatted} hours</p>
     <p><strong>Hub:</strong> $hub</p>
     <p><strong>Base Fare:</strong> \${$baseFare}</p>
     <p><strong>Operation Fare:</strong> \${$operationFare}</p>
     <p><strong>Pick Up Address:</strong> $pickUpAddress</p>
     <p><strong>Destination Address:</strong> $destinationAddress</p>
+EOD;
+
+if ($paymentMethod != 'FULLCARD') {
+    $htmlContent1 .= <<<EOD
     <p><strong>Booking Fee:</strong> \$$bookingFee paid on $orderMonth/$orderDay/$orderYear</p>
+EOD;
+} else {
+    $htmlContent1 .= <<<EOD
+    <p><strong>Booking Fee:</strong> \$$bookingFee</p>
+EOD;
+}
+
+$htmlContent1 .= <<<EOD
     <p><strong>Driver Fare:</strong> \${$driverFare} with $paymentMethod</p>
+EOD;
+
+if ($paymentMethod == 'FULLCARD') {
+    $htmlContent1 .= <<<EOD
+    <p><strong>Total Fare:</strong> \${$totalFare} paid on $orderMonth/$orderDay/$orderYear</p>
+EOD;
+} else {
+    $htmlContent1 .= <<<EOD
     <p><strong>Total Fare:</strong> \${$totalFare}</p>
+EOD;
+}
+
+$htmlContent1 .= <<<EOD
     <h2>Driver Note</h2>
-    <strong>Type:</strong> Point A to B Pedicab Ride<br><strong>First:</strong> $firstName<br><strong>Last:</strong> $lastName<br><strong>Cell:</strong> $phoneNumber<br><strong>Passengers:</strong> $numPassengers<br><strong>Date:</strong>$pickUpDate<br><strong>Time:</strong> $timeOfPickUp<br><strong>Duration:</strong> {$rideDuration} minutes<br><strong>Start:</strong> $pickUpAddress<br><strong>Finish:</strong> $destinationAddress<br><strong>Pay:</strong> \${$driverFare} with $paymentMethod by customer $firstName $lastName
+    <strong>Type:</strong> Point A to B Pedicab Ride<br><strong>First:</strong> $firstName<br><strong>Last:</strong> $lastName<br><strong>Cell:</strong> $phoneNumber<br><strong>Passengers:</strong> $numPassengers<br><strong>Date:</strong> $pickUpDate<br><strong>Time:</strong> $timeOfPickUp<br><strong>Duration:</strong> {$rideDuration} minutes<br><strong>Start:</strong> $pickUpAddress<br><strong>Finish:</strong> $destinationAddress<br><strong>Pay:</strong> \${$driverFare} with $paymentMethod by customer $firstName $lastName
 </body>
 </html>
 EOD;
+
 $email1->addContent("text/html", $htmlContent1);
+
 
 // İkinci E-posta
 $email2 = new \SendGrid\Mail\Mail(); 
@@ -263,17 +310,17 @@ $sendgrid = new \SendGrid('SG.8Qqi1W8MQRCWNmzcNHD4iw.PqfZxMPBxrPEBDcQKGqO1QyT5JL
 try {
     // İlk e-posta gönderimi
     $response1 = $sendgrid->send($email1);
-    print $response1->statusCode() . "\n";
-    print_r($response1->headers());
-    print $response1->body() . "\n";
+   // print $response1->statusCode() . "\n";
+    //print_r($response1->headers());
+   // print $response1->body() . "\n";
     
     // İkinci e-posta gönderimi
     $response2 = $sendgrid->send($email2);
-    print $response2->statusCode() . "\n";
-    print_r($response2->headers());
-    print $response2->body() . "\n";
+   // print $response2->statusCode() . "\n";
+   // print_r($response2->headers());
+   // print $response2->body() . "\n";
 } catch (Exception $e) {
-    echo 'Caught exception: '. $e->getMessage() ."\n";
+   // echo 'Caught exception: '. $e->getMessage() ."\n";
 }
 
 				
@@ -288,7 +335,7 @@ while ($sonuc = $sorgu->fetch()) {
 
 }
 
-$message = "Central Park Pedicab Tour available!
+$message = "Point A to B Pedicab Tour available!
 {". $bookingNumber ."}";
 
 // Her bir telefon numarasına mesaj gönder

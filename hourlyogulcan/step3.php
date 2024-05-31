@@ -266,7 +266,7 @@ function initMap() {
         suppressMarkers: true,  // Varsayılan işaretçileri kaldır
         polylineOptions: {
             strokeColor: '#FF0000',  // Çizgi rengini kırmızı yap
-            strokeOpacity: 0,      // Çizginin opaklığı
+            strokeOpacity: 1,      // Çizginin opaklığı
             strokeWeight: 6          // Çizgi kalınlığı
         }
     });
@@ -291,19 +291,14 @@ function calculateAndDisplayRoute(directionsService, directionsRenderer, map, pi
             addCustomMarkers(response.routes[fastestRouteIndex], map);
 
             // Rotanın süresini hesapla
-var durationMinutes = parseFloat(response.routes[fastestRouteIndex].legs.reduce((sum, leg) => sum + leg.duration.value, 0) / 60);
-
-
-
-			console.log("durationMinutes: " + durationMinutes);
-
+            var durationMinutes = parseFloat(response.routes[fastestRouteIndex].legs.reduce((sum, leg) => sum + leg.duration.value, 0) / 60);
+            console.log("durationMinutes: " + durationMinutes);
 
         } else {
             window.alert('Directions request failed due to ' + status);
         }
     });
 }
-
 
 function findFastestRouteIndex(routes) {
     var index = 0;

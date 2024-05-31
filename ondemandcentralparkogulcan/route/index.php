@@ -36,7 +36,7 @@ $destinationAddress = $sonuc['destinationAddress'];
 
 </head>
 <body>
-    <div id="map" style="margin-top:30px;"></div>
+    <div id="map"></div>
 <script>
 function initMap() {
     var map = new google.maps.Map(document.getElementById('map'), {

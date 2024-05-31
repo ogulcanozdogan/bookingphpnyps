@@ -44,7 +44,7 @@ $sorgu = $baglanti->prepare("SELECT * FROM hourly WHERE id=:id");
 $sorgu->execute(['id' => $id]);
 $sonuc = $sorgu->fetch();
 
-$pickupAddress = $sonuc["startAddress"];
+$pickupAddress = $sonuc["pickupAddress"];
 $destinationAddress = $sonuc["destinationAddress"];
 $customerPhone = $sonuc["phoneNumber"];
 $customerName = $sonuc["firstName"];
@@ -70,7 +70,7 @@ echo ($sonuc["hour"] < 10 ? "0" . $sonuc["hour"] : $sonuc["hour"]) . ":"
      . ($sonuc["minutes"] == 0 ? "0" . $sonuc["minutes"] : $sonuc["minutes"])
      . " " . $sonuc["ampm"];
 ?><br>
-Duration = <?=$sonuc["duration"]?><br>
+Service Duration = <?=$sonuc["serviceDuration"]?><br>
 Passengers = <?=$sonuc["numberOfPassengers"]?><br>
 Name = <?=$customerName . ' ' . $sonuc["lastName"]?><br>
 Phone = <?=$customerPhone;?><br>
@@ -137,7 +137,7 @@ while ($sonuc = $sorgu->fetch()) {
     $phoneNumbers[] = $formattedPhone;
 
 }
-$message = "Central Park Pedicab Tour assigned.
+$message = "Hourly Pedicab Tour assigned.
 {". $bookingNumber ."}";
 
 // Her bir telefon numarasına mesaj gönder
@@ -249,14 +249,14 @@ function addCustomMarkers(route, map) {
     var startMarker = new google.maps.Marker({
         position: route.legs[0].start_location,
         map: map,
-        label: 'A',
+        label: 'S',
         title: 'Start: ' + route.legs[0].start_address
     });
 
     var endMarker = new google.maps.Marker({
         position: route.legs[0].end_location,
         map: map,
-        label: 'B',
+        label: 'F',
         title: 'End: ' + route.legs[0].end_address
     });
 }

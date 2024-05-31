@@ -1,8 +1,4 @@
-<?php
-   ini_set('display_errors', 1);
-   error_reporting(E_ALL);
-   
-    if ($_POST){
+<?php   if ($_POST){
  // Formdan alınan bilgiler
  	     // Formdan alınan bilgiler
 	$firstName = $_POST["firstName"]; // varsayılan değer 1
@@ -183,10 +179,7 @@ $operationFare = ($totalDurationMinutes / 60) * $operationFarePerHour;
            'weekendDecember' => ['Booking Fee' => 13.5, 'Driver Fare' => 59.4, 'Total Fare' => 72.9]
        ]
    ];
-   
-   if (!array_key_exists($paymentMethod, $minFares)) {
-       die("Geçersiz ödeme metodu: $paymentMethod");
-   }
+
    
    $key = ($isWeekend ? 'weekend' : 'week') . ($month == "December" ? 'December' : '');
    $minBookingFee = $minFares[$paymentMethod][$key]['Booking Fee'];
@@ -195,8 +188,13 @@ $operationFare = ($totalDurationMinutes / 60) * $operationFarePerHour;
    
    $bookingFee = max($bookingFee, $minBookingFee);
    $driverFare = max($driverFare, $minDriverFare);
+      if ($paymentMethod === "fullcard") {
+       $bookingFee *= 1.2;
+	   $driverFare *= 1.2;
+   }
    $totalFare = max($bookingFee + $driverFare, $minTotalFare);
-   
+ 
+
    
    ?>
 <!DOCTYPE html>

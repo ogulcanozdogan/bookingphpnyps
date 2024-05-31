@@ -8,8 +8,7 @@
    </head>
    <body>
       <?php
-         ini_set('display_errors', 1);
-         error_reporting(E_ALL);
+	  $hata = '';
          use PHPMailer\PHPMailer\PHPMailer;
          use PHPMailer\PHPMailer\Exception;
          require_once('vendor/autoload.php');
@@ -37,12 +36,12 @@ $stripe = new \Stripe\StripeClient('sk_test_51MhFmmGdhoanQCDNADx1H93FzMcqZLmrnIn
          $driverFare = $_POST['driverFare'];
          $totalFare = $_POST['totalFare'];
          $returnDuration = $_POST["returnDuration"];
-         $operationFare = $_POST["operationFare"];  
-         $tourDuration = $_POST["tourDuration"];   
+         $operationFare = $_POST["operationFare"];
+         $tourDuration = $_POST["tourDuration"];
          $pickup1 = $_POST["pickup1"];
          $pickup2 = $_POST["pickup2"];
-         $return1 = $_POST["return1"];  
-         $return2 = $_POST["return2"];   
+         $return1 = $_POST["return1"];
+         $return2 = $_POST["return2"];
          $toursuresi = $_POST["toursuresi"];  
          $timeOfPickUp = $hours . ":" . $minutes . " " . $ampm;
          // Toplam dakikayı hesaplama
@@ -83,7 +82,7 @@ $stripe = new \Stripe\StripeClient('sk_test_51MhFmmGdhoanQCDNADx1H93FzMcqZLmrnIn
          $formattedTimeOfOrder = $orderDateTime->format('H-i');
          
          // Rezervasyon numarasını yeni formata göre oluştur
-         $bookingNumber = $pickUpYear . '-' . $pickUpMonth . '-' . $pickUpDay . '-' . 
+         $bookingNumber = $pickUpYear . '-' . $pickUpMonth . '-' . $pickUpDay . '-' .
                           $formattedTimeOfRide . '-' . $orderYear . '-' . $orderMonth . '-' .
                           $orderDay . '-' . $formattedTimeOfOrder;
          try {
@@ -183,9 +182,30 @@ $baglanti->prepare($sqlUpdate)->execute();
          
                       if ($durum)
                       {
-                         echo '<script>swal("Successful","Succesfully payment.","success").then((value)=>{ window.location.href = "index.php"});
-         
-                         </script>';  
+                        echo '
+<h1>Booking Details</h1>
+<p><strong>Thank you for choosing New York Pedicab Services</strong></p>
+<p><strong>Below are the confirmed details of your booking:</strong></p>
+<p><strong>Type:</strong> Scheduled Central Park Pedicab Tour</p>
+<p><strong>First Name:</strong> ' . htmlspecialchars($firstName) . '</p>
+<p><strong>Last Name:</strong> ' . htmlspecialchars($lastName) . '</p>
+<p><strong>Email Address:</strong> ' . htmlspecialchars($emailAddress) . '</p>
+<p><strong>Phone Number:</strong> ' . htmlspecialchars($phoneNumber) . '</p>
+<p><strong>Number of Passengers:</strong> ' . htmlspecialchars($numPassengers) . '</p>
+<p><strong>Date of Tour:</strong> ' . htmlspecialchars($pickUpDate) . '</p>
+<p><strong>Time of Tour:</strong> ' . htmlspecialchars($timeOfPickUp) . '</p>
+<p><strong>Duration of Tour:</strong> ' . htmlspecialchars($tourDuration) . ' minutes</p>
+<p><strong>Duration of Ride:</strong> ' . htmlspecialchars($rideDuration) . ' minutes</p>
+<p><strong>Start Address:</strong> ' . htmlspecialchars($pickUpAddress) . '</p>
+<p><strong>Finish Address:</strong> ' . htmlspecialchars($destinationAddress) . '</p>
+<p><strong>Booking Fee:</strong> $' . htmlspecialchars($bookingFee) . ' paid on ' . htmlspecialchars($pickUpDate) . '</p>
+<p><strong>Driver Fare:</strong> $' . htmlspecialchars($driverFare) . ' with ' . htmlspecialchars($paymentMethod) . '</p>
+<p><strong>Thank you,</strong></p>
+<strong>New York Pedicab Services</strong>
+<strong>(212) 961-7435</strong>
+<strong>info@newyorkpedicabservices.com</strong>
+';
+  
 						 
 						 
 						      
@@ -195,7 +215,7 @@ $baglanti->prepare($sqlUpdate)->execute();
 // İlk E-posta
 $email1 = new \SendGrid\Mail\Mail(); 
 $email1->setFrom("info@newyorkpedicabservices.com", "NYPS");
-$email1->setSubject("Central Park Pedicab Tour - " . $bookingNumber);
+$email1->setSubject("“Scheduled Central Park Pedicab Tour - " . $bookingNumber);
 $email1->addTo("info@newyorkpedicabservices.com", "NYPS");
 $htmlContent1 = <<<EOD
          <html>
@@ -209,21 +229,21 @@ $htmlContent1 = <<<EOD
              <p><strong>Email Address:</strong> $emailAddress</p>
              <p><strong>Phone Number:</strong> $phoneNumber</p>
              <p><strong>Number of Passengers:</strong> $numPassengers</p>
-             <p><strong>Date of Pick Up:</strong> $pickUpDate</p>
-             <p><strong>Time of Pick Up:</strong> $timeOfPickUp</p>
+             <p><strong>Date of Tour:</strong> $pickUpDate</p>
+             <p><strong>Time of Tour:</strong> $timeOfPickUp</p>
          	<p><strong>Pick Up 1:</strong> {$pickup1} minutes</p>
          	<p><strong>Pick Up 2:</strong> {$pickup2} minutes</p>
          	<p><strong>Duration of Tour:</strong> {$tourDuration} minutes</p>
              <p><strong>Duration of Ride:</strong> {$rideDuration} minutes</p>
-         	<p><strong>Return 1:</strong> {$return1} minutes</p>
-         	<p><strong>Return 2:</strong> {$return2} minutes</p>	
+         	<p><strong>Return 1 Duration:</strong> {$return1} minutes</p>
+         	<p><strong>Return 2 Duration:</strong> {$return2} minutes</p>	
              <p><strong>Operation Duration:</strong> {$operationDurationFormatted} hours</p>
              <p><strong>Start Address:</strong> $pickUpAddress</p>
              <p><strong>Finish Address:</strong> $destinationAddress</p>
              <p><strong>Hub 1:</strong> West Drive and West 59th Street New York, NY 10019</p>
-             <p><strong>Hub 2:</strong> = 6th Avenue and Central Park South New York, NY 10019</p>			 
-             <p><strong>Operation Fare:</strong> \${$operationFare}</p>
-             <p><strong>Booking Fee:</strong> \$$bookingFee paid on $pickUpDate</p>
+             <p><strong>Hub 2:</strong> 6th Avenue and Central Park South New York, NY 10019</p>			 
+             <p><strong>Operation Fare:</strong> \${$operationFare} per hour</p>
+             <p><strong>Booking Fee:</strong> \$$bookingFee paid on $orderMonth/$orderDay/$orderYear</p>
              <p><strong>Driver Fare:</strong> \${$driverFare} with $paymentMethod</p>
              <p><strong>Total Fare:</strong> \${$totalFare}</p>
              <h2>Driver Note</h2>
@@ -283,17 +303,17 @@ $email2->addContent("text/html", $htmlContent2);
          try {
     // İlk e-posta gönderimi
     $response1 = $sendgrid->send($email1);
-    print $response1->statusCode() . "\n";
-    print_r($response1->headers());
-    print $response1->body() . "\n";
+    //print $response1->statusCode() . "\n";
+    //print_r($response1->headers());
+   //print $response1->body() . "\n";
     
     // İkinci e-posta gönderimi
     $response2 = $sendgrid->send($email2);
-    print $response2->statusCode() . "\n";
-    print_r($response2->headers());
-    print $response2->body() . "\n";
+    //print $response2->statusCode() . "\n";
+    //print_r($response2->headers());
+   // print $response2->body() . "\n";
 } catch (Exception $e) {
-    echo 'Caught exception: '. $e->getMessage() ."\n";
+    
 }
          
          				

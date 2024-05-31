@@ -176,7 +176,7 @@ $returnDuration = $returnsuresi * 2.5;
 }
 
 
-if ($serviceDuration != 30 OR $serviceDuration != 90){
+if ($serviceDuration != 30 && $serviceDuration != 90){
 	$timeCheck = $serviceDuration * 60;
 }
 else {
@@ -225,10 +225,6 @@ if ($paymentMethod === "card") {
     ]
 ];
 
-if (!array_key_exists($paymentMethod, $minFares)) {
-    die("Geçersiz ödeme metodu: $paymentMethod");
-}
-
 $key = ($isWeekend ? 'weekend' : 'week') . ($month == "December" ? 'December' : '');
 $minBookingFee = $minFares[$paymentMethod][$key]['Booking Fee'];
 $minDriverFare = $minFares[$paymentMethod][$key]['Driver Fare'];
@@ -236,9 +232,13 @@ $minTotalFare = $minFares[$paymentMethod][$key]['Total Fare'];
 
 $bookingFee = max($bookingFee, $minBookingFee);
 $driverFare = max($driverFare, $minDriverFare);
+   
+   if ($paymentMethod === "fullcard") {
+       $bookingFee *= 1.2;
+	   $driverFare *= 1.2;
+   }
 $totalFare = max($bookingFee + $driverFare, $minTotalFare);
 
-   
    ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -610,7 +610,7 @@ function initMap() {
         suppressMarkers: true,  // Varsayılan işaretçileri kaldır
         polylineOptions: {
             strokeColor: '#FF0000',  // Çizgi rengini kırmızı yap
-            strokeOpacity: 0,      // Çizginin opaklığı
+            strokeOpacity: 1,      // Çizginin opaklığı
             strokeWeight: 6          // Çizgi kalınlığı
         }
     });
@@ -635,20 +635,14 @@ function calculateAndDisplayRoute(directionsService, directionsRenderer, map, pi
             addCustomMarkers(response.routes[fastestRouteIndex], map);
 
             // Rotanın süresini hesapla
-var durationMinutes = parseFloat(response.routes[fastestRouteIndex].legs.reduce((sum, leg) => sum + leg.duration.value, 0) / 60);
-
-
-
-			console.log("durationMinutes: " + durationMinutes);
-			
-
+            var durationMinutes = parseFloat(response.routes[fastestRouteIndex].legs.reduce((sum, leg) => sum + leg.duration.value, 0) / 60);
+            console.log("durationMinutes: " + durationMinutes);
 
         } else {
             window.alert('Directions request failed due to ' + status);
         }
     });
 }
-
 
 function findFastestRouteIndex(routes) {
     var index = 0;
@@ -681,6 +675,7 @@ function addCustomMarkers(route, map) {
     });
 }
 </script>
+
 
       <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBg9HV0g-8ddiAHH6n2s_0nXOwHIk2f1DY&callback=initMap"></script>  
       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

@@ -128,9 +128,40 @@
                      </div>
                   </div>
                   <div class="form-group">
+    <label class="form-label">Duration of Tour:</label>
+    <div class="row">
+        <!-- Row ekleyerek içerikleri alt alta diziyoruz -->
+        <div class="col-12">
+            <div class="form-check">
+                <input title="" class="form-check-input" required type="radio" name="tourDuration" id="duration40" value="40" <?php echo (isset($_GET['tourDuration']) && $_GET['tourDuration'] == '40') ? 'checked' : ''; ?>>
+                <label class="form-check-label" for="duration40">
+                    40 Minutes
+                </label>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-check">
+                <input title="" class="form-check-input" required type="radio" name="tourDuration" id="duration60" value="60" <?php echo (isset($_GET['tourDuration']) && $_GET['tourDuration'] == '60') ? 'checked' : ''; ?>>
+                <label class="form-check-label" for="duration60">
+                    1 Hour
+                </label>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-check">
+                <input title="" class="form-check-input" required type="radio" name="tourDuration" id="duration90" value="90" <?php echo (isset($_GET['tourDuration']) && $_GET['tourDuration'] == '90') ? 'checked' : ''; ?>>
+                <label class="form-check-label" for="duration90">
+                    90 Minutes
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- <div class="form-group">
                      <label class="form-label">Duration of Tour:</label>
                      <div class="row">
-                        <!-- Row ekleyerek içerikleri yan yana diziyoruz -->
                         <div class="col-md-4">
                            <div class="form-check">
                               <input title="" class="form-check-input" required type="radio" name="tourDuration" id="duration40" value="40" <?php echo (isset($_GET['tourDuration']) && $_GET['tourDuration'] == '40') ? 'checked' : ''; ?>>
@@ -156,15 +187,15 @@
                            </div>
                         </div>
                      </div>
-                  </div>
+                  </div> -->
                   <!-- Pick Up Address -->
                   <div class="form-group">
-                     <label for="pickUpAddress">Pick Up Address:</label>
+                     <label for="pickUpAddress">Start Address:</label>
                  <input title="" type="text" class="form-control" required placeholder="Please, enter pick up address." oninvalid="this.setCustomValidity('Please, enter pick up address.'); this.classList.add('invalid');" oninput="setCustomValidity(''); this.classList.remove('invalid');" id="pickUpAddress" name="pickUpAddress" value="<?php echo isset($_GET['pickUpAddress']) ? htmlspecialchars($_GET['pickUpAddress']) : ''; ?>">
                    </div>
                   <!-- Destination Address -->
                   <div class="form-group">
-                     <label for="destinationAddress">Destination Address:</label>
+                     <label for="destinationAddress">Finish Address:</label>
                     <input title="" type="text" class="form-control" required placeholder="Please, enter destination address." oninvalid="this.setCustomValidity('Please, enter destination address.'); this.classList.add('invalid');" oninput="setCustomValidity(''); this.classList.remove('invalid');" id="destinationAddress" name="destinationAddress" value="<?php echo isset($_GET['destinationAddress']) ? htmlspecialchars($_GET['destinationAddress']) : ''; ?>">
           </div>
                   <!-- Payment Method -->
@@ -284,7 +315,7 @@
          
                  // Validate time restrictions: the tour must be booked between 9:00 AM and 5:00 PM
                  if (selectedHours < 9 || selectedHours > 17 || (selectedHours === 17 && minutes > 0)) {
- showError("Please, do not use this application to book a ride between 11:01 pm and 8:59 am.<br> Please, use the form below instead.<br><a target='_blank'	href='https://newyorkpedicabservices.com/request-point-a-to-b-pedicab-ride.html'>Request Point A to B Pedicab Ride</a>");
+ showError("Please, do not use this application to book a tour between 5:01 pm and 8:59 am.<br> Please, use the form below instead.<br><a target='_blank'	href='https://newyorkpedicabservices.com/request-point-a-to-b-pedicab-ride.html'>Request Point A to B Pedicab Ride</a>");
 
                      return false;
                  }

@@ -197,6 +197,7 @@ $operationFare = ($totalDurationMinutes / 60) * $operationFarePerHour;
    if ($paymentMethod === "card") {
        $driverFare *= 1.1;
    }
+
    
    $minFares = [
        'cash' => [
@@ -212,21 +213,23 @@ $operationFare = ($totalDurationMinutes / 60) * $operationFarePerHour;
            'weekendDecember' => ['Booking Fee' => 13.5, 'Driver Fare' => 59.4, 'Total Fare' => 72.9]
        ]
    ];
-   
-   if (!array_key_exists($paymentMethod, $minFares)) {
-       die("Geçersiz ödeme metodu: $paymentMethod");
-   }
+
    
    $key = ($isWeekend ? 'weekend' : 'week') . ($month == "December" ? 'December' : '');
    $minBookingFee = $minFares[$paymentMethod][$key]['Booking Fee'];
    $minDriverFare = $minFares[$paymentMethod][$key]['Driver Fare'];
    $minTotalFare = $minFares[$paymentMethod][$key]['Total Fare'];
+
    
    $bookingFee = max($bookingFee, $minBookingFee);
    $driverFare = max($driverFare, $minDriverFare);
+      if ($paymentMethod === "fullcard") {
+       $bookingFee *= 1.2;
+	   $driverFare *= 1.2;
+   }
    $totalFare = max($bookingFee + $driverFare, $minTotalFare);
    
-   
+
    ?>
 <!DOCTYPE html>
 <html lang="en">

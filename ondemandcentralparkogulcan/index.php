@@ -65,8 +65,8 @@
 <div class="form-group">
     <label class="form-label">Duration of Tour:</label>
     <div class="row">
-        <!-- Row ekleyerek içerikleri yan yana diziyoruz -->
-        <div class="col-md-3">
+        <!-- Row ekleyerek içerikleri alt alta diziyoruz -->
+        <div class="col-12">
             <div class="form-check">
                 <input title="" class="form-check-input" required type="radio" name="tourDuration" id="durationA" value="40" <?php echo (isset($_GET['tourDuration']) && $_GET['tourDuration'] == '40') ? 'checked' : ''; ?>>
                 <label class="form-check-label" for="durationA">
@@ -74,7 +74,7 @@
                 </label>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-12">
             <div class="form-check">
                 <input title="" class="form-check-input" required type="radio" name="tourDuration" id="durationB" value="45" <?php echo (isset($_GET['tourDuration']) && $_GET['tourDuration'] == '45') ? 'checked' : ''; ?>>
                 <label class="form-check-label" for="durationB">
@@ -82,7 +82,7 @@
                 </label>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-12">
             <div class="form-check">
                 <input title="" class="form-check-input" required type="radio" name="tourDuration" id="durationC" value="50" <?php echo (isset($_GET['tourDuration']) && $_GET['tourDuration'] == '50') ? 'checked' : ''; ?>>
                 <label class="form-check-label" for="durationC">
@@ -90,7 +90,7 @@
                 </label>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-12">
             <div class="form-check">
                 <input title="" class="form-check-input" required type="radio" name="tourDuration" id="durationD" value="60" <?php echo (isset($_GET['tourDuration']) && $_GET['tourDuration'] == '60') ? 'checked' : ''; ?>>
                 <label class="form-check-label" for="durationD">
@@ -100,6 +100,7 @@
         </div>
     </div>
 </div>
+
 
                   <!-- Pick Up Address -->
                   <div class="form-group">
@@ -141,83 +142,105 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-sliderAccess.js"></script>
 
-      <script type="text/javascript">
-         function initAutocomplete() {
-             var manhattanBounds = new google.maps.LatLngBounds(
-                 new google.maps.LatLng(40.701466, -74.017948), // Manhattan'ın güneybatı köşesi (Battery Park)
-                 new google.maps.LatLng(40.875912, -73.909498)  // Manhattan'ın kuzeydoğu köşesi (Inwood)
-             );
-         
-             var options = {
-                 bounds: manhattanBounds,
-                 strictBounds: true // Sonuçları belirtilen sınırlar içine kısıtlar
-             };
-         
-var allowedZipCodes = [
-    '10017', '10018', '10019', '10020', '10022', '10036', '10055',
-    '10101', '10102', '10103', '10104', '10105', '10106', '10107',
-    '10108', '10109', '10110', '10111', '10112', '10124', '10126',
-    '10129', '10151', '10152', '10153', '10154', '10155', '10163',
-    '10164', '10166', '10167', '10169', '10170', '10171', '10172',
-    '10173', '10174', '10175', '10176', '10177', '10179', '10185',
-    '10014', '10028'  // Whitney ve Metropolitan müzelerinin posta kodları eklendi
-];
+<script type="text/javascript">
+    function initAutocomplete() {
+        var manhattanBounds = new google.maps.LatLngBounds(
+            new google.maps.LatLng(40.701466, -74.017948), // Manhattan'ın güneybatı köşesi (Battery Park)
+            new google.maps.LatLng(40.875912, -73.909498)  // Manhattan'ın kuzeydoğu köşesi (Inwood)
+        );
 
-         
-             var pickUpInput = document.getElementById('pickUpAddress');
-             var destinationInput = document.getElementById('destinationAddress');
-         
-             var autocompletePickup = new google.maps.places.Autocomplete(pickUpInput, options);
-             var autocompleteDestination = new google.maps.places.Autocomplete(destinationInput, options);
-			 
-			 		   function showError(message) {
-        var errorMessage = document.getElementById('error-message');
-        var errorText = document.getElementById('error-text');
-        errorText.innerHTML  = message;
-        errorMessage.style.display = 'block';
-		   errorMessage.classList.add('show');
-    errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' }); 
-    }
-         
-             function checkZipCode(place, inputField) {
-                 var zipCode = place.address_components.find(function(component) {
-                     return component.types.indexOf("postal_code") > -1;
-                 });
-         
-                 if (zipCode && allowedZipCodes.includes(zipCode.long_name)) {
-                     console.log("Valid location: ", place.formatted_address);
-                 } else {
-                     console.error("Invalid postal code.");
-                     showError("You are trying to book a ride outside of our main service areas.<br> Please, use the form below instead.<br><a href='https://newyorkpedicabservices.com/request-point-a-to-b-pedicab-ride.html'>Request Point A to B Pedicab Ride</a>"); 
-                     inputField.value = ""; // Adres alanını temizle
-                 }
-             }
-         
-     function handlePlaceChanged(autocomplete, inputField) {
-        var place = autocomplete.getPlace();
-        if (!place.geometry) {
-            console.error("Autocomplete's returned place contains no geometry");
-            return;
+        var options = {
+            bounds: manhattanBounds,
+            strictBounds: true // Sonuçları belirtilen sınırlar içine kısıtlar
+        };
+
+        var allowedZipCodes = [
+            '10017', '10018', '10019', '10020', '10022', '10036', '10055',
+            '10101', '10102', '10103', '10104', '10105', '10106', '10107',
+            '10108', '10109', '10110', '10111', '10112', '10124', '10126',
+            '10129', '10151', '10152', '10153', '10154', '10155', '10163',
+            '10164', '10166', '10167', '10169', '10170', '10171', '10172',
+            '10173', '10174', '10175', '10176', '10177', '10179', '10185',
+            '10014', '10028'  // Whitney ve Metropolitan müzelerinin posta kodları eklendi
+        ];
+
+        var pickUpInput = document.getElementById('pickUpAddress');
+        var destinationInput = document.getElementById('destinationAddress');
+
+        var autocompletePickup = new google.maps.places.Autocomplete(pickUpInput, options);
+        var autocompleteDestination = new google.maps.places.Autocomplete(destinationInput, options);
+
+        function showError(message) {
+            var errorMessage = document.getElementById('error-message');
+            var errorText = document.getElementById('error-text');
+            errorText.innerHTML  = message;
+            errorMessage.style.display = 'block';
+            errorMessage.classList.add('show');
+            errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' }); 
         }
 
-        // Columbus Circle kontrolü
-        if (place.name.includes("Columbus Circle")) {
-            inputField.value = "Columbus Circle, Columbus Circle, New York, NY, USA";
-            console.log("Address set to Columbus Circle, Columbus Circle, New York, NY, USA");
-        } else {
-            checkZipCode(place, inputField);
+        function checkZipCode(place, inputField) {
+            var zipCode = place.address_components.find(function(component) {
+                return component.types.indexOf("postal_code") > -1;
+            });
+
+            if (zipCode && allowedZipCodes.includes(zipCode.long_name)) {
+                console.log("Valid location: ", place.formatted_address);
+            } else {
+                console.error("Invalid postal code.");
+                showError("You are trying to book a ride outside of our main service areas.<br> Please, use the form below instead.<br><a href='https://newyorkpedicabservices.com/request-point-a-to-b-pedicab-ride.html'>Request Point A to B Pedicab Ride</a>"); 
+                inputField.value = ""; // Adres alanını temizle
+            }
         }
+
+        function handlePlaceChanged(autocomplete, inputField) {
+            var place = autocomplete.getPlace();
+            if (!place.geometry) {
+                console.error("Autocomplete's returned place contains no geometry");
+                return;
+            }
+
+            // Columbus Circle kontrolü
+            if (place.name.includes("Columbus Circle")) {
+                inputField.value = "Columbus Circle, Columbus Circle, New York, NY, USA";
+                console.log("Address set to Columbus Circle, Columbus Circle, New York, NY, USA");
+            } else {
+                checkZipCode(place, inputField);
+            }
+        }
+
+        function checkTimeValidity() {
+            var now = new Date();
+            var utcHour = now.getUTCHours();
+            var nyHour = utcHour - 4; // New York Time (EST) is UTC-4
+
+            if (nyHour < 0) nyHour += 24;
+
+            if (nyHour < 9 || nyHour > 17) {
+                showError("Please, do not use this application to book a tour between 5:01 pm and 8:59 am.");
+                return false;
+            }
+            return true;
+        }
+
+        autocompletePickup.addListener('place_changed', function() {
+            if (checkTimeValidity()) {
+                handlePlaceChanged(autocompletePickup, pickUpInput);
+            } else {
+                pickUpInput.value = "";
+            }
+        });
+
+        autocompleteDestination.addListener('place_changed', function() {
+            if (checkTimeValidity()) {
+                handlePlaceChanged(autocompleteDestination, destinationInput);
+            } else {
+                destinationInput.value = "";
+            }
+        });
     }
+</script>
 
-    autocompletePickup.addListener('place_changed', function() {
-        handlePlaceChanged(autocompletePickup, pickUpInput);
-    });
-
-    autocompleteDestination.addListener('place_changed', function() {
-        handlePlaceChanged(autocompleteDestination, destinationInput);
-    });
-}
-      </script>
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
    </body>
 </html>
