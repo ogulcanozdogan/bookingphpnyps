@@ -1,7 +1,7 @@
 <?php
 ob_start();
 session_start();
-include("inc/vt.php"); // Veritabanı bağlantısı
+include("inc/vt.php"); // Database connection
 
 if (isset($_SESSION["Oturum"]) && $_SESSION["Oturum"] == "6789") {
     header("location:index.php");
@@ -13,9 +13,10 @@ if (isset($_SESSION["Oturum"]) && $_SESSION["Oturum"] == "6789") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register | New York Pedicab Services</title>
+    <title>Create Account | New York Pedicab Services</title>
     <link rel="shortcut icon" href="assets/images/favicon.ico">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script src="assets/js/sweetalert.min.js"></script>
     <style>
         .gradient-custom-2 {
@@ -46,6 +47,13 @@ if (isset($_SESSION["Oturum"]) && $_SESSION["Oturum"] == "6789") {
             width: 20px;
             margin-right: 5px;
         }
+        .sign-in-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 0.9em;
+            padding: 5px 10px;
+        }
     </style>
 </head>
 <body>
@@ -56,8 +64,9 @@ if (isset($_SESSION["Oturum"]) && $_SESSION["Oturum"] == "6789") {
                     <div class="card">
                         <div class="card-body p-5">
                             <div class="text-center mb-4">
+                                <a href="login.php" class="btn btn-secondary sign-in-button"><- Sign In</a>
                                 <img src="https://newyorkpedicabservices.com/buttons_files/new-york-pedicab-services-banner.webp" style="width: 150px; height: 90px;" alt="logo">
-                                <h3 class="mt-1 mb-5 pb-1">Register Pedicab Driver Account</h3>
+                                <h3 class="mt-1 mb-5 pb-1">Create Pedicab Driver Account</h3>
                             </div>
                             <form method="post">
                                 <div class="form-outline mb-4">
@@ -90,7 +99,10 @@ if (isset($_SESSION["Oturum"]) && $_SESSION["Oturum"] == "6789") {
                                     </div>
                                     <label for="phoneNumber">Phone Number</label>
                                 </div>
-                                <input type="submit" class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" value="Register"/>
+                                <div class="form-outline mb-4">
+                                    <div class="g-recaptcha" data-sitekey="6LfNEPApAAAAAAp5__6ariG_9U5PoK89QtRZH72_"></div>
+                                </div>
+                                <input type="submit" class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" value="Create Account"/>
                             </form>
                             <?php 
                             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -100,63 +112,72 @@ if (isset($_SESSION["Oturum"]) && $_SESSION["Oturum"] == "6789") {
                                 $name = $_POST['name'];
                                 $surname = $_POST['surname'];
                                 $pass = $_POST['pass'];
+                                $captcha = $_POST['g-recaptcha-response'];
 
-                                // Kayıt yapılıp yapılmayacağını kontrol etmek için bir değişken
-                                $is_valid = true;
+                                // reCAPTCHA validation
+                                $secretKey = '6LfNEPApAAAAAANAmX6Vfoy1sKP-a_-e8SAXK7T9';
+                                $response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=$secretKey&response=$captcha");
+                                $responseKeys = json_decode($response, true);
 
-                                // Kullanıcı adı kontrolü
-                                $sorgu = $baglanti->prepare("SELECT * FROM users WHERE user=:user");
-                                $sorgu->execute(['user' => $user]);
-                                if ($sorgu->rowCount() > 0) {
-                                    echo "<font color='red'><strong>Error: This username is already in use!</strong></font><br>";
-                                    $is_valid = false; // Hata varsa kayıt durdurulur
-                                }
+                                if(intval($responseKeys["success"]) !== 1) {
+                                    echo '<script>swal("Error","Please complete the CAPTCHA","error");</script>';
+                                } else {
+                                    // Variable to check if registration is allowed
+                                    $is_valid = true;
 
-                                // Email kontrolü
-                                $sorgu = $baglanti->prepare("SELECT * FROM users WHERE email=:email");
-                                $sorgu->execute(['email' => $email]);
-                                if ($sorgu->rowCount() > 0) {
-                                    echo "<font color='red'><strong>Error: This email address is already in use!</strong></font><br>";
-                                    $is_valid = false; // Hata varsa kayıt durdurulur
-                                }
+                                    // Check username
+                                    $sorgu = $baglanti->prepare("SELECT * FROM users WHERE user=:user");
+                                    $sorgu->execute(['user' => $user]);
+                                    if ($sorgu->rowCount() > 0) {
+                                        echo '<script>swal("Error","This username is already in use!","error");</script>';
+                                        $is_valid = false; // Stop registration if there's an error
+                                    }
 
-                                // Telefon numarası kontrolü
-                                $sorgu = $baglanti->prepare("SELECT * FROM users WHERE number=:number");
-                                $sorgu->execute(['number' => $number]);
-                                if ($sorgu->rowCount() > 0) {
-                                    echo "<font color='red'><strong>Error: This phone number is already in use!</strong></font><br>";
-                                    $is_valid = false; // Hata varsa kayıt durdurulur
-                                }
+                                    // Check email
+                                    $sorgu = $baglanti->prepare("SELECT * FROM users WHERE email=:email");
+                                    $sorgu->execute(['email' => $email]);
+                                    if ($sorgu->rowCount() > 0) {
+                                        echo '<script>swal("Error","This email address is already in use!","error");</script>';
+                                        $is_valid = false; // Stop registration if there's an error
+                                    }
 
-                                if ($is_valid) {
-                                    $hashed_password = password_hash($pass, PASSWORD_DEFAULT);
-                                    $satir = [
-                                        'user' => $user,
-                                        'pass' => $hashed_password,
-                                        'name' => $name,
-                                        'surname' => $surname,
-                                        'email' => $email,
-                                        'number' => $number
-                                    ];
+                                    // Check phone number
+                                    $sorgu = $baglanti->prepare("SELECT * FROM users WHERE number=:number");
+                                    $sorgu->execute(['number' => $number]);
+                                    if ($sorgu->rowCount() > 0) {
+                                        echo '<script>swal("Error","This phone number is already in use!","error");</script>';
+                                        $is_valid = false; // Stop registration if there's an error
+                                    }
 
-                                    $sql = "INSERT INTO users (user, pass, name, surname, email, number) VALUES (:user, :pass, :name, :surname, :email, :number)";
-                                    $stmt = $baglanti->prepare($sql);
-                                    
-                                    try {
-                                        $durum = $stmt->execute($satir);
-                                        if ($durum) {
-                                            echo '<script>swal("Successful","Registration successful.","success").then((value)=>{ window.location.href = "login.php"});</script>';
-                                        } else {
-                                            echo "SQL Error: " . implode(", ", $stmt->errorInfo()) . "<br>";
+                                    if ($is_valid) {
+                                        $hashed_password = password_hash($pass, PASSWORD_DEFAULT);
+                                        $satir = [
+                                            'user' => $user,
+                                            'pass' => $hashed_password,
+                                            'name' => $name,
+                                            'surname' => $surname,
+                                            'email' => $email,
+                                            'number' => $number
+                                        ];
+
+                                        $sql = "INSERT INTO users_temporary (user, pass, name, surname, email, number) VALUES (:user, :pass, :name, :surname, :email, :number)";
+                                        $stmt = $baglanti->prepare($sql);
+                                        
+                                        try {
+                                            $durum = $stmt->execute($satir);
+                                            if ($durum) {
+                                                echo '<script>swal("Successful","Registration successful. Please contact the administrator to activate your driver account.","success").then((value)=>{ window.location.href = "login.php"});</script>';
+                                            } else {
+                                                echo "SQL Error: " . implode(", ", $stmt->errorInfo()) . "<br>";
+                                            }
+                                        } catch (PDOException $e) {
+                                            echo "PDO Exception: " . $e->getMessage() . "<br>";
                                         }
-                                    } catch (PDOException $e) {
-                                        echo "PDO Exception: " . $e->getMessage() . "<br>";
                                     }
                                 }
                             }
                             ?>
                         </div>
-                        <a href="login.php" class="btn btn-primary">Sign In</a>
                     </div>
                 </div>
             </div>
@@ -167,9 +188,9 @@ if (isset($_SESSION["Oturum"]) && $_SESSION["Oturum"] == "6789") {
         const phoneNumberInput = document.getElementById('phoneNumber');
 
         phoneNumberInput.addEventListener('input', function (event) {
-            let input = event.target.value.replace(/[^\d]/g, ''); // Sadece rakamları kabul et
+            let input = event.target.value.replace(/[^\d]/g, ''); // Only accept digits
             if (input.length > 10) {
-                input = input.substr(0, 10); // Maksimum 10 rakam
+                input = input.substr(0, 10); // Maximum 10 digits
             }
 
             let formattedInput = '';
