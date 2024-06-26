@@ -36,6 +36,7 @@ include('inc/navbar.php');
 
                     <div class="row">
  <div class="col-xl-12"><div class="d-flex flex-wrap gap-2 year-buttons">
+     <a href="admin_earnings.php" class="btn btn-outline-secondary waves-effect waves-light">All Years</a>
     <a href="admin_earnings.php?year=2024" class="btn btn-outline-secondary waves-effect waves-light">2024</a>
     <a href="admin_earnings.php?year=2025" class="btn btn-outline-secondary waves-effect waves-light">2025</a>
     <a href="admin_earnings.php?year=2026" class="btn btn-outline-secondary waves-effect waves-light">2026</a>

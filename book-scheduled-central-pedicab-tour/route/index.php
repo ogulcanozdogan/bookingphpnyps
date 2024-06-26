@@ -4,9 +4,10 @@ $bookingNumber = $_GET["bookingNumber"];
 $sorgu = $baglanti->prepare("SELECT * FROM centralpark WHERE bookingNumber=:bookingNumber");
 $sorgu->execute(['bookingNumber' => $bookingNumber]);
 $sonuc = $sorgu->fetch();
-$deneme2 = $sonuc['pickupAddress'];
-$destinationAddress = $sonuc['destinationAddress'];
-
+$deneme2 = $sonuc['pickUpCoords'];
+$deneme22 = $sonuc['pickupAddress'];
+$destinationAddress = $sonuc['destinationCoords'];
+$destinationAddress2 = $sonuc['destinationAddress'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,17 +17,15 @@ $destinationAddress = $sonuc['destinationAddress'];
     <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no"/>
     <title>Map Display</title>
     <style>
-        /* Body ve html etiketleri için padding ve margin sıfırla */
         html, body {
             margin: 0;
             padding: 0;
             height: 100%;
-            overflow: hidden; /* Taşma durumlarını engelle */
+            overflow: hidden;
             width: 100%;
             display: block;
         }
 
-        /* Harita konteyner stilini tam ekran yap */
         #map {
             height: 100%;
             width: 100%;
@@ -44,56 +43,67 @@ function initMap() {
     });
 
     var directionsService = new google.maps.DirectionsService();
-    var pickupRenderer = new google.maps.DirectionsRenderer({
-        map: map,
-        polylineOptions: {
-            strokeColor: 'black',
-            strokeOpacity: 0.5, // Opaklığı düşür
-            strokeWeight: 6,
-            zIndex: 1
-        },
-        suppressMarkers: true
-    });
-    var pickup2Renderer = new google.maps.DirectionsRenderer({
-        map: map,
-        polylineOptions: {
-            strokeColor: 'orange',
-            strokeOpacity: 0.5, // Opaklığı düşür
-            strokeWeight: 6,
-            zIndex: 2
-        },
-        suppressMarkers: true
-    });
-    var return1Renderer = new google.maps.DirectionsRenderer({
-        map: map,
-        polylineOptions: {
-            strokeColor: 'blue',
-            strokeOpacity: 0.5, // Opaklığı düşür
-            strokeWeight: 6,
-            zIndex: 3
-        },
-        suppressMarkers: true
-    });
-    var return2Renderer = new google.maps.DirectionsRenderer({
-        map: map,
-        polylineOptions: {
-            strokeColor: 'green',
-            strokeOpacity: 0.5, // Opaklığı düşür
-            strokeWeight: 6,
-            zIndex: 4
-        },
-        suppressMarkers: true
-    });
+
+    var renderers = [
+        new google.maps.DirectionsRenderer({
+            map: map,
+            polylineOptions: {
+                strokeColor: 'black',
+                strokeOpacity: 0.5,
+                strokeWeight: 6,
+                zIndex: 1
+            },
+            suppressMarkers: true
+        }),
+        new google.maps.DirectionsRenderer({
+            map: map,
+            polylineOptions: {
+                strokeColor: 'orange',
+                strokeOpacity: 0.5,
+                strokeWeight: 6,
+                zIndex: 2
+            },
+            suppressMarkers: true
+        }),
+        new google.maps.DirectionsRenderer({
+            map: map,
+            polylineOptions: {
+                strokeColor: 'blue',
+                strokeOpacity: 0.5,
+                strokeWeight: 6,
+                zIndex: 3
+            },
+            suppressMarkers: true
+        }),
+        new google.maps.DirectionsRenderer({
+            map: map,
+            polylineOptions: {
+                strokeColor: 'green',
+                strokeOpacity: 0.5,
+                strokeWeight: 6,
+                zIndex: 4
+            },
+            suppressMarkers: true
+        })
+    ];
 
     var pickupAddress = <?php echo json_encode($deneme2); ?>;
+    var pickupAddress2 = <?php echo json_encode($deneme22); ?>;
     var destinationAddress = <?php echo json_encode($destinationAddress); ?>;
-    var hub1Address = "West Drive and West 59th Street New York, NY 10019";
-    var hub2Address = "6th Avenue and Central Park South New York, NY 10019";
+	var destinationAddress2 = <?php echo json_encode($destinationAddress2); ?>;
+    var hub1Address = "40.76683183226044, -73.97908303753997";
+    var hub2Address = "40.765739537360574, -73.97623449905838";
 
-    calculateAndDisplayRoute(directionsService, pickupRenderer, pickupAddress, hub1Address, 'S', 'H');
-    calculateAndDisplayRoute(directionsService, pickup2Renderer, pickupAddress, hub2Address, 'S', 'H');
-    calculateAndDisplayRoute(directionsService, return1Renderer, destinationAddress, hub1Address, 'F', 'H');
-    calculateAndDisplayRoute(directionsService, return2Renderer, destinationAddress, hub2Address, 'F', 'H');
+    // Markers for start, hub and destination points
+    addMarker(map, hub1Address, 'H1', 'Hub 1');
+    addMarker(map, hub2Address, 'H2', 'Hub 2');
+    addMarker(map, pickupAddress, 'S', 'Start');
+    addMarker(map, destinationAddress, 'F', 'Finish');
+
+    calculateAndDisplayRoute(directionsService, renderers[0], hub1Address, pickupAddress, 'H1', 'S');
+    calculateAndDisplayRoute(directionsService, renderers[1], pickupAddress2, hub2Address, 'S', 'H2');
+    calculateAndDisplayRoute(directionsService, renderers[2], hub1Address, destinationAddress2, 'F', 'H1');
+    calculateAndDisplayRoute(directionsService, renderers[3], destinationAddress2, hub2Address, 'F', 'H2');
 }
 
 function calculateAndDisplayRoute(directionsService, directionsRenderer, origin, destination, labelOrigin, labelDestination) {
@@ -101,13 +111,12 @@ function calculateAndDisplayRoute(directionsService, directionsRenderer, origin,
         origin: origin,
         destination: destination,
         travelMode: 'BICYCLING',
-        provideRouteAlternatives: true
+        provideRouteAlternatives: true,
     }, function(response, status) {
         if (status === 'OK') {
             var fastestRouteIndex = findFastestRouteIndex(response.routes);
             directionsRenderer.setDirections(response);
             directionsRenderer.setRouteIndex(fastestRouteIndex);
-            addCustomMarkers(response.routes[fastestRouteIndex], directionsRenderer.getMap(), labelOrigin, labelDestination);
         } else {
             window.alert('Directions request failed due to ' + status);
         }
@@ -127,20 +136,18 @@ function findFastestRouteIndex(routes) {
     return index;
 }
 
-function addCustomMarkers(route, map, startLabel, endLabel) {
+function addMarker(map, position, label, title) {
     new google.maps.Marker({
-        position: route.legs[0].start_location,
-        label: startLabel,
+        position: parseCoords(position),
+        label: label,
         map: map,
-        title: 'Start: ' + route.legs[0].start_address
+        title: title
     });
+}
 
-    new google.maps.Marker({
-        position: route.legs[0].end_location,
-        label: endLabel,
-        map: map,
-        title: 'End: ' + route.legs[0].end_address
-    });
+function parseCoords(coords) {
+    var parts = coords.split(',');
+    return {lat: parseFloat(parts[0]), lng: parseFloat(parts[1])};
 }
 </script>
 

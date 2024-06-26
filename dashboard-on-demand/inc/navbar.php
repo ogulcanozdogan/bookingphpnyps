@@ -55,6 +55,16 @@
 					<?php if ($perm == "admin") { ?>
 					 <ul class="navbar-nav" id="navbar-nav">
                         <li class="menu-title"><span data-key="t-menu">Admin Menu</span></li>
+						<li class="nav-item">
+                            <a class="nav-link menu-link" href="admin_drivers.php">
+                                <i class="bx bx-user-pin"></i> <span data-key="t-dashboards">Admin Drivers</span>
+                            </a>
+                        </li> <!-- end Dashboard Menu -->
+						<li class="nav-item">
+                            <a class="nav-link menu-link" href="admin_verify_drivers.php">
+                                <i class="bx bx-user-pin"></i> <span data-key="t-dashboards">Admin Verify Drivers</span>
+                            </a>
+                        </li> <!-- end Dashboard Menu -->
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="admin_available.php">
                                 <i class="bx bxs-pin"></i> <span data-key="t-dashboards">Admin Available</span>

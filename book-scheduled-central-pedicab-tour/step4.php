@@ -1,133 +1,83 @@
 <?php
+if (!$_POST) {
+    header('location: index.php');
+    exit;
+}
    ini_set('display_errors', 1);
    error_reporting(E_ALL);
-   
-   $firstName = $_POST["firstName"]; // varsayılan değer 1
-   $lastName = $_POST["lastName"]; // varsayılan değer 1
-   $email = $_POST["email"]; // varsayılan değer 1
-   $phoneNumber = $_POST["phoneNumber"]; // varsayılan değer 1
-   $numPassengers = $_POST["numPassengers"] ?? 1; // varsayılan değer 1
-   $pickUpDate = $_POST["pickUpDate"];
-   $hours = $_POST["hours"];
-   $minutes = $_POST["minutes"];
-   $ampm = $_POST["ampm"];
-   $deneme2 = $_POST["pickUpAddress"];
-   $destinationAddress = $_POST["destinationAddress"];
-   $paymentMethod = $_POST["paymentMethod"];
-   $rideDuration = $_POST["rideDuration"];
-      $bookingFee = $_POST["bookingFee"];
-   $driverFare = $_POST["driverFare"];
-   $totalFare = $_POST["totalFare"];
-       $returnDuration = $_POST["returnDuration"];
-   $operationFare = $_POST["operationFare"];  
-     $tourDuration = $_POST["tourDuration"];   
-    	    $pickup1 = $_POST["pickup1"];
-       $pickup2 = $_POST["pickup2"];
-   $return1 = $_POST["return1"];  
-     $return2 = $_POST["return2"];   
-     $toursuresi = $_POST["toursuresi"];  
-   
-   ?>
+	require_once('vendor/autoload.php');
+
+// Dotenv Kütüphanesini yükleyin
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+$firstName = htmlspecialchars($_POST["firstName"]); // default value 1
+$lastName = htmlspecialchars($_POST["lastName"]); // default value 1
+$email = htmlspecialchars($_POST["email"]); // default value 1
+$phoneNumber = htmlspecialchars($_POST["phoneNumber"]); // default value 1
+$countryCode = htmlspecialchars($_POST["countryCode"]); // default value 1
+$numPassengers = htmlspecialchars($_POST["numPassengers"] ?? 1); // default value 1
+$deneme2 = htmlspecialchars($_POST["pickUpAddress"]);
+$destinationAddress = htmlspecialchars($_POST["destinationAddress"]);
+$paymentMethod = htmlspecialchars($_POST["paymentMethod"]);
+$rideDuration = htmlspecialchars($_POST["rideDuration"]);
+$bookingFee = htmlspecialchars($_POST["bookingFee"]);
+$driverFare = htmlspecialchars($_POST["driverFare"]);
+$totalFare = htmlspecialchars($_POST["totalFare"]);
+$returnDuration = htmlspecialchars($_POST["returnDuration"]);
+$operationFare = htmlspecialchars($_POST["operationFare"]);
+$tourDuration = htmlspecialchars($_POST["tourDuration"]);
+$pickup1 = htmlspecialchars($_POST["pickup1"]);
+$pickup2 = htmlspecialchars($_POST["pickup2"]);
+$return1 = htmlspecialchars($_POST["return1"]);
+$return2 = htmlspecialchars($_POST["return2"]);
+$toursuresi = htmlspecialchars($_POST["toursuresi"]);
+$pickUpDate = htmlspecialchars($_POST["pickUpDate"]);
+$hours = htmlspecialchars($_POST["hours"]);
+$minutes = htmlspecialchars($_POST["minutes"]);
+$ampm = htmlspecialchars($_POST["ampm"]);
+
+
+$bookingFee = number_format($bookingFee, 2);
+$bookingFeeCent = intval($bookingFee * 100);
+
+$totalFare = number_format($totalFare, 2);
+$driverFare = number_format($driverFare, 2);
+
+
+$stripe = new \Stripe\StripeClient([
+    'api_key' => $_ENV['STRIPE_API_KEY'],
+    'stripe_version' => '2020-08-27',
+]);
+
+$paymentIntent = $stripe->paymentIntents->create([
+    'automatic_payment_methods' => ['enabled' => true],
+    'amount' => $bookingFeeCent,
+    'currency' => 'usd',
+	'description' => 'NYPS WEB On Demand Central Park Pedicab Tour',
+	'receipt_email' => $email,
+]);
+
+
+
+      
+   $date = DateTime::createFromFormat('m/d/Y', $pickUpDate);
+
+// Gün değerini al
+$pickUpDay = $date->format('l');
+?>
 <!DOCTYPE html>
 <html lang="en">
    <head>
       <meta charset="UTF-8">
-      <title>Book Your Pedicab Ride</title>
+      <title>Book Scheduled Central Park Pedicab Tour</title>
+	  <meta name="description" content=" Scheduled Central Park Pedicab Tour Booking Application ">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <!-- Viewport meta etiketi eklendi -->
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
       <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
       <script src="https://js.stripe.com/v3/"></script>
       <link href="css/style.css" rel="stylesheet">
-      <style>
-         /* Buton ve Card Element Stilleri */
-         .form-row {
-         display: flex;
-         justify-content: center;
-         margin-top: 10px;
-         }
-         #card-element {
-         width: 300px;
-         height: 40px;
-         background-color: white;
-         border: 1px solid #ccc;
-         padding: 10px;
-         }
-         /* Buton stilini ayarlama */
-         button {
-         background-color: #4CAF50; /* Yeşil arka plan */
-         color: white; /* Beyaz yazı rengi */
-         padding: 12px 20px;
-         border: none;
-         border-radius: 4px;
-         cursor: pointer;
-         outline: none;
-         transition: background-color 0.3s, color 0.3s; /* Geçiş animasyonu */
-         margin-bottom: 20px;
-         }
-         button:hover {
-         background-color: #45a049; /* Daha koyu yeşil */
-         color: #ffffff;
-         }
-         /* Formu sayfanın ortasına hizalamak için ek stiller */
-         form {
-         display: flex;
-         flex-direction: column;
-         align-items: center;
-         margin-top: 30px;
-         }
-         .top-controls {
-         position: absolute;
-         top: 10px; /* Sayfanın en üstünden 10px aşağıda */
-         right: 50%; /* Yatayda ortalanacak */
-         transform: translateX(-50%); /* Sol tarafından %50 geri gelerek tam ortalanmış olacak */
-         z-index: 1000; /* Diğer içeriklerin üzerinde görünür */
-         }
-         .centered-title {
-         text-align: center;
-         margin-top: 70px; /* Butonlar ve başlık için üstten boşluk */
-         }
-         /* Container */
-         .m-6d731127 {
-         display: flex;
-         flex-direction: column;
-         align-items: center;
-         max-width: 400px;
-         margin: 0 auto;
-         padding: 20px;
-         border-radius: 10px;
-         background-color: #f8f9fa;
-         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-         }
-         /* Stripe Element */
-         .StripeElement {
-         margin-bottom: 20px;
-         border-radius: 5px;
-         overflow: hidden;
-         }
-         /* Payment Button Container */
-         .m-1b7284a3 {
-         width: 100%;
-         }
-         /* Inner Stack */
-         .m-6d731127 .m-6d731127 {
-         justify-content: center;
-         }
-         /* Payment Button */
-         .m-77c9d27d {
-         background-color: var(--button-bg, #007bff);
-         color: var(--button-color, #fff);
-         border: var(--button-bd, none);
-         border-radius: 5px;
-         cursor: pointer;
-         transition: background-color 0.3s ease;
-         padding: 10px 20px;
-         font-size: 16px;
-         }
-         .m-77c9d27d:hover {
-         background-color: var(--button-hover, #0056b3);
-         }
-      </style>
+      <link href="css/step4.css" rel="stylesheet">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css">
    </head>
    <body>
@@ -138,16 +88,15 @@
          <div class="row justify-content-center">
             <div class="col-md-6">
                <form method="post" action="">
-                  <!-- Formu daha dar bir sütuna sığdırarak merkezle -->
-                                   <h2 class="text-center mb-4 font-weight-bold" style="color:#0909ff;">Book Scheduled Central Park Pedicab Tour</h2>
-                    <div class="text-center mb-4">
-                     <b>Book Scheduled Central Park Pedicab Tour</b>
+                  <h2 class="text-center mb-4 font-weight-bold" style="color:#0909ff;">New York Pedicab Services</h2>
+                  <div class="text-center mb-4">
+                      <b>Scheduled<br>Central Park Pedicab Tour<br>Booking Application</b>
                   </div>
                   <table class="table">
                      <tbody>
                         <tr>
                            <th scope="row">Type</th>
-                           <td>	Point A to B Pedicab Ride</td>
+                           <td>Scheduled Central Park Pedicab Tour</td>
                         </tr>
                         <tr>
                            <th scope="row">First Name</th>
@@ -170,47 +119,51 @@
                            <td><?=$numPassengers?></td>
                         </tr>
                         <tr>
-                           <th scope="row">Date of Pick Up</th>
-                           <td><?=$pickUpDate?></td>
+                           <th scope="row">Date of Tour</th>
+                           <td><?=$pickUpDate . ' ' . $pickUpDay?></td>
                         </tr>
                         <tr>
-                           <th scope="row">Time of Pick Up</th>
+                           <th scope="row">Time of Tour</th>
                            <td><?php echo $hours . ":" .  $minutes . " " . $ampm;?></td>
+                        </tr>
+						<tr>
+                           <th scope="row">Duration of Tour</th>
+                           <td><?=$tourDuration?> Minutes</td>
                         </tr>
                         <tr>
                            <th scope="row">Duration of Ride</th>
-                           <td><?=$rideDuration?> mins</td>
+                           <td><?=number_format($rideDuration, 2)?> Minutes</td>
                         </tr>
                         <tr>
-                           <th scope="row">Pick Up Address</th>
+                           <th scope="row">Start Address</th>
                            <td><?=$deneme2?></td>
                         </tr>
                         <tr>
-                           <th scope="row">Destination Address</th>
+                           <th scope="row">Finish Address</th>
                            <td><?=$destinationAddress?></td>
                         </tr>
                         <tr>
                            <th scope="row">Booking Fee</th>
-                           <td>$<?=number_format($bookingFee, 2)?></td>
+                           <td>$<?=$bookingFee?></td>
                         </tr>
                         <tr>
                            <th scope="row">Driver Fare</th>
-                           <td>$<?=number_format($driverFare, 2)?></td>
+                           <td>$<?= number_format($driverFare, 2) ?> with <?= $paymentMethod == 'card' ? 'debit/credit card' : $paymentMethod ?></td>
                         </tr>
                         <tr style="background-color:green;">
                            <th scope="row" style="color:white;">Total Fare</th>
-                           <td><b style="color:white;">$<?=number_format($totalFare, 2)?></b></td>
+                           <td><b style="color:white;">$<?=$totalFare?></b></td>
                         </tr>
                      </tbody>
                   </table>
                </form>
                <form action="charge.php" method="post" id="payment-form">
                   <div class="form-row">
-                     <div id="card-element">
-                        <!-- Stripe.js injects the Card Element -->
-                     </div>
-                     <div id="card-errors" role="alert"></div>
-                  </div>
+                        <div id="card-element">
+                            <!-- Stripe.js injects the Card Element -->
+                        </div>
+                        <div id="card-errors" role="alert"></div>
+                    </div>
                   <input title="" type="hidden" name="firstName" value="<?=$firstName?>">
                   <input title="" type="hidden" name="lastName" value="<?=$lastName?>">
                   <input title="" type="hidden" name="aq" value="<?=$email?>">
@@ -224,9 +177,9 @@
                   <input title="" type="hidden" name="destinationAddress" value="<?=$destinationAddress?>">
                   <input title="" type="hidden" name="paymentMethod" value="<?=$paymentMethod?>">
                   <input title="" type="hidden" name="rideDuration" value="<?=$rideDuration?>">		
-                  <input title="" type="hidden" name="bookingFee" value="<?=number_format($bookingFee, 2)?>">
-                  <input title="" type="hidden" name="driverFare" value="<?=number_format($driverFare, 2)?>">
-                  <input title="" type="hidden" name="totalFare" value="<?=number_format($totalFare, 2)?>">
+                  <input title="" type="hidden" name="bookingFee" value="<?=$bookingFee?>">
+                  <input title="" type="hidden" name="driverFare" value="<?=$driverFare?>">
+                  <input title="" type="hidden" name="totalFare" value="<?=$totalFare?>">
                   <input title="" type="hidden" name="returnDuration" value="<?=$returnDuration?>">
                   <input title="" type="hidden" name="operationFare" value="<?=$operationFare?>">	
                   <input title="" type="hidden" name="tourDuration" value="<?=$tourDuration?>">	
@@ -235,78 +188,116 @@
                   <input title="" type="hidden" name="return1" value="<?=$return1?>">	
                   <input title="" type="hidden" name="return2" value="<?=$return2?>">		
                   <input title="" type="hidden" name="toursuresi" value="<?=$toursuresi?>">	
-                  <center><button type="submit">$<?=number_format($bookingFee, 2)?> Pay</button></center>
+				  
+                  <center><button type="submit">Pay $<?=$bookingFee?> </button></center>
                </form>
             </div>
          </div>
       </div>
-      <script>
-                var stripe = Stripe('pk_test_51MhFmmGdhoanQCDN6a9BbsMOSm0bVEGdtqQCbU0BF8XaPl1FBtatRqFUiF4szp4JkR8QxJ9J83puGYxeZBXiwOhh00sI8fKXEs'); // Public keyinizi buraya girin
-         var elements = stripe.elements();
-         var card = elements.create('card');
-         card.mount('#card-element');
-         
-         card.addEventListener('change', function(event) {
-             var displayError = document.getElementById('card-errors');
-             if (event.error) {
-                 displayError.textContent = event.error.message;
-             } else {
-                 displayError.textContent = '';
-             }
-         });
-         
-         var form = document.getElementById('payment-form');
-         form.addEventListener('submit', function(event) {
-             event.preventDefault();
-             stripe.createToken(card).then(function(result) {
-                 if (result.error) {
-                     var errorElement = document.getElementById('card-errors');
-                     errorElement.textContent = result.error.message;
-                 } else {
-                     stripeTokenHandler(result.token);
-                 }
-             });
-         });
-         
-         function stripeTokenHandler(token) {
-             var form = document.getElementById('payment-form');
-             var hiddenInput = document.createElement('input');
-             hiddenInput.setAttribute('type', 'hidden');
-             hiddenInput.setAttribute('name', 'stripeToken');
-             hiddenInput.setAttribute('value', token.id);
-             form.appendChild(hiddenInput);
-         
-             form.submit();
-         }
-      </script>
+    <script>
+        var stripe = Stripe('<?php echo $_ENV['STRIPE_PUBLIC_KEY']; ?>');
+        var elements = stripe.elements({
+            clientSecret: '<?= $paymentIntent->client_secret; ?>'
+        });
+        var paymentElement = elements.create('payment');
+        paymentElement.mount('#card-element');
+
+        paymentElement.on('change', function(event) {
+            var displayError = document.getElementById('card-errors');
+            if (event.error) {
+                displayError.textContent = event.error.message;
+            } else {
+                displayError.textContent = '';
+            }
+        });
+		
+        var numPassengers = <?php echo json_encode($_POST["numPassengers"] ?? 1); ?>;
+        var pickUpAddress = <?php echo json_encode($_POST["pickUpAddress"]); ?>;
+        var destinationAddress = <?php echo json_encode($_POST["destinationAddress"]); ?>;
+        var paymentMethod = <?php echo json_encode($_POST["paymentMethod"]); ?>;
+		var pickUpDate = <?php echo json_encode($_POST["pickUpDate"]); ?>;
+        var firstName = <?php echo json_encode($_POST["firstName"] ?? ''); ?>;
+        var lastName = <?php echo json_encode($_POST["lastName"] ?? ''); ?>;
+        var email = <?php echo json_encode($_POST["email"] ?? ''); ?>;
+        var phoneNumber = <?php echo json_encode($_POST["phoneNumber"] ?? ''); ?>;
+        var bookingFee = <?php echo json_encode($_POST["bookingFee"] ?? ''); ?>;
+        var driverFare = <?php echo json_encode($_POST["driverFare"] ?? ''); ?>;
+        var totalFare = <?php echo json_encode($_POST["totalFare"] ?? ''); ?>;
+        var returnDuration = <?php echo json_encode($_POST["returnDuration"] ?? ''); ?>;
+        var operationFare = <?php echo json_encode($_POST["operationFare"] ?? ''); ?>;
+        var rideDuration = <?php echo json_encode($_POST["rideDuration"] ?? ''); ?>;
+        var tourDuration = <?php echo json_encode($_POST["tourDuration"] ?? ''); ?>;
+        var return1 = <?php echo json_encode($_POST["return1"] ?? ''); ?>;
+        var return2 = <?php echo json_encode($_POST["return2"] ?? ''); ?>;
+        var pickup1 = <?php echo json_encode($_POST["pickup1"] ?? ''); ?>;
+        var pickup2 = <?php echo json_encode($_POST["pickup2"] ?? ''); ?>;
+        var toursuresi = <?php echo json_encode($_POST["toursuresi"] ?? ''); ?>;
+        var hours = <?php echo json_encode($_POST["hours"] ?? ''); ?>;
+        var minutes = <?php echo json_encode($_POST["minutes"] ?? ''); ?>;
+        var ampm = <?php echo json_encode($_POST["ampm"] ?? ''); ?>;
+		
+        var queryString = "numPassengers=" + encodeURIComponent(numPassengers) +
+            "&pickUpAddress=" + encodeURIComponent(pickUpAddress) +
+            "&destinationAddress=" + encodeURIComponent(destinationAddress) +
+            "&paymentMethod=" + encodeURIComponent(paymentMethod) +
+			"&pickUpDate=" + encodeURIComponent(pickUpDate) +
+            "&firstName=" + encodeURIComponent(firstName) +
+            "&lastName=" + encodeURIComponent(lastName) +
+            "&email=" + encodeURIComponent(email) +
+            "&bookingFee=" + encodeURIComponent(bookingFee) +
+            "&driverFare=" + encodeURIComponent(driverFare) +
+            "&totalFare=" + encodeURIComponent(totalFare) +
+            "&rideDuration=" + encodeURIComponent(rideDuration) +
+            "&returnDuration=" + encodeURIComponent(returnDuration) +
+            "&operationFare=" + encodeURIComponent(operationFare) +
+            "&rideDuration=" + encodeURIComponent(rideDuration) +
+            "&pickup1=" + encodeURIComponent(pickup1) +
+            "&pickup2=" + encodeURIComponent(pickup2) +
+            "&return1=" + encodeURIComponent(return1) +
+            "&return2=" + encodeURIComponent(return2) +
+            "&toursuresi=" + encodeURIComponent(toursuresi) +
+            "&tourDuration=" + encodeURIComponent(tourDuration) +
+            "&phoneNumber=" + encodeURIComponent(phoneNumber) +
+			"&hours=" + encodeURIComponent(hours) +
+            "&minutes=" + encodeURIComponent(minutes) +		
+            "&ampm=" + encodeURIComponent(ampm);
+
+        var form = document.getElementById('payment-form');
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            stripe.confirmPayment({
+                elements,
+                confirmParams: {
+                    return_url: 'https://newyorkpedicabservices.com/book-scheduled-central-pedicab-tour/charge.php?'+ queryString,
+                },
+            }).then(function(result) {
+                if (result.error) {
+                    var errorElement = document.getElementById('card-errors');
+                    errorElement.textContent = result.error.message;
+                } else {
+                    form.submit();
+                }
+            });
+        });
+    </script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput-jquery.min.js"></script>
       <script>
          $("#phoneNumber").intlTelInput({
-             initialCountry: "us", // Kullanıcının bulunduğu ülkeyi otomatik olarak seçer
-             separateDialCode: true, // Telefon kodunu ayrı bir alan olarak gösterir
-             utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js" // Kodu formatlamak için gerekli yardımcı script
+             initialCountry: "us",
+             separateDialCode: true,
+             utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
          });
       </script>
       <script>
-         // Telefon numarası giriş alanını al
          var phoneNumberInput = document.getElementById("phoneNumber");
-         
-         // Değişiklik olduğunda telefon numarasını biçimlendir
+
          phoneNumberInput.addEventListener("input", function(event) {
-             // Kullanıcının girdiği metni al
              var input = event.target.value;
-             
-             // Sadece rakamları al
              var phoneNumber = input.replace(/\D/g, '');
-         
-             // 10 haneli telefon numarası biçimini kontrol et
              var phoneNumberRegex = /^(\d{3})(\d{3})(\d{4})$/;
              if (phoneNumberRegex.test(phoneNumber)) {
-                 // Numarayı biçimlendir ve parantezler ekleyerek döndür
                  var formattedPhoneNumber = phoneNumber.replace(phoneNumberRegex, "($1) $2-$3");
-         
-                 // Biçimli numarayı giriş alanına yerleştir
                  event.target.value = formattedPhoneNumber;
              }
          });
@@ -325,20 +316,20 @@
              var lastName = <?php echo json_encode($_POST["lastName"] ?? ''); ?>;
              var email = <?php echo json_encode($_POST["email"] ?? ''); ?>;
              var phoneNumber = <?php echo json_encode($_POST["phoneNumber"] ?? ''); ?>;
+			 var countryCode = <?php echo json_encode($_POST["countryCode"] ?? ''); ?>;
              var bookingFee = <?php echo json_encode($_POST["bookingFee"] ?? ''); ?>;
              var driverFare = <?php echo json_encode($_POST["driverFare"] ?? ''); ?>;
-             var totalFare = <?php echo json_encode($_POST["totalFare"] ?? ''); ?>;	
+             var totalFare = <?php echo json_encode($_POST["totalFare"] ?? ''); ?>;
              var returnDuration = <?php echo json_encode($_POST["returnDuration"] ?? ''); ?>;
-             var operationFare = <?php echo json_encode($_POST["operationFare"] ?? ''); ?>;	
-             var rideDuration = <?php echo json_encode($_POST["rideDuration"] ?? ''); ?>;		
-             var tourDuration = <?php echo json_encode($_POST["tourDuration"] ?? ''); ?>;	
-         	
-         	 var return1 = <?php echo json_encode($_POST["return1"] ?? ''); ?>;	
+             var operationFare = <?php echo json_encode($_POST["operationFare"] ?? ''); ?>;
+             var rideDuration = <?php echo json_encode($_POST["rideDuration"] ?? ''); ?>;
+             var tourDuration = <?php echo json_encode($_POST["tourDuration"] ?? ''); ?>;
+             var return1 = <?php echo json_encode($_POST["return1"] ?? ''); ?>;
              var return2 = <?php echo json_encode($_POST["return2"] ?? ''); ?>;
-             var pickup1 = <?php echo json_encode($_POST["pickup1"] ?? ''); ?>;	
-             var pickup2 = <?php echo json_encode($_POST["pickup2"] ?? ''); ?>;		
-             var toursuresi = <?php echo json_encode($_POST["toursuresi"] ?? ''); ?>;	
-         
+             var pickup1 = <?php echo json_encode($_POST["pickup1"] ?? ''); ?>;
+             var pickup2 = <?php echo json_encode($_POST["pickup2"] ?? ''); ?>;
+             var toursuresi = <?php echo json_encode($_POST["toursuresi"] ?? ''); ?>;
+
              var queryString = "numPassengers=" + encodeURIComponent(numPassengers) +
                                "&pickUpDate=" + encodeURIComponent(pickUpDate) +
                                "&hours=" + encodeURIComponent(hours) +
@@ -350,24 +341,24 @@
                                "&firstName=" + encodeURIComponent(firstName) +
                                "&lastName=" + encodeURIComponent(lastName) +
                                "&email=" + encodeURIComponent(email) +
-         					  "&bookingFee=" + encodeURIComponent(bookingFee) +
+                               "&bookingFee=" + encodeURIComponent(bookingFee) +
                                "&driverFare=" + encodeURIComponent(driverFare) +
                                "&totalFare=" + encodeURIComponent(totalFare) +
                                "&rideDuration=" + encodeURIComponent(rideDuration) +
-         					  "&returnDuration=" + encodeURIComponent(returnDuration) +
+                               "&returnDuration=" + encodeURIComponent(returnDuration) +
                                "&operationFare=" + encodeURIComponent(operationFare) +
-         					  "&rideDuration=" + encodeURIComponent(rideDuration) +
-         					  "&pickup1=" + encodeURIComponent(pickup1) +
+                               "&rideDuration=" + encodeURIComponent(rideDuration) +
+                               "&pickup1=" + encodeURIComponent(pickup1) +
                                "&pickup2=" + encodeURIComponent(pickup2) +
                                "&return1=" + encodeURIComponent(return1) +
-                               "&return2=" + encodeURIComponent(return2)+
-         					  "&toursuresi=" + encodeURIComponent(toursuresi)+
+                               "&return2=" + encodeURIComponent(return2) +
+                               "&toursuresi=" + encodeURIComponent(toursuresi) +
                                "&tourDuration=" + encodeURIComponent(tourDuration) +
+								"&countryCode=" + encodeURIComponent(countryCode) +
                                "&phoneNumber=" + encodeURIComponent(phoneNumber);
-         
+
              window.location.href = "step3.php?" + queryString;
          });
-         
       </script>
    </body>
 </html>

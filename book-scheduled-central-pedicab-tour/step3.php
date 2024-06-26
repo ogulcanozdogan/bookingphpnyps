@@ -3,13 +3,13 @@
    error_reporting(E_ALL);
    
    if ($_POST){
-   // Formdan alınan bilgiler
-       // Formdan alınan bilgiler
-   $firstName = $_POST["firstName"]; // varsayılan değer 1
-   $lastName = $_POST["lastName"]; // varsayılan değer 1
-   $email = $_POST["email"]; // varsayılan değer 1
-   $phoneNumber = $_POST["phoneNumber"]; // varsayılan değer 1
-   $numPassengers = $_POST["numPassengers"] ?? 1; // varsayılan değer 1
+   // Information from the form
+       // Information from the form
+   $firstName = $_POST["firstName"]; // default value 1
+   $lastName = $_POST["lastName"]; // default value 1
+   $email = $_POST["email"]; // default value 1
+   $phoneNumber = $_POST["phoneNumber"]; // default value 1
+   $numPassengers = $_POST["numPassengers"] ?? 1; // default value 1
    $pickUpDate = $_POST["pickUpDate"];
    $hours = $_POST["hours"];
    $minutes = $_POST["minutes"];
@@ -29,16 +29,18 @@
    $return1 = $_POST["return1"];  
      $return2 = $_POST["return2"];   
      $toursuresi = $_POST["toursuresi"];  
+	 $countryCode = $_POST["countryCode"];
+ $phoneNumber = '+' . $countryCode . $phoneNumber;	 
    }
    
    
-   if ($_GET){
-      // Formdan alınan bilgiler
-   $firstName = $_GET["firstName"]; // varsayılan değer 1
-   $lastName = $_GET["lastName"]; // varsayılan değer 1
-   $email = $_GET["email"]; // varsayılan değer 1
-   $phoneNumber = $_GET["phoneNumber"]; // varsayılan değer 1
-   $numPassengers = $_GET["numPassengers"] ?? 1; // varsayılan değer 1
+  else if ($_GET){
+      // Information from the form
+   $firstName = $_GET["firstName"]; // default value 1
+   $lastName = $_GET["lastName"]; // default value 1
+   $email = $_GET["email"]; // default value 1
+   $phoneNumber = $_GET["phoneNumber"]; // default value 1
+   $numPassengers = $_GET["numPassengers"] ?? 1; // default value 1
    $pickUpDate = $_GET["pickUpDate"];
    $hours = $_GET["hours"];
    $minutes = $_GET["minutes"];
@@ -59,32 +61,39 @@
       $return2 = $_GET["return2"];
    $toursuresi = $_GET["toursuresi"];
    }
+ else {
+    header("location: index.php");
+		exit;
+}
    
-   
-   
-   
+      
+   $date = DateTime::createFromFormat('m/d/Y', $pickUpDate);
+
+// Gün değerini al
+$pickUpDay = $date->format('l');
    ?>
 <!DOCTYPE html>
 <html lang="en">
    <head>
       <meta charset="UTF-8">
-      <title>Book Your Pedicab Ride</title>
+      <title>Book Scheduled Central Park Pedicab Tour</title>
+	  <meta name="description" content=" Scheduled Central Park Pedicab Tour Booking Application ">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <!-- Viewport meta etiketi eklendi -->
+      <!-- Viewport meta tag added -->
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
       <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
       <link href="css/style.css" rel="stylesheet">
       <style>
          .top-controls {
          position: absolute;
-         top: 10px; /* Sayfanın en üstünden 10px aşağıda */
-         right: 50%; /* Yatayda ortalanacak */
-         transform: translateX(-50%); /* Sol tarafından %50 geri gelerek tam ortalanmış olacak */
-         z-index: 1000; /* Diğer içeriklerin üzerinde görünür */
+         top: 10px; /* 10px below the top of the page */
+         right: 50%; /* Center horizontally */
+         transform: translateX(-50%); /* Center exactly by moving 50% from the left */
+         z-index: 1000; /* Appear above other content */
          }
          .centered-title {
          text-align: center;
-         margin-top: 70px; /* Butonlar ve başlık için üstten boşluk */
+         margin-top: 70px; /* Top margin for buttons and title */
          }
       </style>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css">
@@ -93,22 +102,22 @@
       <form method="post" id="myform" action="step4.php">
          <div class="top-controls">
             <input title="" type="button" id="prevButton" name="back" class="btn btn-primary font-weight-bold" value="<">
-            <input title="" type="button" id="nextButton" class="btn btn-primary font-weight-bold" value=">">
+            <input <?php if (!$_GET) {echo 'disabled';}?> title="" type="button" id="nextButton" class="btn btn-primary font-weight-bold" value=">">
          </div>
          <div class="container">
             <div class="row justify-content-center">
                <div class="col-md-6">
-                  <!-- Formu daha dar bir sütuna sığdırarak merkezle -->
-                                   <h2 class="text-center mb-4 font-weight-bold" style="color:#0909ff;">Book Scheduled Central Park Pedicab Tour</h2>
-                    <div class="text-center mb-4">
-                     <b>Book Scheduled Central Park Pedicab Tour</b>
+                  <!-- Center form within a narrower column -->
+                  <h2 class="text-center mb-4 font-weight-bold" style="color:#0909ff;">New York Pedicab Services</h2>
+                  <div class="text-center mb-4">
+                      <b>Scheduled<br>Central Park Pedicab Tour<br>Booking Application</b>
                   </div>
                   <div id="map" style="margin-top:30px;"></div>
                   <table class="table">
                      <tbody>
                         <tr>
                            <th scope="row">Type</th>
-                           <td>	Point A to B Pedicab Ride</td>
+                           <td>Scheduled Central Park Pedicab Tour</td>
                         </tr>
                         <tr>
                            <th scope="row">First Name</th>
@@ -131,23 +140,27 @@
                            <td><?=$numPassengers?></td>
                         </tr>
                         <tr>
-                           <th scope="row">Date of Pick Up</th>
-                           <td><?=$pickUpDate?></td>
+                           <th scope="row">Date of Tour</th>
+                           <td><?=$pickUpDate . ' ' . $pickUpDay?></td>
                         </tr>
                         <tr>
-                           <th scope="row">Time of Pick Up</th>
+                           <th scope="row">Time of Tour</th>
                            <td><?php echo $hours . ":" .  $minutes . " " . $ampm;?></td>
+                        </tr>
+						<tr>
+                           <th scope="row">Duration of Tour</th>
+                           <td><?=$tourDuration?> Minutes</td>
                         </tr>
                         <tr>
                            <th scope="row">Duration of Ride</th>
-                           <td><?=$rideDuration?> mins</td>
+                           <td><?=number_format($rideDuration, 2)?> Minutes</td>
                         </tr>
                         <tr>
-                           <th scope="row">Pick Up Address</th>
+                           <th scope="row">Start Address</th>
                            <td><?=$deneme2?></td>
                         </tr>
                         <tr>
-                           <th scope="row">Destination Address</th>
+                           <th scope="row">Finish Address</th>
                            <td><?=$destinationAddress?></td>
                         </tr>
                         <tr>
@@ -156,7 +169,7 @@
                         </tr>
                         <tr>
                            <th scope="row">Driver Fare</th>
-                           <td>$<?=number_format($driverFare, 2)?></td>
+                           <td>$<?= number_format($driverFare, 2) ?> with <?= $paymentMethod == 'card' ? 'debit/credit card' : $paymentMethod ?></td>
                         </tr>
                         <tr style="background-color:green;">
                            <th scope="row" style="color:white;">Total Fare</th>
@@ -168,6 +181,7 @@
                   <input title="" type="hidden" name="lastName" value="<?=$lastName?>">
                   <input title="" type="hidden" name="email" value="<?=$email?>">
                   <input title="" type="hidden" name="phoneNumber" value="<?=$phoneNumber?>">
+				<input title="" type="hidden" name="countryCode" value="<?=$countryCode?>">
                   <input title="" type="hidden" name="numPassengers" value="<?=$numPassengers?>">
                   <input title="" type="hidden" name="pickUpDate" value="<?=$pickUpDate?>">
                   <input title="" type="hidden" name="hours" value="<?=$hours?>">
@@ -203,31 +217,24 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput-jquery.min.js"></script>
       <script>
-         $("#phoneNumber").intlTelInput({
-             initialCountry: "us", // Kullanıcının bulunduğu ülkeyi otomatik olarak seçer
-             separateDialCode: true, // Telefon kodunu ayrı bir alan olarak gösterir
-             utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js" // Kodu formatlamak için gerekli yardımcı script
-         });
-      </script>
-      <script>
-         // Telefon numarası giriş alanını al
+         // Get the phone number input field
          var phoneNumberInput = document.getElementById("phoneNumber");
          
-         // Değişiklik olduğunda telefon numarasını biçimlendir
+         // Format the phone number on input change
          phoneNumberInput.addEventListener("input", function(event) {
-             // Kullanıcının girdiği metni al
+             // Get the user's input
              var input = event.target.value;
              
-             // Sadece rakamları al
+             // Remove non-digit characters
              var phoneNumber = input.replace(/\D/g, '');
          
-             // 10 haneli telefon numarası biçimini kontrol et
+             // Check if the phone number matches the 10-digit format
              var phoneNumberRegex = /^(\d{3})(\d{3})(\d{4})$/;
              if (phoneNumberRegex.test(phoneNumber)) {
-                 // Numarayı biçimlendir ve parantezler ekleyerek döndür
+                 // Format the number and add parentheses
                  var formattedPhoneNumber = phoneNumber.replace(phoneNumberRegex, "($1) $2-$3");
          
-                 // Biçimli numarayı giriş alanına yerleştir
+                 // Set the formatted number to the input field
                  event.target.value = formattedPhoneNumber;
              }
          });
@@ -249,11 +256,11 @@
              var directionsService = new google.maps.DirectionsService();
              var directionsRenderer = new google.maps.DirectionsRenderer({
                  map: map,
-                 suppressMarkers: true,  // Varsayılan işaretçileri kaldır
+                 suppressMarkers: true,  // Remove default markers
                  polylineOptions: {
-                     strokeColor: '#FF0000',  // Çizgi rengini kırmızı yap
-                     strokeOpacity: 0.8,      // Çizginin opaklığı
-                     strokeWeight: 6          // Çizgi kalınlığı
+                     strokeColor: '#FF0000',  // Set the line color to red
+                     strokeOpacity: 0,      // Set the opacity of the line
+                     strokeWeight: 6          // Set the thickness of the line
                  }
              });
          
@@ -268,7 +275,7 @@
                  origin: pickupAddress,
                  destination: destinationAddress,
                  travelMode: 'BICYCLING',
-                 provideRouteAlternatives: true  // Alternatif rotaları sağla
+                 provideRouteAlternatives: true  // Provide alternative routes
              }, function(response, status) {
                  if (status === 'OK') {
                      var fastestRouteIndex = findFastestRouteIndex(response.routes);
@@ -276,13 +283,10 @@
                      directionsRenderer.setRouteIndex(fastestRouteIndex);
                      addCustomMarkers(response.routes[fastestRouteIndex], map);
          
-                     // Rotanın süresini hesapla
-         var durationMinutes = parseFloat(response.routes[fastestRouteIndex].legs.reduce((sum, leg) => sum + leg.duration.value, 0) / 60);
+                     // Calculate the duration of the route
+                     var durationMinutes = parseFloat(response.routes[fastestRouteIndex].legs.reduce((sum, leg) => sum + leg.duration.value, 0) / 60);
          
-         
-         
-         			console.log("durationMinutes: " + durationMinutes);
-         
+                     console.log("durationMinutes: " + durationMinutes);
          
                  } else {
                      window.alert('Directions request failed due to ' + status);
@@ -327,18 +331,18 @@
       <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
       <script>
-         // Bu fonksiyon, hesaplanan süreyi PHP dosyasına gönderir
+         // This function sends the calculated duration to the PHP file
          
       </script>
       <script>
          document.getElementById("prevButton").addEventListener("click", function() {
-             // URL'den parametreleri al
+             // Get parameters from URL
              var urlParams = new URLSearchParams(window.location.search);
          
-             // Eğer GET parametreleri varsa, onları kullan
+             // If there are GET parameters, use them
              var numPassengers = urlParams.has('numPassengers') ? urlParams.get('numPassengers') : <?php echo json_encode($_GET["numPassengers"] ?? $_POST["numPassengers"] ?? 1); ?>;
              var pickUpDate = urlParams.has('pickUpDate') ? urlParams.get('pickUpDate') : <?php echo json_encode($_GET["pickUpDate"] ?? $_POST["pickUpDate"] ?? ''); ?>;
-             var hours24 = urlParams.has('hours') ? urlParams.get('hours') : <?php echo json_encode($_GET["hours"] ?? $_POST["hours"] ?? ''); ?>; // 24 saatlik formatta saat
+             var hours24 = urlParams.has('hours') ? urlParams.get('hours') : <?php echo json_encode($_GET["hours"] ?? $_POST["hours"] ?? ''); ?>; // Hour in 24-hour format
              var minutes = urlParams.has('minutes') ? urlParams.get('minutes') : <?php echo json_encode($_GET["minutes"] ?? $_POST["minutes"] ?? ''); ?>;
              var ampm = urlParams.has('ampm') ? urlParams.get('ampm') : <?php echo json_encode($_GET["ampm"] ?? $_POST["ampm"] ?? ''); ?>;
              var pickUpAddress = urlParams.has('pickUpAddress') ? urlParams.get('pickUpAddress') : <?php echo json_encode($_GET["pickUpAddress"] ?? $_POST["pickUpAddress"] ?? ''); ?>;
@@ -348,6 +352,7 @@
              var lastName = urlParams.has('lastName') ? urlParams.get('lastName') : <?php echo json_encode($_GET["lastName"] ?? $_POST["lastName"] ?? ''); ?>;
              var email = urlParams.has('email') ? urlParams.get('email') : <?php echo json_encode($_GET["email"] ?? $_POST["email"] ?? ''); ?>;
              var phoneNumber = urlParams.has('phoneNumber') ? urlParams.get('phoneNumber') : <?php echo json_encode($_GET["phoneNumber"] ?? $_POST["phoneNumber"] ?? ''); ?>;
+			var countryCode = urlParams.has('countryCode') ? urlParams.get('countryCode') : <?php echo json_encode($_GET["countryCode"] ?? $_POST["countryCode"] ?? ''); ?>;
              var bookingFee = urlParams.has('bookingFee') ? urlParams.get('bookingFee') : <?php echo json_encode($_GET["bookingFee"] ?? $_POST["bookingFee"] ?? ''); ?>;
              var driverFare = urlParams.has('driverFare') ? urlParams.get('driverFare') : <?php echo json_encode($_GET["driverFare"] ?? $_POST["driverFare"] ?? ''); ?>;
              var totalFare = urlParams.has('totalFare') ? urlParams.get('totalFare') : <?php echo json_encode($_GET["totalFare"] ?? $_POST["totalFare"] ?? ''); ?>;	
@@ -362,14 +367,14 @@
              var pickup2 = urlParams.has('pickup2') ? urlParams.get('pickup2') : <?php echo json_encode($_GET["pickup2"] ?? $_POST["pickup2"] ?? ''); ?>;		
              var toursuresi = urlParams.has('toursuresi') ? urlParams.get('toursuresi') : <?php echo json_encode($_GET["toursuresi"] ?? $_POST["toursuresi"] ?? ''); ?>;
          
-             // 12 saatlik formata çevir
-             var hours12 = hours24 % 12 || 12; // 12 saatlik formatta saat
+             // Convert to 12-hour format
+             var hours12 = hours24 % 12 || 12; // Hour in 12-hour format
          
-             // Şimdi gerekli işlemleri yapabilirsiniz
+             // Now you can perform necessary operations
              // ...
          
          
-             // Ardından, işlemleriniz tamamlandıktan sonra yönlendirme yapabilirsiniz
+             // After your operations, you can redirect
              var queryString = "numPassengers=" + encodeURIComponent(numPassengers) +
                                "&pickUpDate=" + encodeURIComponent(pickUpDate) +
                                "&hours=" + encodeURIComponent(hours12) +
@@ -382,6 +387,7 @@
                                "&lastName=" + encodeURIComponent(lastName) +
                                "&email=" + encodeURIComponent(email) +
                                "&phoneNumber=" + encodeURIComponent(phoneNumber) +
+								"&countryCode=" + encodeURIComponent(countryCode) +
                                "&bookingFee=" + encodeURIComponent(bookingFee) +
                                "&driverFare=" + encodeURIComponent(driverFare) +
                                "&totalFare=" + encodeURIComponent(totalFare) +

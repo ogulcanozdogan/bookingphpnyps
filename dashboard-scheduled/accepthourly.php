@@ -80,7 +80,7 @@ Please, confirm by typing the start time.&nbsp;<br>
        </div>
 		
      
-      <div class="col-lg-12">
+<div class="col-lg-12">
     <div class="text-end">
         <form method="post" role="form">
             <input type="hidden" name="driver" value="<?=$user?>">

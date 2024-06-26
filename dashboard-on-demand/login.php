@@ -111,12 +111,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             ?>
                             <form method="post" role="form">
                                 <div class="form-outline mb-4">
-                                    <input type="text" name="user" id="form2Example11" class="form-control" placeholder="Username" />
                                     <label class="form-label" for="form2Example11">Username</label>
+                                    <input type="text" name="user" id="form2Example11" class="form-control" placeholder="Username" />
                                 </div>
                                 <div class="form-outline mb-4">
-                                    <input type="password" name="pass" id="form2Example22" class="form-control" />
                                     <label class="form-label" for="form2Example22">Password</label>
+                                    <input type="password" name="pass" id="form2Example22" class="form-control"  placeholder="Password"/>
                                 </div>
                                 <div class="form-check d-flex justify-content-start mb-4">
                                     <input class="form-check-input" type="checkbox" id="rememberMeondemand" checked="">

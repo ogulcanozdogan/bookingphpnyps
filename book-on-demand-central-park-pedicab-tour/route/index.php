@@ -4,9 +4,8 @@ $bookingNumber = $_GET["bookingNumber"];
 $sorgu = $baglanti->prepare("SELECT * FROM centralpark WHERE bookingNumber=:bookingNumber");
 $sorgu->execute(['bookingNumber' => $bookingNumber]);
 $sonuc = $sorgu->fetch();
-$deneme2 = $sonuc['pickupAddress'];
-$destinationAddress = $sonuc['destinationAddress'];
-
+$deneme2 = $sonuc['pickUpCoords'];
+$destinationAddress = $sonuc['destinationCoords'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -99,7 +98,7 @@ function calculateAndDisplayRoute(directionsService, directionsRenderer, origin,
         origin: origin,
         destination: destination,
         travelMode: 'BICYCLING',
-        provideRouteAlternatives: true
+        provideRouteAlternatives: true,
     }, function(response, status) {
         if (status === 'OK') {
             var fastestRouteIndex = findFastestRouteIndex(response.routes);

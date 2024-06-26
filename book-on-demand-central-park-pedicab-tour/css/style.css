@@ -90,7 +90,23 @@
             height: 400px;
             width: 100%;
         }
-
+/* Placeholder ve option font boyutunu küçült */
+        ::placeholder {
+            font-size: 1em; /* Placeholder yazı boyutu */
+			    color: black !important; /* Placeholder metninin rengi */
+				opacity:1;
+        }
+        option {
+            font-size: 0.85em; /* Option yazı boyutu */
+			color: black !important;
+        }
+	
+        .form-label, .form-control, .form-check-label {
+            font-size: 0.85em; /* Form etiketleri ve kontrol yazıları boyutu */
+			color: black !important;
+        }
+		
+		
 		
 .error-message {
     background-color: #f8d7da; /* Hafif kırmızı arkaplan */
@@ -105,6 +121,20 @@
     transition: opacity 0.6s; /* Geçiş süresi */
     display: none; /* Varsayılan olarak gizli */
 }
+
+.error-message2 {
+    background-color: #f8d7da; /* Hafif kırmızı arkaplan */
+    color: #721c24; /* Koyu kırmızı metin rengi */
+    padding: 15px; /* İç boşluk */
+    border: 1px solid #f5c6cb; /* Kenarlık */
+    border-radius: 5px; /* Köşeleri yuvarlatma */
+    margin-bottom: 20px; /* Alt boşluk */
+    font-family: Arial, sans-serif; /* Yazı tipi */
+    position: relative; /* Kapatma düğmesi için */
+    opacity: 1; /* Şeffaflık başlangıç değeri */
+    transition: opacity 0.6s; /* Geçiş süresi */
+}
+
 
 .closebtn {
     position: absolute; /* Mutlak konumlandırma */
@@ -134,3 +164,4 @@
             border: 2px solid #ccc;
             padding: 10px;
         }
+		

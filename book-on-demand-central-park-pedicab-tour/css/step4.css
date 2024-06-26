@@ -1,0 +1,95 @@
+	  #card-element {
+    width: 100%;
+}
+
+#card-errors {
+    width: 100%;
+    color: red;
+    text-align: center;
+}
+         /* Button and Card Element Styles */
+         .form-row {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    flex-direction: column;
+    align-items: center;
+
+         }
+         
+         /* Button styling */
+         button {
+         background-color: #4CAF50; /* Green background */
+         color: white; /* White text color */
+         padding: 12px 20px;
+         border: none;
+         border-radius: 4px;
+         cursor: pointer;
+         outline: none;
+         transition: background-color 0.3s, color 0.3s; /* Transition animation */
+         margin-bottom: 20px;
+         }
+         button:hover {
+         background-color: #45a049; /* Darker green */
+         color: #ffffff;
+         }
+         /* Center form on the page */
+         form {
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         margin-top: 30px;
+         }
+         .top-controls {
+         position: absolute;
+         top: 10px; /* 10px below the top of the page */
+         right: 50%; /* Horizontally centered */
+         transform: translateX(-50%); /* Offset by 50% of its own width to be fully centered */
+         z-index: 1000; /* Appear above other content */
+         }
+         .centered-title {
+         text-align: center;
+         margin-top: 70px; /* Top margin for space above title and buttons */
+         }
+         /* Container */
+         .m-6d731127 {
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         max-width: 400px;
+         margin: 0 auto;
+         padding: 20px;
+         border-radius: 10px;
+         background-color: #f8f9fa;
+         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+         }
+         /* Stripe Element */
+         .StripeElement {
+         margin-bottom: 20px;
+         border-radius: 5px;
+         overflow: hidden;
+         }
+         /* Payment Button Container */
+         .m-1b7284a3 {
+         width: 100%;
+         }
+         /* Inner Stack */
+         .m-6d731127 .m-6d731127 {
+         justify-content: center;
+         }
+         /* Payment Button */
+         .m-77c9d27d {
+         background-color: var(--button-bg, #007bff);
+         color: var(--button-color, #fff);
+         border: var(--button-bd, none);
+         border-radius: 5px;
+         cursor: pointer;
+         transition: background-color 0.3s ease;
+         padding: 10px 20px;
+         font-size: 16px;
+         }
+         .m-77c9d27d:hover {
+         background-color: var(--button-hover, #0056b3);
+         }

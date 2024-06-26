@@ -1,19 +1,11 @@
 <?php  
    if ($_POST){
-   // Formdan alınan bilgiler
-   // Formdan alınan bilgiler
-      // Formdan alınan bilgiler
-   $firstName = $_POST["firstName"]; // varsayılan değer 1
-   $lastName = $_POST["lastName"]; // varsayılan değer 1
-   $email = $_POST["email"]; // varsayılan değer 1
-   $phoneNumber = $_POST["phoneNumber"]; // varsayılan değer 1
-   		$lastTenDigits = substr($phoneNumber, -10);
-
-// Başta kalan rakamları almak
-$countryCode = substr($phoneNumber, 0, strlen($phoneNumber) - 10);
-
+   $firstName = $_POST["firstName"]; // default value 1
+   $lastName = $_POST["lastName"]; // default value 1
+   $email = $_POST["email"]; // default value 1
+   $phoneNumber = $_POST["phoneNumber"]; // default value 1
 	$phoneNumber = substr($phoneNumber, -10);
-   $numPassengers = $_POST["numPassengers"] ?? 1; // varsayılan değer 1
+   $numPassengers = $_POST["numPassengers"] ?? 1; // default value 1
    $pickUpDate = $_POST["pickUpDate"];
    $hours = $_POST["hours"];
    $minutes = $_POST["minutes"];
@@ -32,23 +24,18 @@ $countryCode = substr($phoneNumber, 0, strlen($phoneNumber) - 10);
       $pickup2 = $_POST["pickup2"];
    $return1 = $_POST["return1"];  
     $return2 = $_POST["return2"];   
-    $toursuresi = $_POST["toursuresi"];  
+    $toursuresi = $_POST["toursuresi"];    	
+   $countryCode = $_POST["countryCode"];
    }
    
    
-   if ($_GET){
-     // Formdan alınan bilgiler
-   $firstName = $_GET["firstName"]; // varsayılan değer 1
-   $lastName = $_GET["lastName"]; // varsayılan değer 1
-   $email = $_GET["email"]; // varsayılan değer 1
-   $phoneNumber = $_GET["phoneNumber"]; // varsayılan değer 1
-   $lastTenDigits = substr($phoneNumber, -10);
-
-// Başta kalan rakamları almak
-$countryCode = substr($phoneNumber, 0, strlen($phoneNumber) - 10);
-
+  else if ($_GET){
+   $firstName = $_GET["firstName"]; // default value 1
+   $lastName = $_GET["lastName"]; // default value 1
+   $email = $_GET["email"]; // default value 1
+   $phoneNumber = $_GET["phoneNumber"]; // default value 1
 	$phoneNumber = substr($phoneNumber, -10);
-   $numPassengers = $_GET["numPassengers"] ?? 1; // varsayılan değer 1
+   $numPassengers = $_GET["numPassengers"] ?? 1; // default value 1
    $pickUpDate = $_GET["pickUpDate"];
    $hours = $_GET["hours"];
    $minutes = $_GET["minutes"];
@@ -68,71 +55,65 @@ $countryCode = substr($phoneNumber, 0, strlen($phoneNumber) - 10);
    $return1 = $_GET["return1"];
      $return2 = $_GET["return2"];
    $toursuresi = $_GET["toursuresi"];
+   $countryCode = $_GET["countryCode"];
    }
    
+ else {
+    header("location: index.php");
+		exit;
+}
+
    
-      $hub1 = "6th Avenue and Central Park South New York, NY 10019";
-      $hub2 = "West Drive and West 59th Street New York, NY 10019";
-   
-   
-   // Tarihi 'm/d/Y' formatından 'Y-m-d' formatına çevirme
-   $convertedDate = DateTime::createFromFormat('m/d/Y', $pickUpDate)->format('Y-m-d');
-   
-   // Yeni tarihi kullanarak gün adını bulma
-   $dayName = date('l', strtotime($convertedDate));
-   
-   $hourlyOperationFare = 0;
-   
-   // Check day name and December
-   if (strpos($dayName, 'Monday') !== false || 
-   strpos($dayName, 'Tuesday') !== false || 
-   strpos($dayName, 'Wednesday') !== false || 
-   strpos($dayName, 'Thursday') !== false) {
-   // Monday to Thursday
-   $hourlyOperationFare = 60;
-   } elseif (strpos($dayName, 'Friday') !== false || 
-         strpos($dayName, 'Saturday') !== false || 
-         strpos($dayName, 'Sunday') !== false) {
-   // Friday to Sunday
-   $hourlyOperationFare = 70;
-   }
-   
-   // Check if it's December
-   if (date('m', strtotime($convertedDate)) == 12) {
-   if (strpos($dayName, 'Monday') !== false || 
-       strpos($dayName, 'Tuesday') !== false || 
-       strpos($dayName, 'Wednesday') !== false || 
-       strpos($dayName, 'Thursday') !== false) {
-       // Monday to Thursday in December
-       $hourlyOperationFare = 80;
-   } elseif (strpos($dayName, 'Friday') !== false || 
-             strpos($dayName, 'Saturday') !== false || 
-             strpos($dayName, 'Sunday') !== false) {
-       // Friday to Sunday in December
-       $hourlyOperationFare = 90;
-   }
-   }
-   
-   
-   
-   function getShortestBicycleRouteDuration($origin, $destination) {
-    $apiKey = 'AIzaSyBg9HV0g-8ddiAHH6n2s_0nXOwHIk2f1DY'; // API anahtarınızı buraya girin
+$hub1 = "West Drive and West 59th Street New York, NY 10019";
+$hub2 = "6th Avenue and Central Park South New York, NY 10019";
+
+// Process date and time information
+$pickupDateTime = DateTime::createFromFormat('m/d/Y H:i', $pickUpDate . " " . $hours . ":" . $minutes);
+if (!$pickupDateTime) {
+    die("Invalid date format. Please check the date and time information.");
+}
+$dayOfWeek = $pickupDateTime->format('l');
+$month = $pickupDateTime->format('F');
+$hour24 = (int) $pickupDateTime->format('G'); // 24-hour format
+
+// Define hourly operation fares
+$operationFareRates = [
+    'default' => [
+        'weekday' => 60,
+        'weekend' => 70
+    ],
+    'december' => [
+        'weekday' => 80,
+        'weekend' => 90
+    ]
+];
+
+// Determine hourly operation fare
+$isWeekend = in_array($dayOfWeek, ['Friday', 'Saturday', 'Sunday']);
+if ($month == "December") {
+    $hourlyOperationFare = $isWeekend ? $operationFareRates['december']['weekend'] : $operationFareRates['december']['weekday'];
+} else {
+    $hourlyOperationFare = $isWeekend ? $operationFareRates['default']['weekend'] : $operationFareRates['default']['weekday'];
+}
+
+function getShortestBicycleRouteDuration($origin, $destination) {
+    $apiKey = 'AIzaSyBg9HV0g-8ddiAHH6n2s_0nXOwHIk2f1DY'; // Enter your API key here
     $origin = urlencode($origin);
     $destination = urlencode($destination);
-   
-    // Bisiklet modu parametresi ekleniyor
+
+    // Adding bicycle mode parameter
     $url = "https://maps.googleapis.com/maps/api/directions/json?origin=$origin&destination=$destination&mode=bicycling&key=$apiKey";
-   
+
     $curl = curl_init();
     curl_setopt($curl, CURLOPT_URL, $url);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
     $response = curl_exec($curl);
     curl_close($curl);
-   
+
     if ($response) {
         $data = json_decode($response, true);
         if (isset($data['routes']) && count($data['routes']) > 0) {
-            // En kısa süreyi bul
+            // Find the shortest duration
             $shortestDuration = PHP_INT_MAX;
             foreach ($data['routes'] as $route) {
                 $routeDuration = 0;
@@ -143,122 +124,106 @@ $countryCode = substr($phoneNumber, 0, strlen($phoneNumber) - 10);
                     $shortestDuration = $routeDuration;
                 }
             }
-            
-            // En kısa sürenin dakika cinsinden hesaplanması
+
+            // Calculate the shortest duration in minutes
             if ($shortestDuration !== PHP_INT_MAX) {
                 $minutes = floor($shortestDuration / 60);
                 $seconds = $shortestDuration % 60;
-                return sprintf("%.2f", $minutes + ($seconds / 60)); // Süreyi "24.11" gibi bir formatla döndür
+                return sprintf("%.2f", $minutes + ($seconds / 60)); // Return duration in "24.11" format
             }
         }
     }
-   
-    return false; // Uygun rota bulunamazsa false döndür
-   }
-   
-   
-   
-   // Pick Up 1 süresi
-   $origin = $hub1;
-   $destination = $deneme2;
-   $pickup1suresi = getShortestBicycleRouteDuration($origin, $destination);
-   
-   // Pick Up 2 süresi
-   $origin = $deneme2;
-   $destination = $hub2;
-   $pickup2suresi = getShortestBicycleRouteDuration($origin, $destination);
-   
-   // Tour süresi
-   $origin = $deneme2;
-   $destination = $destinationAddress;
-   $toursuresi = getShortestBicycleRouteDuration($origin, $destination);
-   
-   // Return 1 süresi
-   $origin = $hub1;
-   $destination = $destinationAddress;
-   $return1suresi = getShortestBicycleRouteDuration($origin, $destination);
-   
-   // Return 2 süresi
-   $origin = $destinationAddress;
-   $destination = $hub2;
-   $return2suresi = getShortestBicycleRouteDuration($origin, $destination);
-   
-   
-   // Örnek olarak sabit süreler kullanalım (dakika cinsinden)
-   $pickup1 = $pickup1suresi; // Pick Up 1 süresi
-   $pickup2 = $pickup2suresi; // Pick Up 2 süresi
-   $toursuresi = $toursuresi;// Tour süresi
-   $return1 = $return1suresi; // Return 1 süresi
-   $return2 = $return2suresi; // Return 2 süresi
-   
-   
-   
-   
-   
-   $pickup1 *= 2.5;
-   $pickup2 *= 2.5;
-   $return1 *= 2.5;
-   $return2 *= 2.5;
-   $toursuresi  = $toursuresi;
-   
-   
-   
-   // Calculate Operatino Fare
-   
-   $operationFare = $pickup1 + $pickup2 + $return1 + $return2 + $tourDuration;
-     
-   // Calculate Booking Fee
-   
-   $bookingFee = 0.2 * $operationFare;
-   
-   // Calculate Driver Fare with CASH
-   
-   if ($paymentMethod == "cash"){
-   $driverFare = 0.8 * $operationFare;
-   }
-   
-   // Calculate Driver Fare with CARD
-   if ($paymentMethod == "card"){
-   $driverFare = 0.8 * $operationFare;
-   $driverFare = 1.1 * $driverFare;
-   }
-   
-   
-   // Calculate Total Fare
-   
-   $totalFare = $bookingFee + $driverFare;
-   
-   
-   
-   
-   
-   
-   // Toplam süre (dakika cinsinden)
-   $rideDuration = $pickup2 + $tourDuration + $return1;
-   
 
+    return false; // Return false if no suitable route is found
+}
+
+// Pick Up 1 duration
+$origin = $hub1;
+$destination = $deneme2;
+$pickup1suresi = getShortestBicycleRouteDuration($origin, $destination);
+
+// Pick Up 2 duration
+$origin = $deneme2;
+$destination = $hub2;
+$pickup2suresi = getShortestBicycleRouteDuration($origin, $destination);
+
+// Tour duration
+$origin = $deneme2;
+$destination = $destinationAddress;
+$toursuresi = getShortestBicycleRouteDuration($origin, $destination);
+
+// Return 1 duration
+$origin = $hub1;
+$destination = $destinationAddress;
+$return1suresi = getShortestBicycleRouteDuration($origin, $destination);
+
+// Return 2 duration
+$origin = $destinationAddress;
+$destination = $hub2;
+$return2suresi = getShortestBicycleRouteDuration($origin, $destination);
+
+// Adjust durations by multiplier
+$pickup1 = $pickup1suresi * 2.5;
+$pickup2 = $pickup2suresi * 2.5;
+$return1 = $return1suresi * 2.5;
+$return2 = $return2suresi * 2.5;
+
+// Total duration (in minutes) for Ride Duration
+$rideDuration = $pickup2 + $toursuresi + $return1;
+
+// Total duration (in minutes) for Operation Fare
+$totalOperationDuration = $pickup1 + $pickup2 + $toursuresi + $return1 + $return2;
+
+// Calculate Operation Fare based on total duration and hourly rate
+$totalHours = $totalOperationDuration / 60;
+$operationFare = $totalHours * $hourlyOperationFare;
+
+// Calculate Booking Fee
+$bookingFee = 0.2 * $operationFare;
+
+// Calculate Driver Fare with CASH
+if ($paymentMethod == "cash") {
+    $driverFare = 0.8 * $operationFare;
+}
+
+// Calculate Driver Fare with CARD
+if ($paymentMethod == "card") {
+    $driverFare = 0.8 * $operationFare;
+    $driverFare *= 1.1;
+}
+
+// Calculate Total Fare
+$totalFare = $bookingFee + $driverFare;
+   
+   $date = DateTime::createFromFormat('m/d/Y', $pickUpDate);
+
+// Gün değerini al
+$pickUpDay = $date->format('l');
+
+require('inc/countryselect.php');
    ?>
 <!DOCTYPE html>
 <html lang="en">
    <head>
       <meta charset="UTF-8">
-      <title>Book Your Pedicab Ride - <?=$return1?></title>
+      <title>Book Scheduled Central Park Pedicab Tour</title>
+	  <meta name="description" content=" Scheduled Central Park Pedicab Tour Booking Application ">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <!-- Viewport meta etiketi eklendi -->
+      <!-- Viewport meta tag added -->
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
       <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
       <link href="css/style.css" rel="stylesheet">
       <style>
          .top-controls {
          position: absolute;
-         top: 10px; /* Sayfanın en üstünden 10px aşağıda */
-         right: 50%; /* Yatayda ortalanacak */
-         transform: translateX(-50%); /* Sol tarafından %50 geri gelerek tam ortalanmış olacak */
-         z-index: 1000; /* Diğer içeriklerin üzerinde görünür */
+         top: 10px; /* 10px from the top of the page */
+         right: 50%; /* Center horizontally */
+         transform: translateX(-50%); /* Will be perfectly centered */
+         z-index: 1000; /* Visible above other content */
          }
          .centered-title {
          text-align: center;
-         margin-top: 70px; /* Butonlar ve başlık için üstten boşluk */
+         margin-top: 70px; /* Space above buttons and title */
          }
 
         .country-list {
@@ -298,10 +263,6 @@ $countryCode = substr($phoneNumber, 0, strlen($phoneNumber) - 10);
             background-color: #f1f1f1;
         }
 
-        .phone-number-input {
-            flex: 2;
-            margin-left: 10px;
-        }
 
         .form-control {
             padding: 8px;
@@ -310,105 +271,20 @@ $countryCode = substr($phoneNumber, 0, strlen($phoneNumber) - 10);
             box-sizing: border-box;
         }
       </style>
- <script>
-    let countryData = [];
-
-    async function populateCountryCodes() {
-        try {
-            const response = await fetch('https://countriesnow.space/api/v0.1/countries/codes');
-            const data = await response.json();
-            const countries = data.data;
-            const countryOptions = document.getElementById("countryOptions");
-
-            countryData = countries.sort((a, b) => a.name.localeCompare(b.name));
-
-            countryData.forEach(country => {
-                const countryCode = `${country.dial_code}`;
-
-                const optionDiv = document.createElement("div");
-                optionDiv.dataset.code = countryCode;
-                optionDiv.dataset.name = country.name;
-
-                const optionText = document.createTextNode(`${countryCode} (${country.name})`);
-
-                optionDiv.appendChild(optionText);
-
-                optionDiv.addEventListener("click", () => {
-                    selectCountry(optionDiv);
-                });
-
-                countryOptions.appendChild(optionDiv);
-
-                // Varsayılan veya PHP'den gelen countryCode değerini kontrol et
-                const phpCountryCode = "<?= $countryCode ?>";
-                if (countryCode === phpCountryCode || (phpCountryCode === "" && countryCode === "+1")) {
-                    selectCountry(optionDiv);
-                }
-            });
-        } catch (error) {
-            console.error('Error fetching country codes:', error);
-        }
-    }
-
-    function selectCountry(optionDiv) {
-        const countryCode = optionDiv.dataset.code;
-        const countryName = optionDiv.dataset.name;
-        const countrySelect = document.getElementById("countrySelect");
-        countrySelect.value = `${countryCode} (${countryName})`;
-        document.getElementById("countryCode").value = countryCode;
-
-        const countryOptions = document.getElementById("countryOptions");
-        countryOptions.style.display = "none";
-
-        updatePhoneNumber();
-    }
-
-    function toggleCountryOptions() {
-        const countryOptions = document.getElementById("countryOptions");
-        if (countryOptions.style.display === "none" || countryOptions.style.display === "") {
-            countryOptions.style.display = "block";
-        } else {
-            countryOptions.style.display = "none";
-        }
-    }
-
-    function updatePhoneNumber() {
-        let countryCode = document.getElementById("countryCode").value;
-        const phoneNumber = document.getElementById("phoneNumberInput").value;
-        
-        document.getElementById("phoneNumber").value = countryCode + phoneNumber;
-    }
-
-    function formatPhoneNumber(event) {
-        const input = event.target;
-        let value = input.value.replace(/\D/g, ''); // Sadece rakamları al
-        if (value.length > 6) {
-            value = value.replace(/^(\d{3})(\d{3})(\d{0,4}).*/, '($1) $2-$3');
-        } else if (value.length > 3) {
-            value = value.replace(/^(\d{3})(\d{0,3}).*/, '($1) $2');
-        } else if (value.length > 0) {
-            value = value.replace(/^(\d{0,3}).*/, '($1)');
-        }
-        input.value = value;
-        updatePhoneNumber();
-    }
-
-    document.addEventListener("DOMContentLoaded", populateCountryCodes);
-</script>
    </head>
    <body>
       <form method="post" id="myform" autocomplete="off" action="step3.php">
          <div class="top-controls">
             <input title="" type="button" id="prevButton" name="back" class="btn btn-primary font-weight-bold" value="<">
-            <input title="" type="submit" id="nextButton" class="btn btn-primary font-weight-bold" value=">">
+            <input <?php if (!$_GET) {echo 'disabled';}?> title="" type="submit" id="nextButton" class="btn btn-primary font-weight-bold" value=">">
          </div>
          <div class="container">
             <div class="row justify-content-center">
                <div class="col-md-6">
-                  <!-- Formu daha dar bir sütuna sığdırarak merkezle -->
+                  <!-- Center form in a narrower column -->
                   <h2 class="text-center mb-4 font-weight-bold" style="color:#0909ff;">New York Pedicab Services</h2>
                   <div class="text-center mb-4">
-                     <b>Book Scheduled Central Park Pedicab Tour</b>
+                      <b>Scheduled<br>Central Park Pedicab Tour<br>Booking Application</b>
                   </div>
                   <div id="map" style="margin-top:30px;"></div>
                   <table class="table">
@@ -419,15 +295,19 @@ $countryCode = substr($phoneNumber, 0, strlen($phoneNumber) - 10);
                         </tr>
                         <tr>
                            <th scope="row">Date of Tour</th>
-                           <td><?=$pickUpDate?></td>
+                           <td><?=$pickUpDate . ' ' . $pickUpDay?></td>
                         </tr>
                         <tr>
                            <th scope="row">Time of Tour</th>
                            <td><?php echo $hours . ":" .  $minutes . " " . $ampm;?></td>
                         </tr>
+						<tr>
+                           <th scope="row">Duration of Tour</th>
+                           <td><?=$tourDuration?> Minutes</td>
+                        </tr>
                         <tr>
                            <th scope="row">Duration of Ride</th>
-                           <td><?=$rideDuration?> mins</td>
+                           <td><?=number_format($rideDuration, 2)?> Minutes</td>
                         </tr>
                         <tr>
                            <th scope="row">Start Address</th>
@@ -443,7 +323,8 @@ $countryCode = substr($phoneNumber, 0, strlen($phoneNumber) - 10);
                         </tr>
                         <tr>
                            <th scope="row">Driver Fare</th>
-                           <td>$<?=number_format($driverFare, 2)?></td>
+                           <td>$<?= number_format($driverFare, 2) ?> with <?= $paymentMethod == 'card' ? 'debit/credit card' : $paymentMethod ?></td>
+
                         </tr>
                         <tr style="background-color:green;">
                            <th scope="row" style="color:white;">Total Fare</th>
@@ -480,23 +361,17 @@ $countryCode = substr($phoneNumber, 0, strlen($phoneNumber) - 10);
     <?php } elseif (isset($_POST['email']) && !empty($_POST['email'])) { ?>
         value="<?php echo htmlspecialchars($_POST['email']); ?>"
     <?php } ?> 
-    required oninvalid="this.setCustomValidity('Please, enter email adress.'); this.classList.add('invalid');" oninput="setCustomValidity(''); this.classList.remove('invalid');">
+    required oninvalid="this.setCustomValidity('Please, enter email address.'); this.classList.add('invalid');" oninput="setCustomValidity(''); this.classList.remove('invalid');">
                   </div> <label for="countrySelect">Phone</label>
         <div style="  display: flex;
-            align-items: center;" class="form-group">
+            " class="form-group">
            
-           <div class="country-list">
-                <input title="" type="text"  id="countrySelect" class="form-control country-select" required readonly onclick="toggleCountryOptions()" value="<?=$countryCode?>" placeholder="Select a country code" >
-                <div id="countryOptions" class="country-options">
-                    <!-- Ülke kodları dinamik olarak JavaScript ile eklenecek -->
-                </div>
-            </div>
-            <input title="" type="hidden" value="<?=$countryCode?>" id="countryCode" name="countryCode">
-            <input title="" type="tel"  pattern=".{10,10}" class="form-control phone-number-input" id="phoneNumberInput" name="phoneNumberInput" 
-                   onkeyup="updatePhoneNumber()" oninvalid="this.setCustomValidity('Please, enter 10 digit phone number.'); this.classList.add('invalid');" oninput="this.value = this.value.replace(/\D+/g, '');setCustomValidity(''); this.classList.remove('invalid');" value="<?=$phoneNumber?>" placeholder="Enter your phone number" required >
-        </div>
-        <input title="" type="hidden" id="phoneNumber" name="phoneNumber" value="<?=$phoneNumber?>">
+<?=countrySelector();?>
 
+            <input title="" style="flex: 2; margin-left: 10px;" type="tel"  pattern=".{10,10}" class="form-control phone-number-input" id="phoneNumber" name="phoneNumber"
+                   onkeyup="updatePhoneNumber()" oninvalid="this.setCustomValidity('Please, enter a 10 digit phone number.'); this.classList.add('invalid');" oninput="this.value = this.value.replace(/\D+/g, '');setCustomValidity(''); this.classList.remove('invalid');" value="<?=$phoneNumber?>" placeholder="Enter your phone number" required >
+        </div>
+      
 
                   <input title="" type="hidden" name="numPassengers" value="<?=$numPassengers?>">
                   <input title="" type="hidden" name="pickUpDate" value="<?=$pickUpDate?>">
@@ -543,11 +418,11 @@ $countryCode = substr($phoneNumber, 0, strlen($phoneNumber) - 10);
              var directionsService = new google.maps.DirectionsService();
              var directionsRenderer = new google.maps.DirectionsRenderer({
                  map: map,
-                 suppressMarkers: true,  // Varsayılan işaretçileri kaldır
+                 suppressMarkers: true,  // Remove default markers
                  polylineOptions: {
-                     strokeColor: '#FF0000',  // Çizgi rengini kırmızı yap
-                     strokeOpacity: 0.8,      // Çizginin opaklığı
-                     strokeWeight: 6          // Çizgi kalınlığı
+                     strokeColor: '#FF0000',  // Set line color to red
+                     strokeOpacity: 0,      // Line opacity
+                     strokeWeight: 6          // Line thickness
                  }
              });
          
@@ -562,7 +437,7 @@ $countryCode = substr($phoneNumber, 0, strlen($phoneNumber) - 10);
                  origin: pickupAddress,
                  destination: destinationAddress,
                  travelMode: 'BICYCLING',
-                 provideRouteAlternatives: true  // Alternatif rotaları sağla
+                 provideRouteAlternatives: true  // Provide alternative routes
              }, function(response, status) {
                  if (status === 'OK') {
                      var fastestRouteIndex = findFastestRouteIndex(response.routes);
@@ -570,7 +445,7 @@ $countryCode = substr($phoneNumber, 0, strlen($phoneNumber) - 10);
                      directionsRenderer.setRouteIndex(fastestRouteIndex);
                      addCustomMarkers(response.routes[fastestRouteIndex], map);
          
-                     // Rotanın süresini hesapla
+                     // Calculate the duration of the route
          var durationMinutes = parseFloat(response.routes[fastestRouteIndex].legs.reduce((sum, leg) => sum + leg.duration.value, 0) / 60);
          
          
@@ -617,65 +492,23 @@ $countryCode = substr($phoneNumber, 0, strlen($phoneNumber) - 10);
              });
          }
       </script>
-	  <script>
-    // Telefon numarası giriş alanını al
-    var phoneNumberInput = document.getElementById("phoneNumber");
-
-    // Ülke kodunu al
-    var countryCode = "+1"; // Örnek ülke kodu (ABD)
-
-    // Telefon numarasının başına ülke kodunu ekleyen işlev
-    function addCountryCode() {
-        var phoneNumber = phoneNumberInput.value.replace(/\D/g, ''); // Sadece rakamları al
-
-        // Telefon numarasının başına ülke kodunu ekleyerek biçimlendir
-        var formattedPhoneNumber = countryCode + phoneNumber;
-
-        // Biçimli numarayı giriş alanına yerleştir
-        phoneNumberInput.value = formattedPhoneNumber;
-    }
-
-    // Telefon numarası girişi değiştiğinde biçimlendirme işlemini gerçekleştir
-    phoneNumberInput.addEventListener("input", function(event) {
-        var input = event.target.value;
-        
-        // Sadece rakamları al
-        var phoneNumber = input.replace(/\D/g, '');
-
-        // 10 haneli telefon numarası biçimini kontrol et
-        var phoneNumberRegex = /^(\d{3})(\d{3})(\d{4})$/;
-        if (phoneNumberRegex.test(phoneNumber)) {
-            // Numarayı biçimlendir ve parantezler ekleyerek döndür
-            var formattedPhoneNumber = phoneNumber.replace(phoneNumberRegex, "($1) $2-$3");
-
-            // Biçimli numarayı giriş alanına yerleştir
-            event.target.value = formattedPhoneNumber;
-        }
-    });
-
-    // Sayfa yüklendiğinde ve telefon numarası girişi bittiğinde ülke kodunu telefon numarasına ekle
-    phoneNumberInput.addEventListener("blur", addCountryCode);
-
-    // Sayfa yüklendiğinde ülke kodunu telefon numarasına ekle
-    addCountryCode();
-</script>
       <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBg9HV0g-8ddiAHH6n2s_0nXOwHIk2f1DY&callback=initMap"></script>  
       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
       <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
       <script>
-         // Bu fonksiyon, hesaplanan süreyi PHP dosyasına gönderir
+         // This function sends the calculated duration to the PHP file
          
       </script>
       <script>
          document.getElementById("prevButton").addEventListener("click", function() {
-             // URL'den parametreleri al
+             // Get parameters from URL
              var urlParams = new URLSearchParams(window.location.search);
          
-             // Eğer GET parametreleri varsa, onları kullan
+             // If there are GET parameters, use them
              var numPassengers = urlParams.has('numPassengers') ? urlParams.get('numPassengers') : <?php echo json_encode($_GET["numPassengers"] ?? $_POST["numPassengers"] ?? 1); ?>;
              var pickUpDate = urlParams.has('pickUpDate') ? urlParams.get('pickUpDate') : <?php echo json_encode($_GET["pickUpDate"] ?? $_POST["pickUpDate"] ?? ''); ?>;
-             var hours = urlParams.has('hours') ? urlParams.get('hours') : <?php echo json_encode($_GET["hours"] ?? $_POST["hours"] ?? ''); ?>; // 24 saatlik formatta saat
+             var hours = urlParams.has('hours') ? urlParams.get('hours') : <?php echo json_encode($_GET["hours"] ?? $_POST["hours"] ?? ''); ?>; // Hour in 24-hour format
              var minutes = urlParams.has('minutes') ? urlParams.get('minutes') : <?php echo json_encode($_GET["minutes"] ?? $_POST["minutes"] ?? ''); ?>;
              var ampm = urlParams.has('ampm') ? urlParams.get('ampm') : <?php echo json_encode($_GET["ampm"] ?? $_POST["ampm"] ?? ''); ?>;
              var pickUpAddress = urlParams.has('pickUpAddress') ? urlParams.get('pickUpAddress') : <?php echo json_encode($_GET["pickUpAddress"] ?? $_POST["pickUpAddress"] ?? ''); ?>;
@@ -685,6 +518,7 @@ $countryCode = substr($phoneNumber, 0, strlen($phoneNumber) - 10);
              var lastName = urlParams.has('lastName') ? urlParams.get('lastName') : <?php echo json_encode($_GET["lastName"] ?? $_POST["lastName"] ?? ''); ?>;
              var email = urlParams.has('email') ? urlParams.get('email') : <?php echo json_encode($_GET["email"] ?? $_POST["email"] ?? ''); ?>;
              var phoneNumber = urlParams.has('phoneNumber') ? urlParams.get('phoneNumber') : <?php echo json_encode($_GET["phoneNumber"] ?? $_POST["phoneNumber"] ?? ''); ?>;
+	var countryCode = urlParams.has('countryCode') ? urlParams.get('countryCode') : <?php echo json_encode($_GET["countryCode"] ?? $_POST["countryCode"] ?? ''); ?>;
              var bookingFee = urlParams.has('bookingFee') ? urlParams.get('bookingFee') : <?php echo json_encode($_GET["bookingFee"] ?? $_POST["bookingFee"] ?? ''); ?>;
              var driverFare = urlParams.has('driverFare') ? urlParams.get('driverFare') : <?php echo json_encode($_GET["driverFare"] ?? $_POST["driverFare"] ?? ''); ?>;
              var totalFare = urlParams.has('totalFare') ? urlParams.get('totalFare') : <?php echo json_encode($_GET["totalFare"] ?? $_POST["totalFare"] ?? ''); ?>;	
@@ -699,10 +533,10 @@ $countryCode = substr($phoneNumber, 0, strlen($phoneNumber) - 10);
              var pickup2 = urlParams.has('pickup2') ? urlParams.get('pickup2') : <?php echo json_encode($_GET["pickup2"] ?? $_POST["pickup2"] ?? ''); ?>;		
              var toursuresi = urlParams.has('toursuresi') ? urlParams.get('toursuresi') : <?php echo json_encode($_GET["toursuresi"] ?? $_POST["toursuresi"] ?? ''); ?>;
          
-             // Şimdi gerekli işlemleri yapabilirsiniz
+             // Now you can perform the necessary operations
              // ...
          
-             // Ardından, işlemleriniz tamamlandıktan sonra yönlendirme yapabilirsiniz
+             // Then, after completing the operations, you can redirect
              var queryString = "numPassengers=" + encodeURIComponent(numPassengers) +
                                "&pickUpDate=" + encodeURIComponent(pickUpDate) +
                                "&hours=" + encodeURIComponent(hours) +
@@ -715,6 +549,7 @@ $countryCode = substr($phoneNumber, 0, strlen($phoneNumber) - 10);
                                "&lastName=" + encodeURIComponent(lastName) +
                                "&email=" + encodeURIComponent(email) +
                                "&phoneNumber=" + encodeURIComponent(phoneNumber) +
+						"&countryCode=" + encodeURIComponent(countryCode) +
                                "&bookingFee=" + encodeURIComponent(bookingFee) +
                                "&driverFare=" + encodeURIComponent(driverFare) +
                                "&totalFare=" + encodeURIComponent(totalFare) +

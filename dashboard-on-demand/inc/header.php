@@ -2,6 +2,10 @@
 $user = $_SESSION["user"];
 $sorgu = $baglanti->query("select * from users where user='$user'");
 $sonuc = $sorgu->fetch();
+if (!$sonuc){
+		    header("location:logout.php");
+		
+	}
 $name = $sonuc["name"];
 $surname = $sonuc["surname"];
 $perm = $sonuc["perm"];

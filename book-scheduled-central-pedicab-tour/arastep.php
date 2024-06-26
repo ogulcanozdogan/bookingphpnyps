@@ -18,10 +18,11 @@
    $destinationAddress = $_POST["destinationAddress"];
    $paymentMethod = $_POST["paymentMethod"];
    $tourDuration = $_POST["tourDuration"];
+	$countryCode = $_POST["countryCode"];
    }
    
    
-   if ($_GET){
+  else if ($_GET){
       // Formdan alınan bilgiler
    $firstName = $_GET["firstName"]; // varsayılan değer 1
    $lastName = $_GET["lastName"]; // varsayılan değer 1
@@ -36,7 +37,54 @@
    $destinationAddress = $_GET["destinationAddress"];
    $paymentMethod = $_GET["paymentMethod"];
    $tourDuration = $_GET["tourDuration"];
+	$countryCode = $_GET["countryCode"];
    }
+   
+ else {
+    header("location: index.php");
+	exit;
+}
+   
+      $zipCodes = [
+            '10017', '10018', '10019', '10020', '10022', '10036', '10055',
+            '10101', '10102', '10103', '10104', '10105', '10106', '10107',
+            '10108', '10109', '10110', '10111', '10112', '10124', '10126',
+            '10129', '10151', '10152', '10153', '10154', '10155', '10163',
+            '10164', '10166', '10167', '10169', '10170', '10171', '10172',
+            '10173', '10174', '10175', '10176', '10177', '10179', '10185'
+];
+
+// Belirtilen zip kodlarının olup olmadığını kontrol et
+$checkZipCodes = function($address) use ($zipCodes) {
+    foreach ($zipCodes as $zipCode) {
+        if (strpos($address, $zipCode) !== false) {
+            return true;
+        }
+    }
+    return false;
+};
+
+if (!$checkZipCodes($deneme2) || !$checkZipCodes($destinationAddress)) {
+    $queryParams = http_build_query([
+        'firstName' => $firstName,
+        'lastName' => $lastName,
+        'email' => $email,
+        'phoneNumber' => $phoneNumber,
+		'countryCode' => $countryCode,
+        'numPassengers' => $numPassengers,
+        'pickUpDate' => $pickUpDate,
+        'hours' => $hours,
+        'minutes' => $minutes,
+        'ampm' => $ampm,
+        'pickUpAddress' => $deneme2,
+        'destinationAddress' => $destinationAddress,
+        'paymentMethod' => $paymentMethod,
+		'error' => 'yes',
+    ]);
+    header("location: index.php?$queryParams");
+    exit;
+}
+   
    
    
        $hub1 = "6th Avenue and Central Park South New York, NY 10019";
@@ -209,7 +257,8 @@
 <html lang="en">
    <head>
       <meta charset="UTF-8">
-      <title>Book Your Pedicab Ride</title>
+      <title>Book Scheduled Central Park Pedicab Tour</title>
+	  <meta name="description" content="Scheduled Central Park Pedicab Tour Booking Application ">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <!-- Viewport meta etiketi eklendi -->
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -241,6 +290,7 @@
                   <input type="hidden" name="lastName" value="<?=$lastName?>">
                   <input type="hidden" name="email" value="<?=$email?>">
                   <input type="hidden" name="phoneNumber" value="<?=$phoneNumber?>">	
+				  <input type="hidden" name="countryCode" value="<?=$countryCode?>">	
                   <input type="hidden" name="numPassengers" value="<?=$numPassengers?>">
                   <input type="hidden" name="pickUpDate" value="<?=$pickUpDate?>">
                   <input type="hidden" name="hours" value="<?=$hours?>">
@@ -440,6 +490,7 @@
              var lastName = urlParams.has('lastName') ? urlParams.get('lastName') : <?php echo json_encode($_GET["lastName"] ?? $_POST["lastName"] ?? ''); ?>;
              var email = urlParams.has('email') ? urlParams.get('email') : <?php echo json_encode($_GET["email"] ?? $_POST["email"] ?? ''); ?>;
              var phoneNumber = urlParams.has('phoneNumber') ? urlParams.get('phoneNumber') : <?php echo json_encode($_GET["phoneNumber"] ?? $_POST["phoneNumber"] ?? ''); ?>;
+			var countryCode = urlParams.has('countryCode') ? urlParams.get('countryCode') : <?php echo json_encode($_GET["countryCode"] ?? $_POST["countryCode"] ?? ''); ?>;
              var bookingFee = urlParams.has('bookingFee') ? urlParams.get('bookingFee') : <?php echo json_encode($_GET["bookingFee"] ?? $_POST["bookingFee"] ?? ''); ?>;
              var driverFare = urlParams.has('driverFare') ? urlParams.get('driverFare') : <?php echo json_encode($_GET["driverFare"] ?? $_POST["driverFare"] ?? ''); ?>;
              var totalFare = urlParams.has('totalFare') ? urlParams.get('totalFare') : <?php echo json_encode($_GET["totalFare"] ?? $_POST["totalFare"] ?? ''); ?>;	
@@ -475,6 +526,7 @@
                                "&lastName=" + encodeURIComponent(lastName) +
                                "&email=" + encodeURIComponent(email) +
                                "&phoneNumber=" + encodeURIComponent(phoneNumber) +
+								"&countryCode=" + encodeURIComponent(countryCode) +
                                "&bookingFee=" + encodeURIComponent(bookingFee) +
                                "&driverFare=" + encodeURIComponent(driverFare) +
                                "&totalFare=" + encodeURIComponent(totalFare) +

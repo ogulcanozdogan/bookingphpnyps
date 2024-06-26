@@ -162,3 +162,9 @@
 [13-May-2024 22:34:23 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/scheduledcentralparkogulcan/route/index.php on line 8
 [13-May-2024 22:34:23 UTC] PHP Warning:  Undefined variable $hub1 in /home/zlds82bav5q4/public_html/scheduledcentralparkogulcan/route/index.php on line 42
 [13-May-2024 22:34:23 UTC] PHP Warning:  Undefined variable $hub2 in /home/zlds82bav5q4/public_html/scheduledcentralparkogulcan/route/index.php on line 43
+[11-Jun-2024 21:54:45 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/route/index.php on line 7
+[11-Jun-2024 21:54:45 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/route/index.php on line 8
+[11-Jun-2024 21:54:49 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/route/index.php on line 7
+[11-Jun-2024 21:54:49 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/route/index.php on line 8
+[11-Jun-2024 21:54:55 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/route/index.php on line 7
+[11-Jun-2024 21:54:55 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/route/index.php on line 8

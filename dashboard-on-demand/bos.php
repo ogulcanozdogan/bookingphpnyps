@@ -23,14 +23,6 @@ include('inc/navbar.php');
                     <div class="row">
                         <div class="col">
 			
-			
-			
-			
-			
-			
-			
-			
-			
 
                         </div> <!-- end col -->
 

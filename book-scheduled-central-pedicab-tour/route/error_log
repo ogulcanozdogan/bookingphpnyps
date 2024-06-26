@@ -199,3 +199,11 @@ Stack trace:
 [16-May-2024 22:52:22 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/book-scheduled-central-pedicab-tour/route/index.php on line 8
 [16-May-2024 22:52:25 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/book-scheduled-central-pedicab-tour/route/index.php on line 7
 [16-May-2024 22:52:25 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/book-scheduled-central-pedicab-tour/route/index.php on line 8
+[11-Jun-2024 21:50:57 UTC] PHP Warning:  Undefined array key "pickupCoords" in /home/zlds82bav5q4/public_html/book-scheduled-central-pedicab-tour/route/index.php on line 7
+[11-Jun-2024 21:55:04 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/book-scheduled-central-pedicab-tour/route/index.php on line 7
+[11-Jun-2024 21:55:04 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/book-scheduled-central-pedicab-tour/route/index.php on line 8
+[11-Jun-2024 21:55:08 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/book-scheduled-central-pedicab-tour/route/index.php on line 7
+[11-Jun-2024 21:55:08 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/book-scheduled-central-pedicab-tour/route/index.php on line 8
+[11-Jun-2024 21:55:14 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/book-scheduled-central-pedicab-tour/route/index.php on line 7
+[11-Jun-2024 21:55:14 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/book-scheduled-central-pedicab-tour/route/index.php on line 8
+[13-Jun-2024 22:34:00 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/zlds82bav5q4/public_html/book-scheduled-central-pedicab-tour/route/index.php on line 7
