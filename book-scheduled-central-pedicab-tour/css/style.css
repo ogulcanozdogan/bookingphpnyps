@@ -1,0 +1,301 @@
+		@media (min-width: 600px) {
+    #map {
+        width: 50%; /* Orta boyutlu cihazlar için genişliği %50 yap */
+    }
+}
+
+@media (min-width: 900px) {
+    #map {
+        width: 30%; /* Büyük cihazlar için genişliği %30 yap */
+    }
+}
+		
+
+
+/* Geri ve İleri butonları */
+#prevButton, #nextButton {
+    position: absolute;
+    top: 20px;
+    left: 50%; /* Sayfanın yatay ortasından başla */
+    padding: 8px 16px; /* Daha küçük padding değerleri */
+    font-size: 16px; /* Yazı boyutunu azalt */
+    color: white; /* Yazı rengi beyaz */
+    background-color: #007bff; /* Mavi arka plan */
+    border: none; /* Kenar çizgisi kaldır */
+    border-radius: 5px; /* Kenarları yuvarlak yap */
+    cursor: pointer; /* Fare imlecini düğme üzerine getirildiğinde işaretçi olarak değiştir */
+}
+
+#prevButton {
+    transform: translateX(-60%); /* Sol tarafa doğru çevir */
+	    margin-left: -90px; /* İki buton arasına boşluk ekleyin */
+}
+
+#nextButton {
+    transform: translateX(20%); /* Sağ tarafa doğru çevir */
+    margin-left: 60px; /* İki buton arasına boşluk ekleyin */
+}
+		.btn{
+			margin-bottom:1%;
+		}
+		.container {
+			margin-top:8%;
+		}
+        .ui-datepicker, .form-control, button.btn {
+            font-size: 16px;  /* Artırılmış font boyutu */
+        }
+        .form-control, button.btn {
+            height: auto; /* Daha büyük tıklama alanı */
+            padding: 10px; /* Artırılmış padding */
+        }
+		
+        @media (max-width: 576px) { /* Küçük ekranlar için stil ayarlamaları */
+		        /* Geri ve İleri butonları */
+ #prevButton, #nextButton {
+    position: absolute;
+    top: 20px;
+    left: 50%; /* Sayfanın yatay ortasından başla */
+    padding: 8px 16px; /* Daha küçük padding değerleri */
+    font-size: 16px; /* Yazı boyutunu azalt */
+    color: white; /* Yazı rengi beyaz */
+    background-color: #007bff; /* Mavi arka plan */
+    border: none; /* Kenar çizgisi kaldır */
+    border-radius: 5px; /* Kenarları yuvarlak yap */
+    cursor: pointer; /* Fare imlecini düğme üzerine getirildiğinde işaretçi olarak değiştir */
+}
+
+#prevButton {
+    transform: translateX(-160%); /* Sol tarafa doğru çevir */
+	        margin-left: -40px;
+}
+
+#nextButton {
+    transform: translateX(20%); /* Sağ tarafa doğru çevir */
+}
+				.btn{
+			margin-bottom:7%;
+		}
+		.container {
+			margin-top:25%;
+		}
+            .form-group, .form-check {
+                margin-bottom: 20px; /* Daha fazla boşluk */
+            }
+            button.btn {
+                width: 100%; /* Tam genişlik */
+            }
+        }
+
+	
+			#map {
+            height: 400px;
+            width: 100%;
+        }
+		
+		
+	/* Placeholder ve option font boyutunu küçült */
+        ::placeholder {
+            font-size: 1em; /* Placeholder yazı boyutu */
+			    color: black !important; /* Placeholder metninin rengi */
+				opacity:1;
+        }
+        option {
+            font-size: 0.85em; /* Option yazı boyutu */
+			color: black !important;
+        }
+	
+        .form-label, .form-control, .form-check-label {
+            font-size: 0.85em; /* Form etiketleri ve kontrol yazıları boyutu */
+			color: black !important;
+        }
+		
+
+		
+		
+		
+.error-message {
+    background-color: #f8d7da; /* Hafif kırmızı arkaplan */
+    color: #721c24; /* Koyu kırmızı metin rengi */
+    padding: 15px; /* İç boşluk */
+    border: 1px solid #f5c6cb; /* Kenarlık */
+    border-radius: 5px; /* Köşeleri yuvarlatma */
+    margin-bottom: 20px; /* Alt boşluk */
+    font-family: Arial, sans-serif; /* Yazı tipi */
+    position: relative; /* Kapatma düğmesi için */
+    opacity: 1; /* Şeffaflık başlangıç değeri */
+    transition: opacity 0.6s; /* Geçiş süresi */
+    display: none; /* Varsayılan olarak gizli */
+}
+
+.error-message2 {
+    background-color: #f8d7da; /* Hafif kırmızı arkaplan */
+    color: #721c24; /* Koyu kırmızı metin rengi */
+    padding: 15px; /* İç boşluk */
+    border: 1px solid #f5c6cb; /* Kenarlık */
+    border-radius: 5px; /* Köşeleri yuvarlatma */
+    margin-bottom: 20px; /* Alt boşluk */
+    font-family: Arial, sans-serif; /* Yazı tipi */
+    position: relative; /* Kapatma düğmesi için */
+    opacity: 1; /* Şeffaflık başlangıç değeri */
+    transition: opacity 0.6s; /* Geçiş süresi */
+}
+
+
+.closebtn {
+    position: absolute; /* Mutlak konumlandırma */
+    top: 10px; /* Üstten boşluk */
+    right: 4px; /* Sağdan boşluk */
+    color: #721c24; /* Koyu kırmızı metin rengi */
+    font-weight: bold; /* Kalın yazı */
+    cursor: pointer; /* İşaretçi tipi */
+    font-size: 20px; /* Yazı boyutu */
+}
+
+.closebtn:hover {
+    color: #000; /* Üzerine gelindiğinde siyah renk */
+}
+
+.error {
+    border: 2px solid red; /* Kırmızı kenarlık */
+}
+
+        /* Geçersiz input için stil */
+        .invalid {
+            border: 2px solid red;
+        }
+        
+        /* Başlangıçta input stilini sıfırlayın */
+        input {
+            border: 2px solid #ccc;
+            padding: 10px;
+        }
+		
+		/* Datepicker genel stil ayarları */
+.ui-datepicker {
+    font-size: 16px; /* Artırılmış font boyutu */
+    background: white; /* Datepicker arka planı beyaz */
+    border: none; /* Kenarlık kaldır */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Hafif gölge efekti */
+    border-radius: 8px; /* Köşeleri yuvarlat */
+}
+
+/* Datepicker başlığı */
+.ui-datepicker-header {
+    background-color: white; /* Başlık arka plan rengi */
+    color: black; /* Başlık yazı rengi */
+    border: none; /* Başlık kenarlığı kaldır */
+    padding: 10px; /* Başlık iç boşluk */
+    border-top-left-radius: 8px; /* Köşeleri yuvarlat */
+    border-top-right-radius: 8px; /* Köşeleri yuvarlat */
+    display: flex; /* Esnek kutu modeli kullan */
+    justify-content: space-between; /* İçeriği yatayda yay */
+    align-items: center; /* İçeriği dikeyde ortala */
+}
+
+/* Ay ve yıl seçimlerini yan yana hizala */
+.ui-datepicker-title {
+    display: flex;
+    gap: 10px; /* Ay ve yıl arasında boşluk */
+    align-items: center; /* Dikeyde ortala */
+}
+
+/* Datepicker navigasyon okları */
+.ui-datepicker-prev, .ui-datepicker-next {
+    color: black; /* Okların rengi */
+    border: none; /* Kenarlık kaldır */
+    background: none; /* Arka plan kaldır */
+    font-size: 1.2em; /* Okların boyutu */
+    cursor: pointer; /* Fare imlecini pointer olarak değiştir */
+}
+
+/* Datepicker ay ve yıl dropdown stilleri */
+.ui-datepicker select.ui-datepicker-month, .ui-datepicker select.ui-datepicker-year {
+    background-color: white; /* Dropdown arka plan rengi */
+    color: black; /* Dropdown yazı rengi */
+    border: 1px solid #ccc; /* Kenarlık */
+    border-radius: 4px; /* Köşeleri yuvarlat */
+    padding: 5px; /* İç boşluk ekle */
+    cursor: pointer; /* Fare imlecini pointer olarak değiştir */
+    appearance: none; /* Varsayılan ok işaretini kaldır */
+    -webkit-appearance: none; /* Safari ve Chrome için varsayılan ok işaretini kaldır */
+}
+
+/* Ay seçim kutusunun genişliği */
+.ui-datepicker select.ui-datepicker-month {
+    margin-right: 5px; /* Ay ve yıl arasında boşluk */
+}
+
+/* Yıl seçim kutusunun genişliği */
+.ui-datepicker select.ui-datepicker-year {
+    width: 80px; /* Yıl seçim kutusunun genişliği */
+}
+
+/* Datepicker ay ve yıl dropdown hover stilleri */
+.ui-datepicker select.ui-datepicker-month:hover, .ui-datepicker select.ui-datepicker-year:hover {
+    border-color: #999; /* Hover durumunda kenarlık rengi */
+}
+
+/* Datepicker gün hücreleri */
+.ui-datepicker-calendar {
+    border-collapse: collapse; /* Hücre kenarlıklarını birleştir */
+}
+
+.ui-datepicker-calendar th,
+.ui-datepicker-calendar td {
+    border: none !important; /* Hücre kenarlıkları kaldır */
+    background-color: white; /* Hücre arka plan rengi beyaz */
+}
+
+/* Datepicker geçmiş ve gelecekteki günler */
+.ui-datepicker-other-month {
+    color: #c5c5c5; /* Geçmiş ve gelecek ayların günlerinin rengi */
+    background-color: white; /* Geçmiş ve gelecek ayların günlerinin arka planı */
+    border: none !important; /* Kenarlık kaldır */
+}
+
+/* Datepicker haftalık gün adları */
+.ui-datepicker-calendar th {
+    background-color: white; /* Haftalık gün adlarının arka plan rengi */
+    border: none !important; /* Kenarlık kaldır */
+    color: black; /* Gün adlarının rengi */
+}
+
+/* Datepicker gün hücreleri */
+.ui-datepicker-calendar td a {
+    color: black; /* Günlerin yazı rengi */
+    background-color: white !important; /* Günlerin arka plan rengi */
+    display: block; /* Tüm hücreyi tıklanabilir yap */
+    text-align: center; /* Metni ortala */
+    border: none !important; /* Kenarlık kaldır */
+    outline: none; /* Odaklandığında kenarlık kaldır */
+}
+
+/* Datepicker hafta sonu günleri */
+.ui-datepicker-week-end a {
+    color: red; /* Hafta sonu günlerinin yazı rengi */
+}
+
+/* Datepicker seçili gün */
+.ui-datepicker-calendar .ui-state-active {
+    background-color: #007bff !important; /* Seçili günün arka plan rengi */
+    color: white !important; /* Seçili günün yazı rengi */
+    border: none !important; /* Seçili günün kenarlığını kaldır */
+    outline: none !important; /* Seçili gün odaklandığında kenarlık kaldır */
+}
+
+/* Datepicker hover gün */
+.ui-datepicker-calendar td:hover {
+    background-color: #f0f0f0 !important; /* Hover durumunda arka plan rengi */
+    border: none !important; /* Kenarlık kaldır */
+}
+
+/* Datepicker disabled günler */
+.ui-datepicker-unselectable .ui-state-disabled {
+    opacity: 1; /* Disabled günlerin opaklığını normal yap */
+    color: #c5c5c5 !important; /* Disabled günlerin rengi */
+    background: white !important; /* Disabled günlerin arka planı */
+    border: none !important; /* Kenarlık kaldır */
+}
+input:disabled:hover, button:disabled:hover {
+    cursor: not-allowed;
+}
