@@ -815,3 +815,63 @@ Stack trace:
 [20-Jun-2024 15:23:50 UTC] PHP Warning:  Undefined array key "user" in /home/zlds82bav5q4/public_html/dashboard-scheduled/inc/header.php on line 12
 [20-Jun-2024 15:23:50 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-scheduled/index.php on line 35
 [20-Jun-2024 15:23:50 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-scheduled/index.php on line 35
+[26-Jun-2024 23:26:19 UTC] PHP Warning:  Undefined array key "user" in /home/zlds82bav5q4/public_html/dashboard-scheduled/inc/header.php on line 2
+[26-Jun-2024 23:26:19 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-scheduled/inc/header.php on line 9
+[26-Jun-2024 23:26:19 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-scheduled/inc/header.php on line 10
+[26-Jun-2024 23:26:19 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-scheduled/inc/header.php on line 11
+[26-Jun-2024 23:26:19 UTC] PHP Warning:  Undefined array key "user" in /home/zlds82bav5q4/public_html/dashboard-scheduled/inc/header.php on line 12
+[26-Jun-2024 23:26:20 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-scheduled/index.php on line 35
+[26-Jun-2024 23:26:20 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-scheduled/index.php on line 35
+[26-Jun-2024 23:27:14 UTC] PHP Warning:  Undefined array key "user" in /home/zlds82bav5q4/public_html/dashboard-scheduled/inc/header.php on line 2
+[26-Jun-2024 23:27:14 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-scheduled/inc/header.php on line 9
+[26-Jun-2024 23:27:14 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-scheduled/inc/header.php on line 10
+[26-Jun-2024 23:27:14 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-scheduled/inc/header.php on line 11
+[26-Jun-2024 23:27:14 UTC] PHP Warning:  Undefined array key "user" in /home/zlds82bav5q4/public_html/dashboard-scheduled/inc/header.php on line 12
+[26-Jun-2024 23:27:15 UTC] PHP Warning:  Undefined array key "user" in /home/zlds82bav5q4/public_html/dashboard-scheduled/inc/header.php on line 2
+[26-Jun-2024 23:27:15 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-scheduled/inc/header.php on line 9
+[26-Jun-2024 23:27:15 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-scheduled/inc/header.php on line 10
+[26-Jun-2024 23:27:15 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-scheduled/inc/header.php on line 11
+[26-Jun-2024 23:27:15 UTC] PHP Warning:  Undefined array key "user" in /home/zlds82bav5q4/public_html/dashboard-scheduled/inc/header.php on line 12
+[26-Jun-2024 23:27:15 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-scheduled/index.php on line 35
+[26-Jun-2024 23:27:15 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-scheduled/index.php on line 35
+[26-Jun-2024 23:27:46 UTC] PHP Fatal error:  Uncaught Twilio\Exceptions\RestException: [HTTP 400] Unable to create record: The 'To' number +11231231231 is not a valid phone number. in /home/zlds82bav5q4/public_html/dashboard-scheduled/vendor/twilio/sdk/src/Twilio/Version.php:88
+Stack trace:
+#0 /home/zlds82bav5q4/public_html/dashboard-scheduled/vendor/twilio/sdk/src/Twilio/Version.php(223): Twilio\Version->exception()
+#1 /home/zlds82bav5q4/public_html/dashboard-scheduled/vendor/twilio/sdk/src/Twilio/Rest/Api/V2010/Account/MessageList.php(115): Twilio\Version->create()
+#2 /home/zlds82bav5q4/public_html/dashboard-scheduled/whatsapp.php(12): Twilio\Rest\Api\V2010\Account\MessageList->create()
+#3 /home/zlds82bav5q4/public_html/dashboard-scheduled/acceptcentralpark.php(135): sendWhatsAppMessage()
+#4 {main}
+  thrown in /home/zlds82bav5q4/public_html/dashboard-scheduled/vendor/twilio/sdk/src/Twilio/Version.php on line 88
+[26-Jun-2024 23:28:37 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-scheduled/inc/header.php on line 9
+[26-Jun-2024 23:28:37 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-scheduled/inc/header.php on line 10
+[26-Jun-2024 23:28:37 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-scheduled/inc/header.php on line 11
+[26-Jun-2024 23:28:55 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-scheduled/admin_pending.php on line 70
+[26-Jun-2024 23:28:55 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-scheduled/admin_pending.php on line 70
+[26-Jun-2024 23:28:57 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-scheduled/admin_pending.php on line 70
+[26-Jun-2024 23:28:57 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-scheduled/admin_pending.php on line 70
+[26-Jun-2024 23:29:10 UTC] PHP Warning:  Undefined array key "startAddress" in /home/zlds82bav5q4/public_html/dashboard-scheduled/detailshourly.php on line 46
+[26-Jun-2024 23:29:14 UTC] PHP Warning:  Undefined array key "startAddress" in /home/zlds82bav5q4/public_html/dashboard-scheduled/detailshourly.php on line 46
+[26-Jun-2024 23:29:50 UTC] PHP Warning:  Undefined array key "startAddress" in /home/zlds82bav5q4/public_html/dashboard-scheduled/detailshourly.php on line 46
+[26-Jun-2024 23:29:50 UTC] PHP Warning:  Undefined array key "startAddress" in /home/zlds82bav5q4/public_html/dashboard-scheduled/detailshourly.php on line 46
+[26-Jun-2024 23:29:59 UTC] PHP Warning:  Undefined variable $phoneNumbers in /home/zlds82bav5q4/public_html/dashboard-scheduled/accepthourly.php on line 144
+[26-Jun-2024 23:29:59 UTC] PHP Warning:  foreach() argument must be of type array|object, null given in /home/zlds82bav5q4/public_html/dashboard-scheduled/accepthourly.php on line 144
+[26-Jun-2024 23:30:09 UTC] PHP Warning:  Undefined array key "startAddress" in /home/zlds82bav5q4/public_html/dashboard-scheduled/detailshourly.php on line 46
+[01-Jul-2024 15:33:41 UTC] PHP Warning:  Undefined array key "user" in /home/zlds82bav5q4/public_html/dashboard-scheduled/inc/header.php on line 2
+[01-Jul-2024 15:33:41 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-scheduled/inc/header.php on line 9
+[01-Jul-2024 15:33:41 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-scheduled/inc/header.php on line 10
+[01-Jul-2024 15:33:41 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-scheduled/inc/header.php on line 11
+[01-Jul-2024 15:33:41 UTC] PHP Warning:  Undefined array key "user" in /home/zlds82bav5q4/public_html/dashboard-scheduled/inc/header.php on line 12
+[01-Jul-2024 15:33:41 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-scheduled/index.php on line 35
+[01-Jul-2024 15:33:41 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-scheduled/index.php on line 35
+[01-Jul-2024 15:40:10 UTC] PHP Warning:  Undefined array key "user" in /home/zlds82bav5q4/public_html/dashboard-scheduled/inc/header.php on line 2
+[01-Jul-2024 15:40:10 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-scheduled/inc/header.php on line 9
+[01-Jul-2024 15:40:10 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-scheduled/inc/header.php on line 10
+[01-Jul-2024 15:40:10 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-scheduled/inc/header.php on line 11
+[01-Jul-2024 15:40:10 UTC] PHP Warning:  Undefined array key "user" in /home/zlds82bav5q4/public_html/dashboard-scheduled/inc/header.php on line 12
+[01-Jul-2024 15:40:35 UTC] PHP Warning:  Undefined array key "user" in /home/zlds82bav5q4/public_html/dashboard-scheduled/inc/header.php on line 2
+[01-Jul-2024 15:40:35 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-scheduled/inc/header.php on line 9
+[01-Jul-2024 15:40:35 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-scheduled/inc/header.php on line 10
+[01-Jul-2024 15:40:35 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-scheduled/inc/header.php on line 11
+[01-Jul-2024 15:40:35 UTC] PHP Warning:  Undefined array key "user" in /home/zlds82bav5q4/public_html/dashboard-scheduled/inc/header.php on line 12
+[01-Jul-2024 15:42:09 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-scheduled/admin_past.php on line 70
+[01-Jul-2024 15:42:09 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-scheduled/admin_past.php on line 70
