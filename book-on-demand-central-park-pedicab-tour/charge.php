@@ -195,6 +195,14 @@ $currentDateTime = new DateTime('now', new DateTimeZone('America/New_York'));
 $createdAt = $currentDateTime->format('Y-m-d H:i:s');
 $formattedDate = $currentDateTime->format('m/d/Y');
 
+
+$totalMinutes = number_format($totalMinutes, 2);
+
+if ($paymentMethod == "card"){
+	$paymentMethod = "CARD";
+	
+}
+
     if ($firstName != "" && $lastName != "") {
         // Check that data fields are not empty
         // Data to be changed

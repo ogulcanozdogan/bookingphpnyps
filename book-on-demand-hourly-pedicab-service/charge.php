@@ -190,6 +190,11 @@ $currentDateTime = new DateTime('now', new DateTimeZone('America/New_York'));
 $createdAt = $currentDateTime->format('Y-m-d H:i:s');
 $formattedDate = $currentDateTime->format('m/d/Y');
 
+if ($paymentMethod == "card"){
+	$paymentMethod = "CARD";
+	
+}
+
 if ($firstName != "" && $lastName != "") {
     $satir = [
         "bookingNumber" => $bookingNumber,

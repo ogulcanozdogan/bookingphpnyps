@@ -79,3 +79,86 @@ Stack trace:
 [10-Jul-2024 15:28:25 UTC] PHP Warning:  Undefined array key "user" in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 12
 [10-Jul-2024 15:28:25 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/index.php on line 35
 [10-Jul-2024 15:28:25 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/index.php on line 35
+[10-Jul-2024 16:21:15 UTC] PHP Warning:  Undefined array key "user" in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 2
+[10-Jul-2024 16:21:15 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 9
+[10-Jul-2024 16:21:15 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 10
+[10-Jul-2024 16:21:15 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 11
+[10-Jul-2024 16:21:15 UTC] PHP Warning:  Undefined array key "user" in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 12
+[10-Jul-2024 16:21:15 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/index.php on line 35
+[10-Jul-2024 16:21:15 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/index.php on line 35
+[10-Jul-2024 16:22:30 UTC] PHP Warning:  Undefined array key "user" in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 2
+[10-Jul-2024 16:22:30 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 9
+[10-Jul-2024 16:22:30 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 10
+[10-Jul-2024 16:22:30 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 11
+[10-Jul-2024 16:22:30 UTC] PHP Warning:  Undefined array key "user" in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 12
+[10-Jul-2024 16:22:30 UTC] PHP Deprecated:  ucfirst(): Passing null to parameter #1 ($string) of type string is deprecated in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 98
+[10-Jul-2024 16:44:16 UTC] PHP Warning:  Undefined array key "user" in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 2
+[10-Jul-2024 16:44:16 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 9
+[10-Jul-2024 16:44:16 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 10
+[10-Jul-2024 16:44:16 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 11
+[10-Jul-2024 16:44:16 UTC] PHP Warning:  Undefined array key "user" in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 12
+[10-Jul-2024 17:02:10 UTC] PHP Warning:  Undefined array key "user" in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 2
+[10-Jul-2024 17:02:10 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 9
+[10-Jul-2024 17:02:10 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 10
+[10-Jul-2024 17:02:10 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 11
+[10-Jul-2024 17:02:10 UTC] PHP Warning:  Undefined array key "user" in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 12
+[10-Jul-2024 17:02:10 UTC] PHP Warning:  Undefined array key "user" in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 2
+[10-Jul-2024 17:02:10 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 9
+[10-Jul-2024 17:02:10 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 10
+[10-Jul-2024 17:02:10 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 11
+[10-Jul-2024 17:02:10 UTC] PHP Warning:  Undefined array key "user" in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 12
+[10-Jul-2024 17:02:10 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/index.php on line 35
+[10-Jul-2024 17:02:10 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/index.php on line 35
+[10-Jul-2024 18:04:10 UTC] PHP Warning:  Undefined array key "user" in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 2
+[10-Jul-2024 18:04:10 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 9
+[10-Jul-2024 18:04:10 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 10
+[10-Jul-2024 18:04:10 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 11
+[10-Jul-2024 18:04:10 UTC] PHP Warning:  Undefined array key "user" in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 12
+[10-Jul-2024 18:04:10 UTC] PHP Deprecated:  ucfirst(): Passing null to parameter #1 ($string) of type string is deprecated in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 98
+[10-Jul-2024 18:04:10 UTC] PHP Warning:  Undefined array key "user" in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 2
+[10-Jul-2024 18:04:10 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 9
+[10-Jul-2024 18:04:10 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 10
+[10-Jul-2024 18:04:10 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 11
+[10-Jul-2024 18:04:10 UTC] PHP Warning:  Undefined array key "user" in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 12
+[10-Jul-2024 18:04:10 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/index.php on line 35
+[10-Jul-2024 18:04:10 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/index.php on line 35
+[10-Jul-2024 18:20:51 UTC] PHP Warning:  Undefined array key "user" in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 2
+[10-Jul-2024 18:20:51 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 9
+[10-Jul-2024 18:20:51 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 10
+[10-Jul-2024 18:20:51 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 11
+[10-Jul-2024 18:20:51 UTC] PHP Warning:  Undefined array key "user" in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 12
+[10-Jul-2024 18:20:51 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/index.php on line 35
+[10-Jul-2024 18:20:51 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/index.php on line 35
+[10-Jul-2024 19:17:16 UTC] PHP Warning:  Undefined array key "user" in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 2
+[10-Jul-2024 19:17:16 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 9
+[10-Jul-2024 19:17:16 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 10
+[10-Jul-2024 19:17:16 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 11
+[10-Jul-2024 19:17:16 UTC] PHP Warning:  Undefined array key "user" in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 12
+[10-Jul-2024 19:17:16 UTC] PHP Deprecated:  ucfirst(): Passing null to parameter #1 ($string) of type string is deprecated in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 98
+[10-Jul-2024 19:17:16 UTC] PHP Warning:  Undefined array key "user" in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 2
+[10-Jul-2024 19:17:16 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 9
+[10-Jul-2024 19:17:16 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 10
+[10-Jul-2024 19:17:16 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 11
+[10-Jul-2024 19:17:16 UTC] PHP Warning:  Undefined array key "user" in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 12
+[10-Jul-2024 19:17:16 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/index.php on line 35
+[10-Jul-2024 19:17:16 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/index.php on line 35
+[10-Jul-2024 20:01:13 UTC] PHP Warning:  Undefined array key "user" in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 2
+[10-Jul-2024 20:01:13 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 9
+[10-Jul-2024 20:01:13 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 10
+[10-Jul-2024 20:01:13 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 11
+[10-Jul-2024 20:01:13 UTC] PHP Warning:  Undefined array key "user" in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 12
+[10-Jul-2024 20:01:13 UTC] PHP Deprecated:  ucfirst(): Passing null to parameter #1 ($string) of type string is deprecated in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 98
+[10-Jul-2024 20:01:14 UTC] PHP Warning:  Undefined array key "user" in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 2
+[10-Jul-2024 20:01:14 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 9
+[10-Jul-2024 20:01:14 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 10
+[10-Jul-2024 20:01:14 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 11
+[10-Jul-2024 20:01:14 UTC] PHP Warning:  Undefined array key "user" in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 12
+[10-Jul-2024 20:01:14 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/index.php on line 35
+[10-Jul-2024 20:01:14 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/index.php on line 35
+[10-Jul-2024 20:40:40 UTC] PHP Warning:  Undefined array key "user" in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 2
+[10-Jul-2024 20:40:40 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 9
+[10-Jul-2024 20:40:40 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 10
+[10-Jul-2024 20:40:40 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 11
+[10-Jul-2024 20:40:40 UTC] PHP Warning:  Undefined array key "user" in /home/zlds82bav5q4/public_html/dashboard-on-demand/inc/header.php on line 12
+[10-Jul-2024 20:40:40 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/index.php on line 35
+[10-Jul-2024 20:40:40 UTC] PHP Warning:  Trying to access array offset on value of type bool in /home/zlds82bav5q4/public_html/dashboard-on-demand/index.php on line 35

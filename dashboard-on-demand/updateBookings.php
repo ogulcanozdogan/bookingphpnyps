@@ -20,8 +20,14 @@ function updatePastBookings2($pdo) {
             $updatedAt = $booking['updated_at'];
             $totalMinutes = $booking['totalMinutes'];
 
+            // totalMinutes'i tam sayıya ve kalan dakikalara böl
+            $minutes = floor($totalMinutes);
+            $seconds = ($totalMinutes - $minutes) * 60;
+
+            // updatedAt tarihine ekle
             $updatedAtDateTime = new DateTime($updatedAt, new DateTimeZone('America/New_York'));
-            $updatedAtDateTime->modify("+$totalMinutes minutes");
+            $updatedAtDateTime->modify("+$minutes minutes");
+            $updatedAtDateTime->modify("+$seconds seconds");
             $modifiedUpdatedAt = $updatedAtDateTime->format('Y-m-d H:i:s');
 
             if ($currentDateTime >= $modifiedUpdatedAt) {
@@ -32,8 +38,8 @@ function updatePastBookings2($pdo) {
     }
 }
 
-
 updatePastBookings2($baglanti);
+
 
 
 function updateFailedBookings($pdo) {
@@ -67,7 +73,6 @@ updateFailedBookings($baglanti);
 
 
 
-
 function sendScheduledSMS($pdo) {
     // New York saat dilimini ayarla
     $now = new DateTime("now", new DateTimeZone('America/New_York'));
@@ -84,50 +89,40 @@ function sendScheduledSMS($pdo) {
             $phoneNumber = $record['phoneNumber'];
             $emailAddress = $record['emailAddress'];
             $bookingNumber = $record['bookingNumber'];
-            $createdAt = $record['createdAt'];
 
-            // createdAt tarihine 2 saat ekleyelim
-            $createdAtDateTime = new DateTime($createdAt, new DateTimeZone('America/New_York'));
-            $createdAtDateTime->modify('+2 hours');
-            $modifiedCreatedAt = $createdAtDateTime->format('Y-m-d H:i:s');
-
-            // Eğer modifiedCreatedAt şu anki tarihten küçükse veya eşitse SMS gönder
-            if ($modifiedCreatedAt <= $currentDateTime) {
-                try {
-                    // İlk E-posta
-                    $email1 = new \SendGrid\Mail\Mail(); 
-                    $email1->setFrom("info@newyorkpedicabservices.com", "NYPS");
-                    $email1->setSubject("Ride Completed - " . $bookingNumber);
-                    $email1->addTo($emailAddress, "NYPS");
-                    $htmlContent1 = <<<EOD
+            try {
+                // İlk E-posta
+                $email1 = new \SendGrid\Mail\Mail(); 
+                $email1->setFrom("info@newyorkpedicabservices.com", "NYPS");
+                $email1->setSubject("Ride Completed - " . $bookingNumber);
+                $email1->addTo($emailAddress, "NYPS");
+                $htmlContent1 = <<<EOD
 <html>
 <body>
-    <h1>Ride Completed</h1>
     <p><strong>Booking Number:</strong> $bookingNumber</p>
     <p><strong>Please Review our New York Pedicab Services:</strong> <a href='https://g.page/r/Cfz9bhvf1E2dEB0/review' target='_blank'> Review</a></p>    
-    </body>
+</body>
 </html>
 EOD;
-                    $email1->addContent("text/html", $htmlContent1);
+                $email1->addContent("text/html", $htmlContent1);
 
-                    $sendgrid = new \SendGrid('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');
-                    try {
-                        // İlk e-posta gönderimi
-                        $response1 = $sendgrid->send($email1);
-                        print $response1->statusCode() . "\n";
-                        print_r($response1->headers());
-                        print $response1->body() . "\n";
-                    } catch (Exception $e) {
-                        echo 'Caught exception: '. $e->getMessage() ."\n";
-                    }
-
-                    // SMS gönderildikten sonra sms_sent sütununu güncelle
-                    $updateStmt = $pdo->prepare("UPDATE $table SET sms_sent = 1 WHERE phoneNumber = :phoneNumber AND status = 'past'");
-                    $updateStmt->execute([':phoneNumber' => $phoneNumber]);
-
+                $sendgrid = new \SendGrid('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');
+                try {
+                    // İlk e-posta gönderimi
+                    $response1 = $sendgrid->send($email1);
+                    print $response1->statusCode() . "\n";
+                    print_r($response1->headers());
+                    print $response1->body() . "\n";
                 } catch (Exception $e) {
-                    echo "Could not send SMS: " . $e->getMessage();
+                    echo 'Caught exception: '. $e->getMessage() ."\n";
                 }
+
+                // SMS gönderildikten sonra sms_sent sütununu güncelle
+                $updateStmt = $pdo->prepare("UPDATE $table SET sms_sent = 1 WHERE phoneNumber = :phoneNumber AND status = 'past'");
+                $updateStmt->execute([':phoneNumber' => $phoneNumber]);
+
+            } catch (Exception $e) {
+                echo "Could not send SMS: " . $e->getMessage();
             }
         }
     }

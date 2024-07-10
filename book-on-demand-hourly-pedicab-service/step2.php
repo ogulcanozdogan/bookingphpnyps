@@ -52,7 +52,6 @@ if ($_POST) {
 		exit;
 }
 
-
 $hub = "West Drive and West 59th Street New York, NY 10019";
 
 function getShortestBicycleRouteDuration($origin, $destination)
@@ -174,7 +173,7 @@ if ($serviceDuration == 30 || $serviceDuration == 90) {
 }
 
 // Toplam dakika cinsinden operasyon süresi
-$totalMinutes = $pickUpDuration + $rideDuration + $returnDuration + $timeCheck;
+$totalMinutes = $pickUpDuration  + $returnDuration + $timeCheck;
 
 // Dakikayı saate dönüştürme
 $totalHours = $totalMinutes / 60;

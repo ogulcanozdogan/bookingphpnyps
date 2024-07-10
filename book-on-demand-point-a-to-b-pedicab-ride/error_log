@@ -620,3 +620,136 @@ Stack trace:
 [10-Jul-2024 16:06:45 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 225
 [10-Jul-2024 16:06:45 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 225
 [10-Jul-2024 16:06:45 UTC] PHP Warning:  Undefined variable $dayOfWeek in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 457
+[10-Jul-2024 20:20:25 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/index.php on line 48
+[10-Jul-2024 20:20:25 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/index.php on line 54
+[10-Jul-2024 20:20:25 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/index.php on line 60
+[10-Jul-2024 20:20:25 UTC] PHP Warning:  Undefined array key "firstName" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/index.php on line 132
+[10-Jul-2024 20:20:25 UTC] PHP Warning:  Undefined array key "lastName" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/index.php on line 135
+[10-Jul-2024 20:20:25 UTC] PHP Warning:  Undefined array key "email" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/index.php on line 137
+[10-Jul-2024 20:20:25 UTC] PHP Warning:  Undefined array key "phoneNumber" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/index.php on line 139
+[10-Jul-2024 20:20:25 UTC] PHP Warning:  Undefined array key "countryCode" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/index.php on line 142
+[10-Jul-2024 20:20:25 UTC] PHP Warning:  Undefined array key "countryName" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/index.php on line 145
+[10-Jul-2024 20:20:56 UTC] PHP Warning:  Undefined variable $dayOfWeek in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 276
+[10-Jul-2024 20:20:56 UTC] PHP Warning:  Undefined variable $month in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 276
+[10-Jul-2024 20:20:56 UTC] PHP Warning:  Undefined variable $baseFare in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 284
+[10-Jul-2024 20:20:56 UTC] PHP Warning:  Undefined variable $baseFare in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 285
+[10-Jul-2024 20:20:56 UTC] PHP Warning:  Undefined variable $isWeekend in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 334
+[10-Jul-2024 20:20:56 UTC] PHP Warning:  Undefined variable $month in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 335
+[10-Jul-2024 20:20:56 UTC] PHP Warning:  Undefined array key "CASH" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 336
+[10-Jul-2024 20:20:56 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 336
+[10-Jul-2024 20:20:56 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 336
+[10-Jul-2024 20:20:56 UTC] PHP Warning:  Undefined array key "CASH" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 337
+[10-Jul-2024 20:20:56 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 337
+[10-Jul-2024 20:20:56 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 337
+[10-Jul-2024 20:20:56 UTC] PHP Warning:  Undefined array key "CASH" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 338
+[10-Jul-2024 20:20:56 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 338
+[10-Jul-2024 20:20:56 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 338
+[10-Jul-2024 20:20:56 UTC] PHP Warning:  Undefined variable $pickUpDate in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 395
+[10-Jul-2024 20:20:56 UTC] PHP Warning:  Undefined variable $hours12 in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 396
+[10-Jul-2024 20:20:56 UTC] PHP Warning:  Undefined variable $minutes in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 397
+[10-Jul-2024 20:20:56 UTC] PHP Warning:  Undefined variable $ampm in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 398
+[10-Jul-2024 20:20:57 UTC] PHP Warning:  Undefined array key "bookingFee" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 15
+[10-Jul-2024 20:20:57 UTC] PHP Warning:  Undefined array key "driverFare" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 16
+[10-Jul-2024 20:20:57 UTC] PHP Warning:  Undefined array key "totalFare" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 17
+[10-Jul-2024 20:20:57 UTC] PHP Warning:  Undefined array key "returnDuration" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 18
+[10-Jul-2024 20:20:57 UTC] PHP Warning:  Undefined array key "pickUpDuration" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 19
+[10-Jul-2024 20:20:57 UTC] PHP Warning:  Undefined array key "hub" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 20
+[10-Jul-2024 20:20:57 UTC] PHP Warning:  Undefined array key "baseFare" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 21
+[10-Jul-2024 20:20:57 UTC] PHP Warning:  Undefined array key "operationFare" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 22
+[10-Jul-2024 20:20:58 UTC] PHP Warning:  Undefined variable $dayOfWeek in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 136
+[10-Jul-2024 20:20:58 UTC] PHP Warning:  Undefined variable $month in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 136
+[10-Jul-2024 20:20:58 UTC] PHP Warning:  Undefined variable $isWeekend in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 221
+[10-Jul-2024 20:20:58 UTC] PHP Warning:  Undefined variable $month in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 222
+[10-Jul-2024 20:20:58 UTC] PHP Warning:  Undefined variable $dayOfWeek in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 457
+[10-Jul-2024 20:22:02 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/index.php on line 48
+[10-Jul-2024 20:22:02 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/index.php on line 54
+[10-Jul-2024 20:22:02 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/index.php on line 60
+[10-Jul-2024 20:22:04 UTC] PHP Warning:  Undefined variable $dayOfWeek in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 276
+[10-Jul-2024 20:22:04 UTC] PHP Warning:  Undefined variable $month in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 276
+[10-Jul-2024 20:22:04 UTC] PHP Warning:  Undefined variable $baseFare in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 284
+[10-Jul-2024 20:22:04 UTC] PHP Warning:  Undefined variable $baseFare in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 285
+[10-Jul-2024 20:22:04 UTC] PHP Warning:  Undefined variable $isWeekend in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 334
+[10-Jul-2024 20:22:04 UTC] PHP Warning:  Undefined variable $month in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 335
+[10-Jul-2024 20:22:04 UTC] PHP Warning:  Undefined variable $pickUpDate in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 395
+[10-Jul-2024 20:22:04 UTC] PHP Warning:  Undefined variable $hours12 in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 396
+[10-Jul-2024 20:22:04 UTC] PHP Warning:  Undefined variable $minutes in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 397
+[10-Jul-2024 20:22:04 UTC] PHP Warning:  Undefined variable $ampm in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 398
+[10-Jul-2024 20:22:05 UTC] PHP Warning:  Undefined array key "bookingFee" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 15
+[10-Jul-2024 20:22:05 UTC] PHP Warning:  Undefined array key "driverFare" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 16
+[10-Jul-2024 20:22:05 UTC] PHP Warning:  Undefined array key "totalFare" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 17
+[10-Jul-2024 20:22:05 UTC] PHP Warning:  Undefined array key "returnDuration" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 18
+[10-Jul-2024 20:22:05 UTC] PHP Warning:  Undefined array key "pickUpDuration" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 19
+[10-Jul-2024 20:22:05 UTC] PHP Warning:  Undefined array key "hub" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 20
+[10-Jul-2024 20:22:05 UTC] PHP Warning:  Undefined array key "baseFare" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 21
+[10-Jul-2024 20:22:05 UTC] PHP Warning:  Undefined array key "operationFare" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 22
+[10-Jul-2024 20:22:06 UTC] PHP Warning:  Undefined variable $dayOfWeek in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 136
+[10-Jul-2024 20:22:06 UTC] PHP Warning:  Undefined variable $month in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 136
+[10-Jul-2024 20:22:06 UTC] PHP Warning:  Undefined variable $isWeekend in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 221
+[10-Jul-2024 20:22:06 UTC] PHP Warning:  Undefined variable $month in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 222
+[10-Jul-2024 20:22:06 UTC] PHP Warning:  Undefined array key "card" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 223
+[10-Jul-2024 20:22:06 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 223
+[10-Jul-2024 20:22:06 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 223
+[10-Jul-2024 20:22:06 UTC] PHP Warning:  Undefined array key "card" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 224
+[10-Jul-2024 20:22:06 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 224
+[10-Jul-2024 20:22:06 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 224
+[10-Jul-2024 20:22:06 UTC] PHP Warning:  Undefined array key "card" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 225
+[10-Jul-2024 20:22:06 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 225
+[10-Jul-2024 20:22:06 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 225
+[10-Jul-2024 20:22:06 UTC] PHP Warning:  Undefined variable $dayOfWeek in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 457
+[10-Jul-2024 20:34:09 UTC] PHP Warning:  Undefined array key "bookingFee" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 15
+[10-Jul-2024 20:34:09 UTC] PHP Warning:  Undefined array key "driverFare" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 16
+[10-Jul-2024 20:34:09 UTC] PHP Warning:  Undefined array key "totalFare" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 17
+[10-Jul-2024 20:34:09 UTC] PHP Warning:  Undefined array key "returnDuration" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 18
+[10-Jul-2024 20:34:09 UTC] PHP Warning:  Undefined array key "pickUpDuration" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 19
+[10-Jul-2024 20:34:09 UTC] PHP Warning:  Undefined array key "hub" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 20
+[10-Jul-2024 20:34:09 UTC] PHP Warning:  Undefined array key "baseFare" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 21
+[10-Jul-2024 20:34:09 UTC] PHP Warning:  Undefined array key "operationFare" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 22
+[10-Jul-2024 20:34:10 UTC] PHP Warning:  Undefined variable $dayOfWeek in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 136
+[10-Jul-2024 20:34:10 UTC] PHP Warning:  Undefined variable $month in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 136
+[10-Jul-2024 20:34:10 UTC] PHP Warning:  Undefined variable $isWeekend in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 221
+[10-Jul-2024 20:34:10 UTC] PHP Warning:  Undefined variable $month in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 222
+[10-Jul-2024 20:34:10 UTC] PHP Warning:  Undefined array key "card" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 223
+[10-Jul-2024 20:34:10 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 223
+[10-Jul-2024 20:34:10 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 223
+[10-Jul-2024 20:34:10 UTC] PHP Warning:  Undefined array key "card" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 224
+[10-Jul-2024 20:34:10 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 224
+[10-Jul-2024 20:34:10 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 224
+[10-Jul-2024 20:34:10 UTC] PHP Warning:  Undefined array key "card" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 225
+[10-Jul-2024 20:34:10 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 225
+[10-Jul-2024 20:34:10 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 225
+[10-Jul-2024 20:34:10 UTC] PHP Warning:  Undefined variable $dayOfWeek in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 457
+[10-Jul-2024 20:34:13 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/index.php on line 48
+[10-Jul-2024 20:34:13 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/index.php on line 54
+[10-Jul-2024 20:34:13 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/index.php on line 60
+[10-Jul-2024 20:34:16 UTC] PHP Warning:  Undefined variable $dayOfWeek in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 276
+[10-Jul-2024 20:34:16 UTC] PHP Warning:  Undefined variable $month in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 276
+[10-Jul-2024 20:34:16 UTC] PHP Warning:  Undefined variable $baseFare in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 284
+[10-Jul-2024 20:34:16 UTC] PHP Warning:  Undefined variable $baseFare in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 285
+[10-Jul-2024 20:34:16 UTC] PHP Warning:  Undefined variable $isWeekend in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 334
+[10-Jul-2024 20:34:16 UTC] PHP Warning:  Undefined variable $month in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 335
+[10-Jul-2024 20:34:16 UTC] PHP Warning:  Undefined array key "CARD" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 336
+[10-Jul-2024 20:34:16 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 336
+[10-Jul-2024 20:34:16 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 336
+[10-Jul-2024 20:34:16 UTC] PHP Warning:  Undefined array key "CARD" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 337
+[10-Jul-2024 20:34:16 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 337
+[10-Jul-2024 20:34:16 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 337
+[10-Jul-2024 20:34:16 UTC] PHP Warning:  Undefined array key "CARD" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 338
+[10-Jul-2024 20:34:16 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 338
+[10-Jul-2024 20:34:16 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 338
+[10-Jul-2024 20:34:16 UTC] PHP Warning:  Undefined variable $pickUpDate in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 395
+[10-Jul-2024 20:34:16 UTC] PHP Warning:  Undefined variable $hours12 in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 396
+[10-Jul-2024 20:34:16 UTC] PHP Warning:  Undefined variable $minutes in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 397
+[10-Jul-2024 20:34:16 UTC] PHP Warning:  Undefined variable $ampm in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/arastep.php on line 398
+[10-Jul-2024 20:34:17 UTC] PHP Warning:  Undefined array key "bookingFee" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 15
+[10-Jul-2024 20:34:17 UTC] PHP Warning:  Undefined array key "driverFare" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 16
+[10-Jul-2024 20:34:17 UTC] PHP Warning:  Undefined array key "totalFare" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 17
+[10-Jul-2024 20:34:17 UTC] PHP Warning:  Undefined array key "returnDuration" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 18
+[10-Jul-2024 20:34:17 UTC] PHP Warning:  Undefined array key "pickUpDuration" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 19
+[10-Jul-2024 20:34:17 UTC] PHP Warning:  Undefined array key "hub" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 20
+[10-Jul-2024 20:34:17 UTC] PHP Warning:  Undefined array key "baseFare" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 21
+[10-Jul-2024 20:34:17 UTC] PHP Warning:  Undefined array key "operationFare" in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 22
+[10-Jul-2024 20:34:18 UTC] PHP Warning:  Undefined variable $dayOfWeek in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 136
+[10-Jul-2024 20:34:18 UTC] PHP Warning:  Undefined variable $month in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 136
+[10-Jul-2024 20:34:18 UTC] PHP Warning:  Undefined variable $isWeekend in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 221
+[10-Jul-2024 20:34:18 UTC] PHP Warning:  Undefined variable $month in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 222
+[10-Jul-2024 20:34:18 UTC] PHP Warning:  Undefined variable $dayOfWeek in /home/zlds82bav5q4/public_html/book-on-demand-point-a-to-b-pedicab-ride/step2.php on line 457

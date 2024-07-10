@@ -2213,3 +2213,60 @@ Stack trace:
 [10-Jul-2024 16:09:35 UTC] PHP Warning:  Undefined array key "countryName" in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/index.php on line 192
 [10-Jul-2024 16:11:13 UTC] PHP Warning:  Undefined variable $driverFare in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/arastep.php on line 263
 [10-Jul-2024 16:11:15 UTC] PHP Warning:  Undefined variable $returnDuration in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/step2.php on line 408
+[10-Jul-2024 16:16:56 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/index.php on line 49
+[10-Jul-2024 16:16:56 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/index.php on line 55
+[10-Jul-2024 16:17:02 UTC] PHP Warning:  Undefined variable $returnDuration in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/step2.php on line 408
+[10-Jul-2024 16:18:43 UTC] PHP Warning:  Undefined variable $serviceDuration in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/charge.php on line 66
+[10-Jul-2024 16:18:43 UTC] PHP Warning:  Undefined variable $serviceDuration in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/charge.php on line 69
+[10-Jul-2024 16:18:44 UTC] PHP Warning:  Undefined variable $serviceDetails in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/charge.php on line 287
+[10-Jul-2024 17:02:41 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/index.php on line 49
+[10-Jul-2024 17:02:41 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/index.php on line 55
+[10-Jul-2024 17:02:41 UTC] PHP Warning:  Undefined array key "firstName" in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/index.php on line 177
+[10-Jul-2024 17:02:41 UTC] PHP Warning:  Undefined array key "lastName" in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/index.php on line 180
+[10-Jul-2024 17:02:41 UTC] PHP Warning:  Undefined array key "email" in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/index.php on line 183
+[10-Jul-2024 17:02:41 UTC] PHP Warning:  Undefined array key "phoneNumber" in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/index.php on line 186
+[10-Jul-2024 17:02:41 UTC] PHP Warning:  Undefined array key "countryCode" in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/index.php on line 189
+[10-Jul-2024 17:02:41 UTC] PHP Warning:  Undefined array key "countryName" in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/index.php on line 192
+[10-Jul-2024 17:03:17 UTC] PHP Warning:  Undefined variable $driverFare in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/arastep.php on line 263
+[10-Jul-2024 17:03:19 UTC] PHP Warning:  Undefined variable $returnDuration in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/step2.php on line 408
+[10-Jul-2024 17:03:46 UTC] PHP Warning:  Undefined variable $serviceDuration in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/charge.php on line 66
+[10-Jul-2024 17:03:46 UTC] PHP Warning:  Undefined variable $serviceDuration in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/charge.php on line 69
+[10-Jul-2024 17:03:47 UTC] PHP Warning:  Undefined variable $serviceDetails in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/charge.php on line 290
+[10-Jul-2024 17:15:46 UTC] PHP Warning:  Undefined variable $countryCode in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/step3.php on line 174
+[10-Jul-2024 17:15:59 UTC] PHP Warning:  Undefined variable $serviceDuration in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/charge.php on line 66
+[10-Jul-2024 17:15:59 UTC] PHP Warning:  Undefined variable $serviceDuration in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/charge.php on line 69
+[10-Jul-2024 17:16:00 UTC] PHP Warning:  Undefined variable $serviceDetails in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/charge.php on line 290
+[10-Jul-2024 20:18:42 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/index.php on line 49
+[10-Jul-2024 20:18:42 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/index.php on line 55
+[10-Jul-2024 20:18:42 UTC] PHP Warning:  Undefined array key "firstName" in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/index.php on line 177
+[10-Jul-2024 20:18:42 UTC] PHP Warning:  Undefined array key "lastName" in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/index.php on line 180
+[10-Jul-2024 20:18:42 UTC] PHP Warning:  Undefined array key "email" in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/index.php on line 183
+[10-Jul-2024 20:18:42 UTC] PHP Warning:  Undefined array key "phoneNumber" in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/index.php on line 186
+[10-Jul-2024 20:18:42 UTC] PHP Warning:  Undefined array key "countryCode" in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/index.php on line 189
+[10-Jul-2024 20:18:42 UTC] PHP Warning:  Undefined array key "countryName" in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/index.php on line 192
+[10-Jul-2024 20:19:50 UTC] PHP Warning:  Undefined variable $driverFare in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/arastep.php on line 263
+[10-Jul-2024 20:19:53 UTC] PHP Warning:  Undefined variable $returnDuration in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/step2.php on line 408
+[10-Jul-2024 20:43:06 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/index.php on line 49
+[10-Jul-2024 20:43:06 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/index.php on line 55
+[10-Jul-2024 20:43:06 UTC] PHP Warning:  Undefined array key "firstName" in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/index.php on line 177
+[10-Jul-2024 20:43:06 UTC] PHP Warning:  Undefined array key "lastName" in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/index.php on line 180
+[10-Jul-2024 20:43:06 UTC] PHP Warning:  Undefined array key "email" in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/index.php on line 183
+[10-Jul-2024 20:43:06 UTC] PHP Warning:  Undefined array key "phoneNumber" in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/index.php on line 186
+[10-Jul-2024 20:43:06 UTC] PHP Warning:  Undefined array key "countryCode" in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/index.php on line 189
+[10-Jul-2024 20:43:06 UTC] PHP Warning:  Undefined array key "countryName" in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/index.php on line 192
+[10-Jul-2024 20:43:31 UTC] PHP Warning:  Undefined variable $driverFare in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/arastep.php on line 263
+[10-Jul-2024 20:43:33 UTC] PHP Warning:  Undefined variable $returnDuration in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/step2.php on line 408
+[10-Jul-2024 20:43:58 UTC] PHP Parse error:  syntax error, unexpected token "}" in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/charge.php on line 204
+[10-Jul-2024 20:45:00 UTC] PHP Warning:  Undefined variable $countryCode in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/step3.php on line 174
+[10-Jul-2024 20:45:15 UTC] PHP Warning:  Undefined variable $serviceDuration in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/charge.php on line 66
+[10-Jul-2024 20:45:15 UTC] PHP Warning:  Undefined variable $serviceDuration in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/charge.php on line 69
+[10-Jul-2024 20:45:15 UTC] PHP Warning:  Undefined variable $serviceDetails in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/charge.php on line 295
+[10-Jul-2024 20:45:26 UTC] PHP Warning:  Undefined variable $countryCode in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/step3.php on line 174
+[10-Jul-2024 20:45:28 UTC] PHP Warning:  Undefined variable $returnDuration in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/step2.php on line 408
+[10-Jul-2024 20:45:29 UTC] PHP Warning:  Undefined variable $returnDuration in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/step2.php on line 408
+[10-Jul-2024 20:45:29 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/index.php on line 49
+[10-Jul-2024 20:45:29 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/index.php on line 55
+[10-Jul-2024 20:45:35 UTC] PHP Warning:  Undefined variable $returnDuration in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/step2.php on line 408
+[10-Jul-2024 20:45:51 UTC] PHP Warning:  Undefined variable $serviceDuration in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/charge.php on line 66
+[10-Jul-2024 20:45:51 UTC] PHP Warning:  Undefined variable $serviceDuration in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/charge.php on line 69
+[10-Jul-2024 20:45:52 UTC] PHP Warning:  Undefined variable $serviceDetails in /home/zlds82bav5q4/public_html/book-on-demand-central-park-pedicab-tour/charge.php on line 295
