@@ -155,6 +155,9 @@ $hubCoords = getCoordinates($hub, $apiKey);
 
 $paymentMethod = strtoupper($paymentMethod);
 
+
+$rideDuration = number_format($rideDuration, 2);
+
 if ($firstName != "" && $lastName != "") {
     // Check if data fields are not empty.
     //Data to be updated
@@ -234,14 +237,14 @@ EOD;
 EOD;
         } else {
 			if ($paymentMethod == "CARD"){
-				$paymentMethod = "debit/credit card";
+				$paymentMethod2 = "debit/credit card";
 			}
-			else if ($paymentMethod = "CASH"){ $paymentMethod == "cash";}
+			$paymentMethod2 = "CASH";
             $htmlContent1 .= <<<EOD
     <p><strong>Booking Fee:</strong> \$$bookingFee paid on $orderMonth/$orderDay/$orderYear $dayOfOrder</p>
 EOD;
             $htmlContent1 .= <<<EOD
-    <p><strong>Driver Fare:</strong> \${$driverFare} with $paymentMethod due on $pickUpMonth/$pickUpDay/$pickUpYear $dayOfWeek</p>
+    <p><strong>Driver Fare:</strong> \${$driverFare} with $paymentMethod2 due on $pickUpMonth/$pickUpDay/$pickUpYear $dayOfWeek</p>
 	<p><strong>Total Fare:</strong> \${$totalFare}</p>
 EOD;
         }
@@ -254,17 +257,20 @@ EOD;
         }
 
         if ($paymentMethod != "FULLCARD") {
+			$paymentMethod2 = "debit/credit card";
+			if ($paymentMethod == "CASH"){
+			$paymentMethod2 = "CASH";
+			}
             $htmlContent1 .= <<<EOD
     <h2>Driver Note</h2>
-    <strong>Type:</strong> Scheduled Point A to B Pedicab Ride<br><strong>First:</strong> $firstName<br><strong>Last:</strong> $lastName<br><strong>Cell:</strong> $phoneNumber<br><strong>Passengers:</strong> $numPassengers<br><strong>Date:</strong> $driverDate<br><strong>Time:</strong> $timeOfPickUp<br><strong>Duration:</strong> {$rideDuration} Minutes<br><strong>Start:</strong> $pickUpAddress<br><strong>Finish:</strong> $destinationAddress<br><strong>Pay:</strong> \${$driverFare} with $paymentMethod by customer $firstName $lastName
+    <strong>Type:</strong> Scheduled Point A to B Pedicab Ride<br><strong>First:</strong> $firstName<br><strong>Last:</strong> $lastName<br><strong>Cell:</strong> $phoneNumber<br><strong>Passengers:</strong> $numPassengers<br><strong>Date:</strong> $driverDate<br><strong>Time:</strong> $timeOfPickUp<br><strong>Duration:</strong> {$rideDuration} Minutes<br><strong>Start:</strong> $pickUpAddress<br><strong>Finish:</strong> $destinationAddress<br><strong>Pay:</strong> \${$driverFare} with $paymentMethod2 by customer $firstName $lastName
 </body>
 </html>
 EOD;
         } else {
 			if ($paymentMethod == "CARD"){
-				$paymentMethod = "debit/credit card";
+				$paymentMethod2 = "debit/credit card";
 			}
-			else if ($paymentMethod == "CASH"){ $paymentMethod = "cash";}
             $htmlContent1 .= <<<EOD
     <h2>Driver Note</h2>
     <strong>Type:</strong> Scheduled Point A to B Pedicab Ride<br><strong>First:</strong> $firstName<br><strong>Last:</strong> $lastName<br><strong>Cell:</strong> $phoneNumber<br><strong>Passengers:</strong> $numPassengers<br><strong>Date:</strong> $driverDate<br><strong>Time:</strong> $timeOfPickUp<br><strong>Duration:</strong> {$rideDuration} Minutes<br><strong>Start:</strong> $pickUpAddress<br><strong>Finish:</strong> $destinationAddress<br><strong>Pay:</strong> \${$driverFare} with Zelle by Ibrahim Donmez
@@ -303,16 +309,23 @@ EOD;
 EOD;
 
         if ($paymentMethod != "FULLCARD") {
+			if ($paymentMethod == "CASH"){
+			$paymentMethod2 = "CASH";
+			}
+			if ($paymentMethod == "card" or $paymentMethod == "CARD"){
+			$paymentMethod2 = "debit/credit card";
+			}
             $htmlContent2 .= <<<EOD
     <p><strong>Booking Fee:</strong> \$$bookingFee paid on $orderMonth/$orderDay/$orderYear $dayOfOrder</p>
 EOD;
 
             $htmlContent2 .= <<<EOD
-    <p><strong>Driver Fare:</strong> \${$driverFare} with $paymentMethod due on $pickUpMonth/$pickUpDay/$pickUpYear $dayOfWeek</p>
+    <p><strong>Driver Fare:</strong> \${$driverFare} with $paymentMethod2 due on $pickUpMonth/$pickUpDay/$pickUpYear $dayOfWeek</p>
 EOD;
         }
 
         if ($paymentMethod == "FULLCARD") {
+			$paymentMethod2 = "debit/credit card";
             $htmlContent2 .= <<<EOD
     <p><strong>Total Fare:</strong> \${$totalFare} paid on $orderMonth/$orderDay/$orderYear $dayOfOrder</p>
 EOD;

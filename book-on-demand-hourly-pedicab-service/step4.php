@@ -53,17 +53,18 @@ $paymentIntent = $stripe->paymentIntents->create([
     "automatic_payment_methods" => ["enabled" => true],
     "amount" => $pay,
     "currency" => "usd",
-    "description" => "NYPS WEB On Demand Hourly Pedicab Tour",
+    "description" => "NYPS WEB On Demand Hourly Pedicab Service",
     "receipt_email" => $email,
 ]);
-
+$todayDay = date("m/d/Y");
+$todayDayName = date("l", strtotime($todayDay));
 ?>
 <!DOCTYPE html>
 <html lang="en">
    <head>
       <meta charset="UTF-8">
       <title>Book On Demand Hourly Pedicab Service</title>
-	  <meta name="description" content=" On Demand Central Park Pedicab Tour Booking Application ">
+	  <meta name="description" content="On Demand Hourly Pedicab Service Booking Application ">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <!-- Viewport meta tag added -->
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -90,7 +91,7 @@ $paymentIntent = $stripe->paymentIntents->create([
                      <tbody>
                         <tr>
                            <th scope="row">Type</th>
-                           <td>On Demand Central Park Pedicab Tour</td>
+                           <td>On Demand Hourly Pedicab Service</td>
                         </tr>
                         <tr>
                            <th scope="row">First Name</th>
@@ -111,6 +112,14 @@ $paymentIntent = $stripe->paymentIntents->create([
                         <tr>
                            <th scope="row">Number of Passengers</th>
                            <td><?= $numPassengers ?></td>
+                        </tr>
+						<tr>
+                           <th scope="row">Date Of Service</th>
+                           <td><?= $todayDay . ' ' . $todayDayName ?> (Today)</td>
+                        </tr>
+						<tr>
+                           <th scope="row">Time Of Service</th>
+                           <td>As Soon As Possible</td>
                         </tr>
                         <tr>
                            <th scope="row">Duration of Service</th>
@@ -135,26 +144,31 @@ $paymentIntent = $stripe->paymentIntents->create([
                         <th scope="row">Service Details</th>
                         <td><?= $serviceDetails ?></td>
                         </tr>
-                            <tr>
+                             <tr>
                                 <th scope="row">Booking Fee</th>
                                 <td>$<?= number_format($bookingFee, 2) ?></td>
                             </tr>
                             <tr>
                                 <th scope="row">Driver Fare</th>
-                                <td>$<?= number_format($driverFare, 2) ?> with <?= $paymentMethod == 'card' ? 'debit/credit card' : $paymentMethod ?></td>
+                                 <td>$<?= number_format($driverFare, 2) ?> with <?= $paymentMethod == 'card' ? 'debit/credit card' : $paymentMethod ?></td>
                             </tr>
-                        <tr style="background-color:green;">
+                            <tr style="background-color:green;">
                            <th scope="row" style="color:white;">Total Fare</th>
                            <td><b style="color:white;">$<?= number_format(
                                $totalFare,
                                2
-                           )?></b></td>
+                           );?></b></td>
                         </tr>
                      </tbody>
                   </table>
                 </form> 
                 <form action="charge.php" method="post" id="payment-form">
-				<label><input required type="checkbox" name="declaration1"> I confirm that I am ready to get picked up now.</label>
+				<label>
+            <input required type="checkbox" name="declaration1"
+                oninvalid="this.setCustomValidity('Please, check this box to proceed.')"
+                oninput="this.setCustomValidity('')">
+            I confirm that I am ready to get picked up now.
+        </label>
                     <div class="form-row">
                         <div id="card-element">
                             <!-- Stripe.js injects the Card Element -->

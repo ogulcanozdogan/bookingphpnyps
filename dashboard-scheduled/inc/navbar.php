@@ -16,7 +16,7 @@
                         <img src="assets/images/logo-sm.png" alt="" height="22">
                     </span>
                     <span class="logo-lg">
-                        <img src="https://newyorkpedicabservices.com/buttons_files/new-york-pedicab-services-banner.webp" alt="" height="57">
+                        <img src="https://newyorkpedicabservices.com/buttons_files/new-york-pedicab-services-banner.webp" style="margin-left:-10%;" alt="" height="57">
                     </span>
                 </a>
                 <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover" id="vertical-hover">

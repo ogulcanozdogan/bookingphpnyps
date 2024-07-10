@@ -153,9 +153,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   <div class="form-group">
                      <label>Driver Paid Separately</label>
                      <div class="form-check">
-                        <input title="" class="form-check-input" type="radio" name="paymentMethod" id="payCash" value="cash" <?php echo isset(
+                        <input title="" class="form-check-input" type="radio" name="paymentMethod" id="payCash" value="CASH" <?php echo isset(
                             $_GET["paymentMethod"]
-                        ) && $_GET["paymentMethod"] == "cash"
+                        ) && $_GET["paymentMethod"] == "CASH"
                             ? "checked"
                             : ""; ?> required>
                         <label class="form-check-label" for="payCash">
@@ -284,7 +284,7 @@ function initAutocomplete() {
 
         if (nyHour < 0) nyHour += 24;
 
-        if (nyHour < 9 || nyHour > 17) {
+        if (nyHour < 9 || nyHour > 22) {
             showError("Please, do not use this application to book a tour between 5:01 pm and 8:59 am.");
             return false;
         }

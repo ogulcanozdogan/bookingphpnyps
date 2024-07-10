@@ -186,8 +186,9 @@ $pickUpCoords = getCoordinates($pickUpAddress, $apiKey);
 $destinationCoords = getCoordinates($destinationAddress, $apiKey);
 $hubCoords = getCoordinates($hub, $apiKey);
 
-
-    $formattedDate = $currentDateTime->format("m/d/Y");
+$currentDateTime = new DateTime('now', new DateTimeZone('America/New_York'));
+$createdAt = $currentDateTime->format('Y-m-d H:i:s');
+$formattedDate = $currentDateTime->format('m/d/Y');
 
 if ($firstName != "" && $lastName != "") {
     $satir = [
@@ -213,12 +214,20 @@ if ($firstName != "" && $lastName != "") {
         "destinationCoords" => $destinationCoords,
         "serviceDetails" => $serviceDetails,
         "serviceDuration" => $serviceDuration,
+		"createdAt" => $createdAt,
+		"totalMinutes" => $totalMinutes,	
     ];
 
-    $sql = "INSERT INTO hourly (id, bookingNumber, firstName, lastName, emailAddress, phoneNumber, numberOfPassengers, date, pickupAddress, destinationAddress, paymentMethod, duration, bookingFee, driverFee, totalFare, returnDuration, pickUpDuration, hub, operationFare, pickUpCoords, destinationCoords, hubCoords, serviceDetails, serviceDuration)
-    VALUES ('$uuid', '$bookingNumber', '$firstName', '$lastName', '$emailAddress', '$phoneNumber', '$numPassengers', '$formattedDate', '$pickUpAddress', '$destinationAddress', '$paymentMethod', '$rideDuration', '$bookingFee', '$driverFare', '$totalFare', '$returnDuration', '$pickUpDuration', '$hub', '$operationFare', '$pickUpCoords', '$destinationCoords', '$hubCoords', '$serviceDetails', '$serviceDuration')";
+    $sql = "INSERT INTO hourly (id, totalMinutes, createdAt, bookingNumber, firstName, lastName, emailAddress, phoneNumber, numberOfPassengers, date, pickupAddress, destinationAddress, paymentMethod, duration, bookingFee, driverFee, totalFare, returnDuration, pickUpDuration, hub, operationFare, pickUpCoords, destinationCoords, hubCoords, serviceDetails, serviceDuration)
+    VALUES ('$uuid', '$totalMinutes','$createdAt', '$bookingNumber', '$firstName', '$lastName', '$emailAddress', '$phoneNumber', '$numPassengers', '$formattedDate', '$pickUpAddress', '$destinationAddress', '$paymentMethod', '$rideDuration', '$bookingFee', '$driverFare', '$totalFare', '$returnDuration', '$pickUpDuration', '$hub', '$operationFare', '$pickUpCoords', '$destinationCoords', '$hubCoords', '$serviceDetails', '$serviceDuration')";
     $durum = $baglanti->prepare($sql)->execute();
 
+if ($paymentMethod == "CARD" or $paymentMethod == "card"){
+				$paymentMethod2 = "debit/credit card";
+			}
+			if ($paymentMethod == "CASH" or $paymentMethod == "cash"){
+				$paymentMethod2 = "CASH";
+			}
     if ($durum) {
         // First email
         $email1 = new \SendGrid\Mail\Mail();
@@ -238,7 +247,8 @@ if ($firstName != "" && $lastName != "") {
             <p><strong>Email Address:</strong> $emailAddress</p>
             <p><strong>Cell Phone Number:</strong> $phoneNumber</p>
             <p><strong>Number of Passengers:</strong> $numPassengers</p>
-            <p><strong>Date of Service:</strong> $formattedDate $dayOfOrder</p>
+            <p><strong>Date of Service:</strong> $formattedDate $dayOfOrder (Today)</p>
+			<p><strong>Time of Service:</strong> $tourTimeFormatted</p>        
             <p><strong>Pick Up Duration:</strong> {$pickUpDuration} Minutes</p>
             <p><strong>Duration of Service:</strong> {$serviceDuration}</p>
             <p><strong>Return Duration:</strong> {$returnDuration} Minutes</p>
@@ -249,10 +259,10 @@ if ($firstName != "" && $lastName != "") {
             <p><strong>Finish Address:</strong> $destinationAddress</p>
             <p><strong>Service Details:</strong> $serviceDetails</p>
             <p><strong>Booking Fee:</strong> \$$bookingFee paid on $orderMonth/$orderDay/$orderYear $todayDay</p>
-            <p><strong>Driver Fare:</strong> \${$driverFare} with $paymentMethod due on $todayFormatted $todayDay</p>
+            <p><strong>Driver Fare:</strong> \${$driverFare} with $paymentMethod2 due on $todayFormatted $todayDay</p>
             <p><strong>Total Fare:</strong> \${$totalFare}</p>
             <h2>Driver Note</h2>
-            <strong>Type:</strong> On Demand Hourly Pedicab Service<br><strong>First:</strong> $firstName<br><strong>Last:</strong> $lastName<br><strong>Cell:</strong> $phoneNumber<br><strong>Passengers:</strong> $numPassengers<br><strong>Date:</strong>$formattedDate<br><strong>Time:</strong> $tourTimeFormatted<br><strong>Duration:</strong> {$rideDuration} Minutes<br><strong>Start:</strong> $pickUpAddress<br><strong>Finish:</strong> $destinationAddress<br><strong>Details:</strong> $serviceDetails<br><strong>Pay:</strong> \${$driverFare} with $paymentMethod by customer $firstName $lastName
+            <strong>Type:</strong> On Demand Hourly Pedicab Service<br><strong>First:</strong> $firstName<br><strong>Last:</strong> $lastName<br><strong>Cell:</strong> $phoneNumber<br><strong>Passengers:</strong> $numPassengers<br><strong>Date:</strong>$formattedDate (Today)<br><strong>Time:</strong> $tourTimeFormatted<br><strong>Duration:</strong> {$rideDuration} Minutes<br><strong>Start:</strong> $pickUpAddress<br><strong>Finish:</strong> $destinationAddress<br><strong>Details:</strong> $serviceDetails<br><strong>Pay:</strong> \${$driverFare} with $paymentMethod2 by customer $firstName $lastName
         </body>
         </html>
 EOD;
@@ -280,13 +290,13 @@ EOD;
             <p><strong>Email Address:</strong> $emailAddress</p>
             <p><strong>Phone Number:</strong> $phoneNumber</p>
             <p><strong>Number of Passengers:</strong> $numPassengers</p>
-            <p><strong>Date of Service:</strong> $formattedDate $dayOfOrder</p>
+            <p><strong>Date of Service:</strong> $formattedDate $dayOfOrder (Today)</p>
             <p><strong>Time of Service:</strong> $tourTimeFormatted</p>
             <p><strong>Duration of Service:</strong> {$serviceDuration}</p>
             <p><strong>Start Address:</strong> $pickUpAddress</p>
             <p><strong>Finish Address:</strong> $destinationAddress</p>
 			<p><strong>Booking Fee:</strong> \$$bookingFee paid on $todayFormatted $todayDay</p>
-			<p><strong>Driver Fare:</strong> \${$driverFare} with $paymentMethod due on $todayFormatted $todayDay</p>
+			<p><strong>Driver Fare:</strong> \${$driverFare} with $paymentMethod2 due on $todayFormatted $todayDay</p>
 			<p><strong>Thank you for choosing New York Pedicab Services.</strong></p>
 			<strong>New York Pedicab Services</strong><br>
 			<strong>(212) 961-7435</strong><br>
@@ -330,7 +340,7 @@ EOD;
         }
 
         $message =
-            "Hourly Pedicab Tour available!
+            "Hourly Pedicab Service available!
 {" .
             $bookingNumber .
             "}";

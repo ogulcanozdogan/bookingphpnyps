@@ -107,9 +107,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <div class="form-group">
    <label>Driver Paid Separately</label>
    <div class="form-check">
-      <input title="" class="form-check-input" type="radio" required name="paymentMethod" id="payCash" value="cash" <?php echo isset(
+      <input title="" class="form-check-input" type="radio" required name="paymentMethod" id="payCash" value="CASH" <?php echo isset(
           $_GET["paymentMethod"]
-      ) && $_GET["paymentMethod"] == "cash"
+      ) && $_GET["paymentMethod"] == "CASH"
           ? "checked"
           : ""; ?>>
       <label class="form-check-label" for="payCash">

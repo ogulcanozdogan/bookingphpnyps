@@ -60,7 +60,7 @@ $paymentIntent = $stripe->paymentIntents->create([
     "automatic_payment_methods" => ["enabled" => true],
     "amount" => $pay,
     "currency" => "usd",
-    "description" => "NYPS WEB Scheduled Hourly Pedicab Tour",
+    "description" => "NYPS WEB Scheduled Hourly Pedicab Service",
     "receipt_email" => $email,
 ]);
 
@@ -158,8 +158,8 @@ $dayOfWeek = $pickUpDateTime->format("l");
                         <th scope="row">Service Details</th>
                         <td><?= $serviceDetails ?></td>
                         </tr>
-                        <?php if ($paymentMethod != "fullcard") { ?>
-                            <tr>
+							<?php if ($paymentMethod != "fullcard") { ?>
+                             <tr>
                                 <th scope="row">Booking Fee</th>
                                 <td>$<?= number_format($bookingFee, 2) ?></td>
                             </tr>
@@ -168,7 +168,7 @@ $dayOfWeek = $pickUpDateTime->format("l");
                                 <td>$<?= number_format($driverFare, 2) ?> with <?= $paymentMethod == 'card' ? 'debit/credit card' : $paymentMethod ?></td>
                             </tr>
 							<?php } ?>
-                        <tr style="background-color:green;">
+                            <tr style="background-color:green;">
                            <th scope="row" style="color:white;">Total Fare</th>
                            <td><b style="color:white;">$<?= number_format(
                                $totalFare,

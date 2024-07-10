@@ -59,7 +59,7 @@ $paymentIntent = $stripe->paymentIntents->create([
     "automatic_payment_methods" => ["enabled" => true],
     "amount" => $pay,
     "currency" => "usd",
-    "description" => "NYPS WEB Scheduled Point A to B Pedicab Tour",
+    "description" => "NYPS WEB Scheduled Point A to B Pedicab Ride",
     "receipt_email" => $email,
 ]);
 
@@ -133,7 +133,7 @@ $paymentIntent = $stripe->paymentIntents->create([
                             </tr>
                             <tr>
                                 <th scope="row">Duration of Ride</th>
-                                <td><?= $rideDuration ?> Minutes</td>
+                                <td><?= number_format($rideDuration, 2) ?> Minutes</td>
                             </tr>
                             <tr>
                                 <th scope="row">Pick Up Address</th>

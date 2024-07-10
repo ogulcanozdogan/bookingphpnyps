@@ -130,7 +130,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   <!-- Service Details -->
                   <div class="form-group">
                      <label for="serviceDetails">Service Details</label>
-                     <textarea class="form-control" id="serviceDetails" required placeholder="Please, enter service details." oninvalid="this.setCustomValidity('Please, enter destination address.'); this.classList.add('invalid');" oninput="setCustomValidity(''); this.classList.remove('invalid');" name="serviceDetails" rows="3"><?php echo isset(
+                     <textarea class="form-control" id="serviceDetails" required placeholder="Please, send us more details about this service." oninvalid="this.setCustomValidity('Please, send us more details about this service.'); this.classList.add('invalid');" oninput="setCustomValidity(''); this.classList.remove('invalid');" name="serviceDetails" rows="3"><?php echo isset(
                          $_GET["serviceDetails"]
                      )
                          ? htmlspecialchars($_GET["serviceDetails"])
@@ -140,9 +140,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   <div class="form-group">
                      <label>Driver Paid Separately</label>
                      <div class="form-check">
-                        <input title="" class="form-check-input" type="radio" required name="paymentMethod" id="payCash" value="cash" <?php echo isset(
+                        <input title="" class="form-check-input" type="radio" required name="paymentMethod" id="payCash" value="CASH" <?php echo isset(
                             $_GET["paymentMethod"]
-                        ) && $_GET["paymentMethod"] == "cash"
+                        ) && $_GET["paymentMethod"] == "CASH"
                             ? "checked"
                             : ""; ?>>
                         <label class="form-check-label" for="payCash">
@@ -241,7 +241,7 @@ var allowedZipCodes = [
             inputField.value = customPlaceName && !addressWithoutCountry.includes(customPlaceName) ? `${addressWithoutCountry} (${customPlaceName})` : addressWithoutCountry;
         } else {
             console.error("Invalid postal code.");
-            showError("You are trying to book a tour outside of our main service areas.<br> Please, use the form below instead.<br><a href='https://newyorkpedicabservices.com/request-central-park-pedicab-tour.html'>Request On Demand Central Park Pedicab Tour</a>");
+            showError("You are trying to book a tour outside of our main service areas.<br> Please, use the form below instead.<br><a href='https://newyorkpedicabservices.com/request-on-demand-hourly-pedicab-service.html'>Request On Demand Hourly Pedicab Service</a>");
             inputField.value = ""; // Clear the address field
         }
     }

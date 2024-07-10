@@ -187,7 +187,7 @@ $operationFare = ($totalDurationMinutes / 60) * $operationFarePerHour;
 // Update the rest of the code accordingly...
 
 // Booking Fee and Driver Fare calculation
-if ($paymentMethod == "card" or $paymentMethod == "cash") {
+if ($paymentMethod == "card" or $paymentMethod == "CASH") {
     $bookingFee = 0.2 * ($baseFare + $operationFare);
     $driverFare = 0.8 * ($baseFare + $operationFare);
     if ($paymentMethod === "card") {
@@ -199,7 +199,7 @@ if ($paymentMethod == "card" or $paymentMethod == "cash") {
 }
 
 $minFares = [
-    "cash" => [
+    "CASH" => [
         "week" => ["Booking Fee" => 9, "Driver Fare" => 36, "Total Fare" => 45],
         "weekend" => [
             "Booking Fee" => 10.5,
@@ -272,7 +272,7 @@ $minTotalFare = $minFares[$paymentMethod][$key]["Total Fare"];
 
 $bookingFee = max($bookingFee, $minBookingFee);
 $driverFare = max($driverFare, $minDriverFare);
-if ($paymentMethod == "card" or $paymentMethod == "cash") {
+if ($paymentMethod == "card" or $paymentMethod == "CASH") {
     $totalFare = max($bookingFee + $driverFare, $minTotalFare);
 } else {
     $totalFare = ($baseFare + $operationFare) * 1.2;
@@ -390,7 +390,7 @@ require "inc/countryselect.php";
                             </tr>
                             <tr>
                                 <th scope="row">Duration of Ride</th>
-                                <td><?= $rideDuration ?> Minutes</td>
+                                <td><?= number_format($rideDuration, 2) ?> Minutes</td>
                             </tr>
                             <tr>
                                 <th scope="row">Pick Up Address</th>

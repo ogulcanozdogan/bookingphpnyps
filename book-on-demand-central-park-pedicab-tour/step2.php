@@ -35,8 +35,8 @@ if ($_POST) {
 }
 
 
-$hub1 = "6th Avenue and Central Park South New York, NY 10019";
-$hub2 = "West Drive and West 59th Street New York, NY 10019";
+$hub1 = "West Drive and West 59th Street New York, NY 10019";
+$hub2 = "6th Avenue and Central Park South New York, NY 10019";
 
 function getShortestBicycleRouteDuration($origin, $destination)
 {
@@ -44,8 +44,8 @@ function getShortestBicycleRouteDuration($origin, $destination)
     $origin = urlencode($origin);
     $destination = urlencode($destination);
 
-    // Add bicycle mode parameter
-    $url = "https://maps.googleapis.com/maps/api/directions/json?origin=$origin&destination=$destination&mode=bicycling&key=$apiKey";
+    // Adding bicycle mode parameter and request for alternative routes
+    $url = "https://maps.googleapis.com/maps/api/directions/json?origin=$origin&destination=$destination&mode=bicycling&alternatives=true&key=$apiKey";
 
     $curl = curl_init();
     curl_setopt($curl, CURLOPT_URL, $url);
@@ -58,18 +58,21 @@ function getShortestBicycleRouteDuration($origin, $destination)
         if (isset($data["routes"]) && count($data["routes"]) > 0) {
             // Find the shortest duration
             $shortestDuration = PHP_INT_MAX;
-            foreach ($data["routes"] as $route) {
+            $fastestRouteIndex = -1;
+
+            foreach ($data["routes"] as $index => $route) {
                 $routeDuration = 0;
                 foreach ($route["legs"] as $leg) {
                     $routeDuration += $leg["duration"]["value"];
                 }
                 if ($routeDuration < $shortestDuration) {
                     $shortestDuration = $routeDuration;
+                    $fastestRouteIndex = $index;
                 }
             }
 
             // Calculate the shortest duration in minutes
-            if ($shortestDuration !== PHP_INT_MAX) {
+            if ($fastestRouteIndex !== -1) {
                 $minutes = floor($shortestDuration / 60);
                 $seconds = $shortestDuration % 60;
                 return sprintf("%.2f", $minutes + $seconds / 60); // Return the duration in "24.11" format
@@ -127,6 +130,9 @@ $convertedDate = date("Y-m-d");
 // Yeni tarihi kullanarak gün adını bulma
 $dayName = date("l", strtotime($convertedDate));
 
+$todayDay = date("m/d/Y");
+$todayDayName = date("l", strtotime($todayDay));
+
 if (
     strpos($dayName, "Monday") !== false ||
     strpos($dayName, "Tuesday") !== false ||
@@ -177,7 +183,7 @@ $operationFare = $totalHours * $hourlyOperationFare;
 $bookingFee = 0.2 * $operationFare;
 
 // Calculate Driver Fare with CASH
-if ($paymentMethod == "cash") {
+if ($paymentMethod == "CASH") {
     $driverFare = 0.8 * $operationFare;
 }
 
@@ -283,17 +289,30 @@ require "inc/countryselect.php";
                   <div id="map" style="margin-top:30px;"></div>
                   <table class="table">
                      <tbody>
+					  <tr>
+					 <th scope="row">hubs</th>
+					 <td>Hub1: West Drive and West 59th Street New York, NY 10019</td>
+					 <td>Hub2: 6th Avenue and Central Park South New York, NY 10019</td>
+					 </tr>
 						<tr>
 						<th scope="row">Debug Area</th>
-						<td>Pickup1 Duration: <?=$pickup1?></td>
-						<td>Pickup2 Duration: <?=$pickup2?></td>
+						<td>Pickup1 hub1 to pickup Duration: <?=$pickup1?></td>
+						<td>Pickup2 pcikup to hub2 Duration: <?=$pickup2?></td>
 						<td>Tour Duration: <?=$tourDuration?></td>
-						<td>Return1 Duration: <?=$return1?></td>
-						<td>Return2 Duration: <?=$return2?></td>
+						<td>Return1 hub1 to destination Duration: <?=$return1?></td>
+						<td>Return2 destination to hub 2 Duration: <?=$return2?></td>
 						</tr>
                         <tr>
                            <th scope="row">Number of Passengers</th>
                            <td><?= $numPassengers ?></td>
+                        </tr>
+						<tr>
+                           <th scope="row">Date Of Tour</th>
+                           <td><?= $todayDay . ' ' . $todayDayName ?> (Today)</td>
+                        </tr>
+						<tr>
+                           <th scope="row">Time Of Tour</th>
+                           <td>As Soon As Possible</td>
                         </tr>
 						<tr>
                            <th scope="row">Duration of Tour</th>
@@ -311,21 +330,20 @@ require "inc/countryselect.php";
                            <th scope="row">Finish Address</th>
                            <td><?= $destinationAddress ?></td>
                         </tr>
-                        <tr>
-                           <th scope="row">Booking Fee</th>
-                           <td>$<?= number_format($bookingFee, 2) ?></td>
-                        </tr>
-                        <tr>
-                           <th scope="row">Driver Fare</th>
-                           <td>$<?= number_format($driverFare, 2) ?> with <?= $paymentMethod == 'card' ? 'debit/credit card' : $paymentMethod ?></td>
-
-                        </tr>
-                        <tr style="background-color:green;">
+                             <tr>
+                                <th scope="row">Booking Fee</th>
+                                <td>$<?= number_format($bookingFee, 2) ?></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Driver Fare</th>
+                                 <td>$<?= number_format($driverFare, 2) ?> with <?= $paymentMethod == 'card' ? 'debit/credit card' : $paymentMethod ?></td>
+                            </tr>
+                            <tr style="background-color:green;">
                            <th scope="row" style="color:white;">Total Fare</th>
                            <td><b style="color:white;">$<?= number_format(
                                $totalFare,
                                2
-                           ) ?></b></td>
+                           );?></b></td>
                         </tr>
                      </tbody>
                   </table>

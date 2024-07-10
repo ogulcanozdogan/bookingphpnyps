@@ -123,7 +123,7 @@ if ($dateOrder) {
                                 "/" .
                                 $orderDay .
                                 "/" .
-                                $orderYear . ' ' . $dayOfOrder ?></td>
+                                $orderYear . ' ' . $dayOfOrder ?> (Today)</td>
                         </tr>
                         <tr>
                             <th scope="row">Time of Tour</th>
@@ -145,6 +145,15 @@ if ($dateOrder) {
                             <th scope="row">Finish Address</th>
                             <td><?= $destinationAddress ?></td>
                         </tr>
+												<?php 
+
+if ($paymentMethod == "CARD" or $paymentMethod == "card"){
+	$paymentMethod = "debit/credit card";
+}
+if ($paymentMethod == "CASH" or $paymentMethod == "cash"){
+	$paymentMethod = "CASH";
+}
+?>
                         <tr>
                             <th scope="row">Booking Fee</th>
                             <td>$<?= $bookingFee ?> paid on <?= $pickUpDate . ' ' . $dayOfOrder ?></td>
@@ -161,10 +170,13 @@ if ($dateOrder) {
                         </tr>
                     </tbody>
                 </table>
+                </table>
                 <div class="text-center mt-4">
+                    <strong>Thank you,</strong><br>
                     <strong>New York Pedicab Services</strong><br>
-                    <strong>(212) 961-7435</strong><br>
-                    <strong>info@newyorkpedicabservices.com</strong>
+                    <strong><a href="tel:2129617435">(212) 961-7435</a></strong><br>
+                    <strong><a href="mailto:info@newyorkpedicabservices.com" target="_blank">info@newyorkpedicabservices.com</a></strong><br>
+                    <strong><a href="https://newyorkpedicabservices.com" target="_blank">newyorkpedicabservices.com</a></strong>
                 </div>
             </div>
         </div>

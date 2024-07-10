@@ -61,9 +61,8 @@ $sonuc = $sorgu->fetch();
 $toplamDriverFee = $toplamDriverFee + $sonuc['totalDriverFee'];
 
 												?></h4>
-                                                <p class="text-muted mb-0">From the menu on the left, you can perform any operation you want and view active jobs.</p>
 <br>
-<br>Your Total Earnings: $<b style='color:green;'><?= number_format($toplamDriverFee, 2)?></b>                                 </div>
+<br>Your 2024 Earnings: $<b style='color:green;'><?= number_format($toplamDriverFee, 2)?></b>                                 </div>
 												
 										
                                             

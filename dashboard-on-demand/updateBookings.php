@@ -5,36 +5,66 @@ require_once '/home/zlds82bav5q4/public_html/dashboard-scheduled/vendor/autoload
 use Twilio\Rest\Client;
 
 
-function updatePastBookings($pdo) {
-// New York saat dilimini ayarla
-$now = new DateTime("now", new DateTimeZone('America/New_York'));
-$currentDateTime = $now->format('Y-m-d H:i:s'); // Saniye de dahil edelim
+function updatePastBookings2($pdo) {
+    $now = new DateTime("now", new DateTimeZone('America/New_York'));
+    $currentDateTime = $now->format('Y-m-d H:i:s'); 
 
-$tables = ['centralpark', 'pointatob', 'hourly'];
+    $tables = ['centralpark', 'pointatob', 'hourly'];
 
-foreach ($tables as $table) {
-    $stmt = $pdo->query("SELECT bookingNumber, createdAt FROM $table WHERE status = 'pending'");
-    $bookings = $stmt->fetchAll();
+    foreach ($tables as $table) {
+        $stmt = $pdo->query("SELECT bookingNumber, updated_at, totalMinutes FROM $table WHERE status = 'pending'");
+        $bookings = $stmt->fetchAll();
 
-    foreach ($bookings as $booking) {
-        $bookingNumber = $booking['bookingNumber'];
-        $createdAt = $booking['createdAt'];
+        foreach ($bookings as $booking) {
+            $bookingNumber = $booking['bookingNumber'];
+            $updatedAt = $booking['updated_at'];
+            $totalMinutes = $booking['totalMinutes'];
 
-        // createdAt tarihine 2 saat ekleyelim
-        $createdAtDateTime = new DateTime($createdAt, new DateTimeZone('America/New_York'));
-        $createdAtDateTime->modify('+2 hours');
-        $modifiedCreatedAt = $createdAtDateTime->format('Y-m-d H:i:s');
+            $updatedAtDateTime = new DateTime($updatedAt, new DateTimeZone('America/New_York'));
+            $updatedAtDateTime->modify("+$totalMinutes minutes");
+            $modifiedUpdatedAt = $updatedAtDateTime->format('Y-m-d H:i:s');
 
-        // Eğer modifiedCreatedAt şu anki tarihten küçükse veya eşitse güncelle
-        if ($modifiedCreatedAt <= $currentDateTime) {
-            $updateStmt = $pdo->prepare("UPDATE $table SET status = 'past', updated_at = :updated_at WHERE bookingNumber = :bookingNumber");
-            $updateStmt->execute([':updated_at' => $currentDateTime, ':bookingNumber' => $bookingNumber]);
+            if ($currentDateTime >= $modifiedUpdatedAt) {
+                $updateStmt = $pdo->prepare("UPDATE $table SET status = 'past', updated_at = :updated_at WHERE bookingNumber = :bookingNumber");
+                $updateStmt->execute([':updated_at' => $currentDateTime, ':bookingNumber' => $bookingNumber]);
+            }
         }
     }
 }
+
+
+updatePastBookings2($baglanti);
+
+
+function updateFailedBookings($pdo) {
+    $now = new DateTime("now", new DateTimeZone('America/New_York'));
+    $currentDateTime = $now->format('Y-m-d H:i:s'); 
+
+    $tables = ['centralpark', 'pointatob', 'hourly'];
+
+    foreach ($tables as $table) {
+        $stmt = $pdo->query("SELECT bookingNumber, createdAt FROM $table WHERE status = 'available'");
+        $bookings = $stmt->fetchAll();
+
+        foreach ($bookings as $booking) {
+            $bookingNumber = $booking['bookingNumber'];
+            $createdAt = $booking['createdAt'];
+
+            $createdAtDateTime = new DateTime($createdAt, new DateTimeZone('America/New_York'));
+            $expiryTime = clone $createdAtDateTime;
+            $expiryTime->modify('+5 minutes');
+            $currentTime = new DateTime('now', new DateTimeZone('America/New_York'));
+
+            if ($currentTime > $expiryTime) {
+                $updateStmt = $pdo->prepare("UPDATE $table SET status = 'failed', updated_at = :updated_at WHERE bookingNumber = :bookingNumber");
+                $updateStmt->execute([':updated_at' => $currentDateTime, ':bookingNumber' => $bookingNumber]);
+            }
+        }
+    }
 }
 
-updatePastBookings($baglanti);
+updateFailedBookings($baglanti);
+
 
 
 

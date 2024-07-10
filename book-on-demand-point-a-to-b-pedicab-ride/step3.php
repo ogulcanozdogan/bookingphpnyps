@@ -50,6 +50,8 @@ if ($_POST) {
     header("location: index.php");
 		exit;
 }
+$todayDay = date("m/d/Y");
+$todayDayName = date("l", strtotime($todayDay));
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -120,6 +122,14 @@ if ($_POST) {
                            <th scope="row">Number of Passengers</th>
                            <td><?= $numPassengers ?></td>
                         </tr>
+						<tr>
+                           <th scope="row">Date Of Pick Up</th>
+                           <td><?= $todayDay . ' ' . $todayDayName ?> (Today)</td>
+                        </tr>
+						<tr>
+                           <th scope="row">Time Of Pick Up</th>
+                           <td>As Soon As Possible</td>
+                        </tr>
                         <tr>
                            <th scope="row">Duration of Ride</th>
                            <td><?= $rideDuration ?> Minutes</td>
@@ -132,7 +142,6 @@ if ($_POST) {
                            <th scope="row">Destination Address</th>
                            <td><?= $destinationAddress ?></td>
                         </tr>
-							<?php if ($paymentMethod != "fullcard") { ?>
                         <tr>
                            <th scope="row">Booking Fee</th>
                            <td>$<?= number_format($bookingFee, 2) ?></td>
@@ -141,13 +150,12 @@ if ($_POST) {
                            <th scope="row">Driver Fare</th>
                            <td>$<?= number_format($driverFare, 2)  ?> with <?= $paymentMethod == 'card' ? 'debit/credit card' : $paymentMethod ?></td>
                         </tr>
-						<?php } ?>
                         <tr style="background-color:green;">
                            <th scope="row" style="color:white;">Total Fare</th>
                            <td><b style="color:white;">$<?= number_format(
                                $totalFare,
                                2
-                           ); if ($paymentMethod == 'fullcard') { echo ' with debit/credit card'; }?></b></td>
+                           );?></b></td>
                         </tr>
                      </tbody>
                   </table>
@@ -179,7 +187,8 @@ if ($_POST) {
                   <input title="" type="hidden" name="hub" value="<?= $hub ?>">
                   <input title="" type="hidden" name="baseFare" value="<?= $baseFare ?>">
                   <input title="" type="hidden" name="operationFare" value="<?= $operationFare ?>">
-				  <input title="" type="hidden" name="dayOfWeek" value="<?= $dayOfWeek ?>">	
+				  <input title="" type="hidden" name="dayOfWeek" value="<?= $dayOfWeek ?>">					  
+				  
                   <center><input title="" type="submit" class="btn" style="background-color: #0909ff; color:white;" value="Book Now"></center>
                </div>
             </div>

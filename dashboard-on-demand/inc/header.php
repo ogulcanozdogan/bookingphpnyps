@@ -11,29 +11,26 @@ $surname = $sonuc["surname"];
 $perm = $sonuc["perm"];
 $user = $_SESSION["user"];
 
+// Başlangıç sayacını tanımla
+$sayac = 0;
 
-// Rastgele kullanıcı bilgileri ve avatar almak için Random User Generator API'sini kullanıyoruz
-$apiUrl = 'https://randomuser.me/api/?gender=male';
+// Kontrol edilecek tablo isimleri
+$tablolar = ['centralpark', 'hourly', 'pointatob'];
 
-// cURL oturumu başlat
-$ch = curl_init();
-
-// cURL seçeneklerini ayarla
-curl_setopt($ch, CURLOPT_URL, $apiUrl);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-// API yanıtını al
-$response = curl_exec($ch);
-
-// cURL oturumunu kapat
-curl_close($ch);
-
-// API yanıtını JSON formatından diziye dönüştür
-$data = json_decode($response, true);
-
-// Rastgele kullanıcının avatar URL'sini al
-$avatarUrl = $data['results'][0]['picture']['large'];
-
+// Her tabloyu kontrol et
+foreach ($tablolar as $tablo) {
+    // Sorguyu hazırla ve çalıştır
+    $sorgu = $baglanti->prepare("SELECT COUNT(*) as count FROM $tablo WHERE status='pending' AND driver=:user");
+    $sorgu->execute([':user' => $user]);
+    
+    // Sonucu al
+    $sonuc = $sorgu->fetch();
+    
+    // Sayacı artır
+    if ($sonuc['count'] > 0) {
+        $sayac += 1;
+    }
+}
 										  ?>
     <!-- Begin page -->
     <div id="layout-wrapper">
@@ -71,13 +68,9 @@ $avatarUrl = $data['results'][0]['picture']['large'];
                     </span>
                 </button>
 
-     
             </div>
 
             <div class="d-flex align-items-center">
-
-             
-
 
                 <div class="ms-1 header-item d-none d-sm-flex">
                     <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" data-toggle="fullscreen">
@@ -90,20 +83,19 @@ $avatarUrl = $data['results'][0]['picture']['large'];
                         <i class='bx bx-moon fs-22'></i>
                     </button>
                 </div>
-				
 				<div class="ms-1 header-item d-none d-sm-flex">
-                    <a href="logout.php" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle light-dark-mode">
-                        <i class=' bx bx-user-x fs-22'></i>
+               <a href="logout.php" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle light-dark-mode">
+                      Logout
                     </a>
                 </div>
 
                 <div class="dropdown ms-sm-3 header-item topbar-user">
                     <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="d-flex align-items-center">
-                            <img class="rounded-circle header-profile-user" src="<?=$avatarUrl?>" alt="Header Avatar">
+                           
                             <span class="text-start ms-xl-2">
                                 <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text"><?php echo $name . " " . $surname; ?></span>
-                                <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text"><?=$perm?></span>
+                                <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text"><?=ucfirst($perm);?></span>
                             </span>
                         </span>
                     </button>

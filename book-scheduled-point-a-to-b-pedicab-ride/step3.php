@@ -142,7 +142,7 @@ if ($_POST) {
                         </tr>
                         <tr>
                            <th scope="row">Duration of Ride</th>
-                           <td><?= $rideDuration ?> Minutes</td>
+                           <td><?= number_format($rideDuration, 2) ?> Minutes</td>
                         </tr>
                         <tr>
                            <th scope="row">Pick Up Address</th>

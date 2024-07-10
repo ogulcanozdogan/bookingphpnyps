@@ -11,29 +11,6 @@ $surname = $sonuc["surname"];
 $perm = $sonuc["perm"];
 $user = $_SESSION["user"];
 
-
-// Rastgele kullanıcı bilgileri ve avatar almak için Random User Generator API'sini kullanıyoruz
-$apiUrl = 'https://randomuser.me/api/?gender=male';
-
-// cURL oturumu başlat
-$ch = curl_init();
-
-// cURL seçeneklerini ayarla
-curl_setopt($ch, CURLOPT_URL, $apiUrl);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-// API yanıtını al
-$response = curl_exec($ch);
-
-// cURL oturumunu kapat
-curl_close($ch);
-
-// API yanıtını JSON formatından diziye dönüştür
-$data = json_decode($response, true);
-
-// Rastgele kullanıcının avatar URL'sini al
-$avatarUrl = $data['results'][0]['picture']['large'];
-
 										  ?>
     <!-- Begin page -->
     <div id="layout-wrapper">
@@ -100,10 +77,10 @@ $avatarUrl = $data['results'][0]['picture']['large'];
                 <div class="dropdown ms-sm-3 header-item topbar-user">
                     <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="d-flex align-items-center">
-                            <img class="rounded-circle header-profile-user" src="<?=$avatarUrl?>" alt="Header Avatar">
+                            
                             <span class="text-start ms-xl-2">
                                 <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text"><?php echo $name . " " . $surname; ?></span>
-                                <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text"><?=$perm?></span>
+                                <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text"><?=ucfirst($perm);?></span>
                             </span>
                         </span>
                     </button>

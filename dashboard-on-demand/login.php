@@ -8,7 +8,7 @@ include("inc/vt.php"); // Database connection
 
 // If there's an existing session, redirect to the index page
 if (isset($_SESSION["Oturumondemand"]) && $_SESSION["Oturumondemand"] == "6789ondemand") {
-    header("location:index.php");
+    header("location:available.php");
     exit();
 } 
 // If "remember me" was previously selected, create a session and redirect
@@ -26,7 +26,7 @@ else if (isset($_COOKIE["cerezondemand"])) {
             $_SESSION["user"] = $sonuc['user'];
 
             // Redirect to the index page
-            header("location:index.php");
+            header("location:available.php");
             exit();
         }
     }
@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (isset($_POST["rememberMeondemand"])) {
                 setcookie("cerezondemand", md5("aaondemand" . $user . "bbondemand"), time() + (60 * 60 * 24 * 7));
             }
-            header("location:index.php"); // Redirect to the index page
+            header("location:available.php"); // Redirect to the index page
             exit();
         } else {
             // If the username or password is incorrect, display an error message

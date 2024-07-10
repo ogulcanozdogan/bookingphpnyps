@@ -198,7 +198,7 @@ if ($paymentMethod === "card") {
 }
 
 $minFares = [
-    "cash" => [
+    "CASH" => [
         "week" => ["Booking Fee" => 9, "Driver Fare" => 36, "Total Fare" => 45],
         "weekend" => [
             "Booking Fee" => 10.5,
@@ -394,7 +394,8 @@ require "inc/countryselect.php";
                            <th scope="row">Service Details</th>
                            <td><?= $serviceDetails ?></td>
                         </tr>
-                            <tr>
+							<?php if ($paymentMethod != "fullcard") { ?>
+                             <tr>
                                 <th scope="row">Booking Fee</th>
                                 <td>$<?= number_format($bookingFee, 2) ?></td>
                             </tr>
@@ -402,7 +403,8 @@ require "inc/countryselect.php";
                                 <th scope="row">Driver Fare</th>
                                  <td>$<?= number_format($driverFare, 2) ?> with <?= $paymentMethod == 'card' ? 'debit/credit card' : $paymentMethod ?></td>
                             </tr>
-                        <tr style="background-color:green;">
+							<?php } ?>
+                            <tr style="background-color:green;">
                            <th scope="row" style="color:white;">Total Fare</th>
                            <td><b style="color:white;">$<?= number_format(
                                $totalFare,

@@ -53,13 +53,6 @@ if ($_POST) {
     $hub = "West Drive and West 59th Street New York, NY 10019";
 
 
-// Base Fare calculation
-$isWeekend = in_array($dayOfWeek, ["Friday", "Saturday", "Sunday"]);
-$baseFare = $isWeekend ? 35 : 30;
-if ($month == "December") {
-    $baseFare += 10;
-}
-
 function getShortestBicycleRouteDuration($origin, $destination)
 {
     $apiKey = "AIzaSyBg9HV0g-8ddiAHH6n2s_0nXOwHIk2f1DY"; // Enter your API key here
@@ -130,9 +123,9 @@ function calculateOperationFarePerHour($dayOfWeek, $month)
 {
     $isWeekend = in_array($dayOfWeek, ["Friday", "Saturday", "Sunday"]);
     if ($month == "December") {
-        return $isWeekend ? 45 : 40; // Different fare for weekends and weekdays in December
+        return $isWeekend ? 60 : 52.5; // Different fare for weekends and weekdays in December
     } else {
-        return $isWeekend ? 35 : 30; // Different fare for normal weekends and weekdays
+        return $isWeekend ? 45 : 37.5; // Different fare for normal weekends and weekdays
     }
 }
 
@@ -148,9 +141,9 @@ $operationFare = ($totalDurationMinutes / 60) * $operationFarePerHour;
 // Update the rest of the code accordingly...
 
 // Booking Fee and Driver Fare calculation
-if ($paymentMethod == "card" or $paymentMethod == "cash") {
-    $bookingFee = 0.2 * ($baseFare + $operationFare);
-    $driverFare = 0.8 * ($baseFare + $operationFare);
+if ($paymentMethod == "card" or $paymentMethod == "CASH") {
+    $bookingFee = 0.2 * ($operationFare);
+    $driverFare = 0.8 * ($operationFare);
     if ($paymentMethod === "card") {
         $driverFare *= 1.1;
     }
@@ -158,9 +151,8 @@ if ($paymentMethod == "card" or $paymentMethod == "cash") {
     $bookingFee = 0.3 * $totalFare;
     $driverFare = 0.7 * $totalFare;
 }
-
 $minFares = [
-    "cash" => [
+    "CASH" => [
         "week" => ["Booking Fee" => 3.75, "Driver Fare" => 15, "Total Fare" => 18.75],
         "weekend" => [
             "Booking Fee" => 4.5,
@@ -178,7 +170,7 @@ $minFares = [
             "Total Fare" => 30,
         ],
     ],
-    "card" => [
+    "CARD" => [
         "week" => [
             "Booking Fee" => 3.75,
             "Driver Fare" => 16.5,
@@ -234,14 +226,16 @@ $minTotalFare = $minFares[$paymentMethod][$key]["Total Fare"];
 
 $bookingFee = max($bookingFee, $minBookingFee);
 $driverFare = max($driverFare, $minDriverFare);
-if ($paymentMethod == "card" or $paymentMethod == "cash") {
+if ($paymentMethod == "card" or $paymentMethod == "CASH") {
     $totalFare = max($bookingFee + $driverFare, $minTotalFare);
 } else {
-    $totalFare = ($baseFare + $operationFare) * 1.2;
+    $totalFare = ($operationFare) * 1.2;
     $totalFare = max($totalFare, $minTotalFare);
 }
 require "inc/countryselect.php";
 $rideDuration = number_format($rideDuration, 2);
+$todayDay = date("m/d/Y");
+$todayDayName = date("l", strtotime($todayDay));
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -337,6 +331,14 @@ $rideDuration = number_format($rideDuration, 2);
                             <th scope="row">Number of Passengers</th>
                                 <td><?= $numPassengers ?></td>
                             </tr>
+							<tr>
+                           <th scope="row">Date Of Pick Up</th>
+                           <td><?= $todayDay . ' ' . $todayDayName ?> (Today)</td>
+                        </tr>
+						<tr>
+                           <th scope="row">Time Of Pick Up</th>
+                           <td>As Soon As Possible</td>
+                        </tr>
                             <tr>
                                 <th scope="row">Duration of Ride</th>
                                 <td><?= $rideDuration ?> Minutes</td>
@@ -349,8 +351,7 @@ $rideDuration = number_format($rideDuration, 2);
                                 <th scope="row">Destination Address</th>
                                 <td><?= $destinationAddress ?></td>
                             </tr>
-							<?php if ($paymentMethod != "fullcard") { ?>
-                            <tr>
+                             <tr>
                                 <th scope="row">Booking Fee</th>
                                 <td>$<?= number_format($bookingFee, 2) ?></td>
                             </tr>
@@ -358,14 +359,13 @@ $rideDuration = number_format($rideDuration, 2);
                                 <th scope="row">Driver Fare</th>
                                  <td>$<?= number_format($driverFare, 2) ?> with <?= $paymentMethod == 'card' ? 'debit/credit card' : $paymentMethod ?></td>
                             </tr>
-							<?php } ?>
                             <tr style="background-color:green;">
                            <th scope="row" style="color:white;">Total Fare</th>
                            <td><b style="color:white;">$<?= number_format(
                                $totalFare,
                                2
-                           ); if ($paymentMethod == 'fullcard') { echo ' with debit/credit card'; }?></b></td>
-							</tr>
+                           );?></b></td>
+                        </tr>
                         </tbody>
                     </table>
                     <h2 class="text-center mb-4 font-weight-bold" style="color:#0909ff;">Passenger Details</h2>

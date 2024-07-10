@@ -54,7 +54,8 @@ $paymentIntent = $stripe->paymentIntents->create([
     "description" => "NYPS WEB On Demand Point A to B Pedicab Ride",
     "receipt_email" => $email,
 ]);
-
+$todayDay = date("m/d/Y");
+$todayDayName = date("l", strtotime($todayDay));
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -111,6 +112,14 @@ $paymentIntent = $stripe->paymentIntents->create([
                                 <th scope="row">Number of Passengers</th>
                                 <td><?= $numPassengers ?></td>
                             </tr>
+							<tr>
+                           <th scope="row">Date Of Pick Up</th>
+                           <td><?= $todayDay . ' ' . $todayDayName ?> (Today)</td>
+                        </tr>
+						<tr>
+                           <th scope="row">Time Of Pick Up</th>
+                           <td>As Soon As Possible</td>
+                        </tr>
                             <tr>
                                 <th scope="row">Duration of Ride</th>
                                 <td><?= $rideDuration ?> Minutes</td>
@@ -123,7 +132,6 @@ $paymentIntent = $stripe->paymentIntents->create([
                                 <th scope="row">Destination Address</th>
                                 <td><?= $destinationAddress ?></td>
                             </tr>
-							<?php if ($paymentMethod != "fullcard") { ?>
                              <tr>
                                 <th scope="row">Booking Fee</th>
                                 <td>$<?= number_format($bookingFee, 2) ?></td>
@@ -132,19 +140,23 @@ $paymentIntent = $stripe->paymentIntents->create([
                                 <th scope="row">Driver Fare</th>
                                 <td>$<?= number_format($driverFare, 2) ?> with <?= $paymentMethod == 'card' ? 'debit/credit card' : $paymentMethod ?></td>
                             </tr>
-							<?php } ?>
                             <tr style="background-color:green;">
                            <th scope="row" style="color:white;">Total Fare</th>
                            <td><b style="color:white;">$<?= number_format(
                                $totalFare,
                                2
-                           )?></b></td>
+                           );?></b></td>
                         </tr>
                         </tbody>
                     </table>
                 </form> 
                 <form action="charge.php" method="post" id="payment-form">
-				<label><input required type="checkbox" name="declaration1"> I confirm that I am ready to get picked up now.</label>
+<label>
+            <input required type="checkbox" name="declaration1"
+                oninvalid="this.setCustomValidity('Please, check this box to proceed.')"
+                oninput="this.setCustomValidity('')">
+            I confirm that I am ready to get picked up now.
+        </label>
                      <div class="form-row">
                      <div id="card-element">
                         <!-- Stripe.js injects the Card Element -->

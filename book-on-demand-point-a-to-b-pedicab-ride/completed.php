@@ -19,6 +19,7 @@ $emailAddress = htmlspecialchars($_POST["emailAddress"]);
 $phoneNumber = str_replace("whatsapp:", "", $_POST["phoneNumber"]);
 $numPassengers = htmlspecialchars($_POST["numPassengers"]);
 $pickUpAddress = htmlspecialchars($_POST["pickUpAddress"]);
+$destinationAddress = htmlspecialchars($_POST["destinationAddress"]);
 $paymentMethod = htmlspecialchars($_POST["paymentMethod"]);
 $rideDuration = htmlspecialchars($_POST["rideDuration"]);
 $bookingFee = htmlspecialchars($_POST["bookingFee"]);
@@ -68,10 +69,14 @@ if ($dateOrder) {
             <div class="col-md-6">
                   <h2 class="text-center mb-4 font-weight-bold" style="color:#0909ff;">New York Pedicab Services</h2>
                   <div class="text-center mb-4">
-                     <b>On Demand<br>Point A to B Pedicab Ride<br>Booking Application</b>
+                    <b>Thank you for choosing <br> New York Pedicab Services</b>
                   </div>
                 <table class="table">
                     <tbody>
+					    <tr>
+                            <th scope="row">Booking Number</th>
+                            <td><?=$bookingNumber?></td>
+                        </tr>
                         <tr>
                             <th scope="row">Type</th>
                             <td>On Demand Point A to B Pedicab Ride</td>
@@ -102,7 +107,7 @@ if ($dateOrder) {
                                 "/" .
                                 $orderDay .
                                 "/" .
-                                $orderYear . ' ' . $dayOfOrder ?></td>
+                                $orderYear . ' ' . $dayOfOrder ?> (Today)</td>
                         </tr>
                         <tr>
                             <th scope="row">Time of Pick Up</th>
@@ -112,23 +117,47 @@ if ($dateOrder) {
                             <th scope="row">Duration of Ride</th>
                             <td><?= $rideDuration ?> Minutes</td>
                         </tr>
+
                         <tr>
                             <th scope="row">Pick Up Address</th>
                             <td><?= $pickUpAddress ?></td>
                         </tr>
- <tr>
-                            <th scope="row">Booking Fee</th>
-                            <td>$<?= $bookingFee ?> paid on <?= $pickUpDate . ' ' . $dayOfOrder ?></td>
+						 <tr>
+                            <th scope="row">Destination Address</th>
+                            <td><?= $destinationAddress ?></td>
                         </tr>
+<?php 
+
+if ($paymentMethod == "CARD" or $paymentMethod == "card"){
+	$paymentMethod = "debit/credit card";
+}
+if ($paymentMethod == "CASH" or $paymentMethod == "cash"){
+	$paymentMethod = "CASH";
+}
+?>
                         <tr>
-                            <th scope="row">Driver Fare</th>
-                            <td>$<?= $driverFare ?> with <?= $paymentMethod ?> due on <?= $pickUpDate .
+                            <th scope="row">Booking Fee</th>
+                            <td>$<?= number_format($bookingFee, 2) ?> paid on <?= $orderMonth .
+     "/" .
+     $orderDay .
+     "/" .
+     $orderYear .
      " " .
      $dayOfOrder ?></td>
                         </tr>
-                        <tr style="background-color:green;">
+                        <tr>
+                            <th scope="row">Driver Fare</th>
+                            <td>$<?= number_format($driverFare, 2) ?>  with <?= $paymentMethod ?> due on <?= $orderMonth .
+     "/" .
+     $orderDay .
+     "/" .
+     $orderYear .
+     " " .
+     $dayOfOrder ?></td>
+                        </tr>
+						<tr style="background-color:green;">
                             <th scope="row" style="color:white;">Total Fare</th>
-                            <td><b style="color:white;">$<?= $totalFare ?></b></td>
+                            <td><b style="color:white;">$<?= number_format($totalFare, 2) ?></b></td>
                         </tr>
                     </tbody>
                 </table>
@@ -136,8 +165,8 @@ if ($dateOrder) {
                     <strong>Thank you,</strong><br>
                     <strong>New York Pedicab Services</strong><br>
                     <strong><a href="tel:2129617435">(212) 961-7435</a></strong><br>
-                    <strong><a href="mailto:info@newyorkpedicabservices.com" target="_blank">info@newyorkpedicabservices.com</a></strong>
-                    <strong><a href="https://newyorkpedicabservices.com" target="_blank">https://newyorkpedicabservices.com</a></strong>
+                    <strong><a href="mailto:info@newyorkpedicabservices.com" target="_blank">info@newyorkpedicabservices.com</a></strong><br>
+                    <strong><a href="https://newyorkpedicabservices.com" target="_blank">newyorkpedicabservices.com</a></strong>
                 </div>
             </div>
         </div>

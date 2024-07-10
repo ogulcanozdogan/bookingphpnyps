@@ -116,7 +116,9 @@ if ($dateOrder) {
                             <th scope="row">Pick Up Address</th>
                             <td><?= $pickUpAddress ?></td>
                         </tr>
-<?php if ($paymentMethod == "FULLCARD") { ?>
+<?php if ($paymentMethod == "fullcard" OR $paymentMethod == "FULLCARD") { 
+$paymentMethod = "debit/credit card";
+?>
 						<tr style="background-color:green;">
                             <th scope="row" style="color:white;">Total Fare</th>
                             <td><b style="color:white;">$<?= number_format($totalFare, 2) ?> paid on <?= $orderMonth .
@@ -127,7 +129,15 @@ if ($dateOrder) {
      " " .
      $dayOfOrder ?></b></td>
                         </tr>
-<?php } else { ?>
+<?php } else { 
+
+if ($paymentMethod == "CARD"){
+	$paymentMethod = "debit/credit card";
+}
+if ($paymentMethod == "CASH"){
+	$paymentMethod = "CASH";
+}
+?>
                         <tr>
                             <th scope="row">Booking Fee</th>
                             <td>$<?= number_format($bookingFee, 2) ?> paid on <?= $orderMonth .

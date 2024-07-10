@@ -159,7 +159,9 @@ $hubCoords = getCoordinates($hub, $apiKey);
 
 $paymentMethod = strtoupper($paymentMethod);
 
-    $formattedDate = $currentDateTime->format("m/d/Y");
+$currentDateTime = new DateTime('now', new DateTimeZone('America/New_York'));
+$createdAt = $currentDateTime->format('Y-m-d H:i:s');
+$formattedDate = $currentDateTime->format('m/d/Y');
 
 if ($firstName != "" && $lastName != "") {
     // Check if data fields are not empty.
@@ -186,12 +188,19 @@ if ($firstName != "" && $lastName != "") {
         "operationFare" => $operationFare,
         "pickUpCoords" => $pickUpCoords,
         "destinationCoords" => $destinationCoords,
+		"createdAt" => $createdAt,
+		"totalMinutes" => $totalMinutes,	
     ];
 
-    $sql = "INSERT INTO pointatob (id, bookingNumber, firstName, lastName, emailAddress, phoneNumber, numberOfPassengers, date, pickupAddress, destinationAddress, paymentMethod, duration, bookingFee, driverFee, totalFare, returnDuration, pickUpDuration, hub, baseFare, operationFare, pickUpCoords, destinationCoords, hubCoords)
-VALUES ('$uuid', '$bookingNumber', '$firstName', '$lastName', '$emailAddress', '$phoneNumber', '$numPassengers', '$formattedDate', '$pickUpAddress', '$destinationAddress', '$paymentMethod', '$rideDuration', '$bookingFee', '$driverFare', '$totalFare', '$returnDuration', '$pickUpDuration', '$hub', '$baseFare', '$operationFare', '$pickUpCoords', '$destinationCoords', '$hubCoords')";
+    $sql = "INSERT INTO pointatob (id, totalMinutes, createdAt, bookingNumber, firstName, lastName, emailAddress, phoneNumber, numberOfPassengers, date, pickupAddress, destinationAddress, paymentMethod, duration, bookingFee, driverFee, totalFare, returnDuration, pickUpDuration, hub, baseFare, operationFare, pickUpCoords, destinationCoords, hubCoords)
+VALUES ('$uuid', '$totalMinutes', '$createdAt', '$bookingNumber', '$firstName', '$lastName', '$emailAddress', '$phoneNumber', '$numPassengers', '$formattedDate', '$pickUpAddress', '$destinationAddress', '$paymentMethod', '$rideDuration', '$bookingFee', '$driverFare', '$totalFare', '$returnDuration', '$pickUpDuration', '$hub', '$baseFare', '$operationFare', '$pickUpCoords', '$destinationCoords', '$hubCoords')";
     $durum = $baglanti->prepare($sql)->execute();
-
+if ($paymentMethod == "CARD" or $paymentMethod == "card"){
+				$paymentMethod2 = "debit/credit card";
+			}
+			if ($paymentMethod == "CASH" or $paymentMethod == "cash"){
+				$paymentMethod2 = "CASH";
+			}
     if ($durum) {
         // First email
         $email1 = new \SendGrid\Mail\Mail();
@@ -213,7 +222,7 @@ VALUES ('$uuid', '$bookingNumber', '$firstName', '$lastName', '$emailAddress', '
     <p><strong>Email Address:</strong> $emailAddress</p>
     <p><strong>Phone Number:</strong> $phoneNumber</p>
     <p><strong>Number of Passengers:</strong> $numPassengers</p>
-    <p><strong>Date of Pick Up:</strong> $formattedDate $dayOfOrder</p>
+    <p><strong>Date of Pick Up:</strong> $formattedDate $dayOfOrder (Today)</p>
     <p><strong>Time of Pick Up:</strong> $tourTimeFormatted</p>
     <p><strong>Pick Up Duration:</strong> {$pickUpDuration} Minutes</p>
     <p><strong>Duration of Ride:</strong> {$rideDuration} Minutes</p>
@@ -225,10 +234,10 @@ VALUES ('$uuid', '$bookingNumber', '$firstName', '$lastName', '$emailAddress', '
     <p><strong>Pick Up Address:</strong> $pickUpAddress</p>
     <p><strong>Destination Address:</strong> $destinationAddress</p>
     <p><strong>Booking Fee:</strong> \$$bookingFee paid on $orderMonth/$orderDay/$orderYear $dayOfOrder</p>
-    <p><strong>Driver Fare:</strong> \${$driverFare} with $paymentMethod due on $orderMonth/$orderDay/$orderYear $dayOfOrder</p>
+    <p><strong>Driver Fare:</strong> \${$driverFare} with $paymentMethod2 due on $orderMonth/$orderDay/$orderYear $dayOfOrder</p>
 	<p><strong>Total Fare:</strong> \${$totalFare}</p>
     <h2>Driver Note</h2>
-    <strong>Type:</strong> On Demand Point A to B Pedicab Ride<br><strong>First:</strong> $firstName<br><strong>Last:</strong> $lastName<br><strong>Cell:</strong> $phoneNumber<br><strong>Passengers:</strong> $numPassengers<br><strong>Date:</strong> $formattedDate<br><strong>Time:</strong> $tourTimeFormatted<br><strong>Duration:</strong> {$rideDuration} Minutes<br><strong>Start:</strong> $pickUpAddress<br><strong>Finish:</strong> $destinationAddress<br><strong>Pay:</strong> \${$driverFare} with $paymentMethod by customer $firstName $lastName
+    <strong>Type:</strong> On Demand Point A to B Pedicab Ride<br><strong>First:</strong> $firstName<br><strong>Last:</strong> $lastName<br><strong>Cell:</strong> $phoneNumber<br><strong>Passengers:</strong> $numPassengers<br><strong>Date:</strong> $formattedDate (Today)<br><strong>Time:</strong> $tourTimeFormatted<br><strong>Duration:</strong> {$rideDuration} Minutes<br><strong>Start:</strong> $pickUpAddress<br><strong>Finish:</strong> $destinationAddress<br><strong>Pay:</strong> \${$driverFare} with $paymentMethod2 by customer $firstName $lastName
 </body>
 </html>
 EOD;
@@ -255,13 +264,13 @@ EOD;
     <p><strong>Email Address:</strong> $emailAddress</p>
     <p><strong>Phone Number:</strong> $phoneNumber</p>
     <p><strong>Number of Passengers:</strong> $numPassengers</p>
-    <p><strong>Date of Pick Up:</strong> $formattedDate $dayOfOrder</p>
+    <p><strong>Date of Pick Up:</strong> $formattedDate $dayOfOrder (Today)</p>
     <p><strong>Time of Pick Up:</strong> $tourTimeFormatted</p>
     <p><strong>Duration of Ride:</strong> {$rideDuration} Minutes</p>
     <p><strong>Pick Up Address:</strong> $pickUpAddress</p>
     <p><strong>Destination Address:</strong> $destinationAddress</p>
 	<p><strong>Booking Fee:</strong> \$$bookingFee paid on $todayFormatted $todayDay</p>
-	<p><strong>Driver Fare:</strong> \${$driverFare} with $paymentMethod due on $todayFormatted $todayDay</p>
+	<p><strong>Driver Fare:</strong> \${$driverFare} with $paymentMethod2 due on $todayFormatted $todayDay</p>
     <p><strong>Total Fare:</strong> \${$totalFare}</p>
     <p><strong>Thank you for choosing New York Pedicab Services.</strong></p>
     <strong>New York Pedicab Services</strong><br>
@@ -306,7 +315,7 @@ EOD;
         }
 
         $message =
-            "Point A to B Pedicab Tour available!
+            "Point A to B Pedicab Ride available!
 {" .
             $bookingNumber .
             "}";

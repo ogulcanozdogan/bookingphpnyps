@@ -272,11 +272,20 @@ EOD;
 EOD;
         }
 
+if ($paymentMethod == "card" OR $paymentMethod == "CARD"){
+	$paymentMethod2 = "with debit/credit card";
+}
+if ($paymentMethod == "cash" OR $paymentMethod == "CASH"){
+	$paymentMethod2 = "CASH";
+}
         $htmlContent1 .= <<<EOD
-            <p><strong>Driver Fare:</strong> \${$driverFare} with $paymentMethod due on $pickUpMonth/$pickUpDay/$pickUpYear $dayOfWeek</p>
+            <p><strong>Driver Fare:</strong> \${$driverFare} with $paymentMethod2 due on $pickUpMonth/$pickUpDay/$pickUpYear $dayOfWeek</p>
 EOD;
 
         if ($paymentMethod == "FULLCARD") {
+			if ($paymentMethod == "fullcard" OR $paymentMethod == "FULLCARD"){
+	$paymentMethod2 = "with debit/credit card";
+}
             $htmlContent1 .= <<<EOD
             <p><strong>Total Fare:</strong> \${$totalFare} paid on $orderMonth/$orderDay/$orderYear</p>
 EOD;
@@ -288,7 +297,7 @@ EOD;
 
         $htmlContent1 .= <<<EOD
             <h2>Driver Note</h2>
-            <strong>Type:</strong> Hourly Pedicab Service<br><strong>First:</strong> $firstName<br><strong>Last:</strong> $lastName<br><strong>Cell:</strong> $phoneNumber<br><strong>Passengers:</strong> $numPassengers<br><strong>Date:</strong>$pickUpDate $dayOfWeek<br><strong>Time:</strong> $timeOfPickUp<br><strong>Duration:</strong> {$rideDuration} Minutes<br><strong>Start:</strong> $pickUpAddress<br><strong>Finish:</strong> $destinationAddress<br><strong>Details:</strong> $serviceDetails<br><strong>Pay:</strong> \${$driverFare} with $paymentMethod by customer $firstName $lastName
+            <strong>Type:</strong> Hourly Pedicab Service<br><strong>First:</strong> $firstName<br><strong>Last:</strong> $lastName<br><strong>Cell:</strong> $phoneNumber<br><strong>Passengers:</strong> $numPassengers<br><strong>Date:</strong>$pickUpDate $dayOfWeek<br><strong>Time:</strong> $timeOfPickUp<br><strong>Duration:</strong> {$rideDuration} Minutes<br><strong>Start:</strong> $pickUpAddress<br><strong>Finish:</strong> $destinationAddress<br><strong>Details:</strong> $serviceDetails<br><strong>Pay:</strong> \${$driverFare} with $paymentMethod2 by customer $firstName $lastName
         </body>
         </html>
 EOD;
@@ -322,14 +331,22 @@ EOD;
             <p><strong>Start Address:</strong> $pickUpAddress</p>
             <p><strong>Finish Address:</strong> $destinationAddress</p>
 EOD;
-
+if ($paymentMethod == "card" OR $paymentMethod == "CARD"){
+	$paymentMethod2 = "with debit/credit card";
+}
+if ($paymentMethod == "cash" OR $paymentMethod == "CASH"){
+	$paymentMethod2 = "CASH";
+}
+if ($paymentMethod == "fullcard" OR $paymentMethod == "FULLCARD"){
+	$paymentMethod2 = "with debit/credit card";
+}
         if ($paymentMethod != "FULLCARD") {
             $htmlContent2 .= <<<EOD
     <p><strong>Booking Fee:</strong> \$$bookingFee paid on $orderMonth/$orderDay/$orderYear $dayOfOrder</p>
 EOD;
 
             $htmlContent2 .= <<<EOD
-    <p><strong>Driver Fare:</strong> \${$driverFare} with $paymentMethod due on $pickUpMonth/$pickUpDay/$pickUpYear $dayOfWeek</p>
+    <p><strong>Driver Fare:</strong> \${$driverFare} with $paymentMethod2 due on $pickUpMonth/$pickUpDay/$pickUpYear $dayOfWeek</p>
 EOD;
         }
 

@@ -126,6 +126,9 @@ $convertedDate = date("Y-m-d");
 // Yeni tarihi kullanarak gün adını bulma
 $dayName = date("l", strtotime($convertedDate));
 
+$todayDay = date("m/d/Y");
+$todayDayName = date("l", strtotime($todayDay));
+
 if (
     strpos($dayName, "Monday") !== false ||
     strpos($dayName, "Tuesday") !== false ||
@@ -183,7 +186,7 @@ $operationFare = $totalHours * $hourlyOperationFare;
 $bookingFee = 0.2 * $operationFare;
 
 // Calculate Driver Fare with CASH
-if ($paymentMethod == "cash") {
+if ($paymentMethod == "CASH") {
     $driverFare = 0.8 * $operationFare;
 }
 
@@ -203,7 +206,7 @@ require "inc/countryselect.php";
 <head>
     <meta charset="UTF-8">
       <title>Book On Demand Hourly Pedicab Service</title>
-    <meta name="description" content="On Demand Central Park Pedicab Tour Booking Application">
+    <meta name="description" content="On Demand Hourly Pedicab Service Booking Application">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Viewport meta tag added -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -289,6 +292,14 @@ require "inc/countryselect.php";
                                 <th scope="row">Number of Passengers</th>
                                 <td><?= $numPassengers ?></td>
                             </tr>
+							<tr>
+                           <th scope="row">Date Of Service</th>
+                           <td><?= $todayDay . ' ' . $todayDayName ?> (Today)</td>
+                        </tr>
+						<tr>
+                           <th scope="row">Time Of Service</th>
+                           <td>As Soon As Possible</td>
+                        </tr>
                             <tr>
                                 <th scope="row">Duration of Service</th>
                                 <td><?php if ($serviceDuration == 30 || $serviceDuration == 90) {
@@ -309,18 +320,21 @@ require "inc/countryselect.php";
                                 <th scope="row">Service Details</th>
                                 <td><?= $serviceDetails ?></td>
                             </tr>
-                            <tr>
+                             <tr>
                                 <th scope="row">Booking Fee</th>
                                 <td>$<?= number_format($bookingFee, 2) ?></td>
                             </tr>
                             <tr>
                                 <th scope="row">Driver Fare</th>
-                                <td>$<?= number_format($driverFare, 2) ?> with <?= $paymentMethod == 'card' ? 'debit/credit card' : $paymentMethod ?></td>
+                                 <td>$<?= number_format($driverFare, 2) ?> with <?= $paymentMethod == 'card' ? 'debit/credit card' : $paymentMethod ?></td>
                             </tr>
                             <tr style="background-color:green;">
-                                <th scope="row" style="color:white;">Total Fare</th>
-                                <td><b style="color:white;">$<?= number_format($totalFare, 2); ?></b></td>
-                            </tr>
+                           <th scope="row" style="color:white;">Total Fare</th>
+                           <td><b style="color:white;">$<?= number_format(
+                               $totalFare,
+                               2
+                           );?></b></td>
+                        </tr>
                         </tbody>
                     </table>
                     <h2 class="text-center mb-4 font-weight-bold" style="color:#0909ff;">Passenger Details</h2>

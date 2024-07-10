@@ -54,6 +54,8 @@ if ($_POST) {
     header("location: index.php");
 		exit;
 }
+$todayDay = date("m/d/Y");
+$todayDayName = date("l", strtotime($todayDay));
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -125,6 +127,14 @@ if ($_POST) {
                            <td><?= $numPassengers ?></td>
                         </tr>
 						<tr>
+                           <th scope="row">Date Of Tour</th>
+                           <td><?= $todayDay . ' ' . $todayDayName ?> (Today)</td>
+                        </tr>
+						<tr>
+                           <th scope="row">Time Of Tour</th>
+                           <td>As Soon As Possible</td>
+                        </tr>
+						<tr>
                            <th scope="row">Duration of Tour</th>
                            <td><?= $tourDuration ?> Minutes</td>
                         </tr>
@@ -140,20 +150,20 @@ if ($_POST) {
                            <th scope="row">Finish Address</th>
                            <td><?= $destinationAddress ?></td>
                         </tr>
-                        <tr>
-                           <th scope="row">Booking Fee</th>
-                           <td>$<?= number_format($bookingFee, 2) ?></td>
-                        </tr>
-                        <tr>
-                           <th scope="row">Driver Fare</th>
-                           <td>$<?= number_format($driverFare, 2) ?> with <?= $paymentMethod == 'card' ? 'debit/credit card' : $paymentMethod ?></td>
-                        </tr>
-                        <tr style="background-color:green;">
+                             <tr>
+                                <th scope="row">Booking Fee</th>
+                                <td>$<?= number_format($bookingFee, 2) ?></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Driver Fare</th>
+                                 <td>$<?= number_format($driverFare, 2) ?> with <?= $paymentMethod == 'card' ? 'debit/credit card' : $paymentMethod ?></td>
+                            </tr>
+                            <tr style="background-color:green;">
                            <th scope="row" style="color:white;">Total Fare</th>
                            <td><b style="color:white;">$<?= number_format(
                                $totalFare,
                                2
-                           ) ?></b></td>
+                           );?></b></td>
                         </tr>
                      </tbody>
                   </table>

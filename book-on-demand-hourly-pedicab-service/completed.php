@@ -57,7 +57,7 @@ if ($dateOrder) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>Book On Demand Hourly Pedicab Service</title>
-	  <meta name="description" content=" On Demand Central Park Pedicab Tour Booking Application ">
+	  <meta name="description" content="On Demand Hourly Park Pedicab Service Booking Application ">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
@@ -77,7 +77,7 @@ if ($dateOrder) {
                     <tbody>
                         <tr>
                             <th scope="row">Type</th>
-                            <td>On Demand Central Park Pedicab Tour</td>
+                            <td>On Demand Hourly Pedicab Service</td>
                         </tr>
                         <tr>
                             <th scope="row">First Name</th>
@@ -100,20 +100,20 @@ if ($dateOrder) {
                             <td><?= $numPassengers ?></td>
                         </tr>
                         <tr>
-                            <th scope="row">Date of Tour</th>
+                            <th scope="row">Date of Service</th>
                             <td><?= $orderMonth .
                                 "/" .
                                 $orderDay .
                                 "/" .
-                                $orderYear . ' ' . $dayOfOrder ?></td>
+                                $orderYear . ' ' . $dayOfOrder ?> (Today)</td>
                         </tr>
                         <tr>
-                            <th scope="row">Time of Tour</th>
+                            <th scope="row">Time of Service</th>
                             <td><?= $current_time ?></td>
                         </tr>
                         <tr>
                             <th scope="row">Duration of Service</th>
-                            <td><?= $serviceDuration ?> Minutes</td>
+                            <td><?= $serviceDuration ?></td>
                         </tr>
                         <tr>
                             <th scope="row">Duration of Ride</th>
@@ -131,6 +131,15 @@ if ($dateOrder) {
                             <th scope="row">Service Details</th>
                             <td><?= $serviceDetails ?></td>
                         </tr>
+						<?php 
+
+if ($paymentMethod == "CARD" or $paymentMethod == "card"){
+	$paymentMethod = "debit/credit card";
+}
+if ($paymentMethod == "CASH" or $paymentMethod == "cash"){
+	$paymentMethod = "CASH";
+}
+?>
                         <tr>
                             <th scope="row">Booking Fee</th>
                             <td>$<?= $bookingFee ?> paid on <?= $pickUpDate . ' ' . $dayOfOrder ?></td>
@@ -147,11 +156,12 @@ if ($dateOrder) {
                         </tr>
                     </tbody>
                 </table>
-                <div class="text-center mt-4">
-                    <strong>Thank you for choosing New York Pedicab Services.</strong><br>
+                 <div class="text-center mt-4">
+                    <strong>Thank you,</strong><br>
                     <strong>New York Pedicab Services</strong><br>
-                    <strong><a href='tel:2129617435'>(212) 961-7435</a></strong><br>
-                    <strong><a href='mailto:info@newyorkpedicabservices.com'>info@newyorkpedicabservices.com</a></strong>
+                    <strong><a href="tel:2129617435">(212) 961-7435</a></strong><br>
+                    <strong><a href="mailto:info@newyorkpedicabservices.com" target="_blank">info@newyorkpedicabservices.com</a></strong><br>
+                    <strong><a href="https://newyorkpedicabservices.com" target="_blank">newyorkpedicabservices.com</a></strong>
                 </div>
             </div>
         </div>

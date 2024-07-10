@@ -17,7 +17,7 @@ p {
 }
         #map {
             height: 400px;
-            width: 30%;
+            width: 100%;
         }
 		
 @media (min-width: 600px) {
@@ -48,6 +48,14 @@ $destinationAddress = $sonuc["destinationAddress"];
 
 $customerPhone = $sonuc["phoneNumber"];
 $customerName = $sonuc["firstName"];
+// $updatedAt değişkenini veritabanından alıyoruz
+$updatedAt = $sonuc["updated_at"];
+
+// DateTime nesnesi oluşturup tarihi ayarlıyoruz
+$dateTime = new DateTime($updatedAt, new DateTimeZone('America/New_York'));
+
+// Saati 12 saat biçiminde formatlıyoruz
+$timeFormatted = $dateTime->format('h:i A');
 ?>
        <div class="main-content">
 
@@ -65,13 +73,12 @@ Type = Point A to B Pedicab Ride<br>
 Start Location = <?=$pickupAddress?><br>
 Finish Location = <?=$destinationAddress?><br>
 Date = <?=$sonuc["date"]?><br>
-Time = Now!<br>
-Duration = <?=$sonuc["duration"]?><br>
+Time = <?=$timeFormatted?><br>
+Duration = <?=number_format($sonuc["duration"], 2)?> Minutes<br>
 Passengers = <?=$sonuc["numberOfPassengers"]?><br>
 Name = <?=$customerName . ' ' . $sonuc["lastName"]?><br>
 Phone = <?=$customerPhone;?><br>
 Pay = $<?=$sonuc["driverFee"]?> with <?=$sonuc["paymentMethod"]?> by customer <?php echo $sonuc["firstName"] . " " . $sonuc["lastName"]?><br>
-Please, confirm by typing the start time.&nbsp;<br>
     <div id="map" style="margin-top:30px;"></div>
        </div>
 		
