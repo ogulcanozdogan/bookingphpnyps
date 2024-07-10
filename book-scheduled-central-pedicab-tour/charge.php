@@ -149,17 +149,19 @@ $namesurname = $firstName. ' '  .$lastName;
         $durum = $baglanti->prepare($sql)->execute();
 
 		$operationFare = number_format($operationFare, 2);
-		
 		$rideDuration = number_format($rideDuration , 2);
-		   $date = DateTime::createFromFormat('m/d/Y', $pickUpDate);
+		$date = DateTime::createFromFormat('m/d/Y', $pickUpDate);
+		// Gün değerini al
+		$pickUpDay = $date->format('l');
 
-// Gün değerini al
-$pickUpDay = $date->format('l');
-
-
-			
-$rideDuration = number_format($rideDuration, 2);
+		$rideDuration = number_format($rideDuration, 2);
 		
+		if ($paymentMethod == "CARD" or $paymentMethod == "card"){
+			$paymentMethod2 = "debit/credit card";
+		}
+				if ($paymentMethod == "CASH" or $paymentMethod == "cash"){
+			$paymentMethod2 = "CASH";
+		}
 		
         if ($durum) {
             $email1 = new \SendGrid\Mail\Mail();
@@ -180,12 +182,12 @@ $rideDuration = number_format($rideDuration, 2);
     <p><strong>Number of Passengers:</strong> $numPassengers</p>
     <p><strong>Date of Tour:</strong> $pickUpDate</p>
     <p><strong>Time of Tour:</strong> $timeOfPickUp</p>
-    <p><strong>Pick Up 1:</strong> {$pickup1} Minutes</p>
-    <p><strong>Pick Up 2:</strong> {$pickup2} Minutes</p>
+    <p><strong>Pick Up 1 (Hub 1 to Start) Duration:</strong> {$pickup1} Minutes</p>
+    <p><strong>Pick Up 2 (Start to Hub 2) Duration:</strong> {$pickup2} Minutes</p>
     <p><strong>Duration of Tour:</strong> {$tourDuration} Minutes</p>
     <p><strong>Duration of Ride:</strong> {$rideDuration} Minutes</p>
-    <p><strong>Return 1 Duration:</strong> {$return1} Minutes</p>
-    <p><strong>Return 2 Duration:</strong> {$return2} Minutes</p>
+    <p><strong>Return 1 (Hub 1 to Finish) Duration:</strong> {$return1} Minutes</p>
+    <p><strong>Return 2 (Finish to Hub 2) Duration:</strong> {$return2} Minutes</p>
     <p><strong>Operation Duration:</strong> {$operationDurationFormatted} hours</p>
     <p><strong>Start Address:</strong> $pickUpAddress</p>
     <p><strong>Finish Address:</strong> $destinationAddress</p>
@@ -193,10 +195,10 @@ $rideDuration = number_format($rideDuration, 2);
     <p><strong>Hub 2:</strong> 6th Avenue and Central Park South New York, NY 10019</p>
     <p><strong>Operation Fare:</strong> \${$operationFare} per hour</p>
     <p><strong>Booking Fee:</strong> \$$bookingFee paid on $todayFormatted $todayDay</p>
-    <p><strong>Driver Fare:</strong> \${$driverFare} with $paymentMethod due on $pickUpDate $pickUpDay</p>
+    <p><strong>Driver Fare:</strong> \${$driverFare} with $paymentMethod2 due on $pickUpDate $pickUpDay</p>
     <p><strong>Total Fare:</strong> \${$totalFare}</p>
     <h2>Driver Note</h2>
-    <strong>Type:</strong> Scheduled Central Park Pedicab Tour<br><strong>First:</strong> $firstName<br><strong>Last:</strong> $lastName<br><strong>Phone:</strong> $phoneNumber<br><strong>Passengers:</strong> $numPassengers<br><strong>Date: </strong>$pickUpDate $pickUpDay<br><strong>Time:</strong> $timeOfPickUp<br><strong>Tour Duration:</strong> {$tourDuration} Minutes<br><strong>Ride Duration:</strong> {$rideDuration} Minutes<br><strong>Start:</strong> $pickUpAddress<br><strong>Finish:</strong> $destinationAddress<br><strong>Pay:</strong> \${$driverFare} $paymentMethod by customer $firstName $lastName
+    <strong>Type:</strong> Scheduled Central Park Pedicab Tour<br><strong>First:</strong> $firstName<br><strong>Last:</strong> $lastName<br><strong>Phone:</strong> $phoneNumber<br><strong>Passengers:</strong> $numPassengers<br><strong>Date: </strong>$pickUpDate $pickUpDay<br><strong>Time:</strong> $timeOfPickUp<br><strong>Tour Duration:</strong> {$tourDuration} Minutes<br><strong>Ride Duration:</strong> {$rideDuration} Minutes<br><strong>Start:</strong> $pickUpAddress<br><strong>Finish:</strong> $destinationAddress<br><strong>Pay:</strong> \${$driverFare} $paymentMethod2 by customer $firstName $lastName
 </body>
 </html>
 EOD;
@@ -226,7 +228,7 @@ EOD;
     <p><strong>Start Address:</strong> $pickUpAddress</p>
     <p><strong>Finish Address:</strong> $destinationAddress</p>
     <p><strong>Booking Fee:</strong> \$$bookingFee paid on $todayFormatted $todayDay</p>
-    <p><strong>Driver Fare:</strong> \${$driverFare} with $paymentMethod due on $pickUpDate $pickUpDay</p>
+    <p><strong>Driver Fare:</strong> \${$driverFare} with $paymentMethod2 due on $pickUpDate $pickUpDay</p>
     <p><strong>Thank you,</strong></p>
     <p><strong>New York Pedicab Services</strong></p>
     <p><strong>(212) 961-7435</strong></p>

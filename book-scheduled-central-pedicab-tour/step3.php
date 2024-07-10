@@ -165,17 +165,20 @@ $pickUpDay = $date->format('l');
                            <th scope="row">Finish Address</th>
                            <td><?=$destinationAddress?></td>
                         </tr>
-                        <tr>
-                           <th scope="row">Booking Fee</th>
-                           <td>$<?=number_format($bookingFee, 2)?></td>
-                        </tr>
-                        <tr>
-                           <th scope="row">Driver Fare</th>
-                           <td>$<?= number_format($driverFare, 2) ?> with <?= $paymentMethod == 'card' ? 'debit/credit card' : $paymentMethod ?></td>
-                        </tr>
-                        <tr style="background-color:green;">
+                             <tr>
+                                <th scope="row">Booking Fee</th>
+                                <td>$<?= number_format($bookingFee, 2) ?></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Driver Fare</th>
+                                 <td>$<?= number_format($driverFare, 2) ?> with <?= $paymentMethod == 'card' ? 'debit/credit card' : $paymentMethod ?></td>
+                            </tr>
+                            <tr style="background-color:green;">
                            <th scope="row" style="color:white;">Total Fare</th>
-                           <td><b style="color:white;">$<?=number_format($totalFare, 2)?></b></td>
+                           <td><b style="color:white;">$<?= number_format(
+                               $totalFare,
+                               2
+                           );?></b></td>
                         </tr>
                      </tbody>
                   </table>

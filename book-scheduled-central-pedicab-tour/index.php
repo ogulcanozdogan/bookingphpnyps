@@ -173,6 +173,7 @@
                         </div>
                      </div>
                   </div>
+				<!-- <div id="coordinates-display" style="margin-top: 20px;"></div> -->
                   <!-- Pick Up Address -->
                   <div class="form-group">
                      <label for="pickUpAddress">Start Address</label>
@@ -187,7 +188,7 @@
                   <div class="form-group">
                      <label>Driver Paid Separately</label>
                      <div class="form-check">
-                        <input title="" class="form-check-input" type="radio" name="paymentMethod" id="payCash" value="cash" <?php echo isset($_GET['paymentMethod']) && $_GET['paymentMethod'] == 'cash' ? 'checked' : ''; ?> required>
+                        <input title="" class="form-check-input" type="radio" name="paymentMethod" id="payCash" value="CASH" <?php echo isset($_GET['paymentMethod']) && $_GET['paymentMethod'] == 'CASH' ? 'checked' : ''; ?> required>
                         <label class="form-check-label" for="payCash">
                         I will pay the driver cash
                         </label>
@@ -327,7 +328,8 @@ function initAutocomplete() {
 
     var options = {
         bounds: manhattanBounds,
-        strictBounds: true // Restrict results within the specified bounds
+        strictBounds: true, // Restrict results within the specified bounds
+        componentRestrictions: { country: 'us' } // Restrict results to the US
     };
 
     var allowedZipCodes = [
@@ -361,11 +363,11 @@ function initAutocomplete() {
 
         if (zipCode && allowedZipCodes.includes(zipCode.long_name)) {
             console.log("Valid location: ", place.formatted_address);
-            var addressWithoutCountry = place.formatted_address.replace(/, USA$/, '');
-            if (customPlaceName && !addressWithoutCountry.includes(customPlaceName)) {
-                inputField.value = `${addressWithoutCountry} (${customPlaceName})`;
+            var addressWithCountry = place.formatted_address;
+            if (customPlaceName && !addressWithCountry.includes(customPlaceName)) {
+                inputField.value = `${addressWithCountry} (${customPlaceName})`;
             } else {
-                inputField.value = addressWithoutCountry;
+                inputField.value = addressWithCountry;
             }
         } else {
             console.error("Invalid postal code.");
@@ -388,7 +390,7 @@ function initAutocomplete() {
             inputField.value = "Columbus Circle, Columbus Circle, New York, NY, USA";
             console.log("Address set to Columbus Circle, Columbus Circle, New York, NY, USA");
         } else {
-            var formattedAddress = place.formatted_address.replace(/, USA$/, '');
+            var formattedAddress = place.formatted_address;
             if (customPlaceName && !formattedAddress.includes(customPlaceName)) {
                 inputField.value = `${formattedAddress} (${customPlaceName})`;
             } else {
@@ -397,6 +399,14 @@ function initAutocomplete() {
             console.log("Address set to ", formattedAddress);
             checkZipCode(place, inputField, customPlaceName);
         }
+
+        // Display coordinates
+        var coordinates = place.geometry.location;
+        console.log("Coordinates: ", coordinates.lat(), coordinates.lng());
+
+        // Display coordinates on the page
+        var coordinatesDisplay = document.getElementById('coordinates-display');
+        coordinatesDisplay.innerHTML = `Coordinates: ${coordinates.lat()}, ${coordinates.lng()}`;
     }
 
     autocompletePickup.addListener('place_changed', function() {
@@ -408,6 +418,8 @@ function initAutocomplete() {
     });
 }
 </script>
+
+
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
    </body>
 </html>

@@ -29,7 +29,6 @@
     $countryName = $_POST["countryName"];
    }
    
-   
   else if ($_GET){
    $firstName = $_GET["firstName"]; // default value 1
    $lastName = $_GET["lastName"]; // default value 1
@@ -98,13 +97,14 @@ if ($month == "December") {
     $hourlyOperationFare = $isWeekend ? $operationFareRates['default']['weekend'] : $operationFareRates['default']['weekday'];
 }
 
-function getShortestBicycleRouteDuration($origin, $destination) {
-    $apiKey = 'AIzaSyBg9HV0g-8ddiAHH6n2s_0nXOwHIk2f1DY'; // Enter your API key here
+function getShortestBicycleRouteDuration($origin, $destination)
+{
+    $apiKey = "AIzaSyBg9HV0g-8ddiAHH6n2s_0nXOwHIk2f1DY"; // Enter your API key here
     $origin = urlencode($origin);
     $destination = urlencode($destination);
 
-    // Adding bicycle mode parameter
-    $url = "https://maps.googleapis.com/maps/api/directions/json?origin=$origin&destination=$destination&mode=bicycling&key=$apiKey";
+    // Adding bicycle mode parameter and request for alternative routes
+    $url = "https://maps.googleapis.com/maps/api/directions/json?origin=$origin&destination=$destination&mode=bicycling&alternatives=true&key=$apiKey";
 
     $curl = curl_init();
     curl_setopt($curl, CURLOPT_URL, $url);
@@ -114,31 +114,33 @@ function getShortestBicycleRouteDuration($origin, $destination) {
 
     if ($response) {
         $data = json_decode($response, true);
-        if (isset($data['routes']) && count($data['routes']) > 0) {
+        if (isset($data["routes"]) && count($data["routes"]) > 0) {
             // Find the shortest duration
             $shortestDuration = PHP_INT_MAX;
-            foreach ($data['routes'] as $route) {
+            $fastestRouteIndex = -1;
+
+            foreach ($data["routes"] as $index => $route) {
                 $routeDuration = 0;
-                foreach ($route['legs'] as $leg) {
-                    $routeDuration += $leg['duration']['value'];
+                foreach ($route["legs"] as $leg) {
+                    $routeDuration += $leg["duration"]["value"];
                 }
                 if ($routeDuration < $shortestDuration) {
                     $shortestDuration = $routeDuration;
+                    $fastestRouteIndex = $index;
                 }
             }
 
             // Calculate the shortest duration in minutes
-            if ($shortestDuration !== PHP_INT_MAX) {
+            if ($fastestRouteIndex !== -1) {
                 $minutes = floor($shortestDuration / 60);
                 $seconds = $shortestDuration % 60;
-                return sprintf("%.2f", $minutes + ($seconds / 60)); // Return duration in "24.11" format
+                return sprintf("%.2f", $minutes + $seconds / 60); // Return the duration in "24.11" format
             }
         }
     }
 
     return false; // Return false if no suitable route is found
 }
-
 // Pick Up 1 duration
 $origin = $hub1;
 $destination = $deneme2;
@@ -171,7 +173,7 @@ $return1 = $return1suresi * 2.5;
 $return2 = $return2suresi * 2.5;
 
 // Total duration (in minutes) for Ride Duration
-$rideDuration = $pickup2 + $toursuresi + $return1;
+$rideDuration = $pickup2 + $tourDuration + $return1;
 
 // Total duration (in minutes) for Operation Fare
 $totalOperationDuration = $pickup1 + $pickup2 + $tourDuration + $return1 + $return2;
@@ -184,7 +186,7 @@ $operationFare = $totalHours * $hourlyOperationFare;
 $bookingFee = 0.2 * $operationFare;
 
 // Calculate Driver Fare with CASH
-if ($paymentMethod == "cash") {
+if ($paymentMethod == "CASH") {
     $driverFare = 0.8 * $operationFare;
 }
 
@@ -291,13 +293,18 @@ require('inc/countryselect.php');
                   <div id="map" style="margin-top:30px;"></div>
                   <table class="table">
                      <tbody>
+					 <tr>
+					 <th scope="row">hubs</th>
+					 <td>Hub1: West Drive and West 59th Street New York, NY 10019</td>
+					 <td>Hub2: 6th Avenue and Central Park South New York, NY 10019</td>
+					 </tr>
 					 	<tr>
 						<th scope="row">Debug Area</th>
-						<td>Pickup1 Duration: <?=$pickup1?></td>
-						<td>Pickup2 Duration: <?=$pickup2?></td>
+						<td>Pickup1 hub1 to pickup Duration: <?=$pickup1?></td>
+						<td>Pickup2 pcikup to hub2 Duration: <?=$pickup2?></td>
 						<td>Tour Duration: <?=$tourDuration?></td>
-						<td>Return1 Duration: <?=$return1?></td>
-						<td>Return2 Duration: <?=$return2?></td>
+						<td>Return1 hub1 to destination Duration: <?=$return1?></td>
+						<td>Return2 destination to hub 2 Duration: <?=$return2?></td>
 						</tr>
                         <tr>
                            <th scope="row">Number of Passengers</th>
@@ -327,18 +334,20 @@ require('inc/countryselect.php');
                            <th scope="row">Finish Address</th>
                            <td><?=$destinationAddress?></td>
                         </tr>
-                        <tr>
-                           <th scope="row">Booking Fee</th>
-                           <td>$<?=number_format($bookingFee, 2)?></td>
-                        </tr>
-                        <tr>
-                           <th scope="row">Driver Fare</th>
-                           <td>$<?= number_format($driverFare, 2) ?> with <?= $paymentMethod == 'card' ? 'debit/credit card' : $paymentMethod ?></td>
-
-                        </tr>
-                        <tr style="background-color:green;">
+                             <tr>
+                                <th scope="row">Booking Fee</th>
+                                <td>$<?= number_format($bookingFee, 2) ?></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Driver Fare</th>
+                                 <td>$<?= number_format($driverFare, 2) ?> with <?= $paymentMethod == 'card' ? 'debit/credit card' : $paymentMethod ?></td>
+                            </tr>
+                            <tr style="background-color:green;">
                            <th scope="row" style="color:white;">Total Fare</th>
-                           <td><b style="color:white;">$<?=number_format($totalFare, 2)?></b></td>
+                           <td><b style="color:white;">$<?= number_format(
+                               $totalFare,
+                               2
+                           );?></b></td>
                         </tr>
                      </tbody>
                   </table>

@@ -326,13 +326,6 @@ if (!$checkZipCodes($deneme2) || !$checkZipCodes($destinationAddress)) {
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput-jquery.min.js"></script>
       <script>
-         $("#phoneNumber").intlTelInput({
-             initialCountry: "us", // Kullanıcının bulunduğu ülkeyi otomatik olarak seçer
-             separateDialCode: true, // Telefon kodunu ayrı bir alan olarak gösterir
-             utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js" // Kodu formatlamak için gerekli yardımcı script
-         });
-      </script>
-      <script>
          // Telefon numarası giriş alanını al
          var phoneNumberInput = document.getElementById("phoneNumber");
          

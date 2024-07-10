@@ -32,6 +32,9 @@ if (!$_POST) {
     $pickUpDate = htmlspecialchars($_POST['pickUpDate']);
 	$timeOfPickUp = htmlspecialchars($_POST['timeOfPickUp']);
 	
+	
+	$date = DateTime::createFromFormat('m/d/Y', $pickUpDate);
+	$pickUpDay = $date->format('l');
 
 ?>
 
@@ -55,7 +58,8 @@ if (!$_POST) {
             <div class="col-md-6">
                 <h2 class="text-center mb-4 font-weight-bold" style="color:#0909ff;">Booking Details</h2>
                 <div class="text-center mb-4">
-                    <b>Thank you for choosing New York Pedicab Services</b>
+                    <b>Thank you for choosing New York Pedicab Services</b><br>
+					<b>Below are the confirmed details of your booking:</b>
                 </div>
                 <table class="table">
                     <tbody>
@@ -109,11 +113,19 @@ if (!$_POST) {
                         </tr>
                         <tr>
                             <th scope="row">Booking Fee</th>
-                            <td>$<?= $bookingFee ?> paid on <?= $pickUpDate ?></td>
+                            <td>$<?= $bookingFee ?> paid on <?= $orderMonth . '/' . $orderDay . '/' . $orderYear ?></td>
                         </tr>
+						<?php 
+						if ($paymentMethod == "CARD" or $paymentMethod == "card"){
+						$paymentMethod = "debit/credit card";
+						}
+						if ($paymentMethod == "CASH" or $paymentMethod == "cash"){
+						$paymentMethod = "CASH";
+						}
+						?>
                         <tr>
                             <th scope="row">Driver Fare</th>
-                            <td>$<?= $driverFare ?> with <?= $paymentMethod ?></td>
+                            <td>$<?= $driverFare ?> with <?= $paymentMethod ?> due on <?= $pickUpDate ?></td>
                         </tr>
                         <tr style="background-color:green;">
                             <th scope="row" style="color:white;">Total Fare</th>
@@ -122,9 +134,11 @@ if (!$_POST) {
                     </tbody>
                 </table>
                 <div class="text-center mt-4">
+                    <strong>Thank you,</strong><br>
                     <strong>New York Pedicab Services</strong><br>
-                    <strong>(212) 961-7435</strong><br>
-                    <strong>info@newyorkpedicabservices.com</strong>
+                    <strong><a href="tel:2129617435">(212) 961-7435</a></strong><br>
+                    <strong><a href="mailto:info@newyorkpedicabservices.com" target="_blank">info@newyorkpedicabservices.com</a></strong><br>
+                    <strong><a href="https://newyorkpedicabservices.com" target="_blank">newyorkpedicabservices.com</a></strong>
                 </div>
             </div>
         </div>
