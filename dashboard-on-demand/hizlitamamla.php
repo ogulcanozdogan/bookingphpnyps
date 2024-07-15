@@ -1,4 +1,5 @@
 <?php
+include('inc/vt.php');
 include('inc/head.php');
 include('inc/header.php');
 include('inc/navbar.php');
@@ -12,7 +13,7 @@ function updateDriverBookings($pdo, $user) {
 
     foreach ($tables as $table) {
         $stmt = $pdo->prepare("SELECT bookingNumber FROM $table WHERE driver = :user AND status = 'pending'");
-        $stmt->execute([':driver' => $user]);
+        $stmt->execute([':user' => $user]);
         $bookings = $stmt->fetchAll();
 
         foreach ($bookings as $booking) {

@@ -48,6 +48,7 @@ include('inc/navbar.php');
                                                         <th scope="col">Driver Name</th>
 														<th scope="col">Driver Email</th>
 														<th scope="col">Driver Phone</th>
+														<th scope="col">Pedicab Registration File</th>
 														<th scope="col">Perm</th>
 														<th scope="col"></th>
                                                     </tr>
@@ -65,6 +66,7 @@ while ($sonuc = $sorgu->fetch(PDO::FETCH_ASSOC)) {
 	<td><b><?=$sonuc['name'] . ' ' . $sonuc['surname']; ?></b></td>
 	<td><b><?=$sonuc['email']; ?></b></td>
 	<td><b>+1<?=$sonuc['number']; ?></b></td>
+	<td><b><a target='_blank' href='https://newyorkpedicabservices.com/dashboard-on-demand/registration_pdf.php?pdf_id=<?=$sonuc['pdf_id']; ?>'><?=$sonuc['pdf_id']; ?></a></b></td>
 	<td><b><?=$sonuc['perm']; ?></b></td>
 	<td>
 	<a href='admin_driver_edit.php?id=<?=$sonuc['id']?>'><b><i class="bx-border bx-xs bx bx-pencil"></i></b></a>
@@ -114,22 +116,11 @@ while ($sonuc = $sorgu->fetch(PDO::FETCH_ASSOC)) {
                                 </div><!-- end card-body -->
                             </div><!-- end card -->
                         </div>
-						
-						
-				
-
                     </div>
-
                 </div>
                 <!-- container-fluid -->
             </div>
             <!-- End Page-content -->
-
-			
-			
-			
-
-
 <?php 
 include('inc/footer.php');
 include('inc/scripts.php');?>

@@ -23,12 +23,12 @@ include('inc/navbar.php');
             <div class="row">
                 <!-- Point A to B Pedicab Rides -->
 <div class="col-12">
-    <h2 class="mb-3">Point A to B Pedicab Rides [PAST]</h2>
+    <h2 class="mb-3">Last 15 Point A to B Pedicab Rides [PAST]</h2>
     <hr>
     <div class="row">
         <?php
-        $sorgu = $baglanti->prepare("SELECT * FROM pointatob WHERE status = 'past' ORDER BY createdAt DESC");
-        $sorgu->execute();
+        $sorgu = $baglanti->prepare("SELECT * FROM pointatob WHERE status = 'past' AND driver=:user ORDER BY createdAt DESC LIMIT 15");
+        $sorgu->execute(['user' => $user]);
         while ($sonuc = $sorgu->fetch()) {
             $paymentMethod = $sonuc['paymentMethod'];
             if ($paymentMethod == "CARD" or $paymentMethod == "card") {
@@ -90,12 +90,12 @@ include('inc/navbar.php');
 
 <!-- Hourly Pedicab Rides -->
 <div class="col-12">
-    <h2 class="mb-3">Hourly Pedicab Services [PAST]</h2>
+    <h2 class="mb-3">Last 15 Hourly Pedicab Services [PAST]</h2>
     <hr>
     <div class="row">
         <?php
-        $sorgu = $baglanti->prepare("SELECT * FROM hourly WHERE status = 'past' ORDER BY createdAt DESC");
-        $sorgu->execute();
+        $sorgu = $baglanti->prepare("SELECT * FROM hourly WHERE status = 'past' AND driver=:user ORDER BY createdAt DESC LIMIT 15");
+        $sorgu->execute(['user' => $user]);
         while ($sonuc = $sorgu->fetch()) {
             $paymentMethod = $sonuc['paymentMethod'];
             if ($paymentMethod == "CARD" or $paymentMethod == "card") {
@@ -156,12 +156,12 @@ include('inc/navbar.php');
 </div>
 <!-- Central Park Tours -->
 <div class="col-12">
-    <h2 class="mb-3">Central Park Pedicab Tours [PAST]</h2>
+    <h2 class="mb-3">Last 15 Central Park Pedicab Tours [PAST]</h2>
     <hr>
     <div class="row">
         <?php
-        $sorgu = $baglanti->prepare("SELECT * FROM centralpark WHERE status = 'past' ORDER BY createdAt DESC");
-        $sorgu->execute();
+        $sorgu = $baglanti->prepare("SELECT * FROM centralpark WHERE status = 'past' AND driver=:user ORDER BY createdAt DESC LIMIT 15");
+        $sorgu->execute(['user' => $user]);
         while ($sonuc = $sorgu->fetch()) {
             $paymentMethod = $sonuc['paymentMethod'];
             if ($paymentMethod == "CARD" or $paymentMethod == "card") {

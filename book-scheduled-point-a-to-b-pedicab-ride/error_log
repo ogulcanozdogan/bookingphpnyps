@@ -4245,3 +4245,131 @@ Stack trace:
 [09-Jul-2024 00:26:28 UTC] PHP Warning:  Undefined array key "hub" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/step2.php on line 24
 [09-Jul-2024 00:26:28 UTC] PHP Warning:  Undefined array key "baseFare" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/step2.php on line 25
 [09-Jul-2024 00:26:28 UTC] PHP Warning:  Undefined array key "operationFare" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/step2.php on line 26
+[11-Jul-2024 16:41:17 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 48
+[11-Jul-2024 16:41:17 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 54
+[11-Jul-2024 16:41:17 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 60
+[11-Jul-2024 16:41:17 UTC] PHP Warning:  Undefined array key "firstName" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 218
+[11-Jul-2024 16:41:17 UTC] PHP Warning:  Undefined array key "lastName" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 221
+[11-Jul-2024 16:41:17 UTC] PHP Warning:  Undefined array key "email" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 223
+[11-Jul-2024 16:41:17 UTC] PHP Warning:  Undefined array key "phoneNumber" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 225
+[11-Jul-2024 16:41:17 UTC] PHP Warning:  Undefined array key "countryCode" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 228
+[11-Jul-2024 16:41:17 UTC] PHP Warning:  Undefined array key "countryName" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 231
+[11-Jul-2024 16:41:34 UTC] PHP Warning:  Undefined array key "CASH" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/arastep.php on line 386
+[11-Jul-2024 16:41:34 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/arastep.php on line 386
+[11-Jul-2024 16:41:34 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/arastep.php on line 386
+[11-Jul-2024 16:41:34 UTC] PHP Warning:  Undefined array key "CASH" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/arastep.php on line 387
+[11-Jul-2024 16:41:34 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/arastep.php on line 387
+[11-Jul-2024 16:41:34 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/arastep.php on line 387
+[11-Jul-2024 16:41:34 UTC] PHP Warning:  Undefined array key "CASH" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/arastep.php on line 388
+[11-Jul-2024 16:41:34 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/arastep.php on line 388
+[11-Jul-2024 16:41:34 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/arastep.php on line 388
+[11-Jul-2024 16:41:35 UTC] PHP Warning:  Undefined array key "bookingFee" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/step2.php on line 19
+[11-Jul-2024 16:41:35 UTC] PHP Warning:  Undefined array key "driverFare" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/step2.php on line 20
+[11-Jul-2024 16:41:35 UTC] PHP Warning:  Undefined array key "totalFare" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/step2.php on line 21
+[11-Jul-2024 16:41:35 UTC] PHP Warning:  Undefined array key "returnDuration" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/step2.php on line 22
+[11-Jul-2024 16:41:35 UTC] PHP Warning:  Undefined array key "pickUpDuration" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/step2.php on line 23
+[11-Jul-2024 16:41:35 UTC] PHP Warning:  Undefined array key "hub" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/step2.php on line 24
+[11-Jul-2024 16:41:35 UTC] PHP Warning:  Undefined array key "baseFare" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/step2.php on line 25
+[11-Jul-2024 16:41:35 UTC] PHP Warning:  Undefined array key "operationFare" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/step2.php on line 26
+[11-Jul-2024 18:30:43 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 48
+[11-Jul-2024 18:30:43 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 54
+[11-Jul-2024 18:30:43 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 60
+[11-Jul-2024 18:30:43 UTC] PHP Warning:  Undefined array key "firstName" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 218
+[11-Jul-2024 18:30:43 UTC] PHP Warning:  Undefined array key "lastName" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 221
+[11-Jul-2024 18:30:43 UTC] PHP Warning:  Undefined array key "email" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 223
+[11-Jul-2024 18:30:43 UTC] PHP Warning:  Undefined array key "phoneNumber" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 225
+[11-Jul-2024 18:30:43 UTC] PHP Warning:  Undefined array key "countryCode" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 228
+[11-Jul-2024 18:30:43 UTC] PHP Warning:  Undefined array key "countryName" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 231
+[11-Jul-2024 19:58:19 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 48
+[11-Jul-2024 19:58:19 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 54
+[11-Jul-2024 19:58:19 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 60
+[11-Jul-2024 19:58:19 UTC] PHP Warning:  Undefined array key "firstName" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 218
+[11-Jul-2024 19:58:19 UTC] PHP Warning:  Undefined array key "lastName" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 221
+[11-Jul-2024 19:58:19 UTC] PHP Warning:  Undefined array key "email" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 223
+[11-Jul-2024 19:58:19 UTC] PHP Warning:  Undefined array key "phoneNumber" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 225
+[11-Jul-2024 19:58:19 UTC] PHP Warning:  Undefined array key "countryCode" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 228
+[11-Jul-2024 19:58:19 UTC] PHP Warning:  Undefined array key "countryName" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 231
+[12-Jul-2024 15:00:10 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 48
+[12-Jul-2024 15:00:10 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 54
+[12-Jul-2024 15:00:10 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 60
+[12-Jul-2024 15:00:10 UTC] PHP Warning:  Undefined array key "firstName" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 218
+[12-Jul-2024 15:00:10 UTC] PHP Warning:  Undefined array key "lastName" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 221
+[12-Jul-2024 15:00:10 UTC] PHP Warning:  Undefined array key "email" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 223
+[12-Jul-2024 15:00:10 UTC] PHP Warning:  Undefined array key "phoneNumber" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 225
+[12-Jul-2024 15:00:10 UTC] PHP Warning:  Undefined array key "countryCode" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 228
+[12-Jul-2024 15:00:10 UTC] PHP Warning:  Undefined array key "countryName" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 231
+[12-Jul-2024 15:08:43 UTC] PHP Warning:  Undefined array key "CASH" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/arastep.php on line 386
+[12-Jul-2024 15:08:43 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/arastep.php on line 386
+[12-Jul-2024 15:08:43 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/arastep.php on line 386
+[12-Jul-2024 15:08:43 UTC] PHP Warning:  Undefined array key "CASH" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/arastep.php on line 387
+[12-Jul-2024 15:08:43 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/arastep.php on line 387
+[12-Jul-2024 15:08:43 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/arastep.php on line 387
+[12-Jul-2024 15:08:43 UTC] PHP Warning:  Undefined array key "CASH" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/arastep.php on line 388
+[12-Jul-2024 15:08:43 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/arastep.php on line 388
+[12-Jul-2024 15:08:43 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/arastep.php on line 388
+[12-Jul-2024 15:08:44 UTC] PHP Warning:  Undefined array key "bookingFee" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/step2.php on line 19
+[12-Jul-2024 15:08:44 UTC] PHP Warning:  Undefined array key "driverFare" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/step2.php on line 20
+[12-Jul-2024 15:08:44 UTC] PHP Warning:  Undefined array key "totalFare" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/step2.php on line 21
+[12-Jul-2024 15:08:44 UTC] PHP Warning:  Undefined array key "returnDuration" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/step2.php on line 22
+[12-Jul-2024 15:08:44 UTC] PHP Warning:  Undefined array key "pickUpDuration" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/step2.php on line 23
+[12-Jul-2024 15:08:44 UTC] PHP Warning:  Undefined array key "hub" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/step2.php on line 24
+[12-Jul-2024 15:08:44 UTC] PHP Warning:  Undefined array key "baseFare" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/step2.php on line 25
+[12-Jul-2024 15:08:44 UTC] PHP Warning:  Undefined array key "operationFare" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/step2.php on line 26
+[12-Jul-2024 15:09:03 UTC] PHP Warning:  Undefined variable $phoneNumbers in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/charge.php on line 387
+[12-Jul-2024 15:09:03 UTC] PHP Warning:  foreach() argument must be of type array|object, null given in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/charge.php on line 387
+[12-Jul-2024 15:09:03 UTC] PHP Warning:  Undefined variable $current_time in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/charge.php on line 409
+[12-Jul-2024 15:09:03 UTC] PHP Warning:  Undefined variable $tourDuration in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/charge.php on line 410
+[12-Jul-2024 15:09:03 UTC] PHP Warning:  Undefined variable $dayOfPickup in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/charge.php on line 414
+[12-Jul-2024 16:23:09 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 48
+[12-Jul-2024 16:23:09 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 54
+[12-Jul-2024 16:23:09 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 60
+[12-Jul-2024 16:23:09 UTC] PHP Warning:  Undefined array key "firstName" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 218
+[12-Jul-2024 16:23:09 UTC] PHP Warning:  Undefined array key "lastName" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 221
+[12-Jul-2024 16:23:09 UTC] PHP Warning:  Undefined array key "email" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 223
+[12-Jul-2024 16:23:09 UTC] PHP Warning:  Undefined array key "phoneNumber" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 225
+[12-Jul-2024 16:23:09 UTC] PHP Warning:  Undefined array key "countryCode" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 228
+[12-Jul-2024 16:23:09 UTC] PHP Warning:  Undefined array key "countryName" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 231
+[12-Jul-2024 16:41:06 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 48
+[12-Jul-2024 16:41:06 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 54
+[12-Jul-2024 16:41:06 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 60
+[12-Jul-2024 16:41:06 UTC] PHP Warning:  Undefined array key "firstName" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 218
+[12-Jul-2024 16:41:06 UTC] PHP Warning:  Undefined array key "lastName" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 221
+[12-Jul-2024 16:41:06 UTC] PHP Warning:  Undefined array key "email" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 223
+[12-Jul-2024 16:41:06 UTC] PHP Warning:  Undefined array key "phoneNumber" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 225
+[12-Jul-2024 16:41:06 UTC] PHP Warning:  Undefined array key "countryCode" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 228
+[12-Jul-2024 16:41:06 UTC] PHP Warning:  Undefined array key "countryName" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 231
+[12-Jul-2024 21:59:39 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 48
+[12-Jul-2024 21:59:39 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 54
+[12-Jul-2024 21:59:39 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 60
+[12-Jul-2024 21:59:39 UTC] PHP Warning:  Undefined array key "firstName" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 218
+[12-Jul-2024 21:59:39 UTC] PHP Warning:  Undefined array key "lastName" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 221
+[12-Jul-2024 21:59:39 UTC] PHP Warning:  Undefined array key "email" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 223
+[12-Jul-2024 21:59:39 UTC] PHP Warning:  Undefined array key "phoneNumber" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 225
+[12-Jul-2024 21:59:39 UTC] PHP Warning:  Undefined array key "countryCode" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 228
+[12-Jul-2024 21:59:39 UTC] PHP Warning:  Undefined array key "countryName" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 231
+[15-Jul-2024 15:10:28 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 48
+[15-Jul-2024 15:10:28 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 54
+[15-Jul-2024 15:10:28 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 60
+[15-Jul-2024 15:10:28 UTC] PHP Warning:  Undefined array key "firstName" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 218
+[15-Jul-2024 15:10:28 UTC] PHP Warning:  Undefined array key "lastName" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 221
+[15-Jul-2024 15:10:28 UTC] PHP Warning:  Undefined array key "email" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 223
+[15-Jul-2024 15:10:28 UTC] PHP Warning:  Undefined array key "phoneNumber" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 225
+[15-Jul-2024 15:10:28 UTC] PHP Warning:  Undefined array key "countryCode" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 228
+[15-Jul-2024 15:10:28 UTC] PHP Warning:  Undefined array key "countryName" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/index.php on line 231
+[15-Jul-2024 15:10:41 UTC] PHP Warning:  Undefined array key "CASH" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/arastep.php on line 386
+[15-Jul-2024 15:10:41 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/arastep.php on line 386
+[15-Jul-2024 15:10:41 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/arastep.php on line 386
+[15-Jul-2024 15:10:41 UTC] PHP Warning:  Undefined array key "CASH" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/arastep.php on line 387
+[15-Jul-2024 15:10:41 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/arastep.php on line 387
+[15-Jul-2024 15:10:41 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/arastep.php on line 387
+[15-Jul-2024 15:10:41 UTC] PHP Warning:  Undefined array key "CASH" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/arastep.php on line 388
+[15-Jul-2024 15:10:41 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/arastep.php on line 388
+[15-Jul-2024 15:10:41 UTC] PHP Warning:  Trying to access array offset on value of type null in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/arastep.php on line 388
+[15-Jul-2024 15:10:42 UTC] PHP Warning:  Undefined array key "bookingFee" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/step2.php on line 19
+[15-Jul-2024 15:10:42 UTC] PHP Warning:  Undefined array key "driverFare" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/step2.php on line 20
+[15-Jul-2024 15:10:42 UTC] PHP Warning:  Undefined array key "totalFare" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/step2.php on line 21
+[15-Jul-2024 15:10:42 UTC] PHP Warning:  Undefined array key "returnDuration" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/step2.php on line 22
+[15-Jul-2024 15:10:42 UTC] PHP Warning:  Undefined array key "pickUpDuration" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/step2.php on line 23
+[15-Jul-2024 15:10:42 UTC] PHP Warning:  Undefined array key "hub" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/step2.php on line 24
+[15-Jul-2024 15:10:42 UTC] PHP Warning:  Undefined array key "baseFare" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/step2.php on line 25
+[15-Jul-2024 15:10:42 UTC] PHP Warning:  Undefined array key "operationFare" in /home/zlds82bav5q4/public_html/book-scheduled-point-a-to-b-pedicab-ride/step2.php on line 26

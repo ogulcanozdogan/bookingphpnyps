@@ -141,10 +141,10 @@ $operationFare = ($totalDurationMinutes / 60) * $operationFarePerHour;
 // Update the rest of the code accordingly...
 
 // Booking Fee and Driver Fare calculation
-if ($paymentMethod == "card" or $paymentMethod == "CASH") {
+if ($paymentMethod == "CARD" or $paymentMethod == "CASH") {
     $bookingFee = 0.2 * ($operationFare);
     $driverFare = 0.8 * ($operationFare);
-    if ($paymentMethod === "card") {
+    if ($paymentMethod === "CARD") {
         $driverFare *= 1.1;
     }
 } else {
@@ -226,7 +226,7 @@ $minTotalFare = $minFares[$paymentMethod][$key]["Total Fare"];
 
 $bookingFee = max($bookingFee, $minBookingFee);
 $driverFare = max($driverFare, $minDriverFare);
-if ($paymentMethod == "card" or $paymentMethod == "CASH") {
+if ($paymentMethod == "CARD" or $paymentMethod == "CASH") {
     $totalFare = max($bookingFee + $driverFare, $minTotalFare);
 } else {
     $totalFare = ($operationFare) * 1.2;
@@ -357,7 +357,7 @@ $todayDayName = date("l", strtotime($todayDay));
                             </tr>
                             <tr>
                                 <th scope="row">Driver Fare</th>
-                                 <td>$<?= number_format($driverFare, 2) ?> with <?= $paymentMethod == 'card' ? 'debit/credit card' : $paymentMethod ?></td>
+                                 <td>$<?= number_format($driverFare, 2) ?> with <?= $paymentMethod == 'CARD' ? 'debit/credit card' : $paymentMethod ?></td>
                             </tr>
                             <tr style="background-color:green;">
                            <th scope="row" style="color:white;">Total Fare</th>

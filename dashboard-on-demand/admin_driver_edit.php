@@ -35,7 +35,8 @@ include('inc/navbar.php');
         $perm = $_POST['perm'];
         $number = $_POST['number'];  // Bu satır eklenmeli
         $pass = $_POST['pass'];      // Bu satır eklenmeli
-
+        $pdf_id = $_POST['pdf_id'];   
+		
         $satir = [
             'id' => $driverid,
             'user' => $user,
@@ -43,6 +44,7 @@ include('inc/navbar.php');
             'surname' => $surname,
             'email' => $email,
             'perm' => $perm,
+			'pdf_id' => $pdf_id,
         ];
 
         // Kullanıcı adı kontrolü
@@ -80,9 +82,9 @@ include('inc/navbar.php');
             if (!empty($pass)) {
                 $hashed_pass = password_hash($pass, PASSWORD_DEFAULT);
                 $satir['pass'] = $hashed_pass;
-                $sql = "UPDATE users SET user=:user, name=:name, surname=:surname, email=:email, pass=:pass, perm=:perm WHERE id=:id";
+                $sql = "UPDATE users SET user=:user, name=:name, surname=:surname, email=:email, pass=:pass, perm=:perm, pdf_id=:pdf_id WHERE id=:id";
             } else {
-                $sql = "UPDATE users SET user=:user, name=:name, surname=:surname, email=:email, perm=:perm WHERE id=:id";
+                $sql = "UPDATE users SET user=:user, name=:name, surname=:surname, email=:email, perm=:perm, pdf_id=:pdf_id WHERE id=:id";
             }
 
             try {
@@ -144,6 +146,12 @@ include('inc/navbar.php');
                           <div class="input-group">
                             <span class="input-group-text" id="basic-addon1">Email</span>
                             <input type="text" class="form-control" name="email" value="<?=$sonuc['email']?>" aria-describedby="basic-addon1">
+                          </div>
+                        </div>
+						<div class="col-lg-12">
+                          <div class="input-group">
+                            <span class="input-group-text" id="basic-addon1">Pedicab Driver Registration ID</span>
+                            <input type="text" class="form-control" name="pdf_id" value="<?=$sonuc['pdf_id']?>" aria-describedby="basic-addon1">
                           </div>
                         </div>
                         <div class="col-lg-6">

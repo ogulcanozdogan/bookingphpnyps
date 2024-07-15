@@ -67,13 +67,19 @@ if ($durum) {
         $formattedPhone = "whatsapp:+1" . $sonuc['number'];
         $phoneNumbers[] = $formattedPhone;
     }
-    $message = "Hourly Pedicab Service assigned. {". $bookingNumber ."}";
+    $message = "Hourly Pedicab Service assigned.
+{". $bookingNumber ."}";
 
     // Her bir telefon numarasına mesaj gönder
     foreach ($phoneNumbers as $phoneNumber) {
         $messageSid = sendWhatsAppMessage($twilio, $phoneNumber, $message);
         echo "Mesaj gönderildi, SID: $messageSid<br>";
     }
+	
+	
+} else {
+    echo 'Job error: '; // id bulunamadıysa veya sorguda hata varsa hata yazdırıyoruz.
+}
 
     // İlk E-posta
     $email1 = new \SendGrid\Mail\Mail(); 
@@ -108,8 +114,5 @@ EOD;
         echo 'Caught exception: '. $e->getMessage() ."\n";
     }
 
-} else {
-    echo 'Job error: '; // id bulunamadıysa veya sorguda hata varsa hata yazdırıyoruz.
-}
 
 ?>

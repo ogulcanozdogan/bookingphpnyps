@@ -65,7 +65,7 @@ if ($durum) {
         $phoneNumbers[] = $formattedPhone;
     }
 	$message = "Point A to B Pedicab Ride assigned.
-{"	. $bookingNumber . "}";
+{" . $bookingNumber . "}";
     foreach ($phoneNumbers as $phoneNumber) {
         $messageSid = sendWhatsAppMessage($twilio, $phoneNumber, $message);
         echo "Mesaj gönderildi, SID: $messageSid<br>";

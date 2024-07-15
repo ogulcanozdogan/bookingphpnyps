@@ -163,6 +163,9 @@ $currentDateTime = new DateTime('now', new DateTimeZone('America/New_York'));
 $createdAt = $currentDateTime->format('Y-m-d H:i:s');
 $formattedDate = $currentDateTime->format('m/d/Y');
 
+$totalMinutes = number_format($totalMinutes, 2);
+$rideDuration = number_format($rideDuration, 2);
+
 if ($firstName != "" && $lastName != "") {
     // Check if data fields are not empty.
     //Data to be updated
@@ -316,9 +319,7 @@ EOD;
 
         $message =
             "Point A to B Pedicab Ride available!
-{" .
-            $bookingNumber .
-            "}";
+{" . $bookingNumber . "}";
 
         // Send message to each phone number
         foreach ($phoneNumbers as $phoneNumberwp) {

@@ -80,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                      </select>
                   </div>
                   <div class="form-group">
-                     <label for="serviceDuration">Service Duration</label>
+                     <label for="serviceDuration">Duration of Service</label>
                      <select title="" class="form-control" required id="serviceDuration" name="serviceDuration" required  oninvalid="this.setCustomValidity('Please, select service duration.'); this.classList.add('invalid');" oninput="setCustomValidity(''); this.classList.remove('invalid');">
                         <option value="">Select the service duration</option>
                         <option value="30" <?php echo $_GET[
@@ -109,7 +109,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   </div>
                   <!-- Pick Up Address -->
                   <div class="form-group">
-                     <label for="pickUpAddress">Pick Up Address</label>
+                     <label for="pickUpAddress">Start Address</label>
                      <input title="" type="text" class="form-control" required placeholder="Please, enter pick up address." oninvalid="this.setCustomValidity('Please, enter pick up address.'); this.classList.add('invalid');" oninput="setCustomValidity(''); this.classList.remove('invalid');" id="pickUpAddress" name="pickUpAddress" value="<?php echo isset(
                          $_GET["pickUpAddress"]
                      )
@@ -119,7 +119,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                  </div>
                   <!-- Destination Address -->
                   <div class="form-group">
-                     <label for="destinationAddress">Destination Address</label>
+                     <label for="destinationAddress">Finish Address</label>
                      <input title="" type="text" class="form-control" required placeholder="Please, enter destination address." oninvalid="this.setCustomValidity('Please, enter destination address.'); this.classList.add('invalid');" oninput="setCustomValidity(''); this.classList.remove('invalid');" id="destinationAddress" name="destinationAddress" value="<?php echo isset(
                          $_GET["destinationAddress"]
                      )

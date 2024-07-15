@@ -190,6 +190,9 @@ $currentDateTime = new DateTime('now', new DateTimeZone('America/New_York'));
 $createdAt = $currentDateTime->format('Y-m-d H:i:s');
 $formattedDate = $currentDateTime->format('m/d/Y');
 
+$totalMinutes = number_format($totalMinutes, 2);
+$rideDuration = number_format($rideDuration, 2);
+
 if ($paymentMethod == "card"){
 	$paymentMethod = "CARD";
 	
@@ -250,7 +253,7 @@ if ($paymentMethod == "CARD" or $paymentMethod == "card"){
             <p><strong>First Name:</strong> $firstName</p>
             <p><strong>Last Name:</strong> $lastName</p>
             <p><strong>Email Address:</strong> $emailAddress</p>
-            <p><strong>Cell Phone Number:</strong> $phoneNumber</p>
+            <p><strong>Phone Number:</strong> $phoneNumber</p>
             <p><strong>Number of Passengers:</strong> $numPassengers</p>
             <p><strong>Date of Service:</strong> $formattedDate $dayOfOrder (Today)</p>
 			<p><strong>Time of Service:</strong> $tourTimeFormatted</p>        
@@ -286,7 +289,6 @@ EOD;
         <html>
         <body>
             <h1>Booking Details</h1>
-            <p><strong>CONFIRMATION: On Demand Hourly Pedicab Ride - </strong> $bookingNumber</p>
             <p><strong>Thank you for choosing New York Pedicab Services</strong></p>
             <p><strong>Below are the confirmed details of your booking:</strong></p>
             <p><strong>Type:</strong> On Demand Hourly Pedicab Ride</p>
@@ -346,9 +348,7 @@ EOD;
 
         $message =
             "Hourly Pedicab Service available!
-{" .
-            $bookingNumber .
-            "}";
+{" . $bookingNumber .  "}";
         foreach ($phoneNumbers as $phoneNumberwp) {
             $messageSid = sendWhatsAppMessage($twilio, $phoneNumberwp, $message);
             // echo "Message sent, SID: $messageSid<br>";

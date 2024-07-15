@@ -69,10 +69,10 @@ if ($dateOrder) {
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6">
-                  <h2 class="text-center mb-4 font-weight-bold" style="color:#0909ff;">New York Pedicab Services</h2>
-                  <div class="text-center mb-4">
-                     <b>On Demand<br>Hourly Pedicab Service<br>Booking Application</b>
-                  </div>
+                    <h2 class="text-center mb-4 font-weight-bold" style="color:#0909ff;">Booking Details</h2>
+                <div class="text-center mb-4">
+                    <b>Thank you for choosing New York Pedicab Services</b>
+                </div>
                 <table class="table">
                     <tbody>
                         <tr>
@@ -114,10 +114,6 @@ if ($dateOrder) {
                         <tr>
                             <th scope="row">Duration of Service</th>
                             <td><?= $serviceDuration ?></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Duration of Ride</th>
-                            <td><?= $rideDuration ?> Minutes</td>
                         </tr>
                         <tr>
                             <th scope="row">Start Address</th>

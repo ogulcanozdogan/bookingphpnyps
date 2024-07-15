@@ -89,6 +89,10 @@ if (isset($_SESSION["Oturum"]) && $_SESSION["Oturum"] == "6789") {
                                     <input type="email" name="email" id="form2Example22" class="form-control" placeholder="Email" required/>
                                     <label class="form-label" for="form2Example22">Email</label>
                                 </div>
+								<div class="form-outline mb-4">
+                                    <input type="text" name="pdf_id" id="form2Example22" class="form-control" placeholder="Pedicab Registration ID" required/>
+                                    <label class="form-label" for="form2Example22">Pedicab Registration ID</label>
+                                </div>
                                 <div class="form-outline mb-4">
                                     <div class="phone-container">
                                         <div class="input-group-text prefix">
@@ -112,6 +116,7 @@ if (isset($_SESSION["Oturum"]) && $_SESSION["Oturum"] == "6789") {
                                 $name = $_POST['name'];
                                 $surname = $_POST['surname'];
                                 $pass = $_POST['pass'];
+								$pdf_id = $_POST['pdf_id'];
                                 $captcha = $_POST['g-recaptcha-response'];
 
                                 // reCAPTCHA validation
@@ -148,6 +153,26 @@ if (isset($_SESSION["Oturum"]) && $_SESSION["Oturum"] == "6789") {
                                         echo '<script>swal("Error","This phone number is already in use!","error");</script>';
                                         $is_valid = false; // Stop registration if there's an error
                                     }
+									
+									                                    // Check phone number
+                                    $sorgu = $baglanti->prepare("SELECT * FROM users WHERE pdf_id=:pdf_id");
+                                    $sorgu->execute(['pdf_id' => $pdf_id]);
+                                    if ($sorgu->rowCount() > 0) {
+                                        echo '<script>swal("Error","This Pedicab Driver Registration ID is already in use!","error");</script>';
+                                        $is_valid = false; // Stop registration if there's an error
+                                    }
+	
+include("inc/registrationdb.php"); // Database connection
+									
+									 // Check phone number
+                                    $sorgu = $baglanti2->prepare("SELECT * FROM registration WHERE id=:pdf_id");
+                                    $sorgu->execute(['pdf_id' => $pdf_id]);
+                                    if ($sorgu->rowCount() <= 0) {
+                                        echo '<script>swal("Error","This Pedicab Driver Registration ID is invalid!","error");</script>';
+                                        $is_valid = false; // Stop registration if there's an error
+                                    }
+									
+									include("inc/db.php");
 
                                     if ($is_valid) {
                                         $hashed_password = password_hash($pass, PASSWORD_DEFAULT);
@@ -157,10 +182,11 @@ if (isset($_SESSION["Oturum"]) && $_SESSION["Oturum"] == "6789") {
                                             'name' => $name,
                                             'surname' => $surname,
                                             'email' => $email,
-                                            'number' => $number
+                                            'number' => $number,
+											'pdf_id' => $pdf_id
                                         ];
 
-                                        $sql = "INSERT INTO users_temporary (user, pass, name, surname, email, number) VALUES (:user, :pass, :name, :surname, :email, :number)";
+                                        $sql = "INSERT INTO users_temporary (user, pass, name, surname, email, number, pdf_id) VALUES (:user, :pass, :name, :surname, :email, :number, :pdf_id)";
                                         $stmt = $baglanti->prepare($sql);
                                         
                                         try {

@@ -19,6 +19,7 @@ if ($_GET) {
                 $perm = $sonuc['perm'];
                 $number = $sonuc['number'];
                 $pass = $sonuc['pass'];
+				$pdf_id = $sonuc['pdf_id'];
 
                 $durum = $baglanti->prepare("DELETE FROM $table WHERE id=:driverid")->execute(['driverid' => $driverid]);
 
@@ -30,9 +31,10 @@ if ($_GET) {
                     'email' => $email,
                     'number' => $number,
                     'perm' => $perm,
+					'pdf_id' => $pdf_id,
                 ];
 
-                $sql = "INSERT INTO users (user, pass, name, surname, email, number, perm) VALUES (:user, :pass, :name, :surname, :email, :number, :perm)";
+                $sql = "INSERT INTO users (user, pass, name, surname, email, number, perm, pdf_id) VALUES (:user, :pass, :name, :surname, :email, :number, :perm, :pdf_id)";
                 $stmt = $baglanti->prepare($sql);
                 $durum = $stmt->execute($satir);
 

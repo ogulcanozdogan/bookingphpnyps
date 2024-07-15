@@ -15,19 +15,16 @@ $descripton = $sonucayar['siteaciklamasi'];?>
 <body>
 <?php
 include('inc/header.php');
-
 if ($perm != "admin") { 
 header('location: index.php');
 }
 include('inc/navbar.php');
 ?>
        <div class="main-content">
-
             <div class="page-content">
                 <div class="container-fluid">
-
                     <div class="row">
- <div class="col-xl-12">
+						<div class="col-xl-12">
                             <div class="card">
                                 <div class="card-header align-items-center d-flex">
                                     <h4 class="card-title mb-0 flex-grow-1">Verify Drivers</h4>
@@ -46,6 +43,7 @@ include('inc/navbar.php');
                                                         <th scope="col">Driver Name</th>
 														<th scope="col">Driver Email</th>
 														<th scope="col">Driver Phone</th>
+														<th scope="col">Pedicab Registration File</th>
 														<th scope="col">Perm</th>
 														<th scope="col"></th>
                                                     </tr>
@@ -63,6 +61,7 @@ while ($sonuc = $sorgu->fetch(PDO::FETCH_ASSOC)) {
 	<td><b><?=$sonuc['name'] . ' ' . $sonuc['surname']; ?></b></td>
 	<td><b><?=$sonuc['email']; ?></b></td>
 	<td><b>+1<?=$sonuc['number']; ?></b></td>
+	<td><b><a target='_blank' href='https://newyorkpedicabservices.com/dashboard-on-demand/registration_pdf.php?pdf_id=<?=$sonuc['pdf_id']; ?>'><?=$sonuc['pdf_id']; ?></a></b></td>
 	<td><b><?=$sonuc['perm']; ?></b></td>
 	<td>
 <a onclick="event.preventDefault(); 

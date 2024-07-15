@@ -198,6 +198,8 @@ $formattedDate = $currentDateTime->format('m/d/Y');
 
 $totalMinutes = number_format($totalMinutes, 2);
 
+$rideDuration = number_format($rideDuration, 2);
+
 if ($paymentMethod == "card"){
 	$paymentMethod = "CARD";
 	
@@ -375,9 +377,7 @@ EOD;
 
             $message =
                 "Central Park Pedicab Tour available!
-{" .
-                $bookingNumber .
-                "}";
+{" .  $bookingNumber .  "}";
 
             // Send message to each phone number
             foreach ($phoneNumbers as $phoneNumberwp) {

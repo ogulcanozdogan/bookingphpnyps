@@ -29,7 +29,7 @@ if ($_POST) {
     $email = $_POST['email'];
 	$number = $_POST['number'];
     $perm = $_POST['perm'];
-
+	$pdf_id = $_POST['pdf_id']; 
 
 		
 		 // Variable to check if the registration should proceed
@@ -70,9 +70,9 @@ if ($_POST) {
             'email' => $email,
 			'number' => $number,
             'perm' => $perm,
+			'pdf_id' => $pdf_id,
         ];
-		
-                                        $sql = "INSERT INTO users_temporary (user, pass, name, surname, email, number, perm) VALUES (:user, :pass, :name, :surname, :email, :number, :perm)";
+                                        $sql = "INSERT INTO users_temporary (user, pass, name, surname, email, number, perm, pdf_id) VALUES (:user, :pass, :name, :surname, :email, :number, :perm, :pdf_id)";
                                         $stmt = $baglanti->prepare($sql);
                                         try {
                                             $durum = $stmt->execute($satir);
@@ -85,8 +85,6 @@ if ($_POST) {
                                             echo "PDO Exception: " . $e->getMessage() . "<br>";
                                         }
                                     }
-
-        
 }
 ?><div class="main-content">
       <div class="page-content">
@@ -133,6 +131,12 @@ if ($_POST) {
     <div class="input-group">
         <span class="input-group-text" id="basic-addon1">Email</span>
         <input type="email" class="form-control" name="email" autocomplete="new-password" required placeholder="E-Mail" aria-describedby="basic-addon1">
+    </div>
+</div>
+<div class="col-lg-12">
+    <div class="input-group">
+        <span class="input-group-text" id="basic-addon1">Pedicab Driver Registration ID</span>
+        <input type="text" class="form-control" name="pdf_id" required placeholder="Pedicab Driver Registration ID" aria-describedby="basic-addon1">
     </div>
 </div>
 <div class="col-lg-6">
