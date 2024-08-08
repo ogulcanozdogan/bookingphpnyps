@@ -50,7 +50,8 @@ function initMap() {
         polylineOptions: {
             strokeColor: 'black',
             strokeWeight: 6,
-            zIndex: 1
+            zIndex: 1,
+			strokeOpacity: 0.5      // Line opacity
         },
         suppressMarkers: true
     });
@@ -59,7 +60,8 @@ function initMap() {
         polylineOptions: {
             strokeColor: 'orange',
             strokeWeight: 6,
-            zIndex: 2
+            zIndex: 2,
+						strokeOpacity: 0.5  
         },
         suppressMarkers: true
     });
@@ -68,7 +70,8 @@ function initMap() {
         polylineOptions: {
             strokeColor: 'blue',
             strokeWeight: 6,
-            zIndex: 3
+            zIndex: 3,
+						strokeOpacity: 0.5  
         },
         suppressMarkers: true
     });
@@ -77,14 +80,15 @@ function initMap() {
         polylineOptions: {
             strokeColor: 'green',
             strokeWeight: 6,
-            zIndex: 4
+            zIndex: 4,
+						strokeOpacity: 0.5  
         },
         suppressMarkers: true
     });
 
     var pickupAddress = <?php echo json_encode($deneme2); ?>;
     var destinationAddress = <?php echo json_encode($destinationAddress); ?>;
-    var hub1Address = "West Drive and West 59th Street New York, NY 10019";
+    var hub1Address = "40.766941088678855, -73.97899952992152";
     var hub2Address = "6th Avenue and Central Park South New York, NY 10019";
 
     calculateAndDisplayRoute(directionsService, pickupRenderer, pickupAddress, hub1Address, 'S', 'H');
@@ -142,6 +146,6 @@ function addCustomMarkers(route, map, startLabel, endLabel) {
 </script>
 
 
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBg9HV0g-8ddiAHH6n2s_0nXOwHIk2f1DY&callback=initMap"></script>  
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFigWHFZKkoNdO0r6siMTgawuNxwlabRU&callback=initMap"></script>  
 </body>
 </html>

@@ -1,4 +1,6 @@
-<?php if ($_POST) {
+<?php
+include('inc/init.php');
+if ($_POST) {
     // Formdan alınan bilgiler
     // Formdan alınan bilgiler
     $firstName = $_POST["firstName"]; // varsayılan değer 1
@@ -11,18 +13,6 @@
     $paymentMethod = $_POST["paymentMethod"];
     $countryCode = $_POST["countryCode"];
     $countryName = $_POST["countryName"];
-} elseif ($_GET) {
-    // Formdan alınan bilgiler
-    $firstName = $_GET["firstName"]; // varsayılan değer 1
-    $lastName = $_GET["lastName"]; // varsayılan değer 1
-    $email = $_GET["email"]; // varsayılan değer 1
-    $phoneNumber = $_GET["phoneNumber"]; // varsayılan değer 1
-    $numPassengers = $_GET["numPassengers"] ?? 1; // varsayılan değer 1
-    $deneme2 = $_GET["pickUpAddress"];
-    $destinationAddress = $_GET["destinationAddress"];
-    $paymentMethod = $_GET["paymentMethod"];
-    $countryCode = $_GET["countryCode"];
-    $countryName = $_GET["countryName"];
 }  else {
     header("location: index.php");
 	exit;
@@ -191,163 +181,11 @@ if (!$checkZipCodes($deneme2) || !$checkZipCodes($destinationAddress)) {
     exit();
 }
 
-$hub = "West Drive and West 59th Street New York, NY 10019";
-
-function getShortestBicycleRouteDuration($origin, $destination)
-{
-    $apiKey = "AIzaSyBg9HV0g-8ddiAHH6n2s_0nXOwHIk2f1DY"; // API anahtarınızı buraya girin
-    $origin = urlencode($origin);
-    $destination = urlencode($destination);
-
-    // Bisiklet modu parametresi ekleniyor
-    $url = "https://maps.googleapis.com/maps/api/directions/json?origin=$origin&destination=$destination&mode=bicycling&key=$apiKey";
-
-    $curl = curl_init();
-    curl_setopt($curl, CURLOPT_URL, $url);
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-    $response = curl_exec($curl);
-    curl_close($curl);
-
-    if ($response) {
-        $data = json_decode($response, true);
-        if (isset($data["routes"]) && count($data["routes"]) > 0) {
-            // En kısa süreyi bul
-            $shortestDuration = PHP_INT_MAX;
-            foreach ($data["routes"] as $route) {
-                $routeDuration = 0;
-                foreach ($route["legs"] as $leg) {
-                    $routeDuration += $leg["duration"]["value"];
-                }
-                if ($routeDuration < $shortestDuration) {
-                    $shortestDuration = $routeDuration;
-                }
-            }
-
-            // En kısa sürenin dakika cinsinden hesaplanması
-            if ($shortestDuration !== PHP_INT_MAX) {
-                $minutes = floor($shortestDuration / 60);
-                $seconds = $shortestDuration % 60;
-                return sprintf("%.2f", $minutes + $seconds / 60); // Süreyi "24.11" gibi bir formatla döndür
-            }
-        }
-    }
-
-    return false; // Uygun rota bulunamazsa false döndür
-}
-
-// Pick Up süresi
-$origin = $hub;
-$destination = $deneme2;
-$pickupsuresi = getShortestBicycleRouteDuration($origin, $destination);
-
-// Ride süresi
-$origin = $deneme2;
-$destination = $destinationAddress;
-$ridesuresi = getShortestBicycleRouteDuration($origin, $destination);
-
-// Return süresi
-$origin = $destinationAddress;
-$destination = $hub;
-$returnsuresi = getShortestBicycleRouteDuration($origin, $destination);
-
-// Örnek olarak sabit süreler kullanalım (dakika cinsinden)
-$pickUpDuration = $pickupsuresi; // Pick Up süresi
-$rideDuration = $ridesuresi; // Ride süresi
-$returnDuration = $returnsuresi; // Return süresi
-
-$pickUpDuration *= 2.5;
-$rideDuration *= 2.5;
-$returnDuration *= 2.5;
-
-function calculateOperationFarePerHour($dayOfWeek, $month)
-{
-    $isWeekend = in_array($dayOfWeek, ["Friday", "Saturday", "Sunday"]);
-    if ($month == "December") {
-        return $isWeekend ? 45 : 40; // Aralık hafta sonu ve hafta içi farklı ücret
-    } else {
-        return $isWeekend ? 35 : 30; // Normal hafta sonu ve hafta içi farklı ücret
-    }
-}
-
-// Toplam süre (dakika cinsinden)
-$totalDurationMinutes = $pickUpDuration + $rideDuration + $returnDuration;
-
-// Saatlik ücret hesaplama
-$operationFarePerHour = calculateOperationFarePerHour($dayOfWeek, $month);
-
-// Toplam Operation Fare hesaplama (dakikayı saate çevirip saatlik ücretle çarparak)
-$operationFare = ($totalDurationMinutes / 60) * $operationFarePerHour;
-
-// Kodun geri kalanını bu doğrultuda güncelleyin...
-
-// Booking Fee ve Driver Fare hesaplama
-$bookingFee = 0.2 * ($baseFare + $operationFare);
-$driverFare = 0.8 * ($baseFare + $operationFare);
-if ($paymentMethod === "card") {
-    $driverFare *= 1.1;
-}
-
-$minFares = [
-    "cash" => [
-        "week" => ["Booking Fee" => 9, "Driver Fare" => 36, "Total Fare" => 45],
-        "weekend" => [
-            "Booking Fee" => 10.5,
-            "Driver Fare" => 42,
-            "Total Fare" => 52.5,
-        ],
-        "weekDecember" => [
-            "Booking Fee" => 12,
-            "Driver Fare" => 48,
-            "Total Fare" => 60,
-        ],
-        "weekendDecember" => [
-            "Booking Fee" => 13.5,
-            "Driver Fare" => 54,
-            "Total Fare" => 67.5,
-        ],
-    ],
-    "card" => [
-        "week" => [
-            "Booking Fee" => 9,
-            "Driver Fare" => 39.6,
-            "Total Fare" => 48.6,
-        ],
-        "weekend" => [
-            "Booking Fee" => 10.5,
-            "Driver Fare" => 46.2,
-            "Total Fare" => 56.7,
-        ],
-        "weekDecember" => [
-            "Booking Fee" => 12,
-            "Driver Fare" => 52.8,
-            "Total Fare" => 64.8,
-        ],
-        "weekendDecember" => [
-            "Booking Fee" => 13.5,
-            "Driver Fare" => 59.4,
-            "Total Fare" => 72.9,
-        ],
-    ],
-];
-
-$key =
-    ($isWeekend ? "weekend" : "week") .
-    ($month == "December" ? "December" : "");
-$minBookingFee = $minFares[$paymentMethod][$key]["Booking Fee"];
-$minDriverFare = $minFares[$paymentMethod][$key]["Driver Fare"];
-$minTotalFare = $minFares[$paymentMethod][$key]["Total Fare"];
-
-$bookingFee = max($bookingFee, $minBookingFee);
-$driverFare = max($driverFare, $minDriverFare);
-if ($paymentMethod === "fullcard") {
-    $bookingFee *= 1.2;
-    $driverFare *= 1.2;
-}
-$totalFare = max($bookingFee + $driverFare, $minTotalFare);
 ?>
 <!DOCTYPE html>
 <html lang="en">
    <head>
+      <link rel="shortcut icon" href="vendor/favicon.ico">
       <meta charset="UTF-8">
 	  <title>Book On Demand Point A to B Pedicab Ride</title>
 	  <meta name="description" content="On Demand Point A to B Pedicab Ride Booking Application">
@@ -407,63 +245,6 @@ $totalFare = max($bookingFee + $driverFare, $minTotalFare);
             </div>
          </div>
       </form>
-<script>
-document.getElementById("nextButton").addEventListener("click", function() {
-    document.getElementById("myform").submit();
-});
-
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput-jquery.min.js"></script>
-<script>
-    $("#phoneNumber").intlTelInput({
-        initialCountry: "us", // Kullanıcının bulunduğu ülkeyi otomatik olarak seçer
-        separateDialCode: true, // Telefon kodunu ayrı bir alan olarak gösterir
-        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js" // Kodu formatlamak için gerekli yardımcı script
-    });
-</script>
-<script>
-    // Telefon numarası giriş alanını al
-    var phoneNumberInput = document.getElementById("phoneNumber");
-
-    // Ülke kodunu al
-    var countryCode = "+1"; // Örnek ülke kodu (ABD)
-
-    // Telefon numarasının başına ülke kodunu ekleyen işlev
-    function addCountryCode() {
-        var phoneNumber = phoneNumberInput.value.replace(/\D/g, ''); // Sadece rakamları al
-
-        // Telefon numarasının başına ülke kodunu ekleyerek biçimlendir
-        var formattedPhoneNumber = countryCode + phoneNumber;
-
-        // Biçimli numarayı giriş alanına yerleştir
-        phoneNumberInput.value = formattedPhoneNumber;
-    }
-
-    // Telefon numarası girişi değiştiğinde biçimlendirme işlemini gerçekleştir
-    phoneNumberInput.addEventListener("input", function(event) {
-        var input = event.target.value;
-        
-        // Sadece rakamları al
-        var phoneNumber = input.replace(/\D/g, '');
-
-        // 10 haneli telefon numarası biçimini kontrol et
-        var phoneNumberRegex = /^(\d{3})(\d{3})(\d{4})$/;
-        if (phoneNumberRegex.test(phoneNumber)) {
-            // Numarayı biçimlendir ve parantezler ekleyerek döndür
-            var formattedPhoneNumber = phoneNumber.replace(phoneNumberRegex, "($1) $2-$3");
-
-            // Biçimli numarayı giriş alanına yerleştir
-            event.target.value = formattedPhoneNumber;
-        }
-    });
-
-    // Sayfa yüklendiğinde ve telefon numarası girişi bittiğinde ülke kodunu telefon numarasına ekle
-    phoneNumberInput.addEventListener("blur", addCountryCode);
-
-    // Sayfa yüklendiğinde ülke kodunu telefon numarasına ekle
-    addCountryCode();
-</script>
 <script>
 function initMap() {
     var map = new google.maps.Map(document.getElementById('map'), {
@@ -569,74 +350,28 @@ function addCustomMarkers(route, map) {
 }
 </script>
 
-      <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBg9HV0g-8ddiAHH6n2s_0nXOwHIk2f1DY&callback=initMap"></script>  
-      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-      <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-	  <script>
-// Bu fonksiyon, hesaplanan süreyi PHP dosyasına gönderir
-
-</script>
+      <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFigWHFZKkoNdO0r6siMTgawuNxwlabRU&callback=initMap"></script>  
 <script>
 document.getElementById("prevButton").addEventListener("click", function() {
-    // URL'den parametreleri al
-    var urlParams = new URLSearchParams(window.location.search);
-
-    // Eğer GET parametreleri varsa, onları kullan
-    var numPassengers = urlParams.has('numPassengers') ? urlParams.get('numPassengers') : <?php echo json_encode(
-        $_GET["numPassengers"] ?? ($_POST["numPassengers"] ?? 1)
-    ); ?>;
-    var pickUpDate = urlParams.has('pickUpDate') ? urlParams.get('pickUpDate') : <?php echo json_encode(
-        $_GET["pickUpDate"] ?? ($_POST["pickUpDate"] ?? "")
-    ); ?>;
-    var hours24 = urlParams.has('hours') ? urlParams.get('hours') : <?php echo json_encode(
-        $_GET["hours"] ?? ($_POST["hours"] ?? "")
-    ); ?>; // 24 saatlik formatta saat
-    var minutes = urlParams.has('minutes') ? urlParams.get('minutes') : <?php echo json_encode(
-        $_GET["minutes"] ?? ($_POST["minutes"] ?? "")
-    ); ?>;
-    var ampm = urlParams.has('ampm') ? urlParams.get('ampm') : <?php echo json_encode(
-        $_GET["ampm"] ?? ($_POST["ampm"] ?? "")
-    ); ?>;
-    var pickUpAddress = urlParams.has('pickUpAddress') ? urlParams.get('pickUpAddress') : <?php echo json_encode(
-        $_GET["pickUpAddress"] ?? ($_POST["pickUpAddress"] ?? "")
-    ); ?>;
-    var destinationAddress = urlParams.has('destinationAddress') ? urlParams.get('destinationAddress') : <?php echo json_encode(
-        $_GET["destinationAddress"] ?? ($_POST["destinationAddress"] ?? "")
-    ); ?>;
-    var paymentMethod = urlParams.has('paymentMethod') ? urlParams.get('paymentMethod') : <?php echo json_encode(
-        $_GET["paymentMethod"] ?? ($_POST["paymentMethod"] ?? "")
-    ); ?>;
-    var firstName = urlParams.has('firstName') ? urlParams.get('firstName') : <?php echo json_encode(
-        $_GET["firstName"] ?? ($_POST["firstName"] ?? "")
-    ); ?>;
-    var lastName = urlParams.has('lastName') ? urlParams.get('lastName') : <?php echo json_encode(
-        $_GET["lastName"] ?? ($_POST["lastName"] ?? "")
-    ); ?>;
-    var email = urlParams.has('email') ? urlParams.get('email') : <?php echo json_encode(
-        $_GET["email"] ?? ($_POST["email"] ?? "")
-    ); ?>;
-    var phoneNumber = urlParams.has('phoneNumber') ? urlParams.get('phoneNumber') : <?php echo json_encode(
-        $_GET["phoneNumber"] ?? ($_POST["phoneNumber"] ?? "")
-    ); ?>;
-	var countryCode = urlParams.has('countryCode') ? urlParams.get('countryCode') : <?php echo json_encode(
-     $_GET["countryCode"] ?? ($_POST["countryCode"] ?? "")
- ); ?>;
- 	var countryName = urlParams.has('countryName') ? urlParams.get('countryName') : <?php echo json_encode(
-     $_GET["countryName"] ?? ($_POST["countryName"] ?? "")
- ); ?>;
-    var bookingFee = urlParams.has('bookingFee') ? urlParams.get('bookingFee') : <?php echo json_encode(
-        $_GET["bookingFee"] ?? ($_POST["bookingFee"] ?? "")
-    ); ?>;
-    var driverFare = urlParams.has('driverFare') ? urlParams.get('driverFare') : <?php echo json_encode(
-        $_GET["driverFare"] ?? ($_POST["driverFare"] ?? "")
-    ); ?>;
-    var totalFare = urlParams.has('totalFare') ? urlParams.get('totalFare') : <?php echo json_encode(
-        $_GET["totalFare"] ?? ($_POST["totalFare"] ?? "")
-    ); ?>;	
-    var rideDuration = urlParams.has('rideDuration') ? urlParams.get('rideDuration') : <?php echo json_encode(
-        $_GET["rideDuration"] ?? ($_POST["rideDuration"] ?? "")
-    ); ?>;		
+    // POST verilerini kullan
+    var numPassengers = <?php echo json_encode($_POST["numPassengers"] ?? 1); ?>;
+    var pickUpDate = <?php echo json_encode($_POST["pickUpDate"] ?? ""); ?>;
+    var hours24 = <?php echo json_encode($_POST["hours"] ?? ""); ?>; // 24 saatlik formatta saat
+    var minutes = <?php echo json_encode($_POST["minutes"] ?? ""); ?>;
+    var ampm = <?php echo json_encode($_POST["ampm"] ?? ""); ?>;
+    var pickUpAddress = <?php echo json_encode($_POST["pickUpAddress"] ?? ""); ?>;
+    var destinationAddress = <?php echo json_encode($_POST["destinationAddress"] ?? ""); ?>;
+    var paymentMethod = <?php echo json_encode($_POST["paymentMethod"] ?? ""); ?>;
+    var firstName = <?php echo json_encode($_POST["firstName"] ?? ""); ?>;
+    var lastName = <?php echo json_encode($_POST["lastName"] ?? ""); ?>;
+    var email = <?php echo json_encode($_POST["email"] ?? ""); ?>;
+    var phoneNumber = <?php echo json_encode($_POST["phoneNumber"] ?? ""); ?>;
+    var countryCode = <?php echo json_encode($_POST["countryCode"] ?? ""); ?>;
+    var countryName = <?php echo json_encode($_POST["countryName"] ?? ""); ?>;
+    var bookingFee = <?php echo json_encode($_POST["bookingFee"] ?? ""); ?>;
+    var driverFare = <?php echo json_encode($_POST["driverFare"] ?? ""); ?>;
+    var totalFare = <?php echo json_encode($_POST["totalFare"] ?? ""); ?>;
+    var rideDuration = <?php echo json_encode($_POST["rideDuration"] ?? ""); ?>;
 
     // 12 saatlik formata çevir
     var hours12 = hours24 % 12 || 12; // 12 saatlik formatta saat
@@ -645,29 +380,41 @@ document.getElementById("prevButton").addEventListener("click", function() {
     // ...
 
     // Ardından, işlemleriniz tamamlandıktan sonra yönlendirme yapabilirsiniz
-    var queryString = "numPassengers=" + encodeURIComponent(numPassengers) +
-                      "&pickUpDate=" + encodeURIComponent(pickUpDate) +
-                      "&hours=" + encodeURIComponent(hours12) +
-                      "&minutes=" + encodeURIComponent(minutes) +
-                      "&ampm=" + encodeURIComponent(ampm) +
-                      "&pickUpAddress=" + encodeURIComponent(pickUpAddress) +
-                      "&destinationAddress=" + encodeURIComponent(destinationAddress) +
-                      "&paymentMethod=" + encodeURIComponent(paymentMethod) +
-                      "&firstName=" + encodeURIComponent(firstName) +
-                      "&lastName=" + encodeURIComponent(lastName) +
-                      "&email=" + encodeURIComponent(email) +
-                      "&phoneNumber=" + encodeURIComponent(phoneNumber) +
-                      "&countryCode=" + encodeURIComponent(countryCode) +
-					"&countryName=" + encodeURIComponent(countryName) +
-                      "&bookingFee=" + encodeURIComponent(bookingFee) +
-                      "&driverFare=" + encodeURIComponent(driverFare) +
-                      "&totalFare=" + encodeURIComponent(totalFare) +
-                      "&rideDuration=" + encodeURIComponent(rideDuration);
+    var form = document.createElement("form");
+    form.method = "POST";
+    form.action = "index.php";
 
-    window.location.href = "index.php?" + queryString;
+    // Append form fields
+    form.appendChild(createHiddenInput("numPassengers", numPassengers));
+    form.appendChild(createHiddenInput("pickUpDate", pickUpDate));
+    form.appendChild(createHiddenInput("hours", hours12));
+    form.appendChild(createHiddenInput("minutes", minutes));
+    form.appendChild(createHiddenInput("ampm", ampm));
+    form.appendChild(createHiddenInput("pickUpAddress", pickUpAddress));
+    form.appendChild(createHiddenInput("destinationAddress", destinationAddress));
+    form.appendChild(createHiddenInput("paymentMethod", paymentMethod));
+    form.appendChild(createHiddenInput("firstName", firstName));
+    form.appendChild(createHiddenInput("lastName", lastName));
+    form.appendChild(createHiddenInput("email", email));
+    form.appendChild(createHiddenInput("phoneNumber", phoneNumber));
+    form.appendChild(createHiddenInput("countryCode", countryCode));
+    form.appendChild(createHiddenInput("countryName", countryName));
+    form.appendChild(createHiddenInput("bookingFee", bookingFee));
+    form.appendChild(createHiddenInput("driverFare", driverFare));
+    form.appendChild(createHiddenInput("totalFare", totalFare));
+    form.appendChild(createHiddenInput("rideDuration", rideDuration));
+
+    document.body.appendChild(form);
+    form.submit();
 });
 
+function createHiddenInput(name, value) {
+    var input = document.createElement("input");
+    input.type = "hidden";
+    input.name = name;
+    input.value = value;
+    return input;
+}
 </script>
-
    </body>
 </html>

@@ -9,7 +9,7 @@ if (!$sonuc){
 $name = $sonuc["name"];
 $surname = $sonuc["surname"];
 $perm = $sonuc["perm"];
-$user = $_SESSION["user"];
+$user = $sonuc["user"];
 
 // Başlangıç sayacını tanımla
 $sayac = 0;
@@ -76,17 +76,6 @@ foreach ($tablolar as $tablo) {
                     <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" data-toggle="fullscreen">
                         <i class='bx bx-fullscreen fs-22'></i>
                     </button>
-                </div>
-
-                <div class="ms-1 header-item d-none d-sm-flex">
-                    <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle light-dark-mode">
-                        <i class='bx bx-moon fs-22'></i>
-                    </button>
-                </div>
-				<div class="ms-1 header-item d-none d-sm-flex">
-               <a href="logout.php" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle light-dark-mode">
-                      Logout
-                    </a>
                 </div>
 
                 <div class="dropdown ms-sm-3 header-item topbar-user">

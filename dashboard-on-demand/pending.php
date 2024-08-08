@@ -1,6 +1,4 @@
-<?php ob_start(); ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');
-error_reporting(E_ALL);?>
+<?php ob_start();?>
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
 <head>
@@ -11,11 +9,53 @@ include('inc/head.php');
 $title = "Dashboard";
 $descripton = $sonucayar['siteaciklamasi'];?>
 <meta content="<?=$descripton?>" name="description" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+    .card {
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .card .card-body {
+        background-color: #f8f9fa;
+    }
+    .card h5 {
+        font-weight: 700;
+    }
+    .pay-amount {
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+    .navbar, .footer {
+        background-color: #343a40;
+        color: white;
+    }
+    .navbar a, .footer a {
+        color: white;
+    }
+</style>
 </head>
 <body>
 <?php
 include('inc/header.php');
 include('inc/navbar.php');
+
+if ($_POST){
+    $bookingNumber = $_POST['bookingNumber'];
+    $table = $_POST['table'];    
+    
+    $satir = [
+        'bookingNumber' => $bookingNumber
+    ];
+
+    $sql = "UPDATE $table SET status='past' WHERE bookingNumber=:bookingNumber";             
+    $durum = $baglanti->prepare($sql)->execute($satir);
+
+    if ($durum) {
+        header("location:available.php");
+    }
+}
+
 ?>
 
 <div class="main-content">
@@ -35,18 +75,11 @@ include('inc/navbar.php');
                             $paymentMethod = "CASH";
                         }
 
-                        // updated_at ve totalMinutes değerlerini al
                         $createdAt = new DateTime($sonuc['updated_at'], new DateTimeZone('America/New_York'));
                         $totalMinutes = floatval($sonuc['totalMinutes']);
-
-                        // toplam dakikayı saniyeye çevir
                         $totalSeconds = intval($totalMinutes * 60);
-
-                        // bitiş zamanını hesapla
                         $expiryTime = clone $createdAt;
                         $expiryTime->modify('+' . $totalSeconds . ' seconds');
-
-                        // şu anki zamanı al
                         $currentTime = new DateTime('now', new DateTimeZone('America/New_York'));
                         $remainingTime = $expiryTime->getTimestamp() - $currentTime->getTimestamp();
 
@@ -76,25 +109,28 @@ include('inc/navbar.php');
                             </div>
                             <div class="booking-details">
                                 <br><br>
-                                Type = <?=$table == 'centralpark' ? 'Central Park Ride' : ($table == 'hourly' ? 'Hourly Pedicab Ride' : 'Point A to B Pedicab Ride')?><br>
-                                Start Location = <?=$sonuc["pickupAddress"]?><br>
-                                Finish Location = <?=$sonuc["destinationAddress"]?><br>
-                                Date = <?=$sonuc["date"]?><br>
-                                Time = Now!<br>
-                                Duration = <?=$sonuc["duration"]?><br>
-                                Passengers = <?=$sonuc["numberOfPassengers"]?><br>
-                                Name = <?=$sonuc["firstName"] . ' ' . $sonuc["lastName"]?><br>
-                                Phone = <?=$sonuc["phoneNumber"];?><br>
-                                Pay = $<?=$sonuc["driverFee"]?> with <?=$paymentMethod?> by customer <?=$sonuc["firstName"] . " " . $sonuc["lastName"]?><br>
-                                Please, confirm by typing the start time.&nbsp;<br>
-                                <div id="map" style="margin-top:30px;"></div>
+                                <b>Type:</b> <?=$table == 'centralpark' ? 'Central Park Ride' : ($table == 'hourly' ? 'Hourly Pedicab Ride' : 'Point A to B Pedicab Ride')?><br>
+                                <b>Start Location:</b> <?=$sonuc["pickupAddress"]?><br>
+                                <b>Finish Location:</b> <?=$sonuc["destinationAddress"]?><br>
+                                <b>Date:</b> <?=$sonuc["date"]?><br>
+                                <b>Time:</b> Now!<br>
+                                <b>Duration:</b> <?=$sonuc["duration"]?><br>
+                                <b>Passengers:</b> <?=$sonuc["numberOfPassengers"]?><br>
+                                <b>Name:</b> <?=$sonuc["firstName"] . ' ' . $sonuc["lastName"]?><br>
+                                <b>Phone:</b> <?=$sonuc["phoneNumber"];?><br>
+                                <b>Pay:</b> $<?=$sonuc["driverFee"]?> with <?=$paymentMethod?> by customer <?=$sonuc["firstName"] . " " . $sonuc["lastName"]?><br>
                             </div>
                             <div class="flex-grow-1 ms-3">
                                 <h6 class="mb-1">Remaining Time</h6>
                                 <b class="pay-amount">
                                     <span id="countdown-<?= $sonuc['id'] ?>" style='color:red;' class="countdown"></span> minutes
                                 </b>
-                            </div>     
+                            </div>  <br>
+                            <form method='POST'>
+                                <input type="hidden" name="bookingNumber" value="<?=$sonuc["bookingNumber"]?>">
+                                <input type="hidden" name="table" value="<?=$table?>">
+                                <input type="submit" class="btn btn-danger" value="Bitir">     
+                            </form>
                         </div>
                         <!-- end card body -->
                     </div>
@@ -149,6 +185,9 @@ include('inc/scripts.php');
         }, 1000);
     }
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
 
 </body>
 </html>

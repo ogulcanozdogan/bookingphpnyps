@@ -1,6 +1,10 @@
-[20-Jun-2024 21:20:25 UTC] PHP Parse error:  syntax error, unexpected token "else", expecting end of file in /home/zlds82bav5q4/public_html/pedicab-driver-registration/process.php on line 339
-[20-Jun-2024 21:22:07 UTC] PHP Warning:  Undefined variable $htmlContent2 in /home/zlds82bav5q4/public_html/pedicab-driver-registration/process.php on line 274
-[20-Jun-2024 22:08:14 UTC] PHP Warning:  Undefined variable $htmlContent2 in /home/zlds82bav5q4/public_html/pedicab-driver-registration/process.php on line 274
-[20-Jun-2024 22:10:24 UTC] PHP Warning:  Undefined variable $htmlContent2 in /home/zlds82bav5q4/public_html/pedicab-driver-registration/process.php on line 274
-[20-Jun-2024 22:11:28 UTC] PHP Warning:  Undefined variable $htmlContent2 in /home/zlds82bav5q4/public_html/pedicab-driver-registration/process.php on line 274
-[20-Jun-2024 22:14:01 UTC] PHP Parse error:  Unclosed '{' on line 9 in /home/zlds82bav5q4/public_html/pedicab-driver-registration/process.php on line 358
+[26-Jul-2024 17:37:52 UTC] PHP Warning:  Undefined variable $sendgrid in /home/zlds82bav5q4/public_html/pedicab-driver-registration/process.php on line 275
+[26-Jul-2024 17:37:52 UTC] PHP Fatal error:  Uncaught Error: Call to a member function send() on null in /home/zlds82bav5q4/public_html/pedicab-driver-registration/process.php:275
+Stack trace:
+#0 {main}
+  thrown in /home/zlds82bav5q4/public_html/pedicab-driver-registration/process.php on line 275
+[26-Jul-2024 17:44:36 UTC] PHP Warning:  Undefined variable $sendgrid in /home/zlds82bav5q4/public_html/pedicab-driver-registration/process.php on line 275
+[26-Jul-2024 17:44:36 UTC] PHP Fatal error:  Uncaught Error: Call to a member function send() on null in /home/zlds82bav5q4/public_html/pedicab-driver-registration/process.php:275
+Stack trace:
+#0 {main}
+  thrown in /home/zlds82bav5q4/public_html/pedicab-driver-registration/process.php on line 275

@@ -1,4 +1,5 @@
 <?php
+include('inc/init.php');
 if ($_POST) {
     // Information received from the form
     $firstName = $_POST["firstName"]; // default value 1
@@ -27,39 +28,12 @@ if ($_POST) {
     $serviceDuration = $_POST["serviceDuration"];
     $countryCode = $_POST["countryCode"];
     $countryName = $_POST["countryName"];
-} elseif ($_GET) {
-    // Information received from the form
-    $firstName = $_GET["firstName"]; // default value 1
-    $lastName = $_GET["lastName"]; // default value 1
-    $email = $_GET["email"]; // default value 1
-    $phoneNumber = $_GET["phoneNumber"]; // default value 1
-    $phoneNumber = substr($phoneNumber, -10);
-    $numPassengers = $_GET["numPassengers"] ?? 1; // default value 1
-    $pickUpDate = $_GET["pickUpDate"];
-    $hours = $_GET["hours"];
-    $minutes = $_GET["minutes"];
-    $ampm = $_GET["ampm"];
-    $deneme2 = $_GET["pickUpAddress"];
-    $destinationAddress = $_GET["destinationAddress"];
-    $paymentMethod = $_GET["paymentMethod"];
-    $rideDuration = $_GET["rideDuration"];
-    $bookingFee = $_GET["bookingFee"];
-    $driverFare = $_GET["driverFare"];
-    $totalFare = $_GET["totalFare"];
-    $returnDuration = $_GET["returnDuration"];
-    $pickUpDuration = $_GET["pickUpDuration"];
-    $hub = $_GET["hub"];
-    $baseFare = $_GET["baseFare"];
-    $operationFare = $_GET["operationFare"];
-    $serviceDetails = $_GET["serviceDetails"];
-    $serviceDuration = $_GET["serviceDuration"];
-    $countryCode = $_GET["countryCode"];
-    $countryName = $_GET["countryName"];
 } else {
     header("location: index.php");
 		exit;
 }
 
+  $pickUpDate = date("m/d/Y", strtotime($pickUpDate)); // takvimi degistirmek icin kullaniyoruz
 
 $hours12 = $hours;
 
@@ -86,10 +60,13 @@ $hour24 = (int) $pickupDateTime->format("G"); // 24-hour format
 // HUB selection
 if ($hour24 >= 9 && $hour24 < 16) {
     $hub = "West Drive and West 59th Street New York, NY 10019";
+	$hubCoords = '40.766941088678855, -73.97899952992152';
 } elseif ($hour24 >= 16 && $hour24 < 19) {
     $hub = "6th Avenue and West 48th Street New York, NY 10020";
+	$hubCoords = '6th Avenue and West 48th Street New York, NY 10020';	
 } else {
     $hub = "7th Avenue and West 48th Street New York, NY 10036";
+	$hubCoords = '7th Avenue and West 48th Street New York, NY 10036';		
 }
 
 // Base Fare calculation
@@ -101,7 +78,7 @@ if ($month == "December") {
 
 function getShortestBicycleRouteDuration($origin, $destination)
 {
-    $apiKey = "AIzaSyBg9HV0g-8ddiAHH6n2s_0nXOwHIk2f1DY"; // Enter your API key here
+    $apiKey = "AIzaSyB19a74p3hcn6_-JttF128c-xDZu18xewo"; // Enter your API key here
     $origin = urlencode($origin);
     $destination = urlencode($destination);
 
@@ -141,7 +118,7 @@ function getShortestBicycleRouteDuration($origin, $destination)
     return false; // Return false if no suitable route is found
 }
 
-$origin = $hub;
+$origin = $hubCoords;
 $destination = $deneme2;
 $pickupsuresi = getShortestBicycleRouteDuration($origin, $destination);
 
@@ -150,7 +127,7 @@ $destination = $destinationAddress;
 $ridesuresi = getShortestBicycleRouteDuration($origin, $destination);
 
 $origin = $destinationAddress;
-$destination = $hub;
+$destination = $hubCoords;
 $returnsuresi = getShortestBicycleRouteDuration($origin, $destination);
 
 $pickUpDuration = $pickupsuresi * 2.5;
@@ -261,6 +238,7 @@ require "inc/countryselect.php";
 <!DOCTYPE html>
 <html lang="en">
    <head>
+      <link rel="shortcut icon" href="vendor/favicon.ico">
       <meta charset="UTF-8">
 	  <title>Book Scheduled Hourly Pedicab Service</title>
 	  <meta name="description" content="Scheduled Hourly Pedicab Service Booking Application">
@@ -394,7 +372,7 @@ require "inc/countryselect.php";
                            <th scope="row">Service Details</th>
                            <td><?= $serviceDetails ?></td>
                         </tr>
-							<?php if ($paymentMethod != "fullcard") { ?>
+							<?php //if ($paymentMethod != "fullcard") { ?>
                              <tr>
                                 <th scope="row">Booking Fee</th>
                                 <td>$<?= number_format($bookingFee, 2) ?></td>
@@ -403,7 +381,7 @@ require "inc/countryselect.php";
                                 <th scope="row">Driver Fare</th>
                                  <td>$<?= number_format($driverFare, 2) ?> with <?= $paymentMethod == 'card' ? 'debit/credit card' : $paymentMethod ?></td>
                             </tr>
-							<?php } ?>
+							<?php// } ?>
                             <tr style="background-color:green;">
                            <th scope="row" style="color:white;">Total Fare</th>
                            <td><b style="color:white;">$<?= number_format(
@@ -419,51 +397,41 @@ require "inc/countryselect.php";
 <div class="form-group">
     <label for="firstName">First Name</label>
     <input title="" type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter your first name" 
-    <?php if (isset($_GET["firstName"]) && !empty($_GET["firstName"])) { ?>
-        value="<?php echo htmlspecialchars($_GET["firstName"]); ?>"
-    <?php } elseif (
-        isset($_POST["firstName"]) &&
-        !empty($_POST["firstName"])
-    ) { ?>
-        value="<?php echo htmlspecialchars($_POST["firstName"]); ?>"
-    <?php } ?> 
-    required oninvalid="this.setCustomValidity('Please, enter first name.'); this.classList.add('invalid');" oninput="setCustomValidity(''); this.classList.remove('invalid');">
+        <?php if (isset($_POST["firstName"]) && !empty($_POST["firstName"])) { ?>
+            value="<?php echo htmlspecialchars($_POST["firstName"]); ?>"
+        <?php } ?> 
+        required oninvalid="this.setCustomValidity('Please, enter first name.'); this.classList.add('invalid');" 
+        oninput="this.setCustomValidity(''); this.classList.remove('invalid'); this.value = this.value.replace(/[^a-zA-Z\s]/g, '');">
 </div>
 <div class="form-group">
     <label for="lastName">Last Name</label>
     <input title="" type="text" class="form-control" id="lastName" name="lastName" placeholder="Enter your last name" 
-    <?php if (isset($_GET["lastName"]) && !empty($_GET["lastName"])) { ?>
-        value="<?php echo htmlspecialchars($_GET["lastName"]); ?>"
-    <?php } elseif (
-        isset($_POST["lastName"]) &&
-        !empty($_POST["lastName"])
-    ) { ?>
-        value="<?php echo htmlspecialchars($_POST["lastName"]); ?>"
-    <?php } ?> 
-    required oninvalid="this.setCustomValidity('Please, enter last name.'); this.classList.add('invalid');" oninput="setCustomValidity(''); this.classList.remove('invalid');">
+        <?php if (isset($_POST["lastName"]) && !empty($_POST["lastName"])) { ?>
+            value="<?php echo htmlspecialchars($_POST["lastName"]); ?>"
+        <?php } ?> 
+        required oninvalid="this.setCustomValidity('Please, enter last name.'); this.classList.add('invalid');" 
+        oninput="this.setCustomValidity(''); this.classList.remove('invalid'); this.value = this.value.replace(/[^a-zA-Z\s]/g, '');">
 </div>
 <div class="form-group">
     <label for="email">Email Address</label>
-<input title="" type="email" class="form-control" id="email" name="email" placeholder="Enter your email address" 
-    <?php if (isset($_GET['email']) && !empty($_GET['email'])) { ?>
-        value="<?php echo htmlspecialchars($_GET['email']); ?>"
-    <?php } elseif (isset($_POST['email']) && !empty($_POST['email'])) { ?>
-        value="<?php echo htmlspecialchars($_POST['email']); ?>"
-    <?php } ?> 
-    required 
-    oninvalid="this.setCustomValidity('Please, enter a valid email address.'); this.classList.add('invalid');" 
-    oninput="setCustomValidity(''); this.classList.remove('invalid');" 
-    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" 
-    onchange="if(!this.value.match(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/)) { this.setCustomValidity('Please, enter a valid email address.'); this.classList.add('invalid'); } else { this.setCustomValidity(''); this.classList.remove('invalid'); }">
-</div> <label for="countrySelect">Phone</label>
-        <div style="  display: flex;
-            " class="form-group">
-           
-<?= countrySelector() ?>
-
-            <input title="" style="flex: 2; margin-left: 10px;" type="tel"  pattern=".{10,10}" class="form-control phone-number-input" id="phoneNumber" name="phoneNumber"
-                   onkeyup="updatePhoneNumber()" oninvalid="this.setCustomValidity('Please, enter a 10 digit phone number.'); this.classList.add('invalid');" oninput="this.value = this.value.replace(/\D+/g, '');setCustomValidity(''); this.classList.remove('invalid');" value="<?= $phoneNumber ?>" placeholder="Enter your phone number" required >
-        </div>
+    <input title="" type="email" class="form-control" id="email" name="email" placeholder="Enter your email address" 
+        <?php if (isset($_POST['email']) && !empty($_POST['email'])) { ?>
+            value="<?php echo htmlspecialchars($_POST['email']); ?>"
+        <?php } ?> 
+        required 
+        oninvalid="this.setCustomValidity('Please, enter a valid email address.'); this.classList.add('invalid');" 
+        oninput="setCustomValidity(''); this.classList.remove('invalid');" 
+        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" 
+        onchange="if(!this.value.match(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/)) { this.setCustomValidity('Please, enter a valid email address.'); this.classList.add('invalid'); } else { this.setCustomValidity(''); this.classList.remove('invalid'); }">
+</div>
+<div class="form-group">
+    <label for="countrySelect">Phone</label>
+    <div style="display: flex;" class="form-group">
+        <?= countrySelector() ?>
+        <input title="" style="flex: 2; margin-left: 10px;" type="tel" pattern=".{10,10}" class="form-control phone-number-input" id="phoneNumber" name="phoneNumber"
+               onkeyup="updatePhoneNumber()" oninvalid="this.setCustomValidity('Please, enter a 10 digit phone number.'); this.classList.add('invalid');" oninput="this.value = this.value.replace(/\D+/g, '');setCustomValidity(''); this.classList.remove('invalid');" value="<?= htmlspecialchars($_POST['phoneNumber'] ?? '') ?>" placeholder="Enter your phone number" required>
+    </div>
+</div>
 
     <input title="" type="hidden" name="numPassengers" value="<?= $numPassengers ?>">
     <input title="" type="hidden" name="pickUpDate" value="<?= $pickUpDate ?>">
@@ -523,7 +491,7 @@ require "inc/countryselect.php";
             suppressMarkers: true,  // Remove default markers
             polylineOptions: {
                 strokeColor: '#FF0000',  // Set line color to red
-                strokeOpacity: 1,      // Line opacity
+                strokeOpacity: 0,      // Line opacity
                 strokeWeight: 6          // Line thickness
             }
         });
@@ -607,7 +575,7 @@ require "inc/countryselect.php";
 </script>
 
 
-      <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBg9HV0g-8ddiAHH6n2s_0nXOwHIk2f1DY&callback=initMap"></script>  
+      <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFigWHFZKkoNdO0r6siMTgawuNxwlabRU&callback=initMap"></script>  
       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
       <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
@@ -617,119 +585,79 @@ require "inc/countryselect.php";
 </script>
 <script>
 document.getElementById("prevButton").addEventListener("click", function() {
-    // Get the parameters from the URL
-    var urlParams = new URLSearchParams(window.location.search);
+    // POST verilerini al
+    var numPassengers = <?php echo json_encode($_POST["numPassengers"] ?? 1); ?>;
+    var pickUpDate = <?php echo json_encode($_POST["pickUpDate"] ?? ""); ?>;
+    var hours24 = <?php echo json_encode($_POST["hours"] ?? ""); ?>; // 24 saat formatında saat
+    var minutes = <?php echo json_encode($_POST["minutes"] ?? ""); ?>;
+    var ampm = <?php echo json_encode($_POST["ampm"] ?? ""); ?>;
+    var pickUpAddress = <?php echo json_encode($_POST["pickUpAddress"] ?? ""); ?>;
+    var destinationAddress = <?php echo json_encode($_POST["destinationAddress"] ?? ""); ?>;
+    var paymentMethod = <?php echo json_encode($_POST["paymentMethod"] ?? ""); ?>;
+    var firstName = <?php echo json_encode($_POST["firstName"] ?? ""); ?>;
+    var lastName = <?php echo json_encode($_POST["lastName"] ?? ""); ?>;
+    var email = <?php echo json_encode($_POST["email"] ?? ""); ?>;
+    var phoneNumber = <?php echo json_encode($_POST["phoneNumber"] ?? ""); ?>;
+    var countryCode = <?php echo json_encode($_POST["countryCode"] ?? ""); ?>;
+    var countryName = <?php echo json_encode($_POST["countryName"] ?? ""); ?>;
+    var bookingFee = <?php echo json_encode($_POST["bookingFee"] ?? ""); ?>;
+    var driverFare = <?php echo json_encode($_POST["driverFare"] ?? ""); ?>;
+    var totalFare = <?php echo json_encode($_POST["totalFare"] ?? ""); ?>;
+    var returnDuration = <?php echo json_encode($_POST["returnDuration"] ?? ""); ?>;
+    var pickUpDuration = <?php echo json_encode($_POST["pickUpDuration"] ?? ""); ?>;
+    var hub = <?php echo json_encode($_POST["hub"] ?? ""); ?>;
+    var baseFare = <?php echo json_encode($_POST["baseFare"] ?? ""); ?>;
+    var operationFare = <?php echo json_encode($_POST["operationFare"] ?? ""); ?>;
+    var rideDuration = <?php echo json_encode($_POST["rideDuration"] ?? ""); ?>;
+    var serviceDetails = <?php echo json_encode($_POST["serviceDetails"] ?? ""); ?>;
+    var serviceDuration = <?php echo json_encode($_POST["serviceDuration"] ?? ""); ?>;
 
-    // If there are GET parameters, use them
-    var numPassengers = urlParams.has('numPassengers') ? urlParams.get('numPassengers') : <?php echo json_encode(
-        $_GET["numPassengers"] ?? ($_POST["numPassengers"] ?? 1)
-    ); ?>;
-    var pickUpDate = urlParams.has('pickUpDate') ? urlParams.get('pickUpDate') : <?php echo json_encode(
-        $_GET["pickUpDate"] ?? ($_POST["pickUpDate"] ?? "")
-    ); ?>;
-    var hours24 = urlParams.has('hours') ? urlParams.get('hours') : <?php echo json_encode(
-        $_GET["hours"] ?? ($_POST["hours"] ?? "")
-    ); ?>; // Hours in 24-hour format
-    var minutes = urlParams.has('minutes') ? urlParams.get('minutes') : <?php echo json_encode(
-        $_GET["minutes"] ?? ($_POST["minutes"] ?? "")
-    ); ?>;
-    var ampm = urlParams.has('ampm') ? urlParams.get('ampm') : <?php echo json_encode(
-        $_GET["ampm"] ?? ($_POST["ampm"] ?? "")
-    ); ?>;
-    var pickUpAddress = urlParams.has('pickUpAddress') ? urlParams.get('pickUpAddress') : <?php echo json_encode(
-        $_GET["pickUpAddress"] ?? ($_POST["pickUpAddress"] ?? "")
-    ); ?>;
-    var destinationAddress = urlParams.has('destinationAddress') ? urlParams.get('destinationAddress') : <?php echo json_encode(
-        $_GET["destinationAddress"] ?? ($_POST["destinationAddress"] ?? "")
-    ); ?>;
-    var paymentMethod = urlParams.has('paymentMethod') ? urlParams.get('paymentMethod') : <?php echo json_encode(
-        $_GET["paymentMethod"] ?? ($_POST["paymentMethod"] ?? "")
-    ); ?>;
-    var firstName = urlParams.has('firstName') ? urlParams.get('firstName') : <?php echo json_encode(
-        $_GET["firstName"] ?? ($_POST["firstName"] ?? "")
-    ); ?>;
-    var lastName = urlParams.has('lastName') ? urlParams.get('lastName') : <?php echo json_encode(
-        $_GET["lastName"] ?? ($_POST["lastName"] ?? "")
-    ); ?>;
-    var email = urlParams.has('email') ? urlParams.get('email') : <?php echo json_encode(
-        $_GET["email"] ?? ($_POST["email"] ?? "")
-    ); ?>;
-    var phoneNumber = urlParams.has('phoneNumber') ? urlParams.get('phoneNumber') : <?php echo json_encode(
-        $_GET["phoneNumber"] ?? ($_POST["phoneNumber"] ?? "")
-    ); ?>;
-	var countryCode = urlParams.has('countryCode') ? urlParams.get('countryCode') : <?php echo json_encode(
-     $_GET["countryCode"] ?? ($_POST["countryCode"] ?? "")
- ); ?>;
- 	var countryName = urlParams.has('countryName') ? urlParams.get('countryName') : <?php echo json_encode(
-     $_GET["countryName"] ?? ($_POST["countryName"] ?? "")
- ); ?>;
-    var bookingFee = urlParams.has('bookingFee') ? urlParams.get('bookingFee') : <?php echo json_encode(
-        $_GET["bookingFee"] ?? ($_POST["bookingFee"] ?? "")
-    ); ?>;
-    var driverFare = urlParams.has('driverFare') ? urlParams.get('driverFare') : <?php echo json_encode(
-        $_GET["driverFare"] ?? ($_POST["driverFare"] ?? "")
-    ); ?>;
-    var totalFare = urlParams.has('totalFare') ? urlParams.get('totalFare') : <?php echo json_encode(
-        $_GET["totalFare"] ?? ($_POST["totalFare"] ?? "")
-    ); ?>;	
-    var returnDuration = urlParams.has('returnDuration') ? urlParams.get('returnDuration') : <?php echo json_encode(
-        $_GET["returnDuration"] ?? ($_POST["returnDuration"] ?? "")
-    ); ?>;
-    var pickUpDuration = urlParams.has('pickUpDuration') ? urlParams.get('pickUpDuration') : <?php echo json_encode(
-        $_GET["pickUpDuration"] ?? ($_POST["pickUpDuration"] ?? "")
-    ); ?>;
-    var hub = urlParams.has('hub') ? urlParams.get('hub') : <?php echo json_encode(
-        $_GET["hub"] ?? ($_POST["hub"] ?? "")
-    ); ?>;
-    var baseFare = urlParams.has('baseFare') ? urlParams.get('baseFare') : <?php echo json_encode(
-        $_GET["baseFare"] ?? ($_POST["baseFare"] ?? "")
-    ); ?>;
-    var operationFare = urlParams.has('operationFare') ? urlParams.get('operationFare') : <?php echo json_encode(
-        $_GET["operationFare"] ?? ($_POST["operationFare"] ?? "")
-    ); ?>;		
-    var rideDuration = urlParams.has('rideDuration') ? urlParams.get('rideDuration') : <?php echo json_encode(
-        $_GET["rideDuration"] ?? ($_POST["rideDuration"] ?? "")
-    ); ?>;		
-    var serviceDetails = urlParams.has('serviceDetails') ? urlParams.get('serviceDetails') : <?php echo json_encode(
-        $_GET["serviceDetails"] ?? ($_POST["serviceDetails"] ?? "")
-    ); ?>;	
-    var serviceDuration = urlParams.has('serviceDuration') ? urlParams.get('serviceDuration') : <?php echo json_encode(
-        $_GET["serviceDuration"] ?? ($_POST["serviceDuration"] ?? "")
-    ); ?>;		
+    // 12 saat formatına çevir
+    var hours12 = hours24 % 12 || 12; // 12 saat formatında saat
 
-    // Convert to 12-hour format
-    var hours12 = hours24 % 12 || 12; // Hours in 12-hour format
+    // Form oluştur ve POST ile gönder
+    var form = document.createElement("form");
+    form.method = "POST";
+    form.action = "index.php";
 
-    // Now you can perform the necessary operations
-    // ...
+    // Form alanlarını ekle
+    function createHiddenInput(name, value) {
+        var input = document.createElement("input");
+        input.type = "hidden";
+        input.name = name;
+        input.value = value;
+        form.appendChild(input);
+    }
 
-    // Then, after your operations are completed, you can redirect
-    var queryString = "numPassengers=" + encodeURIComponent(numPassengers) +
-                      "&pickUpDate=" + encodeURIComponent(pickUpDate) +
-                      "&hours=" + encodeURIComponent(hours12) +
-                      "&minutes=" + encodeURIComponent(minutes) +
-                      "&ampm=" + encodeURIComponent(ampm) +
-                      "&pickUpAddress=" + encodeURIComponent(pickUpAddress) +
-                      "&destinationAddress=" + encodeURIComponent(destinationAddress) +
-                      "&paymentMethod=" + encodeURIComponent(paymentMethod) +
-                      "&firstName=" + encodeURIComponent(firstName) +
-                      "&lastName=" + encodeURIComponent(lastName) +
-                      "&email=" + encodeURIComponent(email) +
-                       "&phoneNumber=" + encodeURIComponent(phoneNumber) +
-						"&countryCode=" + encodeURIComponent(countryCode) +
-						"&countryName=" + encodeURIComponent(countryName) +
-                      "&bookingFee=" + encodeURIComponent(bookingFee) +
-                      "&driverFare=" + encodeURIComponent(driverFare) +
-                      "&totalFare=" + encodeURIComponent(totalFare) +
-                      "&serviceDetails=" + encodeURIComponent(serviceDetails) +
-                      "&serviceDuration=" + encodeURIComponent(serviceDuration) +
-                      "&rideDuration=" + encodeURIComponent(rideDuration);
+    createHiddenInput("numPassengers", numPassengers);
+    createHiddenInput("pickUpDate", pickUpDate);
+    createHiddenInput("hours", hours12);
+    createHiddenInput("minutes", minutes);
+    createHiddenInput("ampm", ampm);
+    createHiddenInput("pickUpAddress", pickUpAddress);
+    createHiddenInput("destinationAddress", destinationAddress);
+    createHiddenInput("paymentMethod", paymentMethod);
+    createHiddenInput("firstName", firstName);
+    createHiddenInput("lastName", lastName);
+    createHiddenInput("email", email);
+    createHiddenInput("phoneNumber", phoneNumber);
+    createHiddenInput("countryCode", countryCode);
+    createHiddenInput("countryName", countryName);
+    createHiddenInput("bookingFee", bookingFee);
+    createHiddenInput("driverFare", driverFare);
+    createHiddenInput("totalFare", totalFare);
+    createHiddenInput("returnDuration", returnDuration);
+    createHiddenInput("pickUpDuration", pickUpDuration);
+    createHiddenInput("hub", hub);
+    createHiddenInput("baseFare", baseFare);
+    createHiddenInput("operationFare", operationFare);
+    createHiddenInput("rideDuration", rideDuration);
+    createHiddenInput("serviceDetails", serviceDetails);
+    createHiddenInput("serviceDuration", serviceDuration);
 
-    window.location.href = "index.php?" + queryString;
+    document.body.appendChild(form);
+    form.submit();
 });
-
 </script>
-
-
    </body>
 </html>

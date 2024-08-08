@@ -1,3 +1,8 @@
+<?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+include('inc/init.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,33 +20,67 @@ require_once "vendor/autoload.php";
 require_once "inc/db.php";
 require_once "whatsapp.php";
 
-if (!$_GET) {
-	header("location: index.php");
-		exit;
+    if (
+        !isset(
+            $_GET["unique_id"]
+        )
+    ) {
+        header("Location: index.php");
+        exit();
+    }
+
+
+	$unique_id = $_GET["unique_id"];
+	
+
+if ($unique_id === null) {
+    die("Unique ID is required.");
 }
 
+    $pdo = new PDO($dsn, $username, $password, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    ]);
+
+    // Veritabanından verileri çek
+    $stmt = $pdo->prepare("SELECT * FROM temporaryBookings WHERE unique_id = :unique_id");
+    $stmt->execute([':unique_id' => $unique_id]);
+    $booking = $stmt->fetch();
+
+    if (!$booking) {
+        die("Booking not found.");
+    }
+
+
 // Get date and time information from the form
-$firstName = $_GET["firstName"]; // default value 1
-$lastName = $_GET["lastName"]; // default value 1
-$emailAddress = $_GET["email"]; // default value 1
-$phoneNumber = $_GET["phoneNumber"]; // default value 1
-$numPassengers = $_GET["numPassengers"]; // default value 1
-$pickUpDate = $_GET["pickUpDate"];
-$hours = $_GET["hours"];
-$minutes = $_GET["minutes"];
-$ampm = $_GET["ampm"];
-$pickUpAddress = $_GET["pickUpAddress"];
-$destinationAddress = $_GET["destinationAddress"];
-$paymentMethod = $_GET["paymentMethod"];
-$rideDuration = $_GET["rideDuration"];
-$bookingFee = $_GET["bookingFee"];
-$driverFare = $_GET["driverFare"];
-$totalFare = $_GET["totalFare"];
-$returnDuration = $_GET["returnDuration"];
-$pickUpDuration = $_GET["pickUpDuration"];
-$hub = $_GET["hub"];
-$baseFare = $_GET["baseFare"];
-$operationFare = $_GET["operationFare"];
+$firstName = $booking["first_name"]; // default value 1
+$lastName = $booking["last_name"]; // default value 1
+$emailAddress = $booking["email"]; // default value 1
+$phoneNumber = $booking["phone_number"]; // default value 1
+$numPassengers = $booking["num_passengers"]; // default value 1
+$pickUpDate = $booking["pick_up_date"];
+$hours = $booking["hours"];
+$minutes = $booking["minutes"];
+$ampm = $booking["ampm"];
+$pickUpAddress = $booking["pick_up_address"];
+$destinationAddress = $booking["destination_address"];
+$paymentMethod = $booking["payment_method"];
+$rideDuration = $booking["ride_duration"];
+$bookingFee = $booking["booking_fee"];
+$driverFare = $booking["driver_fare"];
+$totalFare = $booking["total_fare"];
+$returnDuration = $booking["return_duration"];
+$pickUpDuration = $booking["pick_up_duration"];
+$hub = $booking["hub"];
+$baseFare = $booking["base_fare"];
+$operationFare = $booking["operation_fare"];
+$countryCode = $booking["country_code"];
+
+	$currentDateTime = new DateTime('now', new DateTimeZone('America/New_York'));
+	$createdAt = $currentDateTime->format('Y-m-d H:i:s');
+
+	
+	    $phoneNumber = "+" . $countryCode . $phoneNumber;
 
 $timeOfPickUp = $hours . ":" . $minutes . " " . $ampm;
 
@@ -118,7 +157,7 @@ $bookingNumber =
     "-" .
     $kisauuid;
 
-$apiKey = "AIzaSyBg9HV0g-8ddiAHH6n2s_0nXOwHIk2f1DY";
+$apiKey = "AIzaSyB19a74p3hcn6_-JttF128c-xDZu18xewo";
 // Function to convert addresses to coordinates
 function getCoordinates($address, $apiKey)
 {
@@ -151,7 +190,12 @@ function getCoordinates($address, $apiKey)
 // Get the coordinates for both addresses
 $pickUpCoords = getCoordinates($pickUpAddress, $apiKey);
 $destinationCoords = getCoordinates($destinationAddress, $apiKey);
-$hubCoords = getCoordinates($hub, $apiKey);
+if ($hub == "West Drive and West 59th Street New York, NY 10019"){
+	$hubCoords = '40.766941088678855, -73.97899952992152';
+}
+else {
+	$hubCoords = getCoordinates($hub, $apiKey);
+}
 
 $paymentMethod = strtoupper($paymentMethod);
 
@@ -187,10 +231,13 @@ if ($firstName != "" && $lastName != "") {
         "operationFare" => $operationFare,
         "pickUpCoords" => $pickUpCoords,
         "destinationCoords" => $destinationCoords,
+		"unique_id" => $unique_id,
+		"totalMinutes" => $totalMinutes,
+		"createdAt" => $createdAt,		
     ];
 
-    $sql = "INSERT INTO pointatob (id, bookingNumber, firstName, lastName, emailAddress, phoneNumber, numberOfPassengers, date, hour, minutes, ampm, pickupAddress, destinationAddress, paymentMethod, duration, bookingFee, driverFee, totalFare, returnDuration, pickUpDuration, hub, baseFare, operationFare, pickUpCoords, destinationCoords, hubCoords)
-VALUES ('$uuid', '$bookingNumber', '$firstName', '$lastName', '$emailAddress', '$phoneNumber', '$numPassengers', '$pickUpDate', '$hours', '$minutes', '$ampm', '$pickUpAddress', '$destinationAddress', '$paymentMethod', '$rideDuration', '$bookingFee', '$driverFare', '$totalFare', '$returnDuration', '$pickUpDuration', '$hub', '$baseFare', '$operationFare', '$pickUpCoords', '$destinationCoords', '$hubCoords')";
+    $sql = "INSERT INTO pointatob (id, bookingNumber, firstName, lastName, emailAddress, phoneNumber, numberOfPassengers, date, hour, minutes, ampm, pickupAddress, destinationAddress, paymentMethod, duration, bookingFee, driverFee, totalFare, returnDuration, pickUpDuration, hub, baseFare, operationFare, pickUpCoords, destinationCoords, hubCoords, unique_id, totalMinutes, createdAt)
+VALUES ('$uuid', '$bookingNumber', '$firstName', '$lastName', '$emailAddress', '$phoneNumber', '$numPassengers', '$pickUpDate', '$hours', '$minutes', '$ampm', '$pickUpAddress', '$destinationAddress', '$paymentMethod', '$rideDuration', '$bookingFee', '$driverFare', '$totalFare', '$returnDuration', '$pickUpDuration', '$hub', '$baseFare', '$operationFare', '$pickUpCoords', '$destinationCoords', '$hubCoords', '$unique_id', '$totalMinutes', '$createdAt')";
     $durum = $baglanti->prepare($sql)->execute();
 
     if ($durum) {
@@ -294,7 +341,8 @@ EOD;
 <body>
     <p><strong>CONFIRMATION: Scheduled Point A to B Pedicab Ride - </strong> $bookingNumber</p>
 	<br>
-	<p><strong>Below are the confirmed details of your booking:</strong></p>
+    <p><strong>Thank you for choosing New York Pedicab Services</strong></p>
+    <p><strong>Below are the confirmed details of your booking:</strong></p>
     <p><strong>Type:</strong> Scheduled Point A to B Pedicab Ride</p>
     <p><strong>First Name:</strong> $firstName</p>
     <p><strong>Last Name:</strong> $lastName</p>
@@ -378,10 +426,8 @@ EOD;
         }
 
         $message =
-            "Point A to B Pedicab Tour available!
-{" .
-            $bookingNumber .
-            "}";
+            "Point A to B Pedicab Ride available!
+{" . $bookingNumber . "}";
 
         // Send message to each phone number
         foreach ($phoneNumbers as $phoneNumberwp) {

@@ -8,6 +8,28 @@ include('inc/head.php');
 $title = "Dashboard";
 $descripton = $sonucayar['siteaciklamasi']; ?>
 <meta content="<?=$descripton?>" name="description" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+    .earnings-card {
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .earnings-card h4 {
+        font-weight: 700;
+    }
+    .earnings-amount {
+        font-size: 2rem;
+        color: green;
+    }
+    .navbar, .footer {
+        background-color: #343a40;
+        color: white;
+    }
+    .navbar a, .footer a {
+        color: white;
+    }
+</style>
 </head>
 <body>
 <?php
@@ -15,26 +37,26 @@ include('inc/header.php');
 include('inc/navbar.php');
 ?>
 
-        <div class="main-content">
+<div class="main-content">
 
-            <div class="page-content">
-                <div class="container-fluid">
+    <div class="page-content">
+        <div class="container-fluid">
 
-                    <div class="row">
-                        <div class="col">
+            <div class="row">
+                <div class="col">
 
-                            <div class="h-100">
-                                <div class="row mb-3 pb-1">
-                                    <div class="col-12">
-                                        <div class="d-flex align-items-lg-center flex-lg-row flex-column">
-                                            <div class="flex-grow-1">
-                                                <h4 class="fs-16 mb-1">Hello, <?php
-												$sorgu2 = $baglanti->prepare("SELECT * FROM users WHERE user = '$user'");
-								$sorgu2->execute();
-								$sonuc2 = $sorgu2->fetch();
-								echo $sonuc2["name"] . ' ' . $sonuc2["surname"];
-												
+                    <div class="h-100">
+                        <div class="row mb-3 pb-1">
+                            <div class="col-12">
+                                <div class="d-flex align-items-lg-center flex-lg-row flex-column">
+                                    <div class="flex-grow-1">
+                                        <h4 class="fs-16 mb-1">Hello, <?php
+                                            $sorgu2 = $baglanti->prepare("SELECT * FROM users WHERE user = '$user'");
+                                            $sorgu2->execute();
+                                            $sonuc2 = $sorgu2->fetch();
+                                            echo $sonuc2["name"] . ' ' . $sonuc2["surname"];
 											
+																						
 										
 $sorgu = $baglanti->prepare("SELECT SUM(driverFee) AS totalDriverFee FROM pointatob WHERE status = 'past' AND driver = :user");
 $sorgu->bindParam(':user', $user, PDO::PARAM_STR);
@@ -60,37 +82,36 @@ $sonuc = $sorgu->fetch();
 
 $toplamDriverFee = $toplamDriverFee + $sonuc['totalDriverFee'];
 
-												?></h4>
-<br>
-<br>Your 2024 Earnings: $<b style='color:green;'><?= number_format($toplamDriverFee, 2)?></b>                                 </div>
-												
-										
-                                            
-                                        </div><!-- end card header -->	
-                                    <!--end col-->
-                                </div>
-                                <!--end row-->
+                                        ?></h4>
+                                        <br><br>
+                                        <div class="card earnings-card">
+                                            <div class="card-body">
+                                                <h4 class="card-title">Your 2024 Earnings</h4>
+                                                <p class="earnings-amount">$<b><?= number_format($toplamDriverFee, 2)?></b></p>
+                                            </div>
+                                        </div>                            
+                                    </div>
+                                </div><!-- end card header --> 
+                            </div>
+                            <!--end col-->
+                        </div>
+                        <!--end row-->
+                    </div> <!-- end .h-100-->
 
+                </div> <!-- end col -->
 
-
-
-                            </div> <!-- end .h-100-->
-
-                        </div> <!-- end col -->
-
-
-                    </div>
-
-                </div>
-                <!-- container-fluid -->
             </div>
-            <!-- End Page-content -->
 
+        </div>
+        <!-- container-fluid -->
+    </div>
+    <!-- End Page-content -->
 
 <?php 
 include('inc/footer.php');
 include('inc/scripts.php');?>
-
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
 </body>
 
 </html>

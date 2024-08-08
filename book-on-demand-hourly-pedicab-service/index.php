@@ -1,6 +1,5 @@
 <?php
-session_start();
-
+include('inc/init.php');
 // PHP code to process form data
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Save data to session variables if next button is clicked
@@ -18,22 +17,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <!DOCTYPE html>
 <html lang="en">
    <head>
+   <link rel="shortcut icon" href="vendor/favicon.ico">
       <meta charset="UTF-8">
       <title>Book On Demand Hourly Pedicab Service</title>
 	  <meta name="description" content=" On Demand Hourly Pedicab Service Booking Application ">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <!-- Viewport meta tag added -->
-      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-      <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
-      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBg9HV0g-8ddiAHH6n2s_0nXOwHIk2f1DY&libraries=places&callback=initAutocomplete" async defer></script>
-      <link href="css/style.css" rel="stylesheet">
+  <link rel="preload" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"></noscript>
+
+<link rel="preload" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"></noscript>
+
+      <link type="text/css" href="css/style.css" rel="stylesheet">
    </head>
    <body>
-      <form onsubmit="return validateForm()" method="post" id="myForm" action="arastep.php">
+      <form onsubmit="return validateForm()" method="post" id="myForm" action="step2.php">
          <div class="container">
             <div class="row justify-content-center">
                <input title="" type="button" id="prevButton" class="btn btn-primary font-weight-bold" value="<">
-               <input <?php if (!$_GET) {
+               <input <?php if (!$_POST) {
                    echo "disabled";
                } ?> title="" type="submit" id="nextButton" class="btn btn-primary font-weight-bold" value=">">
                <div class="col-md-6">
@@ -46,31 +49,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                      <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
                      <span id="error-text"></span>
                   </div>
-				 <div class="error-message2" id="error-message2" <?php if (
-         $_GET["error"] != "yes"
-     ) {
-         echo 'style="display: none;"';
-     } ?>>
+				<div class="error-message2" id="error-message2" <?php if (
+                     $_GET["error"] != "yes"
+                 ) {
+                     echo 'style="display: none;"';
+                 } ?>>
     <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-    <span id="error-text">
+    <div class="error-text">
     <?php if ($_GET["error"] == "yes") {
-        echo "You are trying to book a ride outside of our main service areas.<br><a href='https://newyorkpedicabservices.com/request-on-demand-hourly-pedicab-service/'>Request On Demand Hourly Pedicab Service</a>";
+        echo "You are trying to book a ride outside of our main service areas.<br>Please, use the form below instead.<br><a href='https://newyorkpedicabservices.com/request-on-demand-central-park-pedicab-tour/'>Request On Demand Central Park Pedicab Tour</a>";
     } ?>
-    </span>
+    </div>
 </div>
 
                   <div class="form-group">
                      <label for="numPassengers">Number of Passengers</label>
                      <select title="" class="form-control" id="numPassengers" name="numPassengers" required  oninvalid="this.setCustomValidity('Please, select the number of passengers.'); this.classList.add('invalid');" 
-                        oninput="this.setCustomValidity(''); this.classList.remove('invalid');">
+            oninput="this.setCustomValidity(''); this.classList.remove('invalid');">
                         <option value="" selected>Select the number of passengers</option>
                         <?php
                         $passengerCounts = [1, 2, 3];
                         foreach ($passengerCounts as $count) {
                             echo '<option value="' . $count . '"';
                             if (
-                                isset($_GET["numPassengers"]) &&
-                                $_GET["numPassengers"] == $count
+                                isset($_POST["numPassengers"]) &&
+                                $_POST["numPassengers"] == $count
                             ) {
                                 echo " selected";
                             }
@@ -81,27 +84,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   </div>
                   <div class="form-group">
                      <label for="serviceDuration">Duration of Service</label>
-                     <select title="" class="form-control" required id="serviceDuration" name="serviceDuration" required  oninvalid="this.setCustomValidity('Please, select service duration.'); this.classList.add('invalid');" oninput="setCustomValidity(''); this.classList.remove('invalid');">
+                     <select title="" class="form-control" required id="serviceDuration" name="serviceDuration"  oninvalid="this.setCustomValidity('Please, select service duration.'); this.classList.add('invalid');" oninput="setCustomValidity(''); this.classList.remove('invalid');">
                         <option value="">Select the service duration</option>
-                        <option value="30" <?php echo $_GET[
+                        <option value="30" <?php echo $_POST[
                             "serviceDuration"
                         ] == "30"
                             ? "selected"
                             : ""; ?>>30 Minutes</option>
-                        <option value="1" <?php echo $_GET["serviceDuration"] ==
+                        <option value="1" <?php echo $_POST["serviceDuration"] ==
                         "1"
                             ? "selected"
                             : ""; ?>>1 Hour</option>
-                        <option value="90" <?php echo $_GET[
+                        <option value="90" <?php echo $_POST[
                             "serviceDuration"
                         ] == "90"
                             ? "selected"
                             : ""; ?>>90 Minutes</option>
-                        <option value="2" <?php echo $_GET["serviceDuration"] ==
+                        <option value="2" <?php echo $_POST["serviceDuration"] ==
                         "2"
                             ? "selected"
                             : ""; ?>>2 Hours</option>
-                        <option value="3" <?php echo $_GET["serviceDuration"] ==
+                        <option value="3" <?php echo $_POST["serviceDuration"] ==
                         "3"
                             ? "selected"
                             : ""; ?>>3 Hours</option>
@@ -110,20 +113,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   <!-- Pick Up Address -->
                   <div class="form-group">
                      <label for="pickUpAddress">Start Address</label>
-                     <input title="" type="text" class="form-control" required placeholder="Please, enter pick up address." oninvalid="this.setCustomValidity('Please, enter pick up address.'); this.classList.add('invalid');" oninput="setCustomValidity(''); this.classList.remove('invalid');" id="pickUpAddress" name="pickUpAddress" value="<?php echo isset(
-                         $_GET["pickUpAddress"]
+                     <input title="" type="text" class="form-control" required placeholder="Please, enter start address." oninvalid="this.setCustomValidity('Please, enter start address.'); this.classList.add('invalid');" oninput="setCustomValidity(''); this.classList.remove('invalid');" id="pickUpAddress" name="pickUpAddress" value="<?php echo isset(
+                         $_POST["pickUpAddress"]
                      )
-                         ? htmlspecialchars($_GET["pickUpAddress"])
+                         ? htmlspecialchars($_POST["pickUpAddress"])
                          : ""; ?>">
                     <a id="changePickUpLink" href="#" style="display:none; color:blue; font-size:12px; margin-top:5px;">If you want to change the pickup address, click here</a>
                  </div>
                   <!-- Destination Address -->
                   <div class="form-group">
                      <label for="destinationAddress">Finish Address</label>
-                     <input title="" type="text" class="form-control" required placeholder="Please, enter destination address." oninvalid="this.setCustomValidity('Please, enter destination address.'); this.classList.add('invalid');" oninput="setCustomValidity(''); this.classList.remove('invalid');" id="destinationAddress" name="destinationAddress" value="<?php echo isset(
-                         $_GET["destinationAddress"]
+                     <input title="" type="text" class="form-control" required placeholder="Please, enter finish address." oninvalid="this.setCustomValidity('Please, enter finish address.'); this.classList.add('invalid');" oninput="setCustomValidity(''); this.classList.remove('invalid');" id="destinationAddress" name="destinationAddress" value="<?php echo isset(
+                         $_POST["destinationAddress"]
                      )
-                         ? htmlspecialchars($_GET["destinationAddress"])
+                         ? htmlspecialchars($_POST["destinationAddress"])
                          : ""; ?>">
                     <a id="changeDestinationLink" href="#" style="display:none; color:blue; font-size:12px; margin-top:5px;">If you want to change the destination address, click here</a>
                 </div>
@@ -131,9 +134,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   <div class="form-group">
                      <label for="serviceDetails">Service Details</label>
                      <textarea class="form-control" id="serviceDetails" required placeholder="Please, send us more details about this service." oninvalid="this.setCustomValidity('Please, send us more details about this service.'); this.classList.add('invalid');" oninput="setCustomValidity(''); this.classList.remove('invalid');" name="serviceDetails" rows="3"><?php echo isset(
-                         $_GET["serviceDetails"]
+                         $_POST["serviceDetails"]
                      )
-                         ? htmlspecialchars($_GET["serviceDetails"])
+                         ? htmlspecialchars($_POST["serviceDetails"])
                          : ""; ?></textarea>
                   </div>
                   <!-- Payment Method -->
@@ -141,8 +144,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                      <label>Driver Paid Separately</label>
                      <div class="form-check">
                         <input title="" class="form-check-input" type="radio" required name="paymentMethod" id="payCash" value="CASH" <?php echo isset(
-                            $_GET["paymentMethod"]
-                        ) && $_GET["paymentMethod"] == "CASH"
+                            $_POST["paymentMethod"]
+                        ) && $_POST["paymentMethod"] == "CASH"
                             ? "checked"
                             : ""; ?>>
                         <label class="form-check-label" for="payCash">
@@ -151,8 +154,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                      </div>
                      <div class="form-check">
                         <input title="" class="form-check-input" type="radio" required name="paymentMethod" id="payCard" value="card" <?php echo isset(
-                            $_GET["paymentMethod"]
-                        ) && $_GET["paymentMethod"] == "card"
+                            $_POST["paymentMethod"]
+                        ) && $_POST["paymentMethod"] == "card"
                             ? "checked"
                             : ""; ?>>
                         <label class="form-check-label" for="payCard">
@@ -160,34 +163,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </label>
                      </div>
                   </div>
-                  <input title="" type="hidden" name="firstName" value="<?= $_GET[
+                  <input title="" type="hidden" name="firstName" value="<?= $_POST[
                       "firstName"
                   ] ?>">
-                  <input title="" type="hidden" name="lastName" value="<?= $_GET[
+                  <input title="" type="hidden" name="lastName" value="<?= $_POST[
                       "lastName"
                   ] ?>">
-                  <input title="" type="hidden" name="email" value="<?= $_GET[
+                  <input title="" type="hidden" name="email" value="<?= $_POST[
                       "email"
                   ] ?>">
-                  <input title="" type="hidden" name="phoneNumber" value="<?= $_GET[
+                  <input title="" type="hidden" name="phoneNumber" value="<?= $_POST[
                       "phoneNumber"
                   ] ?>">
-                  <input title="" type="hidden" name="countryCode" value="<?= $_GET[
+                  <input title="" type="hidden" name="countryCode" value="<?= $_POST[
                       "countryCode"
                   ] ?>">
-				  				  				  <input title="" type="hidden" name="countryName" value="<?= $_GET[
+				  				  				  <input title="" type="hidden" name="countryName" value="<?= $_POST[
                       "countryName"
                   ] ?>">
-                  <center> <input title="" type="submit" class="btn" style="background-color: #0909ff; color:white;" value="Calculate Now"></center>
+                  <div style="text-align:center;"> <input title="" type="submit" class="btn" style="background-color: #0909ff; color:white;" value="Calculate Now"></div>
                </div>
             </div>
          </div>
       </form>
-      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-      <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-sliderAccess.js"></script>
-<script type="text/javascript">
+	  <script>
+    window.onload = function() {
+        var script = document.createElement("script");
+        script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDFigWHFZKkoNdO0r6siMTgawuNxwlabRU&libraries=places&callback=initAutocomplete";
+        script.async = true;
+        script.defer = true;
+        document.body.appendChild(script);
+    };
+</script>
+<script>
 function initAutocomplete() {
     var manhattanBounds = new google.maps.LatLngBounds(
         new google.maps.LatLng(40.70172445894308, -74.02835332961955), // Southwest corner of Manhattan (Battery Park)
@@ -274,35 +282,14 @@ var allowedZipCodes = [
         }
     }
 
-    function checkTimeValidity() {
-        var now = new Date();
-        var utcHour = now.getUTCHours();
-        var nyHour = utcHour - 4; // New York Time (EST) is UTC-4
+ autocompletePickup.addListener('place_changed', function() {
+    handlePlaceChanged(autocompletePickup, pickUpInput);
+});
 
-        if (nyHour < 0) nyHour += 24;
+autocompleteDestination.addListener('place_changed', function() {
+    handlePlaceChanged(autocompleteDestination, destinationInput);
+});
 
-        if (nyHour < 9 || nyHour > 22) {
-            showError("Please, do not use this application to book a tour between 5:01 pm and 8:59 am.");
-            return false;
-        }
-        return true;
-    }
-
-    autocompletePickup.addListener('place_changed', function() {
-        if (checkTimeValidity()) {
-            handlePlaceChanged(autocompletePickup, pickUpInput);
-        } else {
-            pickUpInput.value = "";
-        }
-    });
-
-    autocompleteDestination.addListener('place_changed', function() {
-        if (checkTimeValidity()) {
-            handlePlaceChanged(autocompleteDestination, destinationInput);
-        } else {
-            destinationInput.value = "";
-        }
-    });
 }
 </script>
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>

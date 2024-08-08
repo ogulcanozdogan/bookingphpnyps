@@ -29,8 +29,9 @@
 
                     <div id="two-column-menu">
                     </div>
+					<?php // if ($perm != "admin") { ?>
                     <ul class="navbar-nav" id="navbar-nav">
-                        <li class="menu-title"><span data-key="t-menu">Menu</span></li>
+                        <li class="menu-title"><span data-key="t-menu">Driver Menu</span></li>
 						<li class="nav-item">
                             <a class="nav-link menu-link" href="index.php">
                                 <i class="bx bxs-dashboard"></i> <span data-key="t-dashboards">Your Dashboard</span>
@@ -52,49 +53,64 @@
                             </a>
                         </li> <!-- end Dashboard Menu -->
                     </ul>
+				 <?php // } ?>
 					<?php if ($perm == "admin") { ?>
 					 <ul class="navbar-nav" id="navbar-nav">
                         <li class="menu-title"><span data-key="t-menu">Admin Menu</span></li>
 						<li class="nav-item">
                             <a class="nav-link menu-link" href="admin_drivers.php">
-                                <i class="bx bx-user-pin"></i> <span data-key="t-dashboards">Admin Drivers</span>
+                                <i class="bx bx-user-pin"></i> <span data-key="t-dashboards">Verified Drivers</span>
                             </a>
                         </li> <!-- end Dashboard Menu -->
 						<li class="nav-item">
                             <a class="nav-link menu-link" href="admin_verify_drivers.php">
-                                <i class="bx bx-user-pin"></i> <span data-key="t-dashboards">Admin Verify Drivers</span>
+                                <i class="bx bx-user-pin"></i> <span data-key="t-dashboards">Driver Verification</span>
                             </a>
                         </li> <!-- end Dashboard Menu -->
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="admin_available.php">
-                                <i class="bx bxs-pin"></i> <span data-key="t-dashboards">Admin Available</span>
+                                <i class="bx bxs-pin"></i> <span data-key="t-dashboards">Available</span>
                             </a>
                         </li> <!-- end Dashboard Menu -->
 						<li class="nav-item">
                             <a class="nav-link menu-link" href="admin_pending.php">
-                                <i class="bx bx-time-five"></i> <span data-key="t-dashboards">Admin Pending</span>
+                                <i class="bx bx-time-five"></i> <span data-key="t-dashboards">Pending</span>
                             </a>
                         </li> <!-- end Dashboard Menu -->
 						<li class="nav-item">
                             <a class="nav-link menu-link" href="admin_past.php">
-                                <i class="bx bx-history"></i> <span data-key="t-dashboards">Admin Past</span>
+                                <i class="bx bx-history"></i> <span data-key="t-dashboards">Past</span>
                             </a>
                         </li> <!-- end Dashboard Menu -->
 						<li class="nav-item">
                             <a class="nav-link menu-link" href="admin_failed.php">
-                                <i class="bx bx-x"></i> <span data-key="t-dashboards">Admin Failed</span>
+                                <i class="bx bx-x"></i> <span data-key="t-dashboards">Failed</span>
+                            </a>
+                        </li> <!-- end Dashboard Menu -->
+						<li class="nav-item">
+                            <a class="nav-link menu-link" href="logs.php">
+                                <i class="bx bxs-file-blank"></i> <span data-key="t-dashboards">Logs</span>
                             </a>
                         </li> <!-- end Dashboard Menu -->
 						<li class="nav-item">
                             <a class="nav-link menu-link" href="admin_earnings.php">
-                                <i class="bx bx-money-withdraw"></i> <span data-key="t-dashboards">Admin Earnings</span>
+                                <i class="bx bx-money-withdraw"></i> <span data-key="t-dashboards">Earnings</span>
                             </a>
                         </li> <!-- end Dashboard Menu -->
                     </ul>
 					
+					
 					<?php } ?>
+					<ul class="navbar-nav" id="navbar-nav">
+						<li class="nav-item">
+                            <a class="nav-link menu-link" href="logout.php">
+                                <i class="bx bx-log-out"></i> <span data-key="t-dashboards">Logout</span>
+                            </a>
+                        </li> <!-- end Dashboard Menu -->
+                    </ul>
                 </div>
                 <!-- Sidebar -->
+					
             </div>
 
             <div class="sidebar-background"></div>

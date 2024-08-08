@@ -61,7 +61,7 @@ $customerName = $sonuc["firstName"];
 	<h5 style="color:red;">Booking Number: <?=$bookingNumber?></h5>
 	<div class="booking-details">
 	<br><br>
-Type = Hourly Pedicab Ride<br>
+Type = Hourly Pedicab Service<br>
 Start Location = <?=$pickupAddress?><br>
 Finish Location = <?=$destinationAddress?><br>
 Date = <?=$sonuc["date"]?><br>
@@ -100,15 +100,19 @@ if (isset($_POST['submit'])) {
     $id = $_POST['id'];
 	$bookingNumber = $_POST['bookingNumber'];
     $hata = '';
+	
+$currentDateTime = new DateTime('now', new DateTimeZone('America/New_York'));
+$updated_at = $currentDateTime->format('Y-m-d H:i:s');
 
     $satir = [
         'id' => $id,
         'status' => $status,
         'driver' => $driver,
+		'updated_at' => $updated_at,
     ];
 
     // Veri güncelleme sorgumuzu yazıyoruz.
-    $sql = "UPDATE hourly SET status=:status, driver=:driver WHERE id=:id";             
+    $sql = "UPDATE hourly SET status=:status, driver=:driver, updated_at=:updated_at WHERE id=:id";             
     $durum = $baglanti->prepare($sql)->execute($satir);
 
     if ($durum) {
@@ -137,7 +141,7 @@ while ($sonuc = $sorgu->fetch()) {
     $phoneNumbers[] = $formattedPhone;
 
 }
-$message = "Hourly Pedicab Tour assigned.
+$message = "Hourly Pedicab Service assigned.
 {". $bookingNumber ."}";
 
 // Her bir telefon numarasına mesaj gönder
@@ -261,7 +265,7 @@ function addCustomMarkers(route, map) {
     });
 }
 </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBg9HV0g-8ddiAHH6n2s_0nXOwHIk2f1DY&callback=initMap">
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFigWHFZKkoNdO0r6siMTgawuNxwlabRU&callback=initMap">
     </script>
 </body>
 </html>

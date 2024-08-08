@@ -1,7 +1,5 @@
 <?php
-ini_set("display_errors", 1);
-error_reporting(E_ALL);
-
+include('inc/init.php');
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 require_once "vendor/autoload.php";
@@ -72,10 +70,12 @@ if ($dateOrder) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
+   <link rel="shortcut icon" href="vendor/favicon.ico">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>Book On Demand Central Park Pedicab Tour</title>
 	  <meta name="description" content=" On Demand Central Park Pedicab Tour Booking Application ">
+	     <link rel="shortcut icon" href="vendor/favicon.ico">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
@@ -87,9 +87,10 @@ if ($dateOrder) {
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6">
-                <h2 class="text-center mb-4 font-weight-bold" style="color:#0909ff;">Booking Details</h2>
+                <h2 class="text-center mb-4 font-weight-bold" style="color:#0909ff;">Booking Confirmation</h2>
                 <div class="text-center mb-4">
-                    <b>Thank you for choosing New York Pedicab Services</b>
+                    <b>Thank you for choosing New York Pedicab Services</b><br>
+					<b>Below are the confirmed details of your booking:</b>
                 </div>
                 <table class="table">
                     <tbody>

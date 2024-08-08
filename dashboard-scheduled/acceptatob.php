@@ -107,9 +107,21 @@ if (isset($_POST['submit'])) {
         'driver' => $driver,
     ];
 
-    // Veri güncelleme sorgumuzu yazıyoruz.
-    $sql = "UPDATE pointatob SET status=:status, driver=:driver WHERE id=:id";             
-    $durum = $baglanti->prepare($sql)->execute($satir);
+
+$currentDateTime = new DateTime('now', new DateTimeZone('America/New_York'));
+$updated_at = $currentDateTime->format('Y-m-d H:i:s');
+
+
+$satir = [
+    'id' => $id,
+    'status' => $status,
+    'driver' => $driver,
+	'updated_at' => $updated_at,
+];
+
+// Veri güncelleme sorgusu
+$sql = "UPDATE pointatob SET status=:status, driver=:driver, updated_at=:updated_at WHERE id=:id";
+$durum = $baglanti->prepare($sql)->execute($satir);
 
     if ($durum) {
         echo '<script>swal("Successful", "Job accepted.", "success").then((value) => { window.location.href = "pending.php" });</script>';     
@@ -138,7 +150,7 @@ while ($sonuc = $sorgu->fetch()) {
     $phoneNumbers[] = $formattedPhone;
 
 }
-$message = "Point A to B Pedicab Tour assigned.
+$message = "Point A to B Pedicab Ride assigned.
 {". $bookingNumber ."}";
 
 // Her bir telefon numarasına mesaj gönder
@@ -267,7 +279,7 @@ function addCustomMarkers(route, map) {
     });
 }
 </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBg9HV0g-8ddiAHH6n2s_0nXOwHIk2f1DY&callback=initMap">
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFigWHFZKkoNdO0r6siMTgawuNxwlabRU&callback=initMap">
     </script>
 </body>
 </html>

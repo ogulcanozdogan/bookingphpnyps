@@ -1,7 +1,5 @@
 <?php
-ini_set("display_errors", 1);
-error_reporting(E_ALL);
-
+include('inc/init.php');
 if ($_POST) {
     // Form data received
     $firstName = $_POST["firstName"]; // default value 1
@@ -26,40 +24,19 @@ if ($_POST) {
     $toursuresi = $_POST["toursuresi"];
     $countryCode = $_POST["countryCode"];
     $countryName = $_POST["countryName"];
-    $phoneNumber = "+" . $countryCode . $phoneNumber;
-} elseif ($_GET) {
-    // Form data received
-    $firstName = $_GET["firstName"]; // default value 1
-    $lastName = $_GET["lastName"]; // default value 1
-    $email = $_GET["email"]; // default value 1
-    $phoneNumber = $_GET["phoneNumber"]; // default value 1
-    $numPassengers = $_GET["numPassengers"] ?? 1; // default value 1
-    $deneme2 = $_GET["pickUpAddress"];
-    $destinationAddress = $_GET["destinationAddress"];
-    $paymentMethod = $_GET["paymentMethod"];
-    $rideDuration = $_GET["rideDuration"];
-    $bookingFee = $_GET["bookingFee"];
-    $driverFare = $_GET["driverFare"];
-    $totalFare = $_GET["totalFare"];
-    $returnDuration = $_GET["returnDuration"];
-    $operationFare = $_GET["operationFare"];
-    $tourDuration = $_GET["tourDuration"];
-    $pickup1 = $_GET["pickup1"];
-    $pickup2 = $_GET["pickup2"];
-    $return1 = $_GET["return1"];
-    $return2 = $_GET["return2"];
-    $toursuresi = $_GET["toursuresi"];
-    $countryName = $_GET["countryName"];
+    $hourlyOperationFare = $_POST["hourlyOperationFare"];
 } else {
     header("location: index.php");
 		exit;
 }
 $todayDay = date("m/d/Y");
 $todayDayName = date("l", strtotime($todayDay));
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
    <head>
+      <link rel="shortcut icon" href="vendor/favicon.ico">
       <meta charset="UTF-8">
       <title>Book On Demand Central Park Pedicab Tour</title>
 	  <meta name="description" content=" On Demand Central Park Pedicab Tour Booking Application ">
@@ -67,6 +44,7 @@ $todayDayName = date("l", strtotime($todayDay));
       <!-- Viewport meta tag added -->
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
       <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
+	     <link rel="shortcut icon" href="vendor/favicon.ico">
       <link href="css/style.css" rel="stylesheet">
       <style>
          .top-controls {
@@ -87,7 +65,7 @@ $todayDayName = date("l", strtotime($todayDay));
       <form method="post" id="myform" action="step4.php">
          <div class="top-controls">
             <input title="" type="button" id="prevButton" name="back" class="btn btn-primary font-weight-bold" value="<">
-            <input <?php if (!$_GET) {
+            <input <?php if (!$_POST) {
                 echo "disabled";
             } ?> title="" type="button" id="nextButton" class="btn btn-primary font-weight-bold" value=">">
          </div>
@@ -120,7 +98,7 @@ $todayDayName = date("l", strtotime($todayDay));
                         </tr>
                         <tr>
                            <th scope="row">Phone Number</th>
-                           <td><?= $phoneNumber ?></td>
+                           <td>+<?= $countryCode . $phoneNumber ?></td>
                         </tr>
                         <tr>
                            <th scope="row">Number of Passengers</th>
@@ -197,7 +175,8 @@ $todayDayName = date("l", strtotime($todayDay));
                   <input title="" type="hidden" name="pickup2" value="<?= $pickup2 ?>">
                   <input title="" type="hidden" name="return1" value="<?= $return1 ?>">	
                   <input title="" type="hidden" name="return2" value="<?= $return2 ?>">		
-                  <input title="" type="hidden" name="toursuresi" value="<?= $toursuresi ?>">		
+                  <input title="" type="hidden" name="toursuresi" value="<?= $toursuresi ?>">	
+                  <input title="" type="hidden" name="hourlyOperationFare" value="<?= $hourlyOperationFare ?>">		
                   <center><input title="" type="submit" class="btn" style="background-color: #0909ff; color:white;" value="Book Now"></center>
       </form>
       </div>
@@ -304,7 +283,7 @@ $todayDayName = date("l", strtotime($todayDay));
              });
          }
       </script>
-      <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBg9HV0g-8ddiAHH6n2s_0nXOwHIk2f1DY&callback=initMap"></script>  
+      <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFigWHFZKkoNdO0r6siMTgawuNxwlabRU&callback=initMap"></script>  
       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
       <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
@@ -312,107 +291,57 @@ $todayDayName = date("l", strtotime($todayDay));
          // This function sends the calculated duration to the PHP file
          
       </script>
-      <script>
-         document.getElementById("prevButton").addEventListener("click", function() {
-             // Get parameters from URL
-             var urlParams = new URLSearchParams(window.location.search);
-         
-             // If there are GET parameters, use them
-             var numPassengers = urlParams.has('numPassengers') ? urlParams.get('numPassengers') : <?php echo json_encode(
-                 $_GET["numPassengers"] ?? ($_POST["numPassengers"] ?? 1)
-             ); ?>;
-             var pickUpAddress = urlParams.has('pickUpAddress') ? urlParams.get('pickUpAddress') : <?php echo json_encode(
-                 $_GET["pickUpAddress"] ?? ($_POST["pickUpAddress"] ?? "")
-             ); ?>;
-             var destinationAddress = urlParams.has('destinationAddress') ? urlParams.get('destinationAddress') : <?php echo json_encode(
-                 $_GET["destinationAddress"] ??
-                     ($_POST["destinationAddress"] ?? "")
-             ); ?>;
-             var paymentMethod = urlParams.has('paymentMethod') ? urlParams.get('paymentMethod') : <?php echo json_encode(
-                 $_GET["paymentMethod"] ?? ($_POST["paymentMethod"] ?? "")
-             ); ?>;
-             var firstName = urlParams.has('firstName') ? urlParams.get('firstName') : <?php echo json_encode(
-                 $_GET["firstName"] ?? ($_POST["firstName"] ?? "")
-             ); ?>;
-             var lastName = urlParams.has('lastName') ? urlParams.get('lastName') : <?php echo json_encode(
-                 $_GET["lastName"] ?? ($_POST["lastName"] ?? "")
-             ); ?>;
-             var email = urlParams.has('email') ? urlParams.get('email') : <?php echo json_encode(
-                 $_GET["email"] ?? ($_POST["email"] ?? "")
-             ); ?>;
-             var phoneNumber = urlParams.has('phoneNumber') ? urlParams.get('phoneNumber') : <?php echo json_encode(
-                 $_GET["phoneNumber"] ?? ($_POST["phoneNumber"] ?? "")
-             ); ?>;
-			var countryCode = urlParams.has('countryCode') ? urlParams.get('countryCode') : <?php echo json_encode(
-       $_GET["countryCode"] ?? ($_POST["countryCode"] ?? "")
-   ); ?>;
-      var countryName = urlParams.has('countryName') ? urlParams.get('countryName') : <?php echo json_encode(
-     $_GET["countryName"] ?? ($_POST["countryName"] ?? "")
- ); ?>;
-             var bookingFee = urlParams.has('bookingFee') ? urlParams.get('bookingFee') : <?php echo json_encode(
-                 $_GET["bookingFee"] ?? ($_POST["bookingFee"] ?? "")
-             ); ?>;
-             var driverFare = urlParams.has('driverFare') ? urlParams.get('driverFare') : <?php echo json_encode(
-                 $_GET["driverFare"] ?? ($_POST["driverFare"] ?? "")
-             ); ?>;
-             var totalFare = urlParams.has('totalFare') ? urlParams.get('totalFare') : <?php echo json_encode(
-                 $_GET["totalFare"] ?? ($_POST["totalFare"] ?? "")
-             ); ?>;	
-             var returnDuration = urlParams.has('returnDuration') ? urlParams.get('returnDuration') : <?php echo json_encode(
-                 $_GET["returnDuration"] ?? ($_POST["returnDuration"] ?? "")
-             ); ?>;
-             var operationFare = urlParams.has('operationFare') ? urlParams.get('operationFare') : <?php echo json_encode(
-                 $_GET["operationFare"] ?? ($_POST["operationFare"] ?? "")
-             ); ?>;		
-             var rideDuration = urlParams.has('rideDuration') ? urlParams.get('rideDuration') : <?php echo json_encode(
-                 $_GET["rideDuration"] ?? ($_POST["rideDuration"] ?? "")
-             ); ?>;	
-             var tourDuration = urlParams.has('tourDuration') ? urlParams.get('tourDuration') : <?php echo json_encode(
-                 $_GET["tourDuration"] ?? ($_POST["tourDuration"] ?? "")
-             ); ?>;	
-             var return1 = urlParams.has('return1') ? urlParams.get('return1') : <?php echo json_encode(
-                 $_GET["return1"] ?? ($_POST["return1"] ?? "")
-             ); ?>;
-             var return2 = urlParams.has('return2') ? urlParams.get('return2') : <?php echo json_encode(
-                 $_GET["return2"] ?? ($_POST["return2"] ?? "")
-             ); ?>;
-             var pickup1 = urlParams.has('pickup1') ? urlParams.get('pickup1') : <?php echo json_encode(
-                 $_GET["pickup1"] ?? ($_POST["pickup1"] ?? "")
-             ); ?>;		
-             var pickup2 = urlParams.has('pickup2') ? urlParams.get('pickup2') : <?php echo json_encode(
-                 $_GET["pickup2"] ?? ($_POST["pickup2"] ?? "")
-             ); ?>;		
-             var toursuresi = urlParams.has('toursuresi') ? urlParams.get('toursuresi') : <?php echo json_encode(
-                 $_GET["toursuresi"] ?? ($_POST["toursuresi"] ?? "")
-             ); ?>;
-         
-             // After processing, redirect
-             var queryString = "numPassengers=" + encodeURIComponent(numPassengers) +
-                               "&pickUpAddress=" + encodeURIComponent(pickUpAddress) +
-                               "&destinationAddress=" + encodeURIComponent(destinationAddress) +
-                               "&paymentMethod=" + encodeURIComponent(paymentMethod) +
-                               "&firstName=" + encodeURIComponent(firstName) +
-                               "&lastName=" + encodeURIComponent(lastName) +
-                               "&email=" + encodeURIComponent(email) +
-                               "&phoneNumber=" + encodeURIComponent(phoneNumber) +
-								"&countryCode=" + encodeURIComponent(countryCode) +
-								"&countryName=" + encodeURIComponent(countryName) +
-                               "&bookingFee=" + encodeURIComponent(bookingFee) +
-                               "&driverFare=" + encodeURIComponent(driverFare) +
-                               "&totalFare=" + encodeURIComponent(totalFare) +
-                               "&returnDuration=" + encodeURIComponent(returnDuration) +
-                               "&operationFare=" + encodeURIComponent(operationFare) +
-                               "&pickup1=" + encodeURIComponent(pickup1) +
-                               "&pickup2=" + encodeURIComponent(pickup2) +
-                               "&return1=" + encodeURIComponent(return1) +
-                               "&return2=" + encodeURIComponent(return2) +
-                               "&toursuresi=" + encodeURIComponent(toursuresi) +
-                               "&rideDuration=" + encodeURIComponent(rideDuration) +
-                               "&tourDuration=" + encodeURIComponent(tourDuration)
-         
-             window.location.href = "step2.php?" + queryString;
-         });
-         
-      </script>
+<script>
+document.getElementById("prevButton").addEventListener("click", function() {
+    // Prepare the data to send
+    var formData = {
+        numPassengers: <?php echo json_encode($_POST["numPassengers"] ?? 1); ?>,
+        pickUpAddress: <?php echo json_encode($_POST["pickUpAddress"] ?? ""); ?>,
+        destinationAddress: <?php echo json_encode($_POST["destinationAddress"] ?? ""); ?>,
+        paymentMethod: <?php echo json_encode($_POST["paymentMethod"] ?? ""); ?>,
+        firstName: <?php echo json_encode($_POST["firstName"] ?? ""); ?>,
+        lastName: <?php echo json_encode($_POST["lastName"] ?? ""); ?>,
+        email: <?php echo json_encode($_POST["email"] ?? ""); ?>,
+        phoneNumber: <?php echo json_encode($_POST["phoneNumber"] ?? ""); ?>,
+        countryCode: <?php echo json_encode($_POST["countryCode"] ?? ""); ?>,
+        countryName: <?php echo json_encode($_POST["countryName"] ?? ""); ?>,
+        bookingFee: <?php echo json_encode($_POST["bookingFee"] ?? ""); ?>,
+        driverFare: <?php echo json_encode($_POST["driverFare"] ?? ""); ?>,
+        totalFare: <?php echo json_encode($_POST["totalFare"] ?? ""); ?>,
+        returnDuration: <?php echo json_encode($_POST["returnDuration"] ?? ""); ?>,
+        operationFare: <?php echo json_encode($_POST["operationFare"] ?? ""); ?>,
+        rideDuration: <?php echo json_encode($_POST["rideDuration"] ?? ""); ?>,
+        tourDuration: <?php echo json_encode($_POST["tourDuration"] ?? ""); ?>,
+        return1: <?php echo json_encode($_POST["return1"] ?? ""); ?>,
+        return2: <?php echo json_encode($_POST["return2"] ?? ""); ?>,
+        pickup1: <?php echo json_encode($_POST["pickup1"] ?? ""); ?>,
+        pickup2: <?php echo json_encode($_POST["pickup2"] ?? ""); ?>,
+        toursuresi: <?php echo json_encode($_POST["toursuresi"] ?? ""); ?>
+    };
+
+    // Create a form dynamically
+    var form = document.createElement('form');
+    form.method = 'POST';
+    form.action = 'step2.php';
+
+    // Add the data to the form
+    for (var key in formData) {
+        if (formData.hasOwnProperty(key)) {
+            var input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = key;
+            input.value = formData[key];
+            form.appendChild(input);
+        }
+    }
+
+    // Append the form to the body and submit it
+    document.body.appendChild(form);
+    form.submit();
+});
+</script>
+
+</script>
+
    </body>
 </html>

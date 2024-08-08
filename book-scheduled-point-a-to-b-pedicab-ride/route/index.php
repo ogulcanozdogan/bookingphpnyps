@@ -7,7 +7,7 @@ $sonuc = $sorgu->fetch();
 // Sonucun olup olmadığını kontrol et
 $deneme2 = $sonuc['pickUpCoords'];
 $destinationAddress = $sonuc['destinationCoords'];
-$hub = $sonuc['hub'];
+$hub = $sonuc['hubCoords'];
 
 ?>
 <!DOCTYPE html>
@@ -138,6 +138,6 @@ function addCustomMarkers(route, map, startLabel, endLabel) {
 }
 </script>
 
-      <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBg9HV0g-8ddiAHH6n2s_0nXOwHIk2f1DY&callback=initMap"></script>  
+      <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFigWHFZKkoNdO0r6siMTgawuNxwlabRU&callback=initMap"></script>  
 </body>
 </html>

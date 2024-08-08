@@ -27,9 +27,9 @@ include('inc/navbar.php');
 			<?php
 $sorgu = $baglanti->prepare("SELECT id, bookingNumber, createdAt, 'Point A to B Pedicab Ride' AS Type FROM pointatob WHERE status = 'available'
     UNION ALL
-    SELECT id, bookingNumber, createdAt, 'Hourly Pedicab Ride' AS Type FROM hourly WHERE status = 'available'
+    SELECT id, bookingNumber, createdAt, 'Hourly Pedicab Service' AS Type FROM hourly WHERE status = 'available'
 	UNION ALL
-	SELECT id, bookingNumber, createdAt, 'Central Park Tour' AS Type FROM centralpark WHERE status = 'available'
+	SELECT id, bookingNumber, createdAt, 'Central Park Pedicab Tour' AS Type FROM centralpark WHERE status = 'available'
     ORDER BY createdAt DESC");
 $sorgu->execute();
 
@@ -70,10 +70,10 @@ while ($sonuc = $sorgu->fetch()) {
 							
 							echo "acceptatob.php";
 						}
-						elseif (htmlspecialchars($sonuc['Type']) == 'Hourly Pedicab Ride'){
+						elseif (htmlspecialchars($sonuc['Type']) == 'Hourly Pedicab Service'){
 						echo "accepthourly.php";
 						}
-							elseif (htmlspecialchars($sonuc['Type']) == 'Central Park Tour'){
+							elseif (htmlspecialchars($sonuc['Type']) == 'Central Park Pedicab Tour'){
 						echo "acceptcentralpark.php";
 						}
 						

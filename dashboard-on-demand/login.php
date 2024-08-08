@@ -40,11 +40,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $captcha = $_POST['g-recaptcha-response']; // Get the reCAPTCHA response
 
     // reCAPTCHA validation
-    $secretKey = '6LfNEPApAAAAAANAmX6Vfoy1sKP-a_-e8SAXK7T9';
+    $secretKey = '6Le19xYqAAAAAKxktOYvrDul78IjwIxXlgOxwIRq';
     $response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=$secretKey&response=$captcha");
     $responseKeys = json_decode($response, true);
 
-    if (intval($responseKeys["success"]) !== 1) {
+    if ($responseKeys["success"] !== true || $responseKeys["score"] < 0.5) {
         $captcha_error = "Please complete the CAPTCHA.";
     } else {
         // Query to fetch the password for the given username
@@ -70,6 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -78,63 +79,112 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Login | New York Pedicab Services</title>
     <link rel="shortcut icon" href="assets/images/favicon.ico">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="https://www.google.com/recaptcha/api.js?render=6Le19xYqAAAAAK849sP9SHXzCdOARW6gD3Su4RgP"></script>
     <style>
+        body {
+            background: linear-gradient(to right, #0062E6, #33AEFF);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+        }
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .card-body {
+            padding: 2rem;
+        }
+        .form-outline {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        .form-outline label {
+            position: absolute;
+            top: 50%;
+            left: 10px;
+            transform: translateY(-50%);
+            background: white;
+            padding: 0 5px;
+            color: #999;
+            transition: all 0.3s;
+        }
+        .form-control:focus + label,
+        .form-control:not(:placeholder-shown) + label {
+            top: -5px;
+            left: 10px;
+            font-size: 12px;
+            color: #007bff;
+        }
+        .form-check-label {
+            margin-left: 5px;
+        }
+        .btn-primary {
+            background: #007bff;
+            border: none;
+        }
+        .btn-primary:hover {
+            background: #0056b3;
+        }
         .gradient-custom-2 {
-            background: #fccb90;
-            background: -webkit-linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
             background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+            color: white;
+            border: none;
+        }
+        .gradient-custom-2:hover {
+            background: linear-gradient(to right, #d8363a, #ee7724, #b44593, #dd3675);
         }
         @media (max-width: 767px) {
-            .gradient-form {
-                padding: 15px;
-                font-size: 16px;
+            .card {
+                margin: 20px;
             }
         }
     </style>
 </head>
 <body>
-    <section class="h-100 gradient-form">
-        <div class="container py-5 h-100">
-            <div class="row d-flex justify-content-center align-items-center h-100">
-                <div class="col col-md-8 col-lg-6 col-xl-5">
-                    <div class="card">
-                        <div class="card-body p-5">
-                            <div class="text-center mb-4">
-                                <img src="https://newyorkpedicabservices.com/buttons_files/new-york-pedicab-services-banner.webp" style="width: 150px; height: 90px;" alt="logo">
-                                <h3 class="mt-1 mb-5 pb-1">Login to Your Account</h3>
-                            </div>
-                            <?php
-                            if (!empty($captcha_error)) {
-                                echo "<div class='alert alert-danger' role='alert'>$captcha_error</div>";
-                            }
-                            ?>
-                            <form method="post" role="form">
-                                <div class="form-outline mb-4">
-                                    <label class="form-label" for="form2Example11">Username</label>
-                                    <input type="text" name="user" id="form2Example11" class="form-control" placeholder="Username" />
-                                </div>
-                                <div class="form-outline mb-4">
-                                    <label class="form-label" for="form2Example22">Password</label>
-                                    <input type="password" name="pass" id="form2Example22" class="form-control"  placeholder="Password"/>
-                                </div>
-                                <div class="form-check d-flex justify-content-start mb-4">
-                                    <input class="form-check-input" type="checkbox" id="rememberMeondemand" checked="">
-                                    <label class="form-check-label" for="rememberMeondemand"> Remember me </label>
-                                </div>
-                                <div class="form-outline mb-4">
-                                    <div class="g-recaptcha" data-sitekey="6LfNEPApAAAAAAp5__6ariG_9U5PoK89QtRZH72_"></div>
-                                </div>
-                                <input type="submit" class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" ID="btnGiris" value="Sign in"/>
-                            </form>
-                        </div>
-                        <a href="register.php" class="btn btn-primary">Create Driver Account</a>
-                    </div>
-                </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="text-center mb-4">
+                <img src="https://newyorkpedicabservices.com/buttons_files/new-york-pedicab-services-banner.webp" style="width: 200px; height: 90px;" alt="logo">
+                <h3 class="mt-1 mb-5 pb-1">Login to Your Account</h3>
             </div>
+            <?php
+            if (!empty($captcha_error)) {
+                echo "<div class='alert alert-danger' role='alert'>$captcha_error</div>";
+            }
+            ?>
+            <form id="loginForm" method="post" role="form">
+                <div class="form-outline">
+                    <input type="text" name="user" id="form2Example11" class="form-control" placeholder=" " required />
+                    <label class="form-label" for="form2Example11">Username</label>
+                </div>
+                <div class="form-outline">
+                    <input type="password" name="pass" id="form2Example22" class="form-control" placeholder=" " required />
+                    <label class="form-label" for="form2Example22">Password</label>
+                </div>
+                <div class="form-check d-flex justify-content-start mb-4">
+                    <input class="form-check-input" type="checkbox" name="rememberMeondemand" id="rememberMeondemand">
+                    <label class="form-check-label" for="rememberMeondemand"> Remember me </label>
+                </div>
+                <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
+                <button type="submit" class="btn btn-primary btn-block gradient-custom-2 mb-3" id="btnGiris">Sign in</button>
+            </form>
+            <a href="register.php" class="btn btn-primary">Create Driver Account</a>
         </div>
-    </section>
+    </div>
+    <script>
+        grecaptcha.ready(function() {
+            document.getElementById('loginForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+                grecaptcha.execute('6Le19xYqAAAAAK849sP9SHXzCdOARW6gD3Su4RgP', {action: 'login'}).then(function(token) {
+                    document.getElementById('g-recaptcha-response').value = token;
+                    document.getElementById('loginForm').submit();
+                });
+            });
+        });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-<?php ob_flush(); ?>

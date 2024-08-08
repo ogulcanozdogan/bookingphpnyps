@@ -6,81 +6,83 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pedicab Driver Registration</title>
     <link href="css/style.css" rel="stylesheet">
+    <link rel="shortcut icon" href="vendor/favicon.ico">
+    <script src="https://www.google.com/recaptcha/api.js?render=6Le19xYqAAAAAK849sP9SHXzCdOARW6gD3Su4RgP"></script>
 </head>
 <body>
     <div class="container">
         <center> <h1>New York Pedicab Services</h1>
         <h2 style='color:red;'>Pedicab Driver Registration</h2></center>
         
-        <form id="registration-form" action="process.php" method="post" enctype="multipart/form-data">
-            <label for="driverLicenseFile">Upload Pedicab Driver License</label>
+        <form id="registration-form" action="process.php" method="post" enctype="multipart/form-data" autocomplete="off">
+            <label for="driverLicenseFile">Upload Pedicab Driver License (max 10mb)</label>
             <input required type="file" id="driverLicenseFile" name="driverLicenseFile" accept="image/*">
             
             <label for="driverFirstName">Pedicab Driver First Name</label>
-            <input required type="text" id="driverFirstName" name="driverFirstName" oninput="updateDeclaration()">
+            <input required type="text" id="driverFirstName" name="driverFirstName" oninput="updateDeclaration()" class="text-only">
 
             <label for="driverLastName">Pedicab Driver Last Name</label>
-            <input required type="text" id="driverLastName" name="driverLastName" oninput="updateDeclaration()">
+            <input required type="text" id="driverLastName" name="driverLastName" oninput="updateDeclaration()" class="text-only">
 
             <label for="driverLicenseNumber">Pedicab Driver License Number</label>
-            <input required type="text" id="driverLicenseNumber" name="driverLicenseNumber">
+            <input required type="text" id="driverLicenseNumber" name="driverLicenseNumber" class="number-allowed">
 
             <label for="driverLicenseExpiration">Pedicab Driver License Expiration Date</label>
             <input required type="date" id="driverLicenseExpiration" name="driverLicenseExpiration" onkeydown="return false;">
 
             <label for="driverPhone">Pedicab Driver Phone</label>
-            <input required type="tel" id="driverPhone" name="driverPhone">
+            <input required type="tel" id="driverPhone" name="driverPhone" class="phone-only">
 
             <label for="driverEmail">Pedicab Driver Email Address</label>
             <input required type="email" id="driverEmail" name="driverEmail">
 
             <label for="driverStreetAddress">Pedicab Driver Street Address</label>
-            <input required type="text" id="driverStreetAddress" name="driverStreetAddress">
+            <input required type="text" id="driverStreetAddress" name="driverStreetAddress" class="number-allowed">
 
             <label for="driverApartmentNumber">Pedicab Driver Apartment Number</label>
-            <input required type="text" id="driverApartmentNumber" name="driverApartmentNumber">
+            <input required type="text" id="driverApartmentNumber" name="driverApartmentNumber" class="number-allowed">
 
             <label for="driverCity">Pedicab Driver City</label>
-            <input required type="text" id="driverCity" name="driverCity">
+            <input required type="text" id="driverCity" name="driverCity" class="text-only">
 
             <label for="driverState">Pedicab Driver State</label>
-            <input required type="text" id="driverState" name="driverState">
+            <input required type="text" id="driverState" name="driverState" class="text-only">
 
             <label for="driverZipCode">Pedicab Driver Zip Code</label>
-            <input required type="text" id="driverZipCode" name="driverZipCode">
+            <input required type="text" id="driverZipCode" name="driverZipCode" class="number-allowed">
 
             <label for="businessName">Pedicab Business Name</label>
-            <input required type="text" id="businessName" name="businessName">
+            <input required type="text" id="businessName" name="businessName" class="number-allowed">
 
             <label for="businessLicenseNumber">Pedicab Business License Number</label>
-            <input required type="text" id="businessLicenseNumber" name="businessLicenseNumber">
+            <input required type="text" id="businessLicenseNumber" name="businessLicenseNumber" class="number-allowed">
 
             <label for="businessRegistrationNumber">Pedicab Business Registration Number</label>
-            <input required type="text" id="businessRegistrationNumber" name="businessRegistrationNumber">
+            <input required type="text" id="businessRegistrationNumber" name="businessRegistrationNumber" class="number-allowed">
 
             <label for="businessLicenseExpiration">Pedicab Business License Expiration Date</label>
             <input required type="date" id="businessLicenseExpiration" name="businessLicenseExpiration" onkeydown="return false;">
 
             <label for="businessPhone">Pedicab Business Phone</label>
-            <input required type="tel" id="businessPhone" name="businessPhone">
+            <input required type="tel" id="businessPhone" name="businessPhone" class="phone-only">
 
             <label for="businessEmail">Pedicab Business Email Address</label>
             <input required type="email" id="businessEmail" name="businessEmail">
 
             <label for="businessStreetAddress">Pedicab Business Street Address</label>
-            <input required type="text" id="businessStreetAddress" name="businessStreetAddress">
+            <input required type="text" id="businessStreetAddress" name="businessStreetAddress" class="number-allowed">
 
             <label for="businessApartmentNumber">Pedicab Business Apartment Number</label>
-            <input required type="text" id="businessApartmentNumber" name="businessApartmentNumber">
+            <input required type="text" id="businessApartmentNumber" name="businessApartmentNumber" class="number-allowed">
 
             <label for="businessCity">Pedicab Business City</label>
-            <input required type="text" id="businessCity" name="businessCity">
+            <input required type="text" id="businessCity" name="businessCity" class="text-only">
 
             <label for="businessState">Pedicab Business State</label>
-            <input required type="text" id="businessState" name="businessState">
+            <input required type="text" id="businessState" name="businessState" class="text-only">
 
             <label for="businessZipCode">Pedicab Business Zip Code</label>
-            <input required type="text" id="businessZipCode" name="businessZipCode">
+            <input required type="text" id="businessZipCode" name="businessZipCode" class="number-allowed">
 
             <div class="declaration full-width">
                 <center><h2 style='color:red;'>Declaration</h2></center>
@@ -98,7 +100,7 @@
                 <label><input required type="checkbox" name="declaration10"> I acknowledge that this agreement may be executed in any number of counterparts and each such counterpart shall for all purposes be deemed an original. Delivery of an executed counterpart of a signature page to this agreement by facsimile, pdf or electronic signature shall be as effective as delivery of a manually executed counterpart of this Agreement.</label>
             </div>
             </div>
-			<br>
+            <br>
             <div class="signature full-width">
                 <center><h2 style='color:red;'>Signature</h2></center>
                 <label for="signature-box">Please sign this box</label>
@@ -107,9 +109,28 @@
                 <button type="button" onclick="clearCanvas()">Clear</button>
             </div>
 
+            <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
             <button class="submit-btn" type="submit">Submit</button>
         </form>
     </div>
     <script src="js/sign.js"></script>
+    <script src="js/validate.js"></script>
+    <script>
+        // reCAPTCHA setup
+        grecaptcha.ready(function() {
+            document.getElementById('registration-form').addEventListener('submit', function(event) {
+                event.preventDefault();
+                grecaptcha.execute('6Le19xYqAAAAAK849sP9SHXzCdOARW6gD3Su4RgP', {action: 'register'}).then(function(token) {
+                    document.getElementById('g-recaptcha-response').value = token;
+                    document.getElementById('registration-form').submit();
+                });
+            });
+        });
+
+        // Clear form data when the page loads (to prevent back button issues)
+        window.onload = function() {
+            document.getElementById('registration-form').reset();
+        };
+    </script>
 </body>
 </html>

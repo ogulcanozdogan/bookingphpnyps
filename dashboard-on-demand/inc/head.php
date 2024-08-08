@@ -1,19 +1,39 @@
-<?php 	 session_start(); //oturum başlattık
+<?php	
+ session_start(); //oturum başlattık
 
 ob_start(); 
-
-//oturumdaki bilgilerin doğruluğunu kontrol ediyoruz
 if (isset($_SESSION["Oturumondemand"]) && $_SESSION["Oturumondemand"] == "6789ondemand") {
-    //eğer veriler doğru ise sayfaya girmesine izin veriyoruz
+    // Eğer veriler doğru ise sayfaya girmesine izin veriyoruz
+    if (!isset($_SESSION["user"]) || empty($_SESSION["user"])) {
+        header("location:logout.php");
+        exit();
+    }
+    
     $user = $_SESSION["user"];
-	if (!$user){
-		    header("location:logout.php");
-		
-	}
+    $sorgu = $baglanti->prepare("SELECT * FROM users WHERE user = :user");
+    $sorgu->bindParam(':user', $user);
+    $sorgu->execute();
+    $sonuc = $sorgu->fetch(); // Sorgu çalıştırılıp veriler alınıyor
+    
+    if ($sonuc) {
+        $verify = $sonuc['verify'];
+        if ($verify == 0) {
+            header("location:activation.php");
+            exit();
+        }
+    } else {
+        header("location:logout.php");
+        exit();
+    }
 } else {
     header("location:logout.php");
+    exit();
 }
+
+
+
 ?>
+   <link rel="shortcut icon" href="vendor/favicon.ico">
 <meta charset="utf-8" />
    <title><?php 
 $sorguayar = $baglanti->prepare("SELECT * FROM ayarlar WHERE dil=0");

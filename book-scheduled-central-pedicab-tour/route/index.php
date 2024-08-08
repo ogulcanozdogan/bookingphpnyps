@@ -91,8 +91,8 @@ function initMap() {
     var pickupAddress2 = <?php echo json_encode($deneme22); ?>;
     var destinationAddress = <?php echo json_encode($destinationAddress); ?>;
 	var destinationAddress2 = <?php echo json_encode($destinationAddress2); ?>;
-    var hub1Address = "40.76683183226044, -73.97908303753997";
-    var hub2Address = "40.765739537360574, -73.97623449905838";
+    var hub1Address = "40.766941088678855, -73.97899952992152";
+    var hub2Address = "6th Avenue and Central Park South New York, NY 10019";
 
     // Markers for start, hub and destination points
     addMarker(map, hub1Address, 'H1', 'Hub 1');
@@ -151,6 +151,6 @@ function parseCoords(coords) {
 }
 </script>
 
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBg9HV0g-8ddiAHH6n2s_0nXOwHIk2f1DY&callback=initMap"></script>  
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFigWHFZKkoNdO0r6siMTgawuNxwlabRU&callback=initMap"></script>  
 </body>
 </html>

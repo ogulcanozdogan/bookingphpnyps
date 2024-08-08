@@ -1,3 +1,6 @@
+<?php 
+include('inc/init.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,61 +20,69 @@
 
     if (
         !isset(
-            $_GET["firstName"],
-            $_GET["lastName"],
-            $_GET["email"],
-            $_GET["phoneNumber"],
-            $_GET["numPassengers"],
-            $_GET["pickUpAddress"],
-            $_GET["destinationAddress"],
-            $_GET["paymentMethod"],
-            $_GET["rideDuration"],
-            $_GET["bookingFee"],
-            $_GET["driverFare"],
-            $_GET["totalFare"],
-            $_GET["operationFare"],
-            $_GET["tourDuration"],
-            $_GET["pickup1"],
-            $_GET["pickup2"],
-            $_GET["return1"],
-            $_GET["return2"],
-            $_GET["toursuresi"]
+            $_GET["unique_id"]
         )
     ) {
         header("Location: index.php");
         exit();
     }
 
-    // Get date and time information from the form
-    $firstName = $_GET["firstName"];
-    $lastName = $_GET["lastName"];
-    $emailAddress = $_GET["email"];
-    $phoneNumber = $_GET["phoneNumber"];
-    $numPassengers = $_GET["numPassengers"];
-    $pickUpAddress = $_GET["pickUpAddress"];
-    $destinationAddress = $_GET["destinationAddress"];
-    $paymentMethod = $_GET["paymentMethod"];
-    $rideDuration = $_GET["rideDuration"];
-    $bookingFee = $_GET["bookingFee"];
-    $driverFare = $_GET["driverFare"];
-    $totalFare = $_GET["totalFare"];
-    $operationFare = $_GET["operationFare"];
-    $tourDuration = $_GET["tourDuration"];
-    $pickup1 = $_GET["pickup1"];
-    $pickup2 = $_GET["pickup2"];
-    $return1 = $_GET["return1"];
-    $return2 = $_GET["return2"];
-    $toursuresi = $_GET["toursuresi"];
+
+	$unique_id = $_GET["unique_id"];
 	
-	if ($serviceDuration == 1) {
-    $serviceDuration2 = $serviceDuration * 60;
+
+if ($unique_id === null) {
+    die("Unique ID is required.");
+}
+
+    $pdo = new PDO($dsn, $username, $password, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    ]);
+
+    // Veritabanından verileri çek
+    $stmt = $pdo->prepare("SELECT * FROM temporaryBookings WHERE unique_id = :unique_id");
+    $stmt->execute([':unique_id' => $unique_id]);
+    $booking = $stmt->fetch();
+
+    if (!$booking) {
+        die("Booking not found.");
+    }
+
+    // Veritabanından çekilen verileri değişkenlere atama
+    $firstName = $booking["first_name"];
+    $lastName = $booking["last_name"];
+    $emailAddress = $booking["email"];
+    $phoneNumber = $booking["phone_number"];
+    $numPassengers = $booking["num_passengers"];
+    $pickUpAddress = $booking["pick_up_address"];
+    $destinationAddress = $booking["destination_address"];
+    $paymentMethod = $booking["payment_method"];
+    $rideDuration = $booking["ride_duration"];
+    $bookingFee = $booking["booking_fee"];
+    $driverFare = $booking["driver_fare"];
+    $totalFare = $booking["total_fare"];
+    $operationFare = $booking["operation_fare"];
+    $hourlyOperationFare = $booking["hourly_operation_fare"];
+    $tourDuration = $booking["tour_duration"];
+    $pickup1 = $booking["pickup1"];
+    $pickup2 = $booking["pickup2"];
+    $return1 = $booking["return1"];
+    $return2 = $booking["return2"];
+    $toursuresi = $booking["toursuresi"];
+    $countryCode = $booking["country_code"];	
+	
+    $phoneNumber = "+" . $countryCode . $phoneNumber;
+	
+	if ($tourDuration == 1) {
+    $tourDuration2 = $tourDuration * 60;
 } else {
-    $serviceDuration2 = $serviceDuration;
+    $tourDuration2 = $tourDuration;
 }
 
 
     // Calculate total minutes
-    $totalMinutes = $pickup1 + $pickup2 + $tourDuration + $return1 + $return2;
+    $totalMinutes = $pickup1 + $pickup2 + $tourDuration2 + $return1 + $return2;
 
     // Convert total minutes to hours
     $operationDuration = $totalMinutes / 60;
@@ -150,7 +161,7 @@ $dayOfOrder = $dateOrder->format("l");
         "-" .
         $kisauuid;
 
-    $apiKey = "AIzaSyBg9HV0g-8ddiAHH6n2s_0nXOwHIk2f1DY";
+    $apiKey = "AIzaSyB19a74p3hcn6_-JttF128c-xDZu18xewo";
     // Function to convert addresses to coordinates
     function getCoordinates($address, $apiKey)
     {
@@ -229,10 +240,12 @@ if ($paymentMethod == "card"){
             "destinationCoords" => $destinationCoords,
 			"createdAt" => $createdAt,
 			"totalMinutes" => $totalMinutes,	
+			"pickUpTime" => $tourTimeFormatted,
+			"unique_id" => $unique_id,
         ];
 
-        $sql = "INSERT INTO centralpark (id, totalMinutes, createdAt, bookingNumber, tourDuration, firstName, lastName, emailAddress, phoneNumber, numberOfPassengers, date, pickupAddress, destinationAddress, paymentMethod, duration, bookingFee, driverFee, totalFare, operationFare, pickUpCoords, destinationCoords)
-                VALUES ('$uuid', '$totalMinutes', '$createdAt', '$bookingNumber', '$tourDuration', '$firstName', '$lastName', '$emailAddress', '$phoneNumber', '$numPassengers', '$formattedDate', '$pickUpAddress', '$destinationAddress', '$paymentMethod', '$rideDuration', '$bookingFee', '$driverFare', '$totalFare', '$operationFare', '$pickUpCoords', '$destinationCoords')";
+        $sql = "INSERT INTO centralpark (id, pickUpTime, totalMinutes, createdAt, bookingNumber, tourDuration, firstName, lastName, emailAddress, phoneNumber, numberOfPassengers, date, pickupAddress, destinationAddress, paymentMethod, duration, bookingFee, driverFee, totalFare, operationFare, pickUpCoords, destinationCoords, unique_id)
+                VALUES ('$uuid', '$tourTimeFormatted', '$totalMinutes', '$createdAt', '$bookingNumber', '$tourDuration', '$firstName', '$lastName', '$emailAddress', '$phoneNumber', '$numPassengers', '$formattedDate', '$pickUpAddress', '$destinationAddress', '$paymentMethod', '$rideDuration', '$bookingFee', '$driverFare', '$totalFare', '$operationFare', '$pickUpCoords', '$destinationCoords', '$unique_id')";
         $durum = $baglanti->prepare($sql)->execute();
 		
 if ($paymentMethod == "CARD" or $paymentMethod == "card"){
@@ -275,26 +288,27 @@ $rideDuration = number_format($rideDuration, 2);
     <p><strong>Return 1 (Hub 1 to Finish) Duration:</strong> {$return1} Minutes</p>
     <p><strong>Return 2 (Finish to Hub 2) Duration:</strong> {$return2} Minutes</p>   
     <p><strong>Operation Duration:</strong> {$operationDurationFormatted} Hour</p>
-    <p><strong>Start Address:</strong> $pickUpAddress</p>
-    <p><strong>Finish Address:</strong> $destinationAddress</p>
     <p><strong>Hub 1:</strong> West Drive and West 59th Street New York, NY 10019</p>
-    <p><strong>Hub 2:</strong> 6th Avenue and Central Park South New York, NY 10019</p>             
+    <p><strong>Hub 2:</strong> 6th Avenue and Central Park South New York, NY 10019</p> 
+	<p><strong>Operation Rate:</strong> \${$hourlyOperationFare}</p>
     <p><strong>Operation Fare:</strong> \${$operationFare}</p>
+    <p><strong>Start Address:</strong> $pickUpAddress</p>
+    <p><strong>Finish Address:</strong> $destinationAddress</p>    
     <p><strong>Booking Fee:</strong> \$$bookingFee paid on $todayFormatted $todayDay</p>
     <p><strong>Driver Fare:</strong> \${$driverFare} with $paymentMethod2 due on $todayFormatted $todayDay</p>
     <p><strong>Total Fare:</strong> \${$totalFare}</p>
     <h2>Driver Note</h2>
-<strong>Type:</strong> On Demand Hourly Pedicab Service<br>
+<strong>Type:</strong> On Demand Central Park Pedicab Tour<br>
 <strong>First:</strong> $firstName<br>
 <strong>Last:</strong> $lastName<br>
 <strong>Cell:</strong> $phoneNumber<br>
 <strong>Passengers:</strong> $numPassengers<br>
 <strong>Date:</strong> $formattedDate (Today)<br>
 <strong>Time:</strong> $tourTimeFormatted<br>
-<strong>Duration:</strong> {$rideDuration} Minutes<br>
+<strong>Tour Duration:</strong> {$tourDuration} Minutes<br>
+<strong>Ride Duration:</strong> {$rideDuration} Minutes<br>
 <strong>Start:</strong> $pickUpAddress<br>
 <strong>Finish:</strong> $destinationAddress<br>
-<strong>Details:</strong> $serviceDetails<br>
 <strong>Pay:</strong> \${$driverFare} with $paymentMethod2 by customer $firstName $lastName
 
 </body>
@@ -335,6 +349,7 @@ EOD;
     <p><strong>Finish Address:</strong> $destinationAddress</p>   
     <p><strong>Booking Fee:</strong> \$$bookingFee paid on $todayFormatted $todayDay</p>
     <p><strong>Driver Fare:</strong> \${$driverFare} with $paymentMethod2 due on $todayFormatted $todayDay</p>
+	<p><strong>Total Fare:</strong> \${$totalFare}</p>
     <p><strong>Thank you,</strong></p>
     <p><strong>New York Pedicab Services</strong></p>
     <p><strong>(212) 961-7435</strong></p>

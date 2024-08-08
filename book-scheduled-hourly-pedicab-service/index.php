@@ -1,6 +1,5 @@
 <?php
-session_start();
-
+include('inc/init.php');
 // PHP code to process form data
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Save data to session variables if next button is clicked
@@ -14,19 +13,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         unset($_SESSION["email"]);
     }
 }
+
+$pickUpDate = $_POST['pickUpDate'];
+      $dateTime = DateTime::createFromFormat('m/d/Y', $pickUpDate);
+        if ($dateTime && $dateTime->format('m/d/Y') === $pickUpDate) {
+            $pickUpDate = $dateTime->format('Y-m-d');
+        }
+// takvimi degistirmek icin kullaniyoruz
 ?>
 <!DOCTYPE html>
 <html lang="en">
    <head>
+      <link rel="shortcut icon" href="vendor/favicon.ico">
       <meta charset="UTF-8">
 	  <title>Book Scheduled Hourly Pedicab Service</title>
 	  <meta name="description" content="Scheduled Hourly Pedicab Service Booking Application">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <!-- Viewport meta tag added -->
-      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-      <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
-      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBg9HV0g-8ddiAHH6n2s_0nXOwHIk2f1DY&libraries=places&callback=initAutocomplete" async defer></script>
-      <link href="css/style.css" rel="stylesheet">
+<link rel="preload" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"></noscript>
+
+<link rel="preload" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"></noscript>
+
+      <link type="text/css" href="css/style.css" rel="stylesheet">
    </head>
    <body>
       <form onsubmit="return validateForm()" method="post" id="myForm" action="arastep.php">
@@ -52,11 +62,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
          echo 'style="display: none;"';
      } ?>>
     <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-    <span id="error-text">
+    <div class="error-text">
     <?php if ($_GET["error"] == "yes") {
-        echo "You are trying to book a ride outside of our main service areas.<br><a href='https://newyorkpedicabservices.com/request-scheduled-hourly-pedicab-service/'>Request Scheduled Hourly Pedicab Service</a>";
+        echo "You are trying to book a ride outside of our main service areas.<br>Please, use the form below instead.<br><a href='https://newyorkpedicabservices.com/request-scheduled-hourly-pedicab-service/'>Request Scheduled Hourly Pedicab Service</a>";
     } ?>
-    </span>
+    </div>
 </div>
 
                   <div class="form-group">
@@ -69,8 +79,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         foreach ($passengerCounts as $count) {
                             echo '<option value="' . $count . '"';
                             if (
-                                isset($_GET["numPassengers"]) &&
-                                $_GET["numPassengers"] == $count
+                                isset($_POST["numPassengers"]) &&
+                                $_POST["numPassengers"] == $count
                             ) {
                                 echo " selected";
                             }
@@ -79,17 +89,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         ?>
                      </select>
                   </div>
-                  <div class="form-group">
-                     <label for="pickUpDate">Date of Service</label>
-                     <input title="" autocomplete="off" type="text" placeholder="Select the date of service" required 
-                        oninvalid="this.setCustomValidity('Please, select the date of pick up.'); this.classList.add('invalid');" 
-                        oninput="this.setCustomValidity(''); this.classList.remove('invalid');" 
-                        class="form-control" id="pickUpDate" name="pickUpDate" value="<?php echo isset(
-                            $_GET["pickUpDate"]
-                        )
-                            ? htmlspecialchars($_GET["pickUpDate"])
-                            : ""; ?>">  
-                  </div>
+    <div class="form-group">
+        <label for="pickUpDate">Date of Service</label>
+        <input title="" autocomplete="off" type="date" required
+               max="2025-12-31"
+               oninvalid="this.setCustomValidity('Please, select the date of pick up.'); this.classList.add('invalid');"
+               oninput="this.setCustomValidity(''); this.classList.remove('invalid');"
+               class="form-control" id="pickUpDate" name="pickUpDate" value="<?php echo isset($pickUpDate) ? htmlspecialchars($pickUpDate) : ''; ?>">
+    </div> <!-- takvimi degistirmek icin kullaniyoruz -->
                   <div class="row">
                      <div class="col-md-4">
                         <div class="form-group">
@@ -101,8 +108,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                   echo '<option value="' . $i . '"';
                                   // If the hour is selected in GET data, mark it as selected
                                   if (
-                                      isset($_GET["hours"]) &&
-                                      $_GET["hours"] == $i
+                                      isset($_POST["hours"]) &&
+                                      $_POST["hours"] == $i
                                   ) {
                                       echo " selected";
                                   }
@@ -123,8 +130,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                   echo '<option value="' . $minute . '"';
                                   // If the minute is selected in GET data, mark it as selected
                                   if (
-                                      isset($_GET["minutes"]) &&
-                                      $_GET["minutes"] == $minute
+                                      isset($_POST["minutes"]) &&
+                                      $_POST["minutes"] == $minute
                                   ) {
                                       echo " selected";
                                   }
@@ -146,8 +153,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                   echo '<option value="' . $option . '"';
                                   // If the option is selected in GET data, mark it as selected
                                   if (
-                                      isset($_GET["ampm"]) &&
-                                      $_GET["ampm"] == $option
+                                      isset($_POST["ampm"]) &&
+                                      $_POST["ampm"] == $option
                                   ) {
                                       echo " selected";
                                   }
@@ -160,47 +167,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   </div>
                   <div class="form-group">
                      <label for="serviceDuration">Duration of Service</label>
-                     <select title="" class="form-control" required id="serviceDuration" name="serviceDuration" required  oninvalid="this.setCustomValidity('Please, select duration of service.'); this.classList.add('invalid');" oninput="setCustomValidity(''); this.classList.remove('invalid');">
+                     <select title="" class="form-control" required id="serviceDuration" name="serviceDuration" oninvalid="this.setCustomValidity('Please, select duration of service.'); this.classList.add('invalid');" oninput="setCustomValidity(''); this.classList.remove('invalid');">
                         <option value="">Select the duration of service</option>
-                        <option value="30" <?php echo $_GET[
+                        <option value="30" <?php echo $_POST[
                             "serviceDuration"
                         ] == "30"
                             ? "selected"
                             : ""; ?>>30 Minutes</option>
-                        <option value="1" <?php echo $_GET["serviceDuration"] ==
+                        <option value="1" <?php echo $_POST["serviceDuration"] ==
                         "1"
                             ? "selected"
                             : ""; ?>>1 Hour</option>
-                        <option value="90" <?php echo $_GET[
+                        <option value="90" <?php echo $_POST[
                             "serviceDuration"
                         ] == "90"
                             ? "selected"
                             : ""; ?>>90 Minutes</option>
-                        <option value="2" <?php echo $_GET["serviceDuration"] ==
+                        <option value="2" <?php echo $_POST["serviceDuration"] ==
                         "2"
                             ? "selected"
                             : ""; ?>>2 Hours</option>
-                        <option value="3" <?php echo $_GET["serviceDuration"] ==
+                        <option value="3" <?php echo $_POST["serviceDuration"] ==
                         "3"
                             ? "selected"
                             : ""; ?>>3 Hours</option>
-                        <option value="4" <?php echo $_GET["serviceDuration"] ==
+                        <option value="4" <?php echo $_POST["serviceDuration"] ==
                         "4"
                             ? "selected"
                             : ""; ?>>4 Hours</option>
-                        <option value="5" <?php echo $_GET["serviceDuration"] ==
+                        <option value="5" <?php echo $_POST["serviceDuration"] ==
                         "5"
                             ? "selected"
                             : ""; ?>>5 Hours</option>
-                        <option value="6" <?php echo $_GET["serviceDuration"] ==
+                        <option value="6" <?php echo $_POST["serviceDuration"] ==
                         "6"
                             ? "selected"
                             : ""; ?>>6 Hours</option>
-                        <option value="7" <?php echo $_GET["serviceDuration"] ==
+                        <option value="7" <?php echo $_POST["serviceDuration"] ==
                         "7"
                             ? "selected"
                             : ""; ?>>7 Hours</option>
-                        <option value="8" <?php echo $_GET["serviceDuration"] ==
+                        <option value="8" <?php echo $_POST["serviceDuration"] ==
                         "8"
                             ? "selected"
                             : ""; ?>>8 Hours</option>
@@ -210,9 +217,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   <div class="form-group">
                      <label for="pickUpAddress">Start Address</label>
                      <input title="" type="text" class="form-control" required placeholder="Please, enter pick up address." oninvalid="this.setCustomValidity('Please, enter start address.'); this.classList.add('invalid');" oninput="setCustomValidity(''); this.classList.remove('invalid');" id="pickUpAddress" name="pickUpAddress" value="<?php echo isset(
-                         $_GET["pickUpAddress"]
+                         $_POST["pickUpAddress"]
                      )
-                         ? htmlspecialchars($_GET["pickUpAddress"])
+                         ? htmlspecialchars($_POST["pickUpAddress"])
                          : ""; ?>">
                     <a id="changePickUpLink" href="#" style="display:none; color:blue; font-size:12px; margin-top:5px;">If you want to change the pickup address, click here</a>
                  </div>
@@ -220,9 +227,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   <div class="form-group">
                      <label for="destinationAddress">Finish Address</label>
                      <input title="" type="text" class="form-control" required placeholder="Please, enter destination address." oninvalid="this.setCustomValidity('Please, enter finish address.'); this.classList.add('invalid');" oninput="setCustomValidity(''); this.classList.remove('invalid');" id="destinationAddress" name="destinationAddress" value="<?php echo isset(
-                         $_GET["destinationAddress"]
+                         $_POST["destinationAddress"]
                      )
-                         ? htmlspecialchars($_GET["destinationAddress"])
+                         ? htmlspecialchars($_POST["destinationAddress"])
                          : ""; ?>">
                     <a id="changeDestinationLink" href="#" style="display:none; color:blue; font-size:12px; margin-top:5px;">If you want to change the destination address, click here</a>
                 </div>
@@ -230,9 +237,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   <div class="form-group">
                      <label for="serviceDetails">Service Details</label>
                      <textarea class="form-control" id="serviceDetails" required placeholder="Please, send us more details about this service." oninvalid="this.setCustomValidity('Please, send us more details about this service.'); this.classList.add('invalid');" oninput="setCustomValidity(''); this.classList.remove('invalid');" name="serviceDetails" rows="3"><?php echo isset(
-                         $_GET["serviceDetails"]
+                         $_POST["serviceDetails"]
                      )
-                         ? htmlspecialchars($_GET["serviceDetails"])
+                         ? htmlspecialchars($_POST["serviceDetails"])
                          : ""; ?></textarea>
                   </div>
                   <!-- Payment Method -->
@@ -240,8 +247,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                      <label>Driver Paid Separately</label>
                      <div class="form-check">
                         <input title="" class="form-check-input" type="radio" required name="paymentMethod" id="payCash" value="CASH" <?php echo isset(
-                            $_GET["paymentMethod"]
-                        ) && $_GET["paymentMethod"] == "CASH"
+                            $_POST["paymentMethod"]
+                        ) && $_POST["paymentMethod"] == "CASH"
                             ? "checked"
                             : ""; ?>>
                         <label class="form-check-label" for="payCash">
@@ -250,8 +257,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                      </div>
                      <div class="form-check">
                         <input title="" class="form-check-input" type="radio" required name="paymentMethod" id="payCard" value="card" <?php echo isset(
-                            $_GET["paymentMethod"]
-                        ) && $_GET["paymentMethod"] == "card"
+                            $_POST["paymentMethod"]
+                        ) && $_POST["paymentMethod"] == "card"
                             ? "checked"
                             : ""; ?>>
                         <label class="form-check-label" for="payCard">
@@ -260,8 +267,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                      </div>
                      <div class="form-check">
                         <input title="" class="form-check-input" type="radio" required name="paymentMethod" id="payFullCard" value="fullcard" <?php echo isset(
-                            $_GET["paymentMethod"]
-                        ) && $_GET["paymentMethod"] == "fullcard"
+                            $_POST["paymentMethod"]
+                        ) && $_POST["paymentMethod"] == "fullcard"
                             ? "checked"
                             : ""; ?>>
                         <label class="form-check-label" for="payFullCard">
@@ -269,137 +276,126 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </label>
                      </div>
                   </div>
-                  <input title="" type="hidden" name="firstName" value="<?= $_GET[
+                  <input title="" type="hidden" name="firstName" value="<?= $_POST[
                       "firstName"
                   ] ?>">
-                  <input title="" type="hidden" name="lastName" value="<?= $_GET[
+                  <input title="" type="hidden" name="lastName" value="<?= $_POST[
                       "lastName"
                   ] ?>">
-                  <input title="" type="hidden" name="email" value="<?= $_GET[
+                  <input title="" type="hidden" name="email" value="<?= $_POST[
                       "email"
                   ] ?>">
-                  <input title="" type="hidden" name="phoneNumber" value="<?= $_GET[
+                  <input title="" type="hidden" name="phoneNumber" value="<?= $_POST[
                       "phoneNumber"
                   ] ?>">
-                  <input title="" type="hidden" name="countryCode" value="<?= $_GET[
+                  <input title="" type="hidden" name="countryCode" value="<?= $_POST[
                       "countryCode"
                   ] ?>">
-				  <input title="" type="hidden" name="countryName" value="<?= $_GET[
+				  <input title="" type="hidden" name="countryName" value="<?= $_POST[
                       "countryName"
                   ] ?>">
-                  <center> <input title="" type="submit" class="btn" style="background-color: #0909ff; color:white;" value="Calculate Now"></center>
+                  <div style="text-align:center;"> <input title="" type="submit" class="btn" style="background-color: #0909ff; color:white;" value="Calculate Now"></div>
                </div>
             </div>
          </div>
       </form>
-      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-      <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-sliderAccess.js"></script>
-      <script>
-         $(document).ready(function() {
-             $("#pickUpDate").datepicker({
-                 changeYear: true,
-                 changeMonth: true,
-                 yearRange: "2024:2025",
-                 minDate: 0,
-                 dateFormat: "mm/dd/yy",
-                 onSelect: function(dateText) {
-                     $(this).removeClass('invalid');
-                     // trigger oninput event
-                     this.setCustomValidity('');
-                 }
-             }).on('change', function() {
-                 if (!this.value) {
-                     this.setCustomValidity('Please, select the date of pick up.');
-                 } else {
-                     this.setCustomValidity('');
-                 }
-             });
-         });
-      </script>
-      <script>
-         $(document).ready(function() {
-             // Assuming you need to combine the hours, minutes, and AM/PM into a single time input
-             $('#hours, #minutes, #ampm').change(function() {
-                 var hours = $('#hours').val();
-                 var minutes = $('#minutes').val();
-                 var ampm = $('#ampm').val();
-                 var time = hours + ':' + minutes + ' ' + ampm;
-                 $('#pickUpTime').val(time);
-             });
-         });
-      </script>
-      <script>
-         document.addEventListener("DOMContentLoaded", function() {
-             const hoursElement = document.getElementById('hours');
-             const minutesElement = document.getElementById('minutes');
-             const ampmElement = document.getElementById('ampm');
-             const dateElement = document.getElementById('pickUpDate');
-             const submitButton = document.querySelector('button[type="submit"]');
-             const form = document.getElementById('myForm');
-         
-             function resetSelection() {
-                 hoursElement.value = '';
-                 minutesElement.value = '';
-                 ampmElement.value = '';
-             }
-             function showError(message) {
-                 var errorMessage = document.getElementById('error-message');
-                 var errorText = document.getElementById('error-text');
-                 errorText.innerHTML  = message;
-                 errorMessage.style.display = 'block';
-                 errorMessage.classList.add('show');
-                 errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' }); 
-             }
-             function validateTime() {
-                 if (!hoursElement.value || !minutesElement.value || !ampmElement.value) {
-                     // Do not check if hour, minute, or AM/PM is empty
-                     showError("Please make sure to enter hour, minute, and AM/PM.");
-                     return false;
-                 }
-         
-                 const currentDate = new Date();
-                 const selectedDate = new Date(dateElement.value);
-         
-                 // Convert time to 24-hour format
-                 const hours = parseInt(hoursElement.value);
-                 const minutes = parseInt(minutesElement.value);
-                 const isPM = ampmElement.value === 'PM';
-                 const selectedHours = isPM ? (hours % 12) + 12 : (hours % 12);
-         
-                 // Selected date and time
-                 const selectedDateTime = new Date(selectedDate);
-                 selectedDateTime.setHours(selectedHours, minutes, 0, 0);
-         
-                 // Current time + 1 hour
-                 const currentTimePlusOneHour = new Date(currentDate.getTime() + (60 * 60 * 1000));
-         
-                 if (selectedDateTime < currentTimePlusOneHour) {
-                     showError("Please, select a pickup time that is at least 1 hour later than the current time.");
-                     return false;
-                 }
-         
-                 // Invalid time range check for night hours
-                 if ((isPM && hours === 11 && minutes > 0) || (isPM && hours > 11) ||
-                     (!isPM && hours < 9) || (!isPM && hours === 12)) {
-                     showError("Please, do not use this application to book a ride between 11:01 pm and 8:59 am.<br> Please, use the form below instead.<br><a target='_blank'	href='https://newyorkpedicabservices.com/request-point-a-to-b-pedicab-ride.html'>Request Point A to B Pedicab Ride</a>");
-                     return false;
-                 }
-         
-                 return true; // Valid time, allow form submission
-             }
-         
-             // Call validateTime function when the form is submitted and prevent submission if necessary
-             form.addEventListener('submit', function(event) {
-                 if (!validateTime()) {
-                     event.preventDefault(); // Prevent form submission
-                 }
-             });
-         });
-         
-      </script>
-<script type="text/javascript">
+
+	  <script>
+    window.onload = function() {
+        var script = document.createElement("script");
+        script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDFigWHFZKkoNdO0r6siMTgawuNxwlabRU&libraries=places&callback=initAutocomplete";
+        script.async = true;
+        script.defer = true;
+        document.body.appendChild(script);
+    };
+</script>
+<script> 
+    document.addEventListener('DOMContentLoaded', function() {
+        var today = new Date().toISOString().split('T')[0];
+        document.getElementById('pickUpDate').setAttribute('min', today);
+    });
+
+    document.getElementById('pickUpDate').addEventListener('click', function() {
+        this.showPicker();
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $('#hours, #minutes, #ampm').change(function() {
+            var hours = $('#hours').val();
+            var minutes = $('#minutes').val();
+            var ampm = $('#ampm').val();
+            var time = hours + ':' + minutes + ' ' + ampm;
+            $('#pickUpTime').val(time);
+        });
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const hoursElement = document.getElementById('hours');
+        const minutesElement = document.getElementById('minutes');
+        const ampmElement = document.getElementById('ampm');
+        const dateElement = document.getElementById('pickUpDate');
+        const submitButton = document.querySelector('button[type="submit"]');
+        const form = document.getElementById('myForm');
+
+        function resetSelection() {
+            hoursElement.value = '';
+            minutesElement.value = '';
+            ampmElement.value = '';
+        }
+
+        function showError(message) {
+            var errorMessage = document.getElementById('error-message');
+            var errorText = document.getElementById('error-text');
+            errorText.innerHTML  = message;
+            errorMessage.style.display = 'block';
+            errorMessage.classList.add('show');
+            errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' }); 
+        }
+
+        function validateTime() {
+            if (!hoursElement.value || !minutesElement.value || !ampmElement.value) {
+                showError("Please make sure to enter hour, minute, and AM/PM.");
+                return false;
+            }
+
+            const currentDate = new Date();
+            const selectedDate = new Date(dateElement.value + 'T00:00:00'); // takvimi degistirmek icin kullaniyoruz
+
+            const hours = parseInt(hoursElement.value);
+            const minutes = parseInt(minutesElement.value);
+            const isPM = ampmElement.value === 'PM';
+            const selectedHours = isPM ? (hours % 12) + 12 : (hours % 12);
+
+            const selectedDateTime = new Date(selectedDate);
+            selectedDateTime.setHours(selectedHours, minutes, 0, 0);
+
+            const currentTimePlusOneHour = new Date(currentDate.getTime() + (60 * 60 * 1000));
+
+         //   if (selectedDateTime < currentTimePlusOneHour) {
+           //     showError("Please, select a pickup time that is at least 1 hour later than the current time.");
+           //     return false;
+           // }
+
+            if ((isPM && hours === 11 && minutes > 0) || (isPM && hours > 11) ||
+                (!isPM && hours < 9) || (!isPM && hours === 12)) {
+                showError("Please, do not use this application to book a ride between 11:01 pm and 8:59 am.<br> Please, use the form below instead.<br><a target='_blank' href='https://newyorkpedicabservices.com/request-point-a-to-b-pedicab-ride.html'>Request Point A to B Pedicab Ride</a>");
+                return false;
+            }
+
+            return true; 
+        }
+
+        form.addEventListener('submit', function(event) {
+            if (!validateTime()) {
+                event.preventDefault();
+            }
+        });
+    });
+</script>
+
+<script>
 function initAutocomplete() {
     var manhattanBounds = new google.maps.LatLngBounds(
         new google.maps.LatLng(40.70172445894308, -74.02835332961955), // Southwest corner of Manhattan (Battery Park)

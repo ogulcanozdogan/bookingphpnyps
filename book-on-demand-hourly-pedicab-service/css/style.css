@@ -23,7 +23,11 @@
     background-color: #007bff; /* Mavi arka plan */
     border: none; /* Kenar çizgisi kaldır */
     border-radius: 5px; /* Kenarları yuvarlak yap */
-    cursor: pointer; /* Fare imlecini düğme üzerine getirildiğinde işaretçi olarak değiştir */
+	    transition: background-color 0.3s ease, transform 0.3s ease; /* Hover efektleri için geçiş süresi */
+}
+#prevButton:hover, #nextButton:hover {
+    background-color: #0056b3; /* Hover olduğunda arka plan rengini koyulaştır */
+    transform: scale(1.1); /* Hover olduğunda butonları biraz büyüt */
 }
 
 #prevButton {

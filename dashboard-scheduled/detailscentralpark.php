@@ -61,7 +61,7 @@ $customerName = $sonuc["firstName"];
 	<h5 style="color:red;">Booking Number: <?=$bookingNumber?></h5>
 	<div class="booking-details">
 	<br><br>
-Type = Point A to B Pedicab Ride<br>
+Type = Central Park Pedicab Tour<br>
 Start Location = <?=$pickupAddress?><br>
 Finish Location = <?=$destinationAddress?><br>
 Date = <?=$sonuc["date"]?><br>
@@ -258,7 +258,7 @@ function addCustomMarkers(route, map) {
     });
 }
 </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBg9HV0g-8ddiAHH6n2s_0nXOwHIk2f1DY&callback=initMap">
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFigWHFZKkoNdO0r6siMTgawuNxwlabRU&callback=initMap">
     </script>
 </body>
 </html>

@@ -10,96 +10,100 @@ $title = "Dashboard";
 $descripton = $sonucayar['siteaciklamasi'];
 include('whatsapp.php'); ?>
 <meta content="<?=$descripton?>" name="description" />
-  <script src="assets/js/sweetalert.min.js"></script>
+<script src="assets/js/sweetalert.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <style>
-p {
-    margin: 0; 
-}
+    p {
+        margin: 0; 
+    }
+    #map {
+        height: 400px;
+        width: 100%;
+    }
+    @media (min-width: 600px) {
         #map {
-            height: 400px;
-            width: 100%;
+            width: 50%;
         }
-		
-@media (min-width: 600px) {
-    #map {
-        width: 50%; /* Orta boyutlu cihazlar için genişliği %50 yap */
     }
-}
-
-@media (min-width: 900px) {
-    #map {
-        width: 30%; /* Büyük cihazlar için genişliği %30 yap */
+    @media (min-width: 900px) {
+        #map {
+            width: 30%;
+        }
     }
-}
+    .card {
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .card h5 {
+        font-weight: 700;
+    }
+    .booking-details {
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
 </style>
 </head>
 <body>
 <?php
 include('inc/header.php');
 include('inc/navbar.php');
-$id = $_POST["id"];
+if ($_POST){
 $bookingNumber = $_POST["bookingNumber"];
+$id = $_POST["id"];
+}
+if ($_GET){
+	if ($perm != "admin"){
+		    header('location: index.php');
+			exit;
+	}
+$bookingNumber = $_GET["bookingNumber"];
+$expodedid = explode("-", $bookingNumber);
+$id = end($expodedid);
+}
 $sorgu = $baglanti->prepare("SELECT * FROM hourly WHERE id=:id");
 $sorgu->execute(['id' => $id]);
 $sonuc = $sorgu->fetch();
 
 $pickupAddress = $sonuc["pickupAddress"];
 $destinationAddress = $sonuc["destinationAddress"];
-// $updatedAt değişkenini veritabanından alıyoruz
 $updatedAt = $sonuc["updated_at"];
-
-// DateTime nesnesi oluşturup tarihi ayarlıyoruz
 $dateTime = new DateTime($updatedAt, new DateTimeZone('America/New_York'));
-
-// Saati 12 saat biçiminde formatlıyoruz
 $timeFormatted = $dateTime->format('h:i A');
 ?>
-       <div class="main-content">
-
-            <div class="page-content">
-                <div class="container-fluid">
-
-                    <div class="row">
-                        <div class="col">
-			
-			
-	<h5 style="color:red;">Booking Number: <?=$bookingNumber?></h5>
-	<div class="booking-details">
-	<br><br>
-Type = Hourly Pedicab Ride<br>
-Start Location = <?=$pickupAddress?><br>
-Finish Location = <?=$destinationAddress?><br>
-Date = <?=$sonuc["date"]?><br>
-Time = <?=$timeFormatted?><br>
-Duration = <?=number_format($sonuc["duration"], 2)?> Minutes<br>
-Passengers = <?=$sonuc["numberOfPassengers"]?><br>
-Name = <?=$sonuc["firstName"] . ' ' . $sonuc["lastName"]?><br>
-Phone = <?=$sonuc["phoneNumber"]?><br>
-Pay = $<?=$sonuc["driverFee"]?> with CASH by customer <?php echo $sonuc["firstName"] . " " . $sonuc["lastName"]?><br>
-    <div id="map" style="margin-top:30px;"></div>
-       </div>
-
-
-
-			
-			
-
-                        </div> <!-- end col -->
-
-
+<div class="main-content">
+    <div class="page-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 style="color:red;">Booking Number: <?=$bookingNumber?></h5>
+                            <div class="booking-details mt-3">
+                                <p>Type: Hourly Pedicab Ride</p>
+                                <p>Start Location: <?=$pickupAddress?></p>
+                                <p>Finish Location: <?=$destinationAddress?></p>
+                                <p>Date: <?=$sonuc["date"]?></p>
+                                <p>Time: <?=$timeFormatted?></p>
+                                <p>Duration: <?=number_format($sonuc["duration"], 2)?> Minutes</p>
+                                <p>Passengers: <?=$sonuc["numberOfPassengers"]?></p>
+                                <p>Name: <?=$sonuc["firstName"] . ' ' . $sonuc["lastName"]?></p>
+                                <p>Phone: <?=$sonuc["phoneNumber"]?></p>
+                                <p>Pay: $<?=$sonuc["driverFee"]?> with CASH by customer <?=$sonuc["firstName"] . " " . $sonuc["lastName"]?></p>
+                                <div id="map" class="mt-3"></div>
+                            </div>
+                        </div>
                     </div>
-
-                </div>
-                <!-- container-fluid -->
+                </div> <!-- end col -->
             </div>
-            <!-- End Page-content -->
-
-		
-
+        </div>
+    </div>
+    <!-- End Page-content -->
 
 <?php 
 include('inc/footer.php');
 include('inc/scripts.php');?>
+
 <script>
 function initMap() {
     var map = new google.maps.Map(document.getElementById('map'), {
@@ -117,11 +121,11 @@ function initMap() {
     var directionsService = new google.maps.DirectionsService();
     var directionsRenderer = new google.maps.DirectionsRenderer({
         map: map,
-        suppressMarkers: true,  // Varsayılan işaretçileri kaldır
+        suppressMarkers: true,
         polylineOptions: {
-            strokeColor: '#FF0000',  // Çizgi rengini kırmızı yap
-            strokeOpacity: 0.8,      // Çizginin opaklığı
-            strokeWeight: 6          // Çizgi kalınlığı
+            strokeColor: '#FF0000',
+            strokeOpacity: 0.8,
+            strokeWeight: 6
         }
     });
 
@@ -136,7 +140,7 @@ function calculateAndDisplayRoute(directionsService, directionsRenderer, map, pi
         origin: pickupAddress,
         destination: destinationAddress,
         travelMode: 'BICYCLING',
-        provideRouteAlternatives: true  // Alternatif rotaları sağla
+        provideRouteAlternatives: true
     }, function(response, status) {
         if (status === 'OK') {
             var fastestRouteIndex = findFastestRouteIndex(response.routes);
@@ -144,21 +148,13 @@ function calculateAndDisplayRoute(directionsService, directionsRenderer, map, pi
             directionsRenderer.setRouteIndex(fastestRouteIndex);
             addCustomMarkers(response.routes[fastestRouteIndex], map);
 
-            // Rotanın süresini hesapla
-var durationMinutes = parseFloat(response.routes[fastestRouteIndex].legs.reduce((sum, leg) => sum + leg.duration.value, 0) / 60);
-
-
-
-			console.log("durationMinutes: " + durationMinutes);
-			
-
-
+            var durationMinutes = parseFloat(response.routes[fastestRouteIndex].legs.reduce((sum, leg) => sum + leg.duration.value, 0) / 60);
+            console.log("durationMinutes: " + durationMinutes);
         } else {
             window.alert('Directions request failed due to ' + status);
         }
     });
 }
-
 
 function findFastestRouteIndex(routes) {
     var index = 0;
@@ -191,7 +187,7 @@ function addCustomMarkers(route, map) {
     });
 }
 </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBg9HV0g-8ddiAHH6n2s_0nXOwHIk2f1DY&callback=initMap">
-    </script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFigWHFZKkoNdO0r6siMTgawuNxwlabRU&callback=initMap">
+</script>
 </body>
 </html>

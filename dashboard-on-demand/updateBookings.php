@@ -1,5 +1,6 @@
 <?php 
 include('inc/vt.php');
+include('text.php');
 
 require_once '/home/zlds82bav5q4/public_html/dashboard-scheduled/vendor/autoload.php';
 use Twilio\Rest\Client;
@@ -7,7 +8,7 @@ use Twilio\Rest\Client;
 
 function updatePastBookings2($pdo) {
     $now = new DateTime("now", new DateTimeZone('America/New_York'));
-    $currentDateTime = $now->format('Y-m-d H:i:s'); 
+    $ve  = $now->format('Y-m-d H:i:s'); 
 
     $tables = ['centralpark', 'pointatob', 'hourly'];
 
@@ -45,19 +46,36 @@ updatePastBookings2($baglanti);
 
 
 function updateFailedBookings($pdo) {
+    global $twilio; // Twilio client nesnesini global olarak kullan
+
     $now = new DateTime("now", new DateTimeZone('America/New_York'));
     $currentDateTime = $now->format('Y-m-d H:i:s'); 
 
     $tables = ['centralpark', 'pointatob', 'hourly'];
 
     foreach ($tables as $table) {
-        $stmt = $pdo->query("SELECT bookingNumber, createdAt FROM $table WHERE status = 'available'");
+        $stmt = $pdo->query("SELECT emailAddress, firstName, phoneNumber, bookingNumber, createdAt FROM $table WHERE status = 'available'");
         $bookings = $stmt->fetchAll();
 
         foreach ($bookings as $booking) {
             $bookingNumber = $booking['bookingNumber'];
             $createdAt = $booking['createdAt'];
-
+            $phoneNumber = $booking['phoneNumber'];
+            $firstName = $booking['firstName'];
+			$emailAddress = $booking['emailAddress'];
+			
+			if ($table == 'centralpark'){
+				$subjecttitle = 'On Demand Central Park Pedicab Tour';
+			}
+			elseif ($table == 'pointatob'){
+				$subjecttitle = 'On Demand Point A to B Pedicab Ride';
+			}
+			elseif ($table == 'hourly'){
+				$subjecttitle = 'On Demand Hourly Pedicab Service';
+			}
+			
+			
+			
             $createdAtDateTime = new DateTime($createdAt, new DateTimeZone('America/New_York'));
             $expiryTime = clone $createdAtDateTime;
             $expiryTime->modify('+5 minutes');
@@ -66,19 +84,73 @@ function updateFailedBookings($pdo) {
             if ($currentTime > $expiryTime) {
                 $updateStmt = $pdo->prepare("UPDATE $table SET status = 'failed', updated_at = :updated_at WHERE bookingNumber = :bookingNumber");
                 $updateStmt->execute([':updated_at' => $currentDateTime, ':bookingNumber' => $bookingNumber]);
+
+                $to = $phoneNumber;
+                $from = "+16468527935"; // Twilio telefon numarası
+                $message = "Hello " . $firstName .". We could not assign a driver. We will issue a full refund. Thank you. -New York Pedicab Services";
+
+                // SMS gönderiminde hata olup olmadığını kontrol etmek için try-catch bloğu ekleyin
+                try {
+                    $messageSid = sendTextMessage($twilio, $to, $from, $message);
+                    if ($messageSid) {
+                        error_log("Message sent successfully with SID: $messageSid");
+                    } else {
+                        error_log("Message sending failed for booking number: $bookingNumber");
+                    }
+                } catch (Exception $e) {
+                    error_log("Error sending message: " . $e->getMessage());
+                }
+				
+				            try {
+                // İlk E-posta
+                $email1 = new \SendGrid\Mail\Mail(); 
+                $email1->setFrom("info@newyorkpedicabservices.com", "NYPS");
+                $email1->setSubject("FAILED: ". $subjecttitle . " " . $bookingNumber);
+                $email1->addTo($emailAddress, $firstName);
+                $htmlContent1 = <<<EOD
+<html>
+<body>
+    <p>Hello {$firstName},</p>
+    <p>We could not assign a driver.</p>
+    <p>We will issue a full refund.</p>
+    <p>Thank you,</p>
+    <p>New York Pedicab Services</p>
+    <p>(212) 961-7435</p>
+    <p>info@newyorkpedicabservices.com</p>
+</body>
+</html>
+EOD;
+                $email1->addContent("text/html", $htmlContent1);
+
+                $sendgrid = new \SendGrid('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');
+                try {
+                    // İlk e-posta gönderimi
+                    $response1 = $sendgrid->send($email1);
+                    print $response1->statusCode() . "\n";
+                    print_r($response1->headers());
+                    print $response1->body() . "\n";
+                } catch (Exception $e) {
+                    echo 'Caught exception: '. $e->getMessage() ."\n";
+                }
+
+                // SMS gönderildikten sonra sms_sent sütununu güncelle
+                $updateStmt = $pdo->prepare("UPDATE $table SET sms_sent = 1 WHERE phoneNumber = :phoneNumber AND status = 'past'");
+                $updateStmt->execute([':phoneNumber' => $phoneNumber]);
+
+            } catch (Exception $e) {
+                echo "Could not send SMS: " . $e->getMessage();
+            }
+				
             }
         }
     }
 }
 
+
 updateFailedBookings($baglanti);
 
 
 function sendScheduledSMS($pdo) {
-    // New York saat dilimini ayarla
-    $now = new DateTime("now", new DateTimeZone('America/New_York'));
-    $currentDateTime = $now->format('Y-m-d H:i:s'); // Saniyeleri de dahil edelim
-
     $tables = ['centralpark', 'pointatob', 'hourly'];
 
     foreach ($tables as $table) {
@@ -97,7 +169,7 @@ function sendScheduledSMS($pdo) {
                 $email1 = new \SendGrid\Mail\Mail(); 
                 $email1->setFrom("info@newyorkpedicabservices.com", "NYPS");
                 $email1->setSubject("Pedicab Review Request");
-                $email1->addTo($emailAddress, "NYPS");
+                $email1->addTo($emailAddress, $customerFirstName);
                 $htmlContent1 = <<<EOD
 <html>
 <body>

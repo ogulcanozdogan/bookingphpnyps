@@ -1,7 +1,5 @@
 <?php
-ini_set("display_errors", 1);
-error_reporting(E_ALL);
-
+include('inc/init.php');
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 require_once "vendor/autoload.php";
@@ -19,6 +17,7 @@ $emailAddress = htmlspecialchars($_POST["emailAddress"]);
 $phoneNumber = str_replace("whatsapp:", "", $_POST["phoneNumber"]);
 $numPassengers = htmlspecialchars($_POST["numPassengers"]);
 $pickUpAddress = htmlspecialchars($_POST["pickUpAddress"]);
+$destinationAddress = htmlspecialchars($_POST["destinationAddress"]);
 $paymentMethod = htmlspecialchars($_POST["paymentMethod"]);
 $rideDuration = htmlspecialchars($_POST["rideDuration"]);
 $bookingFee = htmlspecialchars($_POST["bookingFee"]);
@@ -51,6 +50,7 @@ if ($dateOrder) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
+   <link rel="shortcut icon" href="vendor/favicon.ico">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Book Scheduled Point A to B Pedicab Ride</title>
@@ -66,9 +66,10 @@ if ($dateOrder) {
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6">
-                <h2 class="text-center mb-4 font-weight-bold" style="color:#0909ff;">Booking Details</h2>
+                <h2 class="text-center mb-4 font-weight-bold" style="color:#0909ff;">Booking Confirmation</h2>
                 <div class="text-center mb-4">
-                    <b>Thank you for choosing New York Pedicab Services</b>
+                    <b>Thank you for choosing New York Pedicab Services</b><br>
+					<b>Below are the confirmed details of your booking:</b>
                 </div>
                 <table class="table">
                     <tbody>
@@ -115,6 +116,10 @@ if ($dateOrder) {
                         <tr>
                             <th scope="row">Pick Up Address</th>
                             <td><?= $pickUpAddress ?></td>
+                        </tr>
+						<tr>
+                            <th scope="row">Destination Address</th>
+                            <td><?= $destinationAddress ?></td>
                         </tr>
 <?php if ($paymentMethod == "fullcard" OR $paymentMethod == "FULLCARD") { 
 $paymentMethod = "debit/credit card";

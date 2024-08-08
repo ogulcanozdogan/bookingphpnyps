@@ -1,4 +1,5 @@
 <?php
+include('inc/init.php');
 if ($_POST) {
     // Formdan alınan bilgiler
     // Formdan alınan bilgiler
@@ -40,6 +41,7 @@ if ($_POST) {
     header("location: index.php");
 	exit;
 }
+  $pickUpDate = date("m/d/Y", strtotime($pickUpDate)); // takvimi degistirmek icin kullaniyoruz
 
 $zipCodes = [
     "10000",
@@ -250,7 +252,7 @@ if ($month == "December") {
 
 function getShortestBicycleRouteDuration($origin, $destination)
 {
-    $apiKey = "AIzaSyBg9HV0g-8ddiAHH6n2s_0nXOwHIk2f1DY"; // API anahtarınızı buraya girin
+    $apiKey = "AIzaSyDFigWHFZKkoNdO0r6siMTgawuNxwlabRU"; // API anahtarınızı buraya girin
     $origin = urlencode($origin);
     $destination = urlencode($destination);
 
@@ -417,6 +419,7 @@ $totalFare = max($bookingFee + $driverFare, $minTotalFare);
 <!DOCTYPE html>
 <html lang="en">
    <head>
+      <link rel="shortcut icon" href="vendor/favicon.ico">
       <meta charset="UTF-8">
 	  <title>Book Scheduled Hourly Pedicab Service</title>
 	  <meta name="description" content="Scheduled Hourly Pedicab Service Booking Application">
@@ -593,7 +596,7 @@ function addCustomMarkers(route, map) {
 }
 </script>
 
-      <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBg9HV0g-8ddiAHH6n2s_0nXOwHIk2f1DY&callback=initMap"></script>  
+      <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFigWHFZKkoNdO0r6siMTgawuNxwlabRU&callback=initMap"></script>  
       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
       <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>

@@ -43,7 +43,7 @@ $sorgu = $baglanti->prepare("SELECT * FROM hourly WHERE id=:id");
 $sorgu->execute(['id' => $id]);
 $sonuc = $sorgu->fetch();
 
-$pickupAddress = $sonuc["startAddress"];
+$pickupAddress = $sonuc["pickupAddress"];
 $destinationAddress = $sonuc["destinationAddress"];
 ?>
        <div class="main-content">
@@ -58,7 +58,7 @@ $destinationAddress = $sonuc["destinationAddress"];
 	<h5 style="color:red;">Booking Number: <?=$bookingNumber?></h5>
 	<div class="booking-details">
 	<br><br>
-Type = Hourly Pedicab Ride<br>
+Type = Hourly Pedicab Service<br>
 Start Location = <?=$pickupAddress?><br>
 Finish Location = <?=$destinationAddress?><br>
 Date = <?=$sonuc["date"]?><br>
@@ -188,7 +188,7 @@ function addCustomMarkers(route, map) {
     });
 }
 </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBg9HV0g-8ddiAHH6n2s_0nXOwHIk2f1DY&callback=initMap">
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFigWHFZKkoNdO0r6siMTgawuNxwlabRU&callback=initMap">
     </script>
 </body>
 </html>

@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die('Error saving the signature.');
     }
 
-    echo 'Signature saved successfully: ' . $uniqueFilename . "<br>";
+  //  echo 'Signature saved successfully: ' . $uniqueFilename . "<br>";
 
     // Convert SVG to PNG using Imagick
     $pngFilePath = $signsDir . '/' . uniqid('signature_', true) . '.png';
@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die('Error converting SVG to PNG.');
     }
 
-    echo 'PNG file created successfully: ' . $pngFilePath . "<br>";
+   // echo 'PNG file created successfully: ' . $pngFilePath . "<br>";
 
     // Save the uploaded driver license file
     $driverLicenseFileName = uniqid('license_', true) . '.' . pathinfo($driverLicenseFile['name'], PATHINFO_EXTENSION);
@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die('Error saving the driver license file.');
     }
 
-    echo 'Driver license file saved successfully: ' . $driverLicenseFileName . "<br>";
+  //  echo 'Driver license file saved successfully: ' . $driverLicenseFileName . "<br>";
 	
     // Generate QR Code
     $qrCode = new QrCode('https://www.newyorkpedicabservices.com/driver/?id='.$kisauuid);
@@ -281,7 +281,7 @@ EOD;
         );
 		
 		
-			       // First email
+			       // second email
         $email2 = new \SendGrid\Mail\Mail();
         $email2->setFrom("info@newyorkpedicabservices.com", "NYPS");
         $email2->setSubject(
