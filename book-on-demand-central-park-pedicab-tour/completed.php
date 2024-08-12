@@ -49,11 +49,12 @@ $orderYear = htmlspecialchars($_POST["orderYear"]);
 $tourDuration = htmlspecialchars($_POST["tourDuration"]);
 $pickUpDate = htmlspecialchars($_POST["pickUpDate"]);
 $current_time = htmlspecialchars($_POST["current_time"]);
+$bookingNumber = htmlspecialchars($_POST["bookingNumber"]);
 
 $date = DateTime::createFromFormat("m/d/Y", $pickUpDate);
 
 if ($date) {
-    // Gün ismini almak için formatla
+    // Format to get the day name
     $pickUpDay = $date->format("l");
 }
 
@@ -62,7 +63,7 @@ $orderDate = $orderMonth . "/" . $orderDay . "/" . $orderYear;
 $dateOrder = DateTime::createFromFormat("m/d/Y", $orderDate);
 
 if ($dateOrder) {
-    // Gün ismini almak için formatla
+    // Format to get the day name
     $dayOfOrder = $dateOrder->format("l");
 }
 ?>
@@ -94,6 +95,10 @@ if ($dateOrder) {
                 </div>
                 <table class="table">
                     <tbody>
+						<tr>
+                            <th scope="row">Booking Number</th>
+                            <td><?=$bookingNumber?></td>
+                        </tr>
                         <tr>
                             <th scope="row">Type</th>
                             <td>On Demand Central Park Pedicab Tour</td>

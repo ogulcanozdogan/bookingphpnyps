@@ -39,7 +39,7 @@ include('inc/init.php');
       
    $date = DateTime::createFromFormat('m/d/Y', $pickUpDate);
 
-// Gün değerini al
+// Get day value
 $pickUpDay = $date->format('l');
    ?>
 <!DOCTYPE html>
@@ -312,10 +312,10 @@ $pickUpDay = $date->format('l');
       </script>
 <script>
 document.getElementById("prevButton").addEventListener("click", function() {
-    // URL'den parametreleri al
+    // Get parameters from URL
     var urlParams = new URLSearchParams(window.location.search);
 
-    // GET parametrelerini varsa kullan, yoksa POST verilerini kullan
+    // Use GET parameters if available, otherwise use POST data
     var numPassengers = urlParams.has('numPassengers') ? urlParams.get('numPassengers') : <?php echo json_encode($_POST["numPassengers"] ?? 1); ?>;
     var pickUpDate = urlParams.has('pickUpDate') ? urlParams.get('pickUpDate') : <?php echo json_encode($_POST["pickUpDate"] ?? ''); ?>;
     var hours24 = urlParams.has('hours') ? urlParams.get('hours') : <?php echo json_encode($_POST["hours"] ?? ''); ?>;
@@ -344,15 +344,15 @@ document.getElementById("prevButton").addEventListener("click", function() {
     var toursuresi = urlParams.has('toursuresi') ? urlParams.get('toursuresi') : <?php echo json_encode($_POST["toursuresi"] ?? ''); ?>;
     var baseFare = urlParams.has('baseFare') ? urlParams.get('baseFare') : <?php echo json_encode($_POST["baseFare"] ?? ''); ?>;
     
-    // 24 saat formatını 12 saat formatına çevir
-    var hours12 = hours24 % 12 || 12; // 12 saat formatında saat
+    // Convert 24 hour format to 12 hour format
+    var hours12 = hours24 % 12 || 12; // Clock in 12 hour format
     
-    // Form oluştur
+    // Create form
     var form = document.createElement("form");
     form.method = "POST";
     form.action = "step2.php";
     
-    // Her parametre için gizli input elemanları oluştur
+    // Create hidden input elements for each parameter
     function createHiddenInput(name, value) {
         var input = document.createElement("input");
         input.type = "hidden";
@@ -389,7 +389,7 @@ document.getElementById("prevButton").addEventListener("click", function() {
     createHiddenInput("toursuresi", toursuresi);
     createHiddenInput("baseFare", baseFare);
     
-    // Formu body'e ekleyip gönder
+    // Add the form to body and submit
     document.body.appendChild(form);
     form.submit();
 });

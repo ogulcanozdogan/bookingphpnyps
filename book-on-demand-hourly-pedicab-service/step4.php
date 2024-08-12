@@ -7,7 +7,7 @@ if (!$_POST) {
 require __DIR__ . '/vendor/autoload.php';
 
 
-// Dotenv Kütüphanesini yükleyin
+// Dotenv Library
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 

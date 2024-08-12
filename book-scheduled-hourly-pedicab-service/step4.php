@@ -6,7 +6,7 @@ if (!$_POST) {
 }
 require_once "vendor/autoload.php";
 
-// Dotenv Kütüphanesini yükleyin
+// Install Dotenv Library
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
@@ -158,7 +158,7 @@ $dayOfWeek = $pickUpDateTime->format("l");
                         <th scope="row">Service Details</th>
                         <td><?= $serviceDetails ?></td>
                         </tr>
-							<?php //if ($paymentMethod != "fullcard") { ?>
+							<?php if ($paymentMethod != "fullcard") { ?>
                              <tr>
                                 <th scope="row">Booking Fee</th>
                                 <td>$<?= number_format($bookingFee, 2) ?></td>
@@ -167,7 +167,7 @@ $dayOfWeek = $pickUpDateTime->format("l");
                                 <th scope="row">Driver Fare</th>
                                 <td>$<?= number_format($driverFare, 2) ?> with <?= $paymentMethod == 'card' ? 'debit/credit card' : $paymentMethod ?></td>
                             </tr>
-							<?php// } ?>
+							<?php } ?>
                             <tr style="background-color:green;">
                            <th scope="row" style="color:white;">Total Fare</th>
                            <td><b style="color:white;">$<?= number_format(
@@ -347,12 +347,12 @@ document.getElementById("prevButton").addEventListener("click", function() {
     var serviceDetails = <?php echo json_encode($_POST["serviceDetails"] ?? ""); ?>;
     var serviceDuration = <?php echo json_encode($_POST["serviceDuration"] ?? ""); ?>;
 
-    // Form oluştur ve POST ile gönder
+    // Create a form and send it with POST
     var form = document.createElement("form");
     form.method = "POST";
     form.action = "step3.php";
 
-    // Form alanlarını ekle
+    // Add form fields
     function createHiddenInput(name, value) {
         var input = document.createElement("input");
         input.type = "hidden";

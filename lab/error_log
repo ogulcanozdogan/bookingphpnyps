@@ -1,0 +1,98 @@
+[08-Aug-2024 22:49:54 UTC] PHP Warning:  include(inc.head.php): Failed to open stream: No such file or directory in /home/zlds82bav5q4/public_html/lab/index.php on line 2
+[08-Aug-2024 22:49:54 UTC] PHP Warning:  include(inc.head.php): Failed to open stream: No such file or directory in /home/zlds82bav5q4/public_html/lab/index.php on line 2
+[08-Aug-2024 22:49:54 UTC] PHP Warning:  include(): Failed opening 'inc.head.php' for inclusion (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/zlds82bav5q4/public_html/lab/index.php on line 2
+[08-Aug-2024 22:49:55 UTC] PHP Warning:  include(inc.head.php): Failed to open stream: No such file or directory in /home/zlds82bav5q4/public_html/lab/index.php on line 2
+[08-Aug-2024 22:49:55 UTC] PHP Warning:  include(inc.head.php): Failed to open stream: No such file or directory in /home/zlds82bav5q4/public_html/lab/index.php on line 2
+[08-Aug-2024 22:49:55 UTC] PHP Warning:  include(): Failed opening 'inc.head.php' for inclusion (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/zlds82bav5q4/public_html/lab/index.php on line 2
+[08-Aug-2024 22:50:10 UTC] PHP Warning:  include(inc.head.php): Failed to open stream: No such file or directory in /home/zlds82bav5q4/public_html/lab/index.php on line 2
+[08-Aug-2024 22:50:10 UTC] PHP Warning:  include(inc.head.php): Failed to open stream: No such file or directory in /home/zlds82bav5q4/public_html/lab/index.php on line 2
+[08-Aug-2024 22:50:10 UTC] PHP Warning:  include(): Failed opening 'inc.head.php' for inclusion (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/zlds82bav5q4/public_html/lab/index.php on line 2
+[08-Aug-2024 22:50:11 UTC] PHP Warning:  include(inc.head.php): Failed to open stream: No such file or directory in /home/zlds82bav5q4/public_html/lab/index.php on line 2
+[08-Aug-2024 22:50:11 UTC] PHP Warning:  include(inc.head.php): Failed to open stream: No such file or directory in /home/zlds82bav5q4/public_html/lab/index.php on line 2
+[08-Aug-2024 22:50:11 UTC] PHP Warning:  include(): Failed opening 'inc.head.php' for inclusion (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/zlds82bav5q4/public_html/lab/index.php on line 2
+[08-Aug-2024 22:50:12 UTC] PHP Warning:  include(inc.head.php): Failed to open stream: No such file or directory in /home/zlds82bav5q4/public_html/lab/index.php on line 2
+[08-Aug-2024 22:50:12 UTC] PHP Warning:  include(inc.head.php): Failed to open stream: No such file or directory in /home/zlds82bav5q4/public_html/lab/index.php on line 2
+[08-Aug-2024 22:50:12 UTC] PHP Warning:  include(): Failed opening 'inc.head.php' for inclusion (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/zlds82bav5q4/public_html/lab/index.php on line 2
+[08-Aug-2024 22:50:12 UTC] PHP Warning:  include(inc.head.php): Failed to open stream: No such file or directory in /home/zlds82bav5q4/public_html/lab/index.php on line 2
+[08-Aug-2024 22:50:12 UTC] PHP Warning:  include(inc.head.php): Failed to open stream: No such file or directory in /home/zlds82bav5q4/public_html/lab/index.php on line 2
+[08-Aug-2024 22:50:12 UTC] PHP Warning:  include(): Failed opening 'inc.head.php' for inclusion (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/zlds82bav5q4/public_html/lab/index.php on line 2
+[08-Aug-2024 22:50:37 UTC] PHP Warning:  include(inc.head.php): Failed to open stream: No such file or directory in /home/zlds82bav5q4/public_html/lab/index.php on line 2
+[08-Aug-2024 22:50:37 UTC] PHP Warning:  include(inc.head.php): Failed to open stream: No such file or directory in /home/zlds82bav5q4/public_html/lab/index.php on line 2
+[08-Aug-2024 22:50:37 UTC] PHP Warning:  include(): Failed opening 'inc.head.php' for inclusion (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/zlds82bav5q4/public_html/lab/index.php on line 2
+[08-Aug-2024 22:50:55 UTC] PHP Warning:  Undefined variable $title in /home/zlds82bav5q4/public_html/lab/inc/head.php on line 9
+[08-Aug-2024 22:50:59 UTC] PHP Warning:  Undefined variable $title in /home/zlds82bav5q4/public_html/lab/inc/head.php on line 9
+[08-Aug-2024 22:51:00 UTC] PHP Warning:  Undefined variable $title in /home/zlds82bav5q4/public_html/lab/inc/head.php on line 9
+[10-Aug-2024 15:54:44 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home/zlds82bav5q4/public_html/lab/index.php on line 37
+[10-Aug-2024 15:54:54 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home/zlds82bav5q4/public_html/lab/index.php on line 37
+[10-Aug-2024 16:45:40 UTC] PHP Warning:  include(inc/init.php): Failed to open stream: No such file or directory in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 2
+[10-Aug-2024 16:45:40 UTC] PHP Warning:  include(inc/init.php): Failed to open stream: No such file or directory in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 2
+[10-Aug-2024 16:45:40 UTC] PHP Warning:  include(): Failed opening 'inc/init.php' for inclusion (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 2
+[10-Aug-2024 16:45:40 UTC] PHP Warning:  Undefined array key "pickUpDate" in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 18
+[10-Aug-2024 16:45:40 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 57
+[10-Aug-2024 16:45:40 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 63
+[10-Aug-2024 16:45:40 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 69
+[10-Aug-2024 16:45:40 UTC] PHP Warning:  Undefined array key "firstName" in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 225
+[10-Aug-2024 16:45:40 UTC] PHP Warning:  Undefined array key "lastName" in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 228
+[10-Aug-2024 16:45:40 UTC] PHP Warning:  Undefined array key "email" in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 230
+[10-Aug-2024 16:45:40 UTC] PHP Warning:  Undefined array key "phoneNumber" in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 232
+[10-Aug-2024 16:45:40 UTC] PHP Warning:  Undefined array key "countryCode" in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 235
+[10-Aug-2024 16:45:40 UTC] PHP Warning:  Undefined array key "countryName" in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 238
+[10-Aug-2024 16:45:41 UTC] PHP Warning:  include(inc/init.php): Failed to open stream: No such file or directory in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 2
+[10-Aug-2024 16:45:41 UTC] PHP Warning:  include(inc/init.php): Failed to open stream: No such file or directory in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 2
+[10-Aug-2024 16:45:41 UTC] PHP Warning:  include(): Failed opening 'inc/init.php' for inclusion (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 2
+[10-Aug-2024 16:45:41 UTC] PHP Warning:  Undefined array key "pickUpDate" in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 18
+[10-Aug-2024 16:45:41 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 57
+[10-Aug-2024 16:45:41 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 63
+[10-Aug-2024 16:45:41 UTC] PHP Warning:  Undefined array key "error" in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 69
+[10-Aug-2024 16:45:41 UTC] PHP Warning:  Undefined array key "firstName" in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 225
+[10-Aug-2024 16:45:41 UTC] PHP Warning:  Undefined array key "lastName" in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 228
+[10-Aug-2024 16:45:41 UTC] PHP Warning:  Undefined array key "email" in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 230
+[10-Aug-2024 16:45:41 UTC] PHP Warning:  Undefined array key "phoneNumber" in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 232
+[10-Aug-2024 16:45:41 UTC] PHP Warning:  Undefined array key "countryCode" in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 235
+[10-Aug-2024 16:45:41 UTC] PHP Warning:  Undefined array key "countryName" in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 238
+[10-Aug-2024 16:53:42 UTC] PHP Warning:  include(inc/init.php): Failed to open stream: No such file or directory in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 2
+[10-Aug-2024 16:53:42 UTC] PHP Warning:  include(inc/init.php): Failed to open stream: No such file or directory in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 2
+[10-Aug-2024 16:53:42 UTC] PHP Warning:  include(): Failed opening 'inc/init.php' for inclusion (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 2
+[10-Aug-2024 16:53:42 UTC] PHP Warning:  include(inc/init.php): Failed to open stream: No such file or directory in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 2
+[10-Aug-2024 16:53:42 UTC] PHP Warning:  include(inc/init.php): Failed to open stream: No such file or directory in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 2
+[10-Aug-2024 16:53:42 UTC] PHP Warning:  include(): Failed opening 'inc/init.php' for inclusion (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 2
+[10-Aug-2024 16:56:52 UTC] PHP Warning:  include(inc/init.php): Failed to open stream: No such file or directory in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 2
+[10-Aug-2024 16:56:52 UTC] PHP Warning:  include(inc/init.php): Failed to open stream: No such file or directory in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 2
+[10-Aug-2024 16:56:52 UTC] PHP Warning:  include(): Failed opening 'inc/init.php' for inclusion (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 2
+[10-Aug-2024 17:00:40 UTC] PHP Warning:  include(inc/init.php): Failed to open stream: No such file or directory in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 2
+[10-Aug-2024 17:00:40 UTC] PHP Warning:  include(inc/init.php): Failed to open stream: No such file or directory in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 2
+[10-Aug-2024 17:00:40 UTC] PHP Warning:  include(): Failed opening 'inc/init.php' for inclusion (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 2
+[10-Aug-2024 17:00:41 UTC] PHP Warning:  include(inc/init.php): Failed to open stream: No such file or directory in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 2
+[10-Aug-2024 17:00:41 UTC] PHP Warning:  include(inc/init.php): Failed to open stream: No such file or directory in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 2
+[10-Aug-2024 17:00:41 UTC] PHP Warning:  include(): Failed opening 'inc/init.php' for inclusion (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 2
+[10-Aug-2024 17:00:41 UTC] PHP Warning:  include(inc/init.php): Failed to open stream: No such file or directory in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 2
+[10-Aug-2024 17:00:41 UTC] PHP Warning:  include(inc/init.php): Failed to open stream: No such file or directory in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 2
+[10-Aug-2024 17:00:41 UTC] PHP Warning:  include(): Failed opening 'inc/init.php' for inclusion (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 2
+[10-Aug-2024 17:00:43 UTC] PHP Warning:  include(inc/init.php): Failed to open stream: No such file or directory in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 2
+[10-Aug-2024 17:00:43 UTC] PHP Warning:  include(inc/init.php): Failed to open stream: No such file or directory in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 2
+[10-Aug-2024 17:00:43 UTC] PHP Warning:  include(): Failed opening 'inc/init.php' for inclusion (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 2
+[10-Aug-2024 17:00:56 UTC] PHP Warning:  include(inc/init.php): Failed to open stream: No such file or directory in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 2
+[10-Aug-2024 17:00:56 UTC] PHP Warning:  include(inc/init.php): Failed to open stream: No such file or directory in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 2
+[10-Aug-2024 17:00:56 UTC] PHP Warning:  include(): Failed opening 'inc/init.php' for inclusion (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 2
+[10-Aug-2024 17:01:08 UTC] PHP Warning:  include(inc/init.php): Failed to open stream: No such file or directory in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 2
+[10-Aug-2024 17:01:08 UTC] PHP Warning:  include(inc/init.php): Failed to open stream: No such file or directory in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 2
+[10-Aug-2024 17:01:08 UTC] PHP Warning:  include(): Failed opening 'inc/init.php' for inclusion (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 2
+[10-Aug-2024 17:05:56 UTC] PHP Warning:  include(inc/init.php): Failed to open stream: No such file or directory in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 2
+[10-Aug-2024 17:05:56 UTC] PHP Warning:  include(inc/init.php): Failed to open stream: No such file or directory in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 2
+[10-Aug-2024 17:05:56 UTC] PHP Warning:  include(): Failed opening 'inc/init.php' for inclusion (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride.php on line 2
+[10-Aug-2024 20:27:26 UTC] PHP Warning:  Undefined variable $images in /home/zlds82bav5q4/public_html/lab/central-park-pedicab-tours.php on line 61
+[10-Aug-2024 20:27:26 UTC] PHP Warning:  foreach() argument must be of type array|object, null given in /home/zlds82bav5q4/public_html/lab/central-park-pedicab-tours.php on line 61
+[10-Aug-2024 20:27:26 UTC] PHP Warning:  Undefined variable $images in /home/zlds82bav5q4/public_html/lab/central-park-pedicab-tours.php on line 66
+[10-Aug-2024 20:27:26 UTC] PHP Warning:  foreach() argument must be of type array|object, null given in /home/zlds82bav5q4/public_html/lab/central-park-pedicab-tours.php on line 66
+[10-Aug-2024 20:27:26 UTC] PHP Warning:  Undefined variable $images2 in /home/zlds82bav5q4/public_html/lab/central-park-pedicab-tours.php on line 108
+[10-Aug-2024 20:27:26 UTC] PHP Warning:  foreach() argument must be of type array|object, null given in /home/zlds82bav5q4/public_html/lab/central-park-pedicab-tours.php on line 108
+[10-Aug-2024 20:27:26 UTC] PHP Warning:  Undefined variable $images2 in /home/zlds82bav5q4/public_html/lab/central-park-pedicab-tours.php on line 113
+[10-Aug-2024 20:27:26 UTC] PHP Warning:  foreach() argument must be of type array|object, null given in /home/zlds82bav5q4/public_html/lab/central-park-pedicab-tours.php on line 113
+[10-Aug-2024 20:27:26 UTC] PHP Warning:  Undefined variable $images3 in /home/zlds82bav5q4/public_html/lab/central-park-pedicab-tours.php on line 143
+[10-Aug-2024 20:27:26 UTC] PHP Warning:  foreach() argument must be of type array|object, null given in /home/zlds82bav5q4/public_html/lab/central-park-pedicab-tours.php on line 143
+[10-Aug-2024 20:27:26 UTC] PHP Warning:  Undefined variable $images3 in /home/zlds82bav5q4/public_html/lab/central-park-pedicab-tours.php on line 148
+[10-Aug-2024 20:27:26 UTC] PHP Warning:  foreach() argument must be of type array|object, null given in /home/zlds82bav5q4/public_html/lab/central-park-pedicab-tours.php on line 148
+[10-Aug-2024 20:27:26 UTC] PHP Warning:  Undefined variable $images4 in /home/zlds82bav5q4/public_html/lab/central-park-pedicab-tours.php on line 170
+[10-Aug-2024 20:27:26 UTC] PHP Warning:  foreach() argument must be of type array|object, null given in /home/zlds82bav5q4/public_html/lab/central-park-pedicab-tours.php on line 170
+[10-Aug-2024 20:27:26 UTC] PHP Warning:  Undefined variable $images4 in /home/zlds82bav5q4/public_html/lab/central-park-pedicab-tours.php on line 175
+[10-Aug-2024 20:27:26 UTC] PHP Warning:  foreach() argument must be of type array|object, null given in /home/zlds82bav5q4/public_html/lab/central-park-pedicab-tours.php on line 175

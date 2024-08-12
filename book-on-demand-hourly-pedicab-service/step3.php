@@ -311,7 +311,7 @@ document.getElementById("nextButton").addEventListener("click", function() {
 </script>
 <script>
 document.getElementById("prevButton").addEventListener("click", function() {
-    // POST verilerini kullan
+    // Use POST data
     var numPassengers = <?php echo json_encode($_POST["numPassengers"] ?? 1); ?>;
     var pickUpAddress = <?php echo json_encode($_POST["pickUpAddress"] ?? ""); ?>;
     var destinationAddress = <?php echo json_encode($_POST["destinationAddress"] ?? ""); ?>;

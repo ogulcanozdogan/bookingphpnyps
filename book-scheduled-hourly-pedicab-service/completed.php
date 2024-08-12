@@ -30,11 +30,13 @@ $timeOfPickUp = htmlspecialchars($_POST["timeOfPickUp"]);
 $serviceDuration = htmlspecialchars($_POST["serviceDuration"]);
 $destinationAddress = htmlspecialchars($_POST["destinationAddress"]);
 $serviceDetails = htmlspecialchars($_POST["serviceDetails"]);
+$bookingNumber = htmlspecialchars($_POST["bookingNumber"]);
+
 
 $date = DateTime::createFromFormat("m/d/Y", $pickUpDate);
 
 if ($date) {
-    // Gün ismini almak için formatla
+    // Format to get the day name
     $pickUpDay = $date->format("l");
 }
 
@@ -43,7 +45,7 @@ $orderDate = $orderMonth . "/" . $orderDay . "/" . $orderYear;
 $dateOrder = DateTime::createFromFormat("m/d/Y", $orderDate);
 
 if ($dateOrder) {
-    // Gün ismini almak için formatla
+    // Format to get the day name
     $dayOfOrder = $dateOrder->format("l");
 }
 
@@ -75,6 +77,10 @@ if ($dateOrder) {
                 </div>
                 <table class="table">
                     <tbody>
+						<tr>
+                            <th scope="row">Booking Number</th>
+                            <td><?=$bookingNumber?></td>
+                        </tr>
                         <tr>
                             <th scope="row">Type</th>
                             <td>Scheduled Hourly Pedicab Service</td>

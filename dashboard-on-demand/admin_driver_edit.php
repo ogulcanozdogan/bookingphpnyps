@@ -86,14 +86,6 @@ if ($_POST) {
         $is_valid = false;
     }
 
-    $sorgu = $baglanti->prepare("SELECT * FROM users WHERE number=:number");
-    $sorgu->execute(['number' => $number]);
-    $sonuc4 = $sorgu->fetch();
-
-    if ($sonuc4 && $sonuc4["id"] != $driverid) {
-        echo '<script>swal("Error","This phone number is already in use!","error");</script>';
-        $is_valid = false;
-    }
 
     if ($is_valid) {
         if (!empty($pass)) {
@@ -126,8 +118,8 @@ if ($_POST) {
                     <div class="card">
                         <div class="card-header align-items-center d-flex">
 						
-                            <a href="admin_drivers.php" class="btn btn-secondary btn-sm" style="float: right;"><-</a>
-                            <h4 class="card-title mb-0 flex-grow-1" style='text-align:right;'>Driver Details</h4>
+                            <a href="admin_drivers.php" class="btn btn-danger btn-sm" style="float: right;"><-</a>
+                            <h4 class="card-title mb-0 flex-grow-1" style='text-align:center;'>Driver Details</h4>
                         </div>
                         <div class="card-body">
                             <div class="live-preview">

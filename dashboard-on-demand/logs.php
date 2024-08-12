@@ -89,14 +89,22 @@ include('inc/navbar.php');
 												if ($sonuc['action'] == "Point A to B Accepted!"){
 												echo "detailsatob.php?bookingNumber=" . $sonuc['bookingNumber'];
 												}
-												else if ($sonuc['action'] == "Hourly Accepted!"){
+												else if ($sonuc['action'] == "Hourly Service Accepted!"){
 												echo "detailscentralpark.php?bookingNumber=" . $sonuc['bookingNumber'];
 												}
-												else if ($sonuc['action'] == "Central Accepted!"){
+												else if ($sonuc['action'] == "Central Park Accepted!"){
 												echo "detailshourly.php?bookingNumber=" . $sonuc['bookingNumber'];
 												}
-												
-												?>"><?=$sonuc['bookingNumber']; ?></a></b></td>
+												else {
+													echo "#";
+												}
+												?>"><?php if ($sonuc['bookingNumber'] != ""){
+													echo $sonuc['bookingNumber'];
+												}
+												else {
+													echo "N/A";
+												}
+												?></a></b></td>
                                                 <td><b><?=$sonuc['driverUsername']; ?></b></td>
                                                 <td><b><?=$sonuc['driverName']; ?></b></td>
                                                 <td><b><?=$sonuc['driverLastName']; ?></b></td>

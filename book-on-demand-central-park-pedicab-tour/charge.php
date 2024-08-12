@@ -40,7 +40,7 @@ if ($unique_id === null) {
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
     ]);
 
-    // Veritabanından verileri çek
+    // Pull data from database
     $stmt = $pdo->prepare("SELECT * FROM temporaryBookings WHERE unique_id = :unique_id");
     $stmt->execute([':unique_id' => $unique_id]);
     $booking = $stmt->fetch();
@@ -49,7 +49,7 @@ if ($unique_id === null) {
         die("Booking not found.");
     }
 
-    // Veritabanından çekilen verileri değişkenlere atama
+    // Assign the data retrieved from the database to variables
     $firstName = $booking["first_name"];
     $lastName = $booking["last_name"];
     $emailAddress = $booking["email"];
@@ -97,13 +97,13 @@ if ($unique_id === null) {
     $currentDateTime = new DateTime("now", $nyTimeZone);
 
     // Mevcut zaman
-    $customerPaidTime = new DateTime("now", $nyTimeZone); // Şu anki zaman
+    $customerPaidTime = new DateTime("now", $nyTimeZone); // Current Time
 
     $pickup1Minutes = floor($pickup1);
     $pickup1Seconds = floor(($pickup1 - $pickup1Minutes) * 60);
 
     $tourTime = clone $customerPaidTime;
-    $tourTime->add(new DateInterval("PT5M")); // + 5 dakika
+    $tourTime->add(new DateInterval("PT5M")); // + 5 minutes
     $tourTime->add(
         new DateInterval("PT" . $pickup1Minutes . "M" . $pickup1Seconds . "S")
     ); // + Pick Up 1
@@ -193,7 +193,7 @@ $dayOfOrder = $dateOrder->format("l");
 
     $date = new DateTime();
 
-    // Gün değerini al
+    // Get day value
     $pickUpDay = $date->format("l");
     $todayFormatted = $date->format("m/d/Y");
     $todayDay = $date->format("l");
@@ -320,7 +320,7 @@ EOD;
 
             $email1->addContent("text/html", $htmlContent1);
 
-            // İkinci E-posta
+            // Second E-Mail
             $email2 = new \SendGrid\Mail\Mail();
             $email2->setFrom("info@newyorkpedicabservices.com", "NYPS");
             $email2->setSubject(
@@ -424,6 +424,7 @@ EOD;
                 "current_time" => $tourTimeFormatted,
                 "tourDuration" => $tourDuration,
                 "pickUpDate" => $formattedDate,
+				"bookingNumber" => $bookingNumber,
             ];
             $form =
                 '<form id="completedForm" action="completed.php" method="post">';

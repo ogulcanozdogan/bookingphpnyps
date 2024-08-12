@@ -289,10 +289,10 @@ $todayDayName = date("l", strtotime($todayDay));
       </script>
 <script>
 document.getElementById("prevButton").addEventListener("click", function() {
-    // POST verilerini kullan
+    // Use POST data
     var numPassengers = <?php echo json_encode($_POST["numPassengers"] ?? 1); ?>;
     var pickUpDate = <?php echo json_encode($_POST["pickUpDate"] ?? ""); ?>;
-    var hours24 = <?php echo json_encode($_POST["hours"] ?? ""); ?>; // 24 saatlik formatta saat
+    var hours24 = <?php echo json_encode($_POST["hours"] ?? ""); ?>; // Clock in 24-hour format
     var minutes = <?php echo json_encode($_POST["minutes"] ?? ""); ?>;
     var ampm = <?php echo json_encode($_POST["ampm"] ?? ""); ?>;
     var pickUpAddress = <?php echo json_encode($_POST["pickUpAddress"] ?? ""); ?>;
@@ -314,13 +314,9 @@ document.getElementById("prevButton").addEventListener("click", function() {
     var rideDuration = <?php echo json_encode($_POST["rideDuration"] ?? ""); ?>;
     var dayOfWeek = <?php echo json_encode($_POST["dayOfWeek"] ?? ""); ?>;
 
-    // 12 saatlik formata çevir
-    var hours12 = hours24 % 12 || 12; // 12 saatlik formatta saat
+    // Convert to 12-hour format
+    var hours12 = hours24 % 12 || 12; // Clock in 12-hour format
 
-    // Şimdi gerekli işlemleri yapabilirsiniz
-    // ...
-
-    // Ardından, işlemleriniz tamamlandıktan sonra yönlendirme yapabilirsiniz
     var form = document.createElement("form");
     form.method = "POST";
     form.action = "step2.php";

@@ -33,7 +33,7 @@ if ($_POST) {
 		exit;
 }
 
-  $pickUpDate = date("m/d/Y", strtotime($pickUpDate)); // takvimi degistirmek icin kullaniyoruz
+  $pickUpDate = date("m/d/Y", strtotime($pickUpDate)); // we use it to change the calendar
 
 $hours12 = $hours;
 
@@ -372,7 +372,7 @@ require "inc/countryselect.php";
                            <th scope="row">Service Details</th>
                            <td><?= $serviceDetails ?></td>
                         </tr>
-							<?php //if ($paymentMethod != "fullcard") { ?>
+							<?php if ($paymentMethod != "fullcard") { ?>
                              <tr>
                                 <th scope="row">Booking Fee</th>
                                 <td>$<?= number_format($bookingFee, 2) ?></td>
@@ -381,7 +381,7 @@ require "inc/countryselect.php";
                                 <th scope="row">Driver Fare</th>
                                  <td>$<?= number_format($driverFare, 2) ?> with <?= $paymentMethod == 'card' ? 'debit/credit card' : $paymentMethod ?></td>
                             </tr>
-							<?php// } ?>
+							<?php } ?>
                             <tr style="background-color:green;">
                            <th scope="row" style="color:white;">Total Fare</th>
                            <td><b style="color:white;">$<?= number_format(
@@ -585,7 +585,7 @@ require "inc/countryselect.php";
 </script>
 <script>
 document.getElementById("prevButton").addEventListener("click", function() {
-    // POST verilerini al
+    // Get POST data
     var numPassengers = <?php echo json_encode($_POST["numPassengers"] ?? 1); ?>;
     var pickUpDate = <?php echo json_encode($_POST["pickUpDate"] ?? ""); ?>;
     var hours24 = <?php echo json_encode($_POST["hours"] ?? ""); ?>; // 24 saat formatında saat
@@ -612,15 +612,15 @@ document.getElementById("prevButton").addEventListener("click", function() {
     var serviceDetails = <?php echo json_encode($_POST["serviceDetails"] ?? ""); ?>;
     var serviceDuration = <?php echo json_encode($_POST["serviceDuration"] ?? ""); ?>;
 
-    // 12 saat formatına çevir
-    var hours12 = hours24 % 12 || 12; // 12 saat formatında saat
+    // convert to 12 hour format
+    var hours12 = hours24 % 12 || 12; // Clock in 12 hour format
 
-    // Form oluştur ve POST ile gönder
+    // Create a form and send it with POST
     var form = document.createElement("form");
     form.method = "POST";
     form.action = "index.php";
 
-    // Form alanlarını ekle
+    // Add form fields
     function createHiddenInput(name, value) {
         var input = document.createElement("input");
         input.type = "hidden";

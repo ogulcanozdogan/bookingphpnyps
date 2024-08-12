@@ -23,6 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <title>Book On Demand Central Park Pedicab Tour</title>
 	  <meta name="description" content=" On Demand Central Park Pedicab Tour Booking Application ">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="robots" content="noindex,nofollow">
 	     <link rel="shortcut icon" href="vendor/favicon.ico">
       <!-- Viewport meta tag added -->
   <link rel="preload" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">

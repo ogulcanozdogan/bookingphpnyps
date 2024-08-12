@@ -1,5 +1,6 @@
 <?php
 include('inc/init.php');
+include('inc/db.php');
 
 if ($_POST) {
     // Form data received
@@ -107,17 +108,22 @@ $return1 *= 2.5;
 $return2 *= 2.5;
 $toursuresi = $toursuresi;
 
-// Operation Fare hesaplama
+// Operation Fare calculation
 $operationFare = $pickup1 + $pickup2 + $return1 + $return2 + $tourDuration;
 
-// Tarihi 'm/d/Y' formatından 'Y-m-d' formatına çevirme
+// Convert date from 'm/d/Y' to 'Y-m-d' format
 $convertedDate = date("Y-m-d");
 
-// Yeni tarihi kullanarak gün adını bulma
+// Find the day name using the new date
 $dayName = date("l", strtotime($convertedDate));
 
 $todayDay = date("m/d/Y");
 $todayDayName = date("l", strtotime($todayDay));
+
+
+$sorgu2 = $baglanti->prepare("SELECT * FROM rates WHERE ratename = 'Central Park'");
+$sorgu2->execute();
+$rate = $sorgu2->fetch(PDO::FETCH_ASSOC);
 
 if (
     strpos($dayName, "Monday") !== false ||
@@ -126,14 +132,14 @@ if (
     strpos($dayName, "Thursday") !== false
 ) {
     // Monday to Thursday
-    $hourlyOperationFare = 37.5;
+    $hourlyOperationFare = $rate['hourlyOperationFare'];
 } elseif (
     strpos($dayName, "Friday") !== false ||
     strpos($dayName, "Saturday") !== false ||
     strpos($dayName, "Sunday") !== false
 ) {
     // Friday to Sunday
-    $hourlyOperationFare = 45;
+    $hourlyOperationFare = $rate['hourlyOperationFareWeekends'];
 }
 
 // Check if it's December
@@ -145,24 +151,24 @@ if (date("m", strtotime($convertedDate)) == 12) {
         strpos($dayName, "Thursday") !== false
     ) {
         // Monday to Thursday in December
-        $hourlyOperationFare = 52.5;
+        $hourlyOperationFare = $rate['hourlyOperationFareDecember'];
     } elseif (
         strpos($dayName, "Friday") !== false ||
         strpos($dayName, "Saturday") !== false ||
         strpos($dayName, "Sunday") !== false
     ) {
         // Friday to Sunday in December
-        $hourlyOperationFare = 60;
+        $hourlyOperationFare = $rate['hourlyOperationFareWeekendsDecember'];
     }
 }
 
-// Toplam dakika cinsinden operasyon süresi
+// Total operation time in minutes
 $totalMinutes = $operationFare;
 
-// Dakikayı saate dönüştürme
+// Convert minutes to hours
 $totalHours = $totalMinutes / 60;
 
-// Günün saatlik operasyon ücreti ile çarpma
+// Multiplication by hourly operation fee per day
 $operationFare = $totalHours * $hourlyOperationFare;
 
 // Calculate Booking Fee
@@ -193,8 +199,6 @@ $rideDuration = $pickup2 + $tourDuration + $return1;
 
 
 require "inc/countryselect.php";
-// Oturum verilerini kontrol edin
-	// Oturum verilerini kontrol edin
 ?>
 <!DOCTYPE html>
 <html lang="en">

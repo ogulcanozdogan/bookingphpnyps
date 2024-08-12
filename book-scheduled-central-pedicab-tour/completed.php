@@ -29,13 +29,14 @@ if (!$_POST) {
     $tourDuration = htmlspecialchars($_POST['tourDuration']);
     $pickUpDate = htmlspecialchars($_POST['pickUpDate']);
 	$timeOfPickUp = htmlspecialchars($_POST['timeOfPickUp']);
+	$bookingNumber = htmlspecialchars($_POST["bookingNumber"]);
 	
 	
 
 $date = DateTime::createFromFormat("m/d/Y", $pickUpDate);
 
 if ($date) {
-    // Gün ismini almak için formatla
+    // Format to get the day name
     $pickUpDay = $date->format("l");
 }
 ?>
@@ -66,6 +67,10 @@ if ($date) {
                 </div>
                 <table class="table">
                     <tbody>
+						<tr>
+                            <th scope="row">Booking Number</th>
+                            <td><?=$bookingNumber?></td>
+                        </tr>
                         <tr>
                             <th scope="row">Type</th>
                             <td>Scheduled Central Park Pedicab Tour</td>

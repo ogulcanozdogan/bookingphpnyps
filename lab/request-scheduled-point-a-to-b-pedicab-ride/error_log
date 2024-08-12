@@ -1,0 +1,17 @@
+[10-Aug-2024 16:06:07 America/New_York] PHP Warning:  Undefined variable $paymentDescription in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/process.php on line 117
+[10-Aug-2024 16:06:07 America/New_York] PHP Warning:  Undefined variable $paymentDescription in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/process.php on line 137
+[10-Aug-2024 16:06:08 America/New_York] PHP Fatal error:  Uncaught Error: Object of class DateTime could not be converted to string in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/process.php:205
+Stack trace:
+#0 /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/process.php(205): PDOStatement->bindParam()
+#1 {main}
+  thrown in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/process.php on line 205
+[10-Aug-2024 16:09:01 America/New_York] PHP Warning:  Undefined variable $paymentDescription in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/process.php on line 117
+[10-Aug-2024 16:09:01 America/New_York] PHP Warning:  Undefined variable $paymentDescription in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/process.php on line 137
+[10-Aug-2024 16:09:01 America/New_York] PHP Warning:  Undefined variable $paymentDescription in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/process.php on line 232
+[10-Aug-2024 20:12:35 UTC] PHP Fatal error:  Cannot use try without catch or finally in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/process.php on line 178
+[12-Aug-2024 17:44:31 UTC] PHP Parse error:  syntax error, unexpected token ";" in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php on line 90
+[12-Aug-2024 17:44:31 UTC] PHP Parse error:  syntax error, unexpected token ";" in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php on line 90
+[12-Aug-2024 17:44:32 UTC] PHP Parse error:  syntax error, unexpected token ";" in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php on line 90
+[12-Aug-2024 17:44:32 UTC] PHP Parse error:  syntax error, unexpected token ";" in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php on line 90
+[12-Aug-2024 17:44:32 UTC] PHP Parse error:  syntax error, unexpected token ";" in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php on line 90
+[12-Aug-2024 17:44:36 UTC] PHP Parse error:  syntax error, unexpected token ";" in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php on line 90

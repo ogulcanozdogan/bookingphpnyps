@@ -32,7 +32,7 @@ if ($_POST) {
 		exit;
 }
 
-  $pickUpDate = date("m/d/Y", strtotime($pickUpDate)); // takvimi degistirmek icin kullaniyoruz
+  $pickUpDate = date("m/d/Y", strtotime($pickUpDate)); // we use it to change the calendar
 
 $hours12 = $hours;
 
@@ -381,7 +381,7 @@ require "inc/countryselect.php";
                                 <th scope="row">Destination Address</th>
                                 <td><?= $destinationAddress ?></td>
                             </tr>
-							<?php// if ($paymentMethod != "fullcard") { ?>
+							<?php if ($paymentMethod != "fullcard") { ?>
                              <tr>
                                 <th scope="row">Booking Fee</th>
                                 <td>$<?= number_format($bookingFee, 2) ?></td>
@@ -390,7 +390,7 @@ require "inc/countryselect.php";
                                 <th scope="row">Driver Fare</th>
                                  <td>$<?= number_format($driverFare, 2) ?> with <?= $paymentMethod == 'card' ? 'debit/credit card' : $paymentMethod ?></td>
                             </tr>
-							<?php//} ?>
+							<?php } ?>
                             <tr style="background-color:green;">
                            <th scope="row" style="color:white;">Total Fare</th>
                            <td><b style="color:white;">$<?= number_format(

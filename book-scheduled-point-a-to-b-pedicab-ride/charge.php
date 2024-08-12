@@ -42,7 +42,7 @@ if ($unique_id === null) {
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
     ]);
 
-    // Veritabanından verileri çek
+    // Pull data from database
     $stmt = $pdo->prepare("SELECT * FROM temporaryBookings WHERE unique_id = :unique_id");
     $stmt->execute([':unique_id' => $unique_id]);
     $booking = $stmt->fetch();
@@ -87,7 +87,7 @@ $timeOfPickUp = $hours . ":" . $minutes . " " . $ampm;
 $totalMinutes = $rideDuration + $pickUpDuration + $returnDuration; // Calculate the total minutes
 $operationDuration = $totalMinutes / 60; // Convert minutes to hours
 
-// Formatting and displaying on screen
+// Biçimlendirme ve ekranda görüntüleme
 $operationDurationFormatted = number_format($operationDuration, 2);
 
 // Split the date string into parts (Month, Day, Year)
@@ -299,7 +299,7 @@ EOD;
         $dateDriver = DateTime::createFromFormat("m/d/Y", $pickUpDate);
 
         if ($dateDriver) {
-            // İstenen formatta tarihi almak için formatla
+            // Format to get the date in the desired format
             $driverDate = $dateDriver->format("M d l");
         }
 

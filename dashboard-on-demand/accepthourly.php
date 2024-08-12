@@ -44,6 +44,25 @@ $durum = $baglanti->prepare($sql)->execute($satir);
 if ($durum) {
     echo '<script>swal("Successful", "Job accepted.", "success").then((value) => { window.location.href = "pending.php" });</script>';     
     // Eğer güncelleme sorgusu çalıştıysa urunler.php sayfasına yönlendiriyoruz.
+	
+	$action = "Hourly Accepted!";
+
+    // Logs tablosuna ekleme
+    $log_satir = [
+	    'bookingNumber' => $bookingNumber,
+        'driverUsername' => $user,
+        'driverName' => $name,
+        'driverLastName' => $surname,
+        'action' => $action,
+		'perm' => $perm,
+        'timestamp' => $updated_at,
+    ];
+    
+    $sql = "INSERT INTO logs (bookingNumber, driverUsername, driverName, driverLastName, action, perm, timestamp) VALUES (:bookingNumber, :driverUsername, :driverName, :driverLastName, :action, :perm, :timestamp)";
+    $stmt = $baglanti->prepare($sql);
+    $stmt->execute($log_satir);
+				
+				
     
     $sorgu = $baglanti->prepare("SELECT * FROM users WHERE user=:user");
     $sorgu->execute(['user' => $user]);

@@ -8,7 +8,7 @@ use Twilio\Rest\Client;
 
 function updatePastBookings2($pdo) {
     $now = new DateTime("now", new DateTimeZone('America/New_York'));
-    $ve  = $now->format('Y-m-d H:i:s'); 
+    $currentDateTime  = $now->format('Y-m-d H:i:s'); 
 
     $tables = ['centralpark', 'pointatob', 'hourly'];
 

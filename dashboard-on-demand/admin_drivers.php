@@ -82,7 +82,7 @@ include('inc/navbar.php');
                                         </thead>
                                         <tbody>
                                         <?php 
-                                        $sorgu = $baglanti->prepare("SELECT * FROM users");
+                                        $sorgu = $baglanti->prepare("SELECT * FROM users WHERE verify=1");
                                         $sorgu->execute();
 
                                         while ($sonuc = $sorgu->fetch(PDO::FETCH_ASSOC)) {
@@ -121,7 +121,7 @@ include('inc/navbar.php');
                                                             dangerMode: true,
                                                         }).then((willVerify) => { 
                                                             if (willVerify) {
-                                                                window.location.href = 'admin_drivers_process.php?id=<?=$sonuc['id']?>&process=delete&table=users';
+                                                                window.location.href = 'admin_drivers_process.php?id=<?=$sonuc['id']?>&process=delete';
                                                             } else {
                                                                 swal('Action cancelled', 'The membership was not verified.', 'info');
                                                             }

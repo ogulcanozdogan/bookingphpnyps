@@ -179,7 +179,7 @@ $totalFare = $baseFare + $bookingFee + $driverFare;
    
 $date = DateTime::createFromFormat('m/d/Y', $pickUpDate);
 
-// Gün değerini al
+// Get day value
 $pickUpDay = $date->format('l');
 
 require('inc/countryselect.php');

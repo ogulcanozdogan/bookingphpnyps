@@ -92,6 +92,12 @@
                                 <i class="bx bxs-file-blank"></i> <span data-key="t-dashboards">Logs</span>
                             </a>
                         </li> <!-- end Dashboard Menu -->
+						
+						<li class="nav-item">
+                            <a class="nav-link menu-link" href="admin_rate_management.php">
+                                <i class="bx bx-dollar"></i> <span data-key="t-dashboards">Rate Management</span>
+                            </a>
+                        </li> <!-- end Dashboard Menu -->
 						<li class="nav-item">
                             <a class="nav-link menu-link" href="admin_earnings.php">
                                 <i class="bx bx-money-withdraw"></i> <span data-key="t-dashboards">Earnings</span>

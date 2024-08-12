@@ -1,42 +1,23 @@
 <?php
 include('inc/vt.php'); 
 if ($_GET) {
-    if ($_GET['table'] && $_GET['process'] && $_GET['id']) {
-        $table = $_GET['table'];
+    if ($_GET['process'] && $_GET['id']) {
+        $table = "users";
         $process = $_GET['process'];
         $driverid = $_GET['id'];
 
-        if ($table == 'users_temporary') {
+
             $sorgu = $baglanti->prepare("SELECT * FROM $table WHERE id=:driverid");
             $sorgu->execute(['driverid' => $driverid]);
             $sonuc = $sorgu->fetch();
 
             if ($process == 'verify') {
-                $user = $sonuc['user'];
-                $name = $sonuc['name'];
-                $surname = $sonuc['surname'];
-                $email = $sonuc['email'];
-                $perm = $sonuc['perm'];
-                $number = $sonuc['number'];
-                $pass = $sonuc['pass'];
-				$pdf_id = $sonuc['pdf_id'];
 
-                $durum = $baglanti->prepare("DELETE FROM $table WHERE id=:driverid")->execute(['driverid' => $driverid]);
+// Veri güncelleme sorgusu
+$sql = "UPDATE $table SET verify=1 WHERE id=:driverid";
+$durum = $baglanti->prepare($sql)->execute(['driverid' => $driverid]);
 
-                $satir = [
-                    'user' => $user,
-                    'pass' => $pass,
-                    'name' => $name,
-                    'surname' => $surname,
-                    'email' => $email,
-                    'number' => $number,
-                    'perm' => $perm,
-					'pdf_id' => $pdf_id,
-                ];
-
-                $sql = "INSERT INTO users (user, pass, name, surname, email, number, perm, pdf_id) VALUES (:user, :pass, :name, :surname, :email, :number, :perm, :pdf_id)";
-                $stmt = $baglanti->prepare($sql);
-                $durum = $stmt->execute($satir);
+ 
 
                 if ($durum) {
                     header('location: admin_verify_drivers.php');
@@ -46,21 +27,12 @@ if ($_GET) {
             } elseif ($process == 'delete') {
 				$durum = $baglanti->prepare("DELETE FROM $table WHERE id=:driverid")->execute(['driverid' => $driverid]);
 			if ($durum) {
-			header("location:admin_verify_drivers.php"); // Eğer sorgu çalışırsa index.php sayfasına gönderiyoruz.
-			}
-            } else {
-                header('location: admin_drivers.php');
-            }
-        } elseif ($table == 'users') {
-             if ($process == 'delete') {
-				 $durum = $baglanti->prepare("DELETE FROM $table WHERE id=:driverid")->execute(['driverid' => $driverid]);
-			if ($durum) {
 			header("location:admin_drivers.php"); // Eğer sorgu çalışırsa index.php sayfasına gönderiyoruz.
 			}
             } else {
-                header('location: index.php');
+                header('location:admin_drivers.php');
             }
-        }
+ 
     } else {
         header('location: index.php');
     }

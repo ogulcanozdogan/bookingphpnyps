@@ -42,7 +42,7 @@ if ($unique_id === null) {
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
     ]);
 
-    // Veritabanından verileri çek
+    // Pull data from database
     $stmt = $pdo->prepare("SELECT * FROM temporaryBookings WHERE unique_id = :unique_id");
     $stmt->execute([':unique_id' => $unique_id]);
     $booking = $stmt->fetch();
@@ -57,7 +57,7 @@ if ($unique_id === null) {
     $firstName = $booking['first_name'];
     $lastName = $booking['last_name'];
     $emailAddress = $booking['email'];
-    $phoneNumber = $booking['phone_number']; // Remove 'whatsapp:' prefix
+    $phoneNumber = $booking['phone_number'];
     $numPassengers = $booking['num_passengers'];
     $pickUpDate = $booking['pick_up_date'];
     $hours = $booking['hours'];
@@ -156,7 +156,7 @@ $kisauuid = substr($uuid, 0, 16);
     $destinationCoords = getCoordinates($destinationAddress, $apiKey);
 $date = new DateTime();
 
-// Gün değerini al
+// Get day value
 $pickUpDay = $date->format('l');
 $todayFormatted = $date->format('m/d/Y');
 $todayDay = $date->format('l');
@@ -332,6 +332,7 @@ EOD;
 				'hours' => $hours,
                 'minutes' => $minutes,
                 'ampm' => $ampm,
+				'bookingNumber' => $bookingNumber,
                 'pickUpDate' => $pickUpDate
             ];
 

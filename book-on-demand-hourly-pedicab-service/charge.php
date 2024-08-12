@@ -40,7 +40,7 @@ if ($unique_id === null) {
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
     ]);
 
-    // Veritabanından verileri çek
+    // Pull data from database
     $stmt = $pdo->prepare("SELECT * FROM temporaryBookings WHERE unique_id = :unique_id");
     $stmt->execute([':unique_id' => $unique_id]);
     $booking = $stmt->fetch();
@@ -49,7 +49,7 @@ if ($unique_id === null) {
         die("Booking not found.");
     }
 
-// Get the date and time information from the form
+// Get date and time information from form
 $firstName = $booking["first_name"];
 $lastName = $booking["last_name"];
 $emailAddress = $booking["email"];
@@ -86,18 +86,18 @@ $operationDuration = $totalMinutes / 60;
 $operationDurationFormatted = number_format($operationDuration, 2);
 
 
-   // Create the current time in New York time zone
+   // Create current time in New York time zone
     $nyTimeZone = new DateTimeZone("America/New_York");
     $currentDateTime = new DateTime("now", $nyTimeZone);
 
-    // Mevcut zaman
-    $customerPaidTime = new DateTime("now", $nyTimeZone); // Şu anki zaman
+    // Current time
+    $customerPaidTime = new DateTime("now", $nyTimeZone); // Current time
 
     $pickup1Minutes = floor($pickUpDuration);
     $pickup1Seconds = floor(($pickUpDuration - $pickup1Minutes) * 60);
 
     $tourTime = clone $customerPaidTime;
-    $tourTime->add(new DateInterval("PT5M")); // + 5 dakika
+    $tourTime->add(new DateInterval("PT5M")); // + 5 minutes
     $tourTime->add(
         new DateInterval("PT" . $pickup1Minutes . "M" . $pickup1Seconds . "S")
     ); // + Pick Up 1
@@ -183,7 +183,7 @@ function getCoordinates($address, $apiKey)
 
    $date = new DateTime();
 
-    // Gün değerini al
+    // Get day value
     $pickUpDay = $date->format("l");
     $todayFormatted = $date->format("m/d/Y");
     $todayDay = $date->format("l");

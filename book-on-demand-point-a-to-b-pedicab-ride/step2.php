@@ -1,5 +1,6 @@
 <?php
 include('inc/init.php');
+include('inc/db.php');
 if ($_POST) {
     // Information received from the form
     $firstName = $_POST["firstName"]; // default value 1
@@ -28,9 +29,8 @@ if ($_POST) {
 }
 
 
-    $hub = "West Drive and West 59th Street New York, NY 10019";
-	$hubCoords = '40.766941088678855, -73.97899952992152';
-
+$hub = "West Drive and West 59th Street New York, NY 10019";
+$hubCoords = '40.766941088678855, -73.97899952992152';
 
 function getShortestBicycleRouteDuration($origin, $destination)
 {
@@ -100,13 +100,17 @@ $rideDuration *= 2.5;
 
 $rideDuration = substr($rideDuration, 0, 5);
 
-function calculateOperationFarePerHour($dayOfWeek, $month)
+$sorgu2 = $baglanti->prepare("SELECT * FROM rates WHERE ratename = 'Point A to B'");
+$sorgu2->execute();
+$rate = $sorgu2->fetch(PDO::FETCH_ASSOC);
+
+function calculateOperationFarePerHour($dayOfWeek, $month, $rate)
 {
     $isWeekend = in_array($dayOfWeek, ["Friday", "Saturday", "Sunday"]);
     if ($month == "December") {
-        return $isWeekend ? 60 : 52.5; // Different fare for weekends and weekdays in December
+        return $isWeekend ? $rate['hourlyOperationFareWeekendsDecember'] : $rate['hourlyOperationFareDecember']; // Different fare for weekends and weekdays in December
     } else {
-        return $isWeekend ? 45 : 37.5; // Different fare for normal weekends and weekdays
+        return $isWeekend ? $rate['hourlyOperationFareWeekends'] : $rate['hourlyOperationFare']; // Different fare for normal weekends and weekdays
     }
 }
 
@@ -114,105 +118,76 @@ function calculateOperationFarePerHour($dayOfWeek, $month)
 $totalDurationMinutes = $pickUpDuration + $rideDuration + $returnDuration;
 
 // Hourly fare calculation
-$operationFarePerHour = calculateOperationFarePerHour($dayOfWeek, $month);
+$operationFarePerHour = calculateOperationFarePerHour($dayOfWeek, $month, $rate);
 
 // Total Operation Fare calculation (by converting minutes to hours and multiplying by hourly fare)
 $operationFare = ($totalDurationMinutes / 60) * $operationFarePerHour;
 
-// Update the rest of the code accordingly...
-
 // Booking Fee and Driver Fare calculation
-if ($paymentMethod == "CARD" or $paymentMethod == "CASH") {
-    $bookingFee = 0.2 * ($operationFare);
-    $driverFare = 0.8 * ($operationFare);
-    if ($paymentMethod === "CARD") {
-        $driverFare *= 1.1;
-    }
-} else {
-    $bookingFee = 0.3 * $totalFare;
-    $driverFare = 0.7 * $totalFare;
-}
 $minFares = [
     "CASH" => [
-        "week" => ["Booking Fee" => 3.75, "Driver Fare" => 15, "Total Fare" => 18.75],
-        "weekend" => [
-            "Booking Fee" => 4.5,
-            "Driver Fare" => 18,
-            "Total Fare" => 22.5,
-        ],
-        "weekDecember" => [
-            "Booking Fee" => 5,
-            "Driver Fare" => 20,
-            "Total Fare" => 25,
-        ],
-        "weekendDecember" => [
-            "Booking Fee" => 6,
-            "Driver Fare" => 24,
-            "Total Fare" => 30,
-        ],
+        "week" => $rate['minFareCashWeek'],
+        "weekend" => $rate['minFareCashWeekend'],
+        "weekDecember" => $rate['minFareCashWeekDecember'],
+        "weekendDecember" => $rate['minFareCashWeekendDecember'],
     ],
     "CARD" => [
-        "week" => [
-            "Booking Fee" => 3.75,
-            "Driver Fare" => 16.5,
-            "Total Fare" => 20.25,
-        ],
-        "weekend" => [
-            "Booking Fee" => 4.5,
-            "Driver Fare" => 19.8,
-            "Total Fare" => 24.3,
-        ],
-        "weekDecember" => [
-            "Booking Fee" => 5,
-            "Driver Fare" => 22,
-            "Total Fare" => 27,
-        ],
-        "weekendDecember" => [
-            "Booking Fee" => 6,
-            "Driver Fare" => 26.4,
-            "Total Fare" => 32.4,
-        ],
-    ],
-    "fullcard" => [
-        "week" => [
-            "Booking Fee" => 3.75,
-            "Driver Fare" => 16.5,
-            "Total Fare" => 20.25,
-        ],
-        "weekend" => [
-            "Booking Fee" => 4.5,
-            "Driver Fare" => 19.8,
-            "Total Fare" => 24.3,
-        ],
-        "weekDecember" => [
-            "Booking Fee" => 5,
-            "Driver Fare" => 22,
-            "Total Fare" => 27,
-        ],
-        "weekendDecember" => [
-            "Booking Fee" => 6,
-            "Driver Fare" => 26.4,
-            "Total Fare" => 32.4,
-        ],
+        "week" => $rate['minFareCardWeek'],
+        "weekend" => $rate['minFareCardWeekend'],
+        "weekDecember" => $rate['minFareCardWeekDecember'],
+        "weekendDecember" => $rate['minFareCardWeekendDecember'],
     ],
 ];
 
+function calculateBookingAndDriverFares($paymentMethod, $totalFare) {
+    if ($paymentMethod === "CASH") {
+        $bookingFee = $totalFare * 0.20;
+        $driverFare = $totalFare * 0.80;
+    } elseif ($paymentMethod === "CARD") {
+        $bookingFee = $totalFare * 0.1852;
+        $driverFare = $totalFare * 0.8148;
+    } else {
+        $bookingFee = 0;
+        $driverFare = 0;
+    }
 
-$key =
-    ($isWeekend ? "weekend" : "week") .
-    ($month == "December" ? "December" : "");
-$minBookingFee = $minFares[$paymentMethod][$key]["Booking Fee"];
-$minDriverFare = $minFares[$paymentMethod][$key]["Driver Fare"];
-$minTotalFare = $minFares[$paymentMethod][$key]["Total Fare"];
+    return [
+        "Booking Fee" => round($bookingFee, 2),
+        "Driver Fare" => round($driverFare, 2),
+        "Total Fare" => $totalFare
+    ];
+}
 
-$bookingFee = max($bookingFee, $minBookingFee);
-$driverFare = max($driverFare, $minDriverFare);
-if ($paymentMethod == "CARD" or $paymentMethod == "CASH") {
-    $totalFare = max($bookingFee + $driverFare, $minTotalFare);
+
+$key = ($isWeekend ? "weekend" : "week") . ($month == "December" ? "December" : "");
+$minTotalFare = $minFares[$paymentMethod][$key];
+
+if ($paymentMethod === "CARD" || $paymentMethod === "CASH") {
+    $bookingFee = 0.2 * $operationFare;
+    $driverFare = 0.8 * $operationFare;
+
+    if ($paymentMethod === "CARD") {
+        $driverFare *= 1.1;
+    }
+
+    // Total fare calculation
+    $totalFare = $bookingFee + $driverFare;
+
+    // Check if total fare is below minimum fare
+    if ($totalFare < $minTotalFare) {
+        // If so, calculate fares based on the minimum fare
+        $fares = calculateBookingAndDriverFares($paymentMethod, $minTotalFare);
+        $bookingFee = $fares["Booking Fee"];
+        $driverFare = $fares["Driver Fare"];
+        $totalFare = $fares["Total Fare"];
+    }
+
 } else {
-    $totalFare = ($operationFare) * 1.2;
+    // Other payment methods
+    $totalFare = $operationFare * 1.2;
     $totalFare = max($totalFare, $minTotalFare);
 }
+
 require "inc/countryselect.php";
 $rideDuration = number_format($rideDuration, 2);
 $todayDay = date("m/d/Y");
@@ -474,11 +449,11 @@ function initMap() {
     var directionsService = new google.maps.DirectionsService();
     var directionsRenderer = new google.maps.DirectionsRenderer({
         map: map,
-        suppressMarkers: true,  // Varsayılan işaretçileri kaldır
+        suppressMarkers: true,  // Remove default pointers
         polylineOptions: {
-            strokeColor: '#FF0000',  // Çizgi rengini kırmızı yap
-            strokeOpacity: 0.8,      // Çizginin opaklığı
-            strokeWeight: 6          // Çizgi kalınlığı
+            strokeColor: '#FF0000',  // Make the line color red
+            strokeOpacity: 0.8,      // Opacity of the line
+            strokeWeight: 6          // Line thickness
         }
     });
 
@@ -508,7 +483,7 @@ function calculateAndDisplayRoute(directionsService, directionsRenderer, map, pi
         origin: pickupLocation,
         destination: destinationLocation,
         travelMode: 'BICYCLING',
-        provideRouteAlternatives: true  // Alternatif rotaları sağla
+        provideRouteAlternatives: true  // Provide alternative routes
     }, function(response, status) {
         if (status === 'OK') {
             var fastestRouteIndex = findFastestRouteIndex(response.routes);
@@ -516,7 +491,7 @@ function calculateAndDisplayRoute(directionsService, directionsRenderer, map, pi
             directionsRenderer.setRouteIndex(fastestRouteIndex);
             addCustomMarkers(response.routes[fastestRouteIndex], map);
 
-            // Rotanın süresini hesapla
+            // Calculate the duration of the route
             var durationMinutes = parseFloat(response.routes[fastestRouteIndex].legs.reduce((sum, leg) => sum + leg.duration.value, 0) / 60);
 
             console.log("durationMinutes: " + durationMinutes);
@@ -567,7 +542,7 @@ function addCustomMarkers(route, map) {
     </script>
 <script>
 document.getElementById("prevButton").addEventListener("click", function() {
-    // POST verilerini kullan
+    // Use POST data
     var numPassengers = <?php echo json_encode($_POST["numPassengers"] ?? 1); ?>;
     var pickUpAddress = <?php echo json_encode($_POST["pickUpAddress"] ?? ""); ?>;
     var destinationAddress = <?php echo json_encode($_POST["destinationAddress"] ?? ""); ?>;
@@ -588,10 +563,7 @@ document.getElementById("prevButton").addEventListener("click", function() {
     var rideDuration = <?php echo json_encode($_POST["rideDuration"] ?? ""); ?>;
     var dayOfWeek = <?php echo json_encode($_POST["dayOfWeek"] ?? ""); ?>;
 
-    // Şimdi gerekli işlemleri yapabilirsiniz
-    // ...
 
-    // Ardından, işlemleriniz tamamlandıktan sonra yönlendirme yapabilirsiniz
     var form = document.createElement("form");
     form.method = "POST";
     form.action = "index.php";

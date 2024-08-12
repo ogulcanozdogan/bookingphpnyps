@@ -6,7 +6,7 @@ if (!$_POST) {
 }
 require_once "vendor/autoload.php";
 
-// Dotenv Kütüphanesini yükleyin
+// Install Dotenv Library
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
@@ -266,12 +266,12 @@ document.getElementById("prevButton").addEventListener("click", function() {
         hourlyOperationFare: <?php echo json_encode($_POST["hourlyOperationFare"] ?? ""); ?>
     };
 
-    // Formu dinamik olarak oluştur
+    // Create the form dynamically
     var form = document.createElement('form');
     form.method = 'POST';
     form.action = 'step3.php';
 
-    // Form verilerini ekle
+    // Add form data
     for (var key in formData) {
         if (formData.hasOwnProperty(key)) {
             var input = document.createElement('input');
@@ -282,7 +282,7 @@ document.getElementById("prevButton").addEventListener("click", function() {
         }
     }
 
-    // Formu sayfaya ekle ve gönder
+    // Add the form to the page and submit
     document.body.appendChild(form);
     form.submit();
 });

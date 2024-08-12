@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="description" content="Pedicab Driver Registration">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="robots" content="noindex,nofollow">
     <title>Pedicab Driver Registration</title>
     <link href="css/style.css" rel="stylesheet">
     <link rel="shortcut icon" href="vendor/favicon.ico">

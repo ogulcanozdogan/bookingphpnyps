@@ -70,7 +70,7 @@ if ($_POST) {
             'perm' => $perm,
             'pdf_id' => $pdf_id,
         ];
-        $sql = "INSERT INTO users_temporary (user, pass, name, surname, email, number, perm, pdf_id) VALUES (:user, :pass, :name, :surname, :email, :number, :perm, :pdf_id)";
+        $sql = "INSERT INTO users (user, pass, name, surname, email, number, perm, pdf_id) VALUES (:user, :pass, :name, :surname, :email, :number, :perm, :pdf_id)";
         $stmt = $baglanti->prepare($sql);
         try {
             $durum = $stmt->execute($satir);
@@ -92,8 +92,8 @@ if ($_POST) {
                 <div style="margin: auto;" class="col-lg-6">
                     <div class="card">
                         <div class="card-header align-items-center d-flex">
-                            <a href="admin_drivers.php" class="btn btn-secondary btn-sm" style="float: right;"><-</a>
-                            <h4 class="card-title mb-0 flex-grow-1" style='text-align:right;'>Driver Details</h4>
+                            <a href="admin_drivers.php" class="btn btn-danger btn-sm" style="float: right;"><-</a>
+                            <h4 class="card-title mb-0 flex-grow-1" style='text-align:center;'>Driver Details</h4>
                         </div>
                         <div class="card-body">
                             <div class="live-preview">

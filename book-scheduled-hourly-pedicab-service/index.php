@@ -19,7 +19,7 @@ $pickUpDate = $_POST['pickUpDate'];
         if ($dateTime && $dateTime->format('m/d/Y') === $pickUpDate) {
             $pickUpDate = $dateTime->format('Y-m-d');
         }
-// takvimi degistirmek icin kullaniyoruz
+// we use it to change the calendar
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,6 +29,7 @@ $pickUpDate = $_POST['pickUpDate'];
 	  <title>Book Scheduled Hourly Pedicab Service</title>
 	  <meta name="description" content="Scheduled Hourly Pedicab Service Booking Application">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	  	<meta name="robots" content="noindex,nofollow">
       <!-- Viewport meta tag added -->
 <link rel="preload" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"></noscript>
@@ -39,7 +40,7 @@ $pickUpDate = $_POST['pickUpDate'];
       <link type="text/css" href="css/style.css" rel="stylesheet">
    </head>
    <body>
-      <form onsubmit="return validateForm()" method="post" id="myForm" action="arastep.php">
+      <form onsubmit="return validateForm()" method="post" id="myForm" action="step2.php">
          <div class="container">
             <div class="row justify-content-center">
                <input title="" type="button" id="prevButton" class="btn btn-primary font-weight-bold" value="<">
@@ -96,7 +97,7 @@ $pickUpDate = $_POST['pickUpDate'];
                oninvalid="this.setCustomValidity('Please, select the date of pick up.'); this.classList.add('invalid');"
                oninput="this.setCustomValidity(''); this.classList.remove('invalid');"
                class="form-control" id="pickUpDate" name="pickUpDate" value="<?php echo isset($pickUpDate) ? htmlspecialchars($pickUpDate) : ''; ?>">
-    </div> <!-- takvimi degistirmek icin kullaniyoruz -->
+    </div> <!-- // we use it to change the calendar -->
                   <div class="row">
                      <div class="col-md-4">
                         <div class="form-group">
@@ -361,7 +362,7 @@ $pickUpDate = $_POST['pickUpDate'];
             }
 
             const currentDate = new Date();
-            const selectedDate = new Date(dateElement.value + 'T00:00:00'); // takvimi degistirmek icin kullaniyoruz
+            const selectedDate = new Date(dateElement.value + 'T00:00:00'); // we use it to change the calendar
 
             const hours = parseInt(hoursElement.value);
             const minutes = parseInt(minutesElement.value);
@@ -373,10 +374,10 @@ $pickUpDate = $_POST['pickUpDate'];
 
             const currentTimePlusOneHour = new Date(currentDate.getTime() + (60 * 60 * 1000));
 
-         //   if (selectedDateTime < currentTimePlusOneHour) {
-           //     showError("Please, select a pickup time that is at least 1 hour later than the current time.");
-           //     return false;
-           // }
+            if (selectedDateTime < currentTimePlusOneHour) {
+                showError("Please, select a pickup time that is at least 1 hour later than the current time.");
+                return false;
+            }
 
             if ((isPM && hours === 11 && minutes > 0) || (isPM && hours > 11) ||
                 (!isPM && hours < 9) || (!isPM && hours === 12)) {

@@ -13,7 +13,7 @@ try {
 }
 
 function generateUniqueId() {
-    return bin2hex(random_bytes(16)); // 16 karakter uzunluğunda benzersiz ID
+    return bin2hex(random_bytes(16)); // Unique ID 16 characters long
 }
 
 function saveBooking($data, $pdo) {
@@ -49,7 +49,7 @@ function saveBooking($data, $pdo) {
         ]);
         return $uniqueId;
     } catch (PDOException $e) {
-        // Hata durumunda ayrıntılı bilgi ver
+        // Provide detailed information in case of error
         die("Error: " . $e->getMessage());
     }
 }
@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     ];
 
     $uniqueId = saveBooking($data, $pdo);
-    echo $uniqueId; // Benzersiz ID'yi döndür
+    echo $uniqueId; // Return the unique ID
     exit();
 }
 ?>

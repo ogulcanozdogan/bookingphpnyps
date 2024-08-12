@@ -19,7 +19,7 @@ include('inc/init.php');
         if ($dateTime && $dateTime->format('m/d/Y') === $pickUpDate) {
             $pickUpDate = $dateTime->format('Y-m-d');
         }
-// takvimi degistirmek icin kullaniyoruz
+// we use it to change the calendar
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,6 +29,7 @@ include('inc/init.php');
       <title>Book Scheduled Central Park Pedicab Tour</title>
 	  <meta name="description" content="Scheduled Central Park Pedicab Tour Booking Application ">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	  	<meta name="robots" content="noindex,nofollow">
       <!-- Viewport meta tag added -->
 <link rel="preload" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"></noscript>
@@ -93,7 +94,7 @@ include('inc/init.php');
                oninvalid="this.setCustomValidity('Please, select the date of pick up.'); this.classList.add('invalid');"
                oninput="this.setCustomValidity(''); this.classList.remove('invalid');"
                class="form-control" id="pickUpDate" name="pickUpDate" value="<?php echo isset($pickUpDate) ? htmlspecialchars($pickUpDate) : ''; ?>">
-    </div> <!-- takvimi degistirmek icin kullaniyoruz -->
+    </div> <!-- we use it to change the calendar -->
                   <div class="row">
                      <div class="col-md-4">
                         <div class="form-group">
@@ -311,10 +312,10 @@ include('inc/init.php');
                  // Current time + 1 hour
                  const currentTimePlusOneHour = new Date(currentDate.getTime() + (60 * 60 * 1000));
          
-               //  if (selectedDateTime < currentTimePlusOneHour) {
-                   //  showError("Please, select a tour time that is at least 1 hour later than the current time.");
-                   //  return false;
-              //   }
+                 if (selectedDateTime < currentTimePlusOneHour) {
+                     showError("Please, select a tour time that is at least 1 hour later than the current time.");
+                     return false;
+                 }
          
                  // Validate time restrictions: the tour must be booked between 9:00 AM and 5:00 PM
                  if (selectedHours < 9 || selectedHours > 17 || (selectedHours === 17 && minutes > 0)) {

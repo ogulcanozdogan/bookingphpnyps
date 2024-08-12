@@ -34,7 +34,7 @@ $current_time = htmlspecialchars($_POST["current_time"]);
 $date = DateTime::createFromFormat("m/d/Y", $pickUpDate);
 
 if ($date) {
-    // Gün ismini almak için formatla
+    // Format to get the day name
     $pickUpDay = $date->format("l");
 }
 
@@ -43,7 +43,7 @@ $orderDate = $orderMonth . "/" . $orderDay . "/" . $orderYear;
 $dateOrder = DateTime::createFromFormat("m/d/Y", $orderDate);
 
 if ($dateOrder) {
-    // Gün ismini almak için formatla
+    // Format to get the day name
     $dayOfOrder = $dateOrder->format("l");
 }
 ?>

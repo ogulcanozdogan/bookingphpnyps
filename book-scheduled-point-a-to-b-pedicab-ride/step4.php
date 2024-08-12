@@ -6,7 +6,7 @@ if (!$_POST) {
 }
 require_once "vendor/autoload.php";
 
-// Dotenv Kütüphanesini yükleyin
+// Install Dotenv Library
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
@@ -143,7 +143,7 @@ $paymentIntent = $stripe->paymentIntents->create([
                                 <th scope="row">Destination Address</th>
                                 <td><?= $destinationAddress ?></td>
                             </tr>
-							<?php //if ($paymentMethod != "fullcard") { ?>
+							<?php if ($paymentMethod != "fullcard") { ?>
                              <tr>
                                 <th scope="row">Booking Fee</th>
                                 <td>$<?= number_format($bookingFee, 2) ?></td>
@@ -152,7 +152,7 @@ $paymentIntent = $stripe->paymentIntents->create([
                                 <th scope="row">Driver Fare</th>
                                 <td>$<?= number_format($driverFare, 2) ?> with <?= $paymentMethod == 'card' ? 'debit/credit card' : $paymentMethod ?></td>
                             </tr>
-							<?php// } ?>
+							<?php } ?>
                             <tr style="background-color:green;">
                            <th scope="row" style="color:white;">Total Fare</th>
                            <td><b style="color:white;">$<?= number_format(

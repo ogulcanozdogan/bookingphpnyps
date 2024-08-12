@@ -6,7 +6,7 @@ if (!$_POST) {
 }
 	require_once('vendor/autoload.php');
 
-// Dotenv Kütüphanesini yükleyin
+// Install Dotenv Library
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
@@ -64,7 +64,7 @@ $paymentIntent = $stripe->paymentIntents->create([
       
    $date = DateTime::createFromFormat('m/d/Y', $pickUpDate);
 
-// Gün değerini al
+// Get day value
 $pickUpDay = $date->format('l');
 ?>
 <!DOCTYPE html>
@@ -309,7 +309,7 @@ $pickUpDay = $date->format('l');
 
 <script>
 document.getElementById("prevButton").addEventListener("click", function() {
-    // POST verilerini kullan
+    // Use POST data
     var numPassengers = <?php echo json_encode($_POST["numPassengers"] ?? 1); ?>;
     var pickUpDate = <?php echo json_encode($_POST["pickUpDate"]); ?>;
     var hours = <?php echo json_encode($_POST["hours"]); ?>;
@@ -338,12 +338,12 @@ document.getElementById("prevButton").addEventListener("click", function() {
     var toursuresi = <?php echo json_encode($_POST["toursuresi"] ?? ''); ?>;
     var baseFare = <?php echo json_encode($_POST["baseFare"] ?? ''); ?>;
 
-    // Form oluştur ve POST ile gönder
+    // Create a form and send it with POST
     var form = document.createElement("form");
     form.method = "POST";
     form.action = "step3.php";
 
-    // Form alanlarını ekle
+    // Add form fields
     form.appendChild(createHiddenInput("numPassengers", numPassengers));
     form.appendChild(createHiddenInput("pickUpDate", pickUpDate));
     form.appendChild(createHiddenInput("hours", hours));

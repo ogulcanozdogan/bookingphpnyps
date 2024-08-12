@@ -1,5 +1,6 @@
 <?php
 include('inc/init.php');
+include('inc/db.php');
 if ($_POST) {
     // Information received from the form
     $firstName = $_POST["firstName"]; // default value 1
@@ -74,37 +75,41 @@ function getShortestBicycleRouteDuration($origin, $destination)
     return false; // Return false if no suitable route is found
 }
 
-// Pick Up süresi
+// Pick Up duration
 $origin = $hubCoords;
 $destination = $deneme2;
 $pickupsuresi = getShortestBicycleRouteDuration($origin, $destination);
 
-// Ride süresi
+// Ride duration
 $origin = $deneme2;
 $destination = $destinationAddress;
 $ridesuresi = getShortestBicycleRouteDuration($origin, $destination);
 
-// Return süresi
+// Return duration
 $origin = $destinationAddress;
 $destination = $hubCoords;
 $returnsuresi = getShortestBicycleRouteDuration($origin, $destination);
 
-// Örnek olarak sabit süreler kullanalım (dakika cinsinden)
-$pickUpDuration = $pickupsuresi; // Pick Up süresi
-$rideDuration = $ridesuresi; // Ride süresi
-$returnDuration = $returnsuresi; // Return süresi
+$pickUpDuration = $pickupsuresi; // Pick Up duration
+$rideDuration = $ridesuresi; // Ride duration
+$returnDuration = $returnsuresi; // Return duration
 
 $pickUpDuration *= 2.5;
 $returnDuration *= 2.5;
 
-// Tarihi 'm/d/Y' formatından 'Y-m-d' formatına çevirme
+// Convert date from 'm/d/Y' to 'Y-m-d' format
 $convertedDate = date("Y-m-d");
 
-// Yeni tarihi kullanarak gün adını bulma
+// Find the day name using the new date
 $dayName = date("l", strtotime($convertedDate));
 
 $todayDay = date("m/d/Y");
 $todayDayName = date("l", strtotime($todayDay));
+
+
+$sorgu2 = $baglanti->prepare("SELECT * FROM rates WHERE ratename = 'Hourly'");
+$sorgu2->execute();
+$rate = $sorgu2->fetch(PDO::FETCH_ASSOC);
 
 if (
     strpos($dayName, "Monday") !== false ||
@@ -113,14 +118,14 @@ if (
     strpos($dayName, "Thursday") !== false
 ) {
     // Monday to Thursday
-    $hourlyOperationFare = 37.5;
+    $hourlyOperationFare = $rate['hourlyOperationFare'];
 } elseif (
     strpos($dayName, "Friday") !== false ||
     strpos($dayName, "Saturday") !== false ||
     strpos($dayName, "Sunday") !== false
 ) {
     // Friday to Sunday
-    $hourlyOperationFare = 45;
+    $hourlyOperationFare = $rate['hourlyOperationFareWeekends'];
 }
 
 // Check if it's December
@@ -132,14 +137,14 @@ if (date("m", strtotime($convertedDate)) == 12) {
         strpos($dayName, "Thursday") !== false
     ) {
         // Monday to Thursday in December
-        $hourlyOperationFare = 52.5;
+        $hourlyOperationFare = $rate['hourlyOperationFareDecember'];
     } elseif (
         strpos($dayName, "Friday") !== false ||
         strpos($dayName, "Saturday") !== false ||
         strpos($dayName, "Sunday") !== false
     ) {
         // Friday to Sunday in December
-        $hourlyOperationFare = 60;
+        $hourlyOperationFare = $rate['hourlyOperationFareWeekendsDecember'];
     }
 }
 
@@ -150,13 +155,13 @@ if ($serviceDuration == 30 || $serviceDuration == 90) {
     $timeCheck = $serviceDuration * 60; // hours to minutes
 }
 
-// Toplam dakika cinsinden operasyon süresi
+// Total operation time in minutes
 $totalMinutes = $pickUpDuration  + $returnDuration + $timeCheck;
 
-// Dakikayı saate dönüştürme
+// Convert minutes to hours
 $totalHours = $totalMinutes / 60;
 
-// Günün saatlik operasyon ücreti ile çarpma
+// Multiplication by hourly operation fee per day
 $operationFare = $totalHours * $hourlyOperationFare;
 
 // Calculate Booking Fee
@@ -391,6 +396,19 @@ require "inc/countryselect.php";
             errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
+        function checkTimeValidity() {
+            var now = new Date();
+            var utcHour = now.getUTCHours();
+            var nyHour = utcHour - 4; // New York Time (EST) is UTC-4
+
+            if (nyHour < 0) nyHour += 24;
+
+            if (nyHour < 10 || nyHour > 18) {
+                showError("<b>Please, do not use this application to book a tour between 6:01 pm and 9:59 am.</b>");
+                return false;
+            }
+            return true;
+        }
 
         document.getElementById("myform").addEventListener("submit", function(event) {
             if (!checkTimeValidity()) {
@@ -505,7 +523,7 @@ require "inc/countryselect.php";
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script>
 document.getElementById("prevButton").addEventListener("click", function() {
-    // POST verilerini kullan
+    // Use POST data
     var formData = {
         numPassengers: <?php echo json_encode($_POST["numPassengers"] ?? 1); ?>,
         pickUpAddress: <?php echo json_encode($_POST["pickUpAddress"] ?? ""); ?>,

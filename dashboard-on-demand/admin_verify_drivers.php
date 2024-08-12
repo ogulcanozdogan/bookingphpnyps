@@ -79,7 +79,7 @@ include('inc/navbar.php');
                                         </thead>
                                         <tbody>
                                         <?php 
-                                        $sorgu = $baglanti->prepare("SELECT * FROM users_temporary");
+                                        $sorgu = $baglanti->prepare("SELECT * FROM users WHERE verify=0");
                                         $sorgu->execute();
 
                                         while ($sonuc = $sorgu->fetch(PDO::FETCH_ASSOC)) {
@@ -117,7 +117,7 @@ include('inc/navbar.php');
                                                             dangerMode: true,
                                                         }).then((willVerify) => { 
                                                             if (willVerify) {
-                                                                window.location.href = 'admin_drivers_process.php?id=<?=$sonuc['id']?>&process=verify&table=users_temporary';
+                                                                window.location.href = 'admin_drivers_process.php?id=<?=$sonuc['id']?>&process=verify';
                                                             } else {
                                                                 swal('Action cancelled', 'The membership was not verified.', 'info');
                                                             }
@@ -134,7 +134,7 @@ include('inc/navbar.php');
                                                             dangerMode: true,
                                                         }).then((willDelete) => { 
                                                             if (willDelete) {
-                                                                window.location.href = 'admin_drivers_process.php?id=<?=$sonuc['id']?>&process=delete&table=users_temporary';
+                                                                window.location.href = 'admin_drivers_process.php?id=<?=$sonuc['id']?>&process=delete';
                                                             } else {
                                                                 swal('Action cancelled', 'The item was not deleted.', 'info');
                                                             }

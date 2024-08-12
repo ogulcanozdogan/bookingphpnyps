@@ -28,6 +28,7 @@ $pickUpDate = $_POST['pickUpDate'];
       <meta charset="UTF-8">
 	<title>Book Scheduled Point A to B Pedicab Ride</title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	  	<meta name="robots" content="noindex,nofollow">
 	  <meta name="description" content="Scheduled Point A to B Pedicab Ride Booking Application">
       <!-- Added viewport meta tag -->
 <link rel="preload" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -99,7 +100,7 @@ $pickUpDate = $_POST['pickUpDate'];
                oninvalid="this.setCustomValidity('Please, select the date of pick up.'); this.classList.add('invalid');"
                oninput="this.setCustomValidity(''); this.classList.remove('invalid');"
                class="form-control" id="pickUpDate" name="pickUpDate" value="<?php echo isset($pickUpDate) ? htmlspecialchars($pickUpDate) : ''; ?>">
-    </div> <!-- takvimi degistirmek icin kullaniyoruz -->
+    </div> <!--we use it to change the calendar -->
                   <div class="row">
                      <div class="col-md-4">
                         <div class="form-group">
@@ -264,7 +265,7 @@ $pickUpDate = $_POST['pickUpDate'];
     };
 </script>
 
-<script> // takvimi degistirmek icin
+<script>  // we use it to change the calendar
     document.addEventListener('DOMContentLoaded', function() {
         var today = new Date().toISOString().split('T')[0];
         document.getElementById('pickUpDate').setAttribute('min', today);
@@ -318,7 +319,7 @@ $pickUpDate = $_POST['pickUpDate'];
                  }
          
                  const currentDate = new Date();
-            const selectedDate = new Date(dateElement.value + 'T00:00:00'); // takvimi degistirmek icin kullaniyoruz
+            const selectedDate = new Date(dateElement.value + 'T00:00:00');  // we use it to change the calendar 
          
                  // Convert the hour to 24-hour format
                  const hours = parseInt(hoursElement.value);
@@ -333,10 +334,10 @@ $pickUpDate = $_POST['pickUpDate'];
                  // Current time + 1 hour
                  const currentTimePlusOneHour = new Date(currentDate.getTime() + (60 * 60 * 1000));
          
-               //  if (selectedDateTime < currentTimePlusOneHour) {
-               //       showError("Please, select a pickup time that is at least 1 hour later than the current time.");
-                //     return false;
-                // }
+                 if (selectedDateTime < currentTimePlusOneHour) {
+                     showError("Please, select a pickup time that is at least 1 hour later than the current time.");
+                     return false;
+                 }
          
                  // Invalid time range check for night hours
                  if ((isPM && hours === 11 && minutes > 0) || (isPM && hours > 11) ||

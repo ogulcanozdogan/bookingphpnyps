@@ -6,7 +6,7 @@ if (!$_POST) {
 }
 require_once "vendor/autoload.php";
 
-// Dotenv Kütüphanesini yükleyin
+// Install Dotenv Library
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
@@ -284,7 +284,7 @@ $todayDayName = date("l", strtotime($todayDay));
 
 <script>
 document.getElementById("prevButton").addEventListener("click", function() {
-    // POST verilerini kullan
+    // Use POST data
     var numPassengers = <?php echo json_encode($_POST["numPassengers"] ?? 1); ?>;
     var pickUpAddress = <?php echo json_encode($_POST["pickUpAddress"] ?? ""); ?>;
     var destinationAddress = <?php echo json_encode($_POST["destinationAddress"] ?? ""); ?>;
@@ -306,12 +306,12 @@ document.getElementById("prevButton").addEventListener("click", function() {
     var rideDuration = <?php echo json_encode($_POST["rideDuration"] ?? ""); ?>;
     var hourlyOperationFare = <?php echo json_encode($_POST["hourlyOperationFare"] ?? ""); ?>;
 
-    // Form oluştur ve POST ile gönder
+    // Create a form and send it with POST
     var form = document.createElement("form");
     form.method = "POST";
     form.action = "step3.php";
 
-    // Form alanlarını ekle
+    // Add form fields
     form.appendChild(createHiddenInput("numPassengers", numPassengers));
     form.appendChild(createHiddenInput("pickUpAddress", pickUpAddress));
     form.appendChild(createHiddenInput("destinationAddress", destinationAddress));
