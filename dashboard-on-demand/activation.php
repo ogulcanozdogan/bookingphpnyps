@@ -1,4 +1,4 @@
-<?php session_start(); //oturum başlattık
+<?php session_start(); 
 
 ob_start();  ?>
 <!doctype html>
@@ -104,22 +104,16 @@ $name = $sonuc["name"];
 $surname = $sonuc["surname"];
 $perm = $sonuc["perm"];
 
-// Başlangıç sayacını tanımla
 $sayac = 0;
 
-// Kontrol edilecek tablo isimleri
 $tablolar = ['centralpark', 'hourly', 'pointatob'];
 
-// Her tabloyu kontrol et
 foreach ($tablolar as $tablo) {
-    // Sorguyu hazırla ve çalıştır
     $sorgu = $baglanti->prepare("SELECT COUNT(*) as count FROM $tablo WHERE status='pending' AND driver=:user");
     $sorgu->execute([':user' => $user]);
     
-    // Sonucu al
     $sonuc = $sorgu->fetch();
     
-    // Sayacı artır
     if ($sonuc['count'] > 0) {
         $sayac += 1;
     }

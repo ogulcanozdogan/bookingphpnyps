@@ -381,7 +381,7 @@ include('inc/navbar.php');
                                                 <h6 class="mb-1">Time of Tour</h6>
                                                 <b class="pay-amount">
                                                     <?php 
-                                                    $time = new DateTime($sonuc['createdAt'], new DateTimeZone('America/New_York')); // New York Saati
+                                                    $time = new DateTime($sonuc['createdAt'], new DateTimeZone('America/New_York'));
                                                     echo htmlspecialchars($time->format('h:i A')); 
                                                     ?>
                                                 </b>

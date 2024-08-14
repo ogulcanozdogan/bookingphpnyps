@@ -277,14 +277,14 @@ require('inc/countryselect.php');
 					 <td>Hub1: West Drive and West 59th Street New York, NY 10019</td>
 					 <td>Hub2: 6th Avenue and Central Park South New York, NY 10019</td>
 					 </tr>
-					 	<tr>
+					<!-- 	<tr>
 						<th scope="row">Debug Area</th>
 						<td>Pickup1 hub1 to pickup Duration: <?=$pickup1?></td>
 						<td>Pickup2 pcikup to hub2 Duration: <?=$pickup2?></td>
 						<td>Tour Duration: <?=$tourDuration?></td>
 						<td>Return1 hub1 to destination Duration: <?=$return1?></td>
 						<td>Return2 destination to hub 2 Duration: <?=$return2?></td>
-						</tr>
+						</tr> -->
                         <tr>
                            <th scope="row">Number of Passengers</th>
                            <td><?=$numPassengers?></td>
@@ -333,7 +333,7 @@ require('inc/countryselect.php');
                   <h2 class="text-center mb-4 font-weight-bold" style="color:#0909ff;">Passenger Details</h2>
 <div class="form-group">
     <label for="firstName">First Name</label>
-    <input title="" type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter your first name" 
+    <input maxlength="50" title="" type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter your first name" 
         <?php if (isset($_POST['firstName']) && !empty($_POST['firstName'])) { ?>
             value="<?php echo htmlspecialchars($_POST['firstName']); ?>"
         <?php } ?> 
@@ -342,7 +342,7 @@ require('inc/countryselect.php');
 </div>
 <div class="form-group">
     <label for="lastName">Last Name</label>
-    <input title="" type="text" class="form-control" id="lastName" name="lastName" placeholder="Enter your last name" 
+    <input maxlength="50" title="" type="text" class="form-control" id="lastName" name="lastName" placeholder="Enter your last name" 
         <?php if (isset($_POST['lastName']) && !empty($_POST['lastName'])) { ?>
             value="<?php echo htmlspecialchars($_POST['lastName']); ?>"
         <?php } ?> 
@@ -351,7 +351,7 @@ require('inc/countryselect.php');
 </div>
 <div class="form-group">
     <label for="email">Email Address</label>
-    <input title="" type="email" class="form-control" id="email" name="email" placeholder="Enter your email address" 
+    <input maxlength="50" title="" type="email" class="form-control" id="email" name="email" placeholder="Enter your email address" 
         <?php if (isset($_POST['email']) && !empty($_POST['email'])) { ?>
             value="<?php echo htmlspecialchars($_POST['email']); ?>"
         <?php } ?> 
@@ -365,8 +365,8 @@ require('inc/countryselect.php');
     <label for="countrySelect">Phone</label>
     <div style="display: flex;">
         <?=countrySelector();?>
-        <input title="" style="flex: 2; margin-left: 10px;" type="tel" pattern=".{10,10}" class="form-control phone-number-input" id="phoneNumber" name="phoneNumber" 
-            onkeyup="updatePhoneNumber()" oninvalid="this.setCustomValidity('Please, enter a 10 digit phone number.'); this.classList.add('invalid');" 
+        <input maxlength="22" title="" style="flex: 2; margin-left: 10px;" type="tel" class="form-control phone-number-input" id="phoneNumber" name="phoneNumber" 
+            onkeyup="updatePhoneNumber()" oninvalid="this.setCustomValidity('Please, enter phone number.'); this.classList.add('invalid');" 
             oninput="this.value = this.value.replace(/\D+/g, '');setCustomValidity(''); this.classList.remove('invalid');" 
             <?php if (isset($_POST['phoneNumber']) && !empty($_POST['phoneNumber'])) { ?>
                 value="<?php echo htmlspecialchars($_POST['phoneNumber']); ?>"

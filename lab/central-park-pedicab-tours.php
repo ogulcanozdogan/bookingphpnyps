@@ -1,7 +1,6 @@
 <?php
 $title = "Central Park Pedicab Tours with New York Pedicab Services";
-$description = "Central Park Pedicab Tours starting from $25 per
-pedicab (not per person)";
+$description = "Central Park Pedicab Tours starting from $25 per pedicab (not per person)";
 include('inc/head.php');
 ?>
 	<link rel="preload" href="css/jquery-ui.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -18,9 +17,9 @@ include('inc/head.php');
 		
     <header>
       <ul>
-		<li><a class="yellowbutton" href="https://newyorkpedicabservices.com/book-on-demand-central-park-pedicab-tour/" target="_blank" title="Book On Demand Central Park Pedicab Tour">Book On Demand Central Park Tour</a></li>
-		<li><a class="yellowbutton"  href="https://newyorkpedicabservices.com/book-scheduled-central-pedicab-tour/" target="_blank" title="Book Custom Scheduled Central Park Pedicab Tour">Book Custom Scheduled Central Park Tour</a></li>
-		<li><a class="yellowbutton"  href="https://calendly.com/d/27b-djb-5qs" target="_blank" title="Book Standard Scheduled Central Park Pedicab Tour">Book Standard Scheduled Central Park Tour</a></li>
+		<li><a class="yellowbutton" href="https://newyorkpedicabservices.com/book-on-demand-central-park-pedicab-tour/" target="_blank">Book On Demand Central Park Tour</a></li>
+		<li><a class="yellowbutton"  href="https://newyorkpedicabservices.com/book-scheduled-central-pedicab-tour/" target="_blank">Book Custom Scheduled Central Park Tour</a></li>
+		<li><a class="yellowbutton"  href="https://calendly.com/d/27b-djb-5qs" target="_blank">Book Standard Scheduled Central Park Tour</a></li>
 	  </ul>
     </header>
 	
@@ -28,7 +27,7 @@ include('inc/head.php');
 			
 			<h3 class="title py-2">On Demand Central Park Pedicab Tour Rates</h3>
 		<p>$37.50 per hour per pedicab from Monday to Thursday</p>
-		<p>$45 per hour per pedicab from Friday to Saturday</p>
+		<p>$45 per hour per pedicab from Friday to Sunday</p>
 			
 			<h3 class="title py-2">Custom Scheduled Central Park Pedicab Tour Rates</h3>
 <p>$30 base fare per pedicab from Monday to Thursday</p>

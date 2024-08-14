@@ -1,8 +1,6 @@
 <?php
 $title = "New York Pedicab Services Homepage";
-$description = "New York Pedicab Services provides Central Park
-Pedicab Tours, Point A to Point B Pedicab Rides, Hourly Pedicab Services, Pedicab Rentals and
-Pedicab Advertising.";
+$description = "New York Pedicab Services provides Central Park Pedicab Tours, Point A to Point B Pedicab Rides, Hourly Pedicab Services, Pedicab Rentals and Pedicab Advertising.";
 include('inc/head.php');
 ?>
     <link href="css/index_style.css" rel="stylesheet">

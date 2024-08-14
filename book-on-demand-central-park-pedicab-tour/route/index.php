@@ -15,17 +15,14 @@ $destinationAddress = $sonuc['destinationCoords'];
 	<meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no"/>
     <title>Map Display</title>
 <style>
-    /* Body ve html etiketleri için padding ve margin sıfırla */
     html, body {
         margin: 0;
         padding: 0;
         height: 100%;
-        overflow: hidden; /* Taşma durumlarını engelle */
+        overflow: hidden;
         width: 100%;
         display: block;
     }
-
-    /* Harita konteyner stilini tam ekran yap */
     #map {
         height: 100%;
         width: 100%;

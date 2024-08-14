@@ -21,11 +21,9 @@ function updatePastBookings2($pdo) {
             $updatedAt = $booking['updated_at'];
             $totalMinutes = $booking['totalMinutes'];
 
-            // totalMinutes'i tam sayıya ve kalan dakikalara böl
             $minutes = floor($totalMinutes);
             $seconds = ($totalMinutes - $minutes) * 60;
 
-            // updatedAt tarihine ekle
             $updatedAtDateTime = new DateTime($updatedAt, new DateTimeZone('America/New_York'));
             $updatedAtDateTime->modify("+$minutes minutes");
             $updatedAtDateTime->modify("+" . round($seconds) . " seconds");
@@ -39,14 +37,13 @@ function updatePastBookings2($pdo) {
     }
 }
 
-// PDO bağlantısını `baglanti` olarak geçtiğinizi varsayıyorum
 updatePastBookings2($baglanti);
 
 
 
 
 function updateFailedBookings($pdo) {
-    global $twilio; // Twilio client nesnesini global olarak kullan
+    global $twilio; 
 
     $now = new DateTime("now", new DateTimeZone('America/New_York'));
     $currentDateTime = $now->format('Y-m-d H:i:s'); 
@@ -86,10 +83,9 @@ function updateFailedBookings($pdo) {
                 $updateStmt->execute([':updated_at' => $currentDateTime, ':bookingNumber' => $bookingNumber]);
 
                 $to = $phoneNumber;
-                $from = "+16468527935"; // Twilio telefon numarası
+                $from = "+16468527935";
                 $message = "Hello " . $firstName .". We could not assign a driver. We will issue a full refund. Thank you. -New York Pedicab Services";
 
-                // SMS gönderiminde hata olup olmadığını kontrol etmek için try-catch bloğu ekleyin
                 try {
                     $messageSid = sendTextMessage($twilio, $to, $from, $message);
                     if ($messageSid) {
@@ -102,7 +98,6 @@ function updateFailedBookings($pdo) {
                 }
 				
 				            try {
-                // İlk E-posta
                 $email1 = new \SendGrid\Mail\Mail(); 
                 $email1->setFrom("info@newyorkpedicabservices.com", "NYPS");
                 $email1->setSubject("FAILED: ". $subjecttitle . " " . $bookingNumber);
@@ -124,7 +119,6 @@ EOD;
 
                 $sendgrid = new \SendGrid('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');
                 try {
-                    // İlk e-posta gönderimi
                     $response1 = $sendgrid->send($email1);
                     print $response1->statusCode() . "\n";
                     print_r($response1->headers());
@@ -133,7 +127,6 @@ EOD;
                     echo 'Caught exception: '. $e->getMessage() ."\n";
                 }
 
-                // SMS gönderildikten sonra sms_sent sütununu güncelle
                 $updateStmt = $pdo->prepare("UPDATE $table SET sms_sent = 1 WHERE phoneNumber = :phoneNumber AND status = 'past'");
                 $updateStmt->execute([':phoneNumber' => $phoneNumber]);
 
@@ -196,7 +189,6 @@ EOD;
 
                 $sendgrid = new \SendGrid('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');
                 try {
-                    // İlk e-posta gönderimi
                     $response1 = $sendgrid->send($email1);
                     print $response1->statusCode() . "\n";
                     print_r($response1->headers());
@@ -205,7 +197,6 @@ EOD;
                     echo 'Caught exception: '. $e->getMessage() ."\n";
                 }
 
-                // SMS gönderildikten sonra sms_sent sütununu güncelle
                 $updateStmt = $pdo->prepare("UPDATE $table SET sms_sent = 1 WHERE phoneNumber = :phoneNumber AND status = 'past'");
                 $updateStmt->execute([':phoneNumber' => $phoneNumber]);
 

@@ -266,7 +266,7 @@ include('inc/scripts.php');
 
                 if (--timer < 0) {
                     timer = 0;
-                    card.style.display = 'none'; // Zaman dolduğunda kartı gizle
+                    card.style.display = 'none';
                 }
             }
         }, 1000);

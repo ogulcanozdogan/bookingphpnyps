@@ -15,3 +15,143 @@ Stack trace:
 [12-Aug-2024 17:44:32 UTC] PHP Parse error:  syntax error, unexpected token ";" in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php on line 90
 [12-Aug-2024 17:44:32 UTC] PHP Parse error:  syntax error, unexpected token ";" in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php on line 90
 [12-Aug-2024 17:44:36 UTC] PHP Parse error:  syntax error, unexpected token ";" in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php on line 90
+[13-Aug-2024 16:50:15 UTC] PHP Parse error:  Unclosed '{' on line 4 in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php on line 7
+[13-Aug-2024 17:24:03 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function countrySelector() in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php:51
+Stack trace:
+#0 {main}
+  thrown in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php on line 51
+[13-Aug-2024 17:24:03 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function countrySelector() in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php:51
+Stack trace:
+#0 {main}
+  thrown in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php on line 51
+[13-Aug-2024 17:24:03 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function countrySelector() in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php:51
+Stack trace:
+#0 {main}
+  thrown in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php on line 51
+[13-Aug-2024 17:24:03 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function countrySelector() in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php:51
+Stack trace:
+#0 {main}
+  thrown in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php on line 51
+[13-Aug-2024 17:24:03 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function countrySelector() in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php:51
+Stack trace:
+#0 {main}
+  thrown in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php on line 51
+[13-Aug-2024 17:24:04 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function countrySelector() in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php:51
+Stack trace:
+#0 {main}
+  thrown in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php on line 51
+[13-Aug-2024 17:24:05 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function countrySelector() in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php:51
+Stack trace:
+#0 {main}
+  thrown in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php on line 51
+[13-Aug-2024 17:24:05 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function countrySelector() in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php:51
+Stack trace:
+#0 {main}
+  thrown in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php on line 51
+[13-Aug-2024 17:24:06 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function countrySelector() in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php:51
+Stack trace:
+#0 {main}
+  thrown in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php on line 51
+[13-Aug-2024 17:24:06 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function countrySelector() in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php:51
+Stack trace:
+#0 {main}
+  thrown in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php on line 51
+[13-Aug-2024 17:24:06 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function countrySelector() in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php:51
+Stack trace:
+#0 {main}
+  thrown in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php on line 51
+[13-Aug-2024 17:24:19 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function countrySelector() in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php:51
+Stack trace:
+#0 {main}
+  thrown in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php on line 51
+[13-Aug-2024 17:24:20 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function countrySelector() in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php:51
+Stack trace:
+#0 {main}
+  thrown in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php on line 51
+[13-Aug-2024 17:24:21 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function countrySelector() in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php:51
+Stack trace:
+#0 {main}
+  thrown in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php on line 51
+[13-Aug-2024 17:24:22 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function countrySelector() in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php:51
+Stack trace:
+#0 {main}
+  thrown in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php on line 51
+[13-Aug-2024 17:24:43 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function countrySelector() in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php:51
+Stack trace:
+#0 {main}
+  thrown in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php on line 51
+[13-Aug-2024 17:24:43 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function countrySelector() in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php:51
+Stack trace:
+#0 {main}
+  thrown in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php on line 51
+[13-Aug-2024 17:24:43 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function countrySelector() in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php:51
+Stack trace:
+#0 {main}
+  thrown in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php on line 51
+[13-Aug-2024 17:24:43 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function countrySelector() in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php:51
+Stack trace:
+#0 {main}
+  thrown in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/index.php on line 51
+[13-Aug-2024 15:30:05 America/New_York] PHP Fatal error:  Uncaught SendGrid\Mail\TypeException: "$emailAddress" must be a valid email address. Got: ffarukkurt33333333333333333333333333333333333333333333333333333333333333333333333333333333@gmail.com in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/vendor/sendgrid/sendgrid/lib/helper/Assert.php:61
+Stack trace:
+#0 /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/vendor/sendgrid/sendgrid/lib/mail/EmailAddress.php(69): SendGrid\Helper\Assert::email()
+#1 /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/vendor/sendgrid/sendgrid/lib/mail/EmailAddress.php(47): SendGrid\Mail\EmailAddress->setEmailAddress()
+#2 /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/vendor/sendgrid/sendgrid/lib/mail/Mail.php(190): SendGrid\Mail\EmailAddress->__construct()
+#3 /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/vendor/sendgrid/sendgrid/lib/mail/Mail.php(383): SendGrid\Mail\Mail->addRecipientEmail()
+#4 /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/process.php(169): SendGrid\Mail\Mail->addTo()
+#5 {main}
+  thrown in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/vendor/sendgrid/sendgrid/lib/helper/Assert.php on line 61
+[13-Aug-2024 15:34:31 America/New_York] PHP Fatal error:  Uncaught SendGrid\Mail\TypeException: "$emailAddress" must be a valid email address. Got: ffarukkurt33333333333333333333333333333333333333333333333333333333333333333333333333333333@gmail.com in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/vendor/sendgrid/sendgrid/lib/helper/Assert.php:61
+Stack trace:
+#0 /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/vendor/sendgrid/sendgrid/lib/mail/EmailAddress.php(69): SendGrid\Helper\Assert::email()
+#1 /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/vendor/sendgrid/sendgrid/lib/mail/EmailAddress.php(47): SendGrid\Mail\EmailAddress->setEmailAddress()
+#2 /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/vendor/sendgrid/sendgrid/lib/mail/Mail.php(190): SendGrid\Mail\EmailAddress->__construct()
+#3 /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/vendor/sendgrid/sendgrid/lib/mail/Mail.php(383): SendGrid\Mail\Mail->addRecipientEmail()
+#4 /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/process.php(169): SendGrid\Mail\Mail->addTo()
+#5 {main}
+  thrown in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/vendor/sendgrid/sendgrid/lib/helper/Assert.php on line 61
+[13-Aug-2024 15:44:54 America/New_York] PHP Fatal error:  Uncaught SendGrid\Mail\TypeException: "$emailAddress" must be a valid email address. Got: ffarukkurt33333333333333333333333333333333333333333333333333333333333333333333333333333333@gmail.com in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/vendor/sendgrid/sendgrid/lib/helper/Assert.php:61
+Stack trace:
+#0 /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/vendor/sendgrid/sendgrid/lib/mail/EmailAddress.php(69): SendGrid\Helper\Assert::email()
+#1 /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/vendor/sendgrid/sendgrid/lib/mail/EmailAddress.php(47): SendGrid\Mail\EmailAddress->setEmailAddress()
+#2 /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/vendor/sendgrid/sendgrid/lib/mail/Mail.php(190): SendGrid\Mail\EmailAddress->__construct()
+#3 /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/vendor/sendgrid/sendgrid/lib/mail/Mail.php(383): SendGrid\Mail\Mail->addRecipientEmail()
+#4 /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/process.php(169): SendGrid\Mail\Mail->addTo()
+#5 {main}
+  thrown in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/vendor/sendgrid/sendgrid/lib/helper/Assert.php on line 61
+[13-Aug-2024 15:47:38 America/New_York] PHP Fatal error:  Uncaught SendGrid\Mail\TypeException: "$emailAddress" must be a valid email address. Got: ffarukkurt33333333333333333333333333323423432423432432423423423423423423432432423324324233@gmail.com in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/vendor/sendgrid/sendgrid/lib/helper/Assert.php:61
+Stack trace:
+#0 /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/vendor/sendgrid/sendgrid/lib/mail/EmailAddress.php(69): SendGrid\Helper\Assert::email()
+#1 /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/vendor/sendgrid/sendgrid/lib/mail/EmailAddress.php(47): SendGrid\Mail\EmailAddress->setEmailAddress()
+#2 /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/vendor/sendgrid/sendgrid/lib/mail/Mail.php(190): SendGrid\Mail\EmailAddress->__construct()
+#3 /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/vendor/sendgrid/sendgrid/lib/mail/Mail.php(383): SendGrid\Mail\Mail->addRecipientEmail()
+#4 /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/process.php(169): SendGrid\Mail\Mail->addTo()
+#5 {main}
+  thrown in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/vendor/sendgrid/sendgrid/lib/helper/Assert.php on line 61
+[13-Aug-2024 15:59:27 America/New_York] PHP Fatal error:  Uncaught SendGrid\Mail\TypeException: "$emailAddress" must be a valid email address. Got: ffarukkurtwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww3@gmail.com in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/vendor/sendgrid/sendgrid/lib/helper/Assert.php:61
+Stack trace:
+#0 /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/vendor/sendgrid/sendgrid/lib/mail/EmailAddress.php(69): SendGrid\Helper\Assert::email()
+#1 /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/vendor/sendgrid/sendgrid/lib/mail/EmailAddress.php(47): SendGrid\Mail\EmailAddress->setEmailAddress()
+#2 /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/vendor/sendgrid/sendgrid/lib/mail/Mail.php(190): SendGrid\Mail\EmailAddress->__construct()
+#3 /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/vendor/sendgrid/sendgrid/lib/mail/Mail.php(383): SendGrid\Mail\Mail->addRecipientEmail()
+#4 /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/process.php(169): SendGrid\Mail\Mail->addTo()
+#5 {main}
+  thrown in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/vendor/sendgrid/sendgrid/lib/helper/Assert.php on line 61
+[13-Aug-2024 16:16:42 America/New_York] PHP Fatal error:  Uncaught SendGrid\Mail\TypeException: "$emailAddress" must be a valid email address. Got: ffarukkurt3adadadasdasdasdasdadasdasdadassdadasdasdasasdasdasdadasdasdasdasdasdasdsadadasd@gmail.com in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/vendor/sendgrid/sendgrid/lib/helper/Assert.php:61
+Stack trace:
+#0 /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/vendor/sendgrid/sendgrid/lib/mail/EmailAddress.php(69): SendGrid\Helper\Assert::email()
+#1 /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/vendor/sendgrid/sendgrid/lib/mail/EmailAddress.php(47): SendGrid\Mail\EmailAddress->setEmailAddress()
+#2 /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/vendor/sendgrid/sendgrid/lib/mail/Mail.php(190): SendGrid\Mail\EmailAddress->__construct()
+#3 /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/vendor/sendgrid/sendgrid/lib/mail/Mail.php(383): SendGrid\Mail\Mail->addRecipientEmail()
+#4 /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/process.php(169): SendGrid\Mail\Mail->addTo()
+#5 {main}
+  thrown in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/vendor/sendgrid/sendgrid/lib/helper/Assert.php on line 61
+[13-Aug-2024 16:33:48 America/New_York] PHP Fatal error:  Uncaught SendGrid\Mail\TypeException: "$emailAddress" must be a valid email address. Got: asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasasdasdasdasdasdasdasdasdasdasdasdasdasd@gag.asdasd in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/vendor/sendgrid/sendgrid/lib/helper/Assert.php:61
+Stack trace:
+#0 /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/vendor/sendgrid/sendgrid/lib/mail/EmailAddress.php(69): SendGrid\Helper\Assert::email()
+#1 /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/vendor/sendgrid/sendgrid/lib/mail/EmailAddress.php(47): SendGrid\Mail\EmailAddress->setEmailAddress()
+#2 /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/vendor/sendgrid/sendgrid/lib/mail/Mail.php(190): SendGrid\Mail\EmailAddress->__construct()
+#3 /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/vendor/sendgrid/sendgrid/lib/mail/Mail.php(383): SendGrid\Mail\Mail->addRecipientEmail()
+#4 /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/process.php(169): SendGrid\Mail\Mail->addTo()
+#5 {main}
+  thrown in /home/zlds82bav5q4/public_html/lab/request-scheduled-point-a-to-b-pedicab-ride/vendor/sendgrid/sendgrid/lib/helper/Assert.php on line 61

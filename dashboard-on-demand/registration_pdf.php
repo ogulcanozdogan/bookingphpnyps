@@ -1,11 +1,8 @@
 <?php
-session_start(); //oturum başlattık
-
+session_start();
 ob_start(); 
 
-//oturumdaki bilgilerin doğruluğunu kontrol ediyoruz
 if (isset($_SESSION["Oturumondemand"]) && $_SESSION["Oturumondemand"] == "6789ondemand") {
-    //eğer veriler doğru ise sayfaya girmesine izin veriyoruz
     $user = $_SESSION["user"];
 	if (!$user){
 		    header("location:logout.php");
@@ -37,5 +34,5 @@ if (isset($_SESSION["Oturumondemand"]) && $_SESSION["Oturumondemand"] == "6789on
 $pdf_link = $sonuc['pdf_link'];
 
 header("Location: https://newyorkpedicabservices.com/pedicab-driver-registration/signs/$pdf_link");
-exit; // Kodun devam etmemesi için exit ekleyin
+exit; 
 ?>

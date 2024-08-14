@@ -21,10 +21,11 @@ function generateUniqueId() {
 function saveBooking($data, $pdo) {
     try {
         $uniqueId = generateUniqueId();
-        $sql = "INSERT INTO temporaryBookings (unique_id, num_passengers, pick_up_address, destination_address, payment_method, pick_up_date, first_name, last_name, email, phone_number, booking_fee, driver_fare, total_fare, ride_duration, return_duration, pick_up_duration, base_fare, service_details, service_duration, hours, minutes, ampm, country_code) 
-                VALUES (:unique_id, :num_passengers, :pick_up_address, :destination_address, :payment_method, :pick_up_date, :first_name, :last_name, :email, :phone_number, :booking_fee, :driver_fare, :total_fare, :ride_duration, :return_duration, :pick_up_duration, :base_fare, :service_details, :service_duration, :hours, :minutes, :ampm, :country_code)";
+        $sql = "INSERT INTO temporaryBookings (hub, unique_id, num_passengers, pick_up_address, destination_address, payment_method, pick_up_date, first_name, last_name, email, phone_number, booking_fee, driver_fare, total_fare, ride_duration, return_duration, pick_up_duration, base_fare, service_details, service_duration, hours, minutes, ampm, country_code) 
+                VALUES (:hub ,:unique_id, :num_passengers, :pick_up_address, :destination_address, :payment_method, :pick_up_date, :first_name, :last_name, :email, :phone_number, :booking_fee, :driver_fare, :total_fare, :ride_duration, :return_duration, :pick_up_duration, :base_fare, :service_details, :service_duration, :hours, :minutes, :ampm, :country_code)";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
+		    ':hub' => $data['hub'],
             ':unique_id' => $uniqueId,
             ':num_passengers' => $data['numPassengers'],
             ':pick_up_address' => $data['pickUpAddress'],
@@ -78,6 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'hours' => $_POST['hours'] ?? "",
         'minutes' => $_POST['minutes'] ?? "",
         'ampm' => $_POST['ampm'] ?? "",
+		'hub' => $_POST['hub'] ?? "",
 		'countryCode' => $_POST['countryCode'] ?? ""
     ];
 

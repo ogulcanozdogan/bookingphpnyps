@@ -85,17 +85,15 @@ include('inc/navbar.php');
                                         </thead>
                                         <tbody>
                                             <?php
-                                            $totalKazanc = 0; // Toplam kazancı saklamak için bir değişken tanımlayın
+                                            $totalKazanc = 0;
                                             $date = isset($_GET['year']) ? $_GET['year'] : '';
 
-                                            // Kullanıcıları seçme sorgusu
                                             $sorgu = $baglanti->prepare("SELECT * FROM users");
                                             $sorgu->execute();
 
                                             while ($sonuc = $sorgu->fetch(PDO::FETCH_ASSOC)) {
                                                 $driver2 = $sonuc["user"];
 
-                                                // Point A to B Pedicab Ride toplam kazancı hesaplama
                                                 $sql_pointatob = "SELECT SUM(bookingFee) AS toplamkazandigi FROM pointatob WHERE status = 'past' AND driver = :driver2" . ($date ? " AND date LIKE :date" : "");
                                                 $stmt_pointatob = $baglanti->prepare($sql_pointatob);
                                                 $stmt_pointatob->bindParam(':driver2', $driver2, PDO::PARAM_STR);
@@ -107,7 +105,6 @@ include('inc/navbar.php');
                                                 $result_pointatob = $stmt_pointatob->fetch(PDO::FETCH_ASSOC);
                                                 $kazanc_pointatob = $result_pointatob['toplamkazandigi'] ?? 0;
 
-                                                // Hourly Pedicab Ride toplam kazancı hesaplama
                                                 $sql_hourly = "SELECT SUM(bookingFee) AS toplamkazandigi FROM hourly WHERE status = 'past' AND driver = :driver2" . ($date ? " AND date LIKE :date" : "");
                                                 $stmt_hourly = $baglanti->prepare($sql_hourly);
                                                 $stmt_hourly->bindParam(':driver2', $driver2, PDO::PARAM_STR);
@@ -118,7 +115,6 @@ include('inc/navbar.php');
                                                 $result_hourly = $stmt_hourly->fetch(PDO::FETCH_ASSOC);
                                                 $kazanc_hourly = $result_hourly['toplamkazandigi'] ?? 0;
 
-                                                // Central Park Tour toplam kazancı hesaplama
                                                 $sql_centralpark = "SELECT SUM(bookingFee) AS toplamkazandigi FROM centralpark WHERE status = 'past' AND driver = :driver2" . ($date ? " AND date LIKE :date" : "");
                                                 $stmt_centralpark = $baglanti->prepare($sql_centralpark);
                                                 $stmt_centralpark->bindParam(':driver2', $driver2, PDO::PARAM_STR);
@@ -129,7 +125,6 @@ include('inc/navbar.php');
                                                 $result_centralpark = $stmt_centralpark->fetch(PDO::FETCH_ASSOC);
                                                 $kazanc_centralpark = $result_centralpark['toplamkazandigi'] ?? 0;
 
-                                                // Toplam kazancı hesaplama
                                                 $kazanc = $kazanc_pointatob + $kazanc_hourly + $kazanc_centralpark;
                                                 $totalKazanc += $kazanc;
                                                 ?>
@@ -170,17 +165,15 @@ include('inc/navbar.php');
                                         </thead>
                                         <tbody>
                                             <?php
-                                            $totalKazanc = 0; // Toplam kazancı saklamak için bir değişken tanımlayın
+                                            $totalKazanc = 0;
                                             $date = isset($_GET['year']) ? $_GET['year'] : '';
 
-                                            // Kullanıcıları seçme sorgusu
                                             $sorgu = $baglanti->prepare("SELECT * FROM users");
                                             $sorgu->execute();
 
                                             while ($sonuc = $sorgu->fetch(PDO::FETCH_ASSOC)) {
                                                 $driver2 = $sonuc["user"];
 
-                                                // Point A to B Pedicab Ride toplam kazancı hesaplama
                                                 $sql_pointatob = "SELECT SUM(driverFee) AS toplamkazandigi FROM pointatob WHERE status = 'past' AND driver = :driver2" . ($date ? " AND date LIKE :date" : "");
                                                 $stmt_pointatob = $baglanti->prepare($sql_pointatob);
                                                 $stmt_pointatob->bindParam(':driver2', $driver2, PDO::PARAM_STR);
@@ -192,7 +185,6 @@ include('inc/navbar.php');
                                                 $result_pointatob = $stmt_pointatob->fetch(PDO::FETCH_ASSOC);
                                                 $kazanc_pointatob = $result_pointatob['toplamkazandigi'] ?? 0;
 
-                                                // Hourly Pedicab Ride toplam kazancı hesaplama
                                                 $sql_hourly = "SELECT SUM(driverFee) AS toplamkazandigi FROM hourly WHERE status = 'past' AND driver = :driver2" . ($date ? " AND date LIKE :date" : "");
                                                 $stmt_hourly = $baglanti->prepare($sql_hourly);
                                                 $stmt_hourly->bindParam(':driver2', $driver2, PDO::PARAM_STR);
@@ -203,7 +195,6 @@ include('inc/navbar.php');
                                                 $result_hourly = $stmt_hourly->fetch(PDO::FETCH_ASSOC);
                                                 $kazanc_hourly = $result_hourly['toplamkazandigi'] ?? 0;
 
-                                                // Central Park Tour toplam kazancı hesaplama
                                                 $sql_centralpark = "SELECT SUM(driverFee) AS toplamkazandigi FROM centralpark WHERE status = 'past' AND driver = :driver2" . ($date ? " AND date LIKE :date" : "");
                                                 $stmt_centralpark = $baglanti->prepare($sql_centralpark);
                                                 $stmt_centralpark->bindParam(':driver2', $driver2, PDO::PARAM_STR);
@@ -214,7 +205,6 @@ include('inc/navbar.php');
                                                 $result_centralpark = $stmt_centralpark->fetch(PDO::FETCH_ASSOC);
                                                 $kazanc_centralpark = $result_centralpark['toplamkazandigi'] ?? 0;
 
-                                                // Toplam kazancı hesaplama
                                                 $kazanc = $kazanc_pointatob + $kazanc_hourly + $kazanc_centralpark;
                                                 $totalKazanc += $kazanc;
                                                 ?>

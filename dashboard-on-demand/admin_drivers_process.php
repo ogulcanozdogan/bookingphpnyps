@@ -13,7 +13,6 @@ if ($_GET) {
 
             if ($process == 'verify') {
 
-// Veri güncelleme sorgusu
 $sql = "UPDATE $table SET verify=1 WHERE id=:driverid";
 $durum = $baglanti->prepare($sql)->execute(['driverid' => $driverid]);
 
@@ -27,7 +26,7 @@ $durum = $baglanti->prepare($sql)->execute(['driverid' => $driverid]);
             } elseif ($process == 'delete') {
 				$durum = $baglanti->prepare("DELETE FROM $table WHERE id=:driverid")->execute(['driverid' => $driverid]);
 			if ($durum) {
-			header("location:admin_drivers.php"); // Eğer sorgu çalışırsa index.php sayfasına gönderiyoruz.
+			header("location:admin_drivers.php");
 			}
             } else {
                 header('location:admin_drivers.php');

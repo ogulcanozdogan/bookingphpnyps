@@ -326,13 +326,13 @@ require "inc/countryselect.php";
                   <div id="map" style="margin-top:30px;"></div>
                   <table class="table">
                      <tbody>
-						<tr>
+					<!--	<tr>
 						<th scope="row">Debug Area</th>
 						<td>Pickup Duration: <?=$pickUpDuration?></td>
 						<td>Return Duration: <?=$returnDuration?></td>
 						<td>Service Duration: <?=$timeCheck?></td>
 						<td>Hub: <?=$hub?></td>
-						</tr>
+						</tr> -->
                         <tr>
                            <th scope="row">Number of Passengers</th>
                            <td><?= $numPassengers ?></td>
@@ -396,7 +396,7 @@ require "inc/countryselect.php";
     <h2 class="text-center mb-4 font-weight-bold" style="color:#0909ff;">Passenger Details</h2>
 <div class="form-group">
     <label for="firstName">First Name</label>
-    <input title="" type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter your first name" 
+    <input maxlength="50" title="" type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter your first name" 
         <?php if (isset($_POST["firstName"]) && !empty($_POST["firstName"])) { ?>
             value="<?php echo htmlspecialchars($_POST["firstName"]); ?>"
         <?php } ?> 
@@ -405,7 +405,7 @@ require "inc/countryselect.php";
 </div>
 <div class="form-group">
     <label for="lastName">Last Name</label>
-    <input title="" type="text" class="form-control" id="lastName" name="lastName" placeholder="Enter your last name" 
+    <input maxlength="50" title="" type="text" class="form-control" id="lastName" name="lastName" placeholder="Enter your last name" 
         <?php if (isset($_POST["lastName"]) && !empty($_POST["lastName"])) { ?>
             value="<?php echo htmlspecialchars($_POST["lastName"]); ?>"
         <?php } ?> 
@@ -414,7 +414,7 @@ require "inc/countryselect.php";
 </div>
 <div class="form-group">
     <label for="email">Email Address</label>
-    <input title="" type="email" class="form-control" id="email" name="email" placeholder="Enter your email address" 
+    <input maxlength="50" title="" type="email" class="form-control" id="email" name="email" placeholder="Enter your email address" 
         <?php if (isset($_POST['email']) && !empty($_POST['email'])) { ?>
             value="<?php echo htmlspecialchars($_POST['email']); ?>"
         <?php } ?> 
@@ -428,8 +428,8 @@ require "inc/countryselect.php";
     <label for="countrySelect">Phone</label>
     <div style="display: flex;" class="form-group">
         <?= countrySelector() ?>
-        <input title="" style="flex: 2; margin-left: 10px;" type="tel" pattern=".{10,10}" class="form-control phone-number-input" id="phoneNumber" name="phoneNumber"
-               onkeyup="updatePhoneNumber()" oninvalid="this.setCustomValidity('Please, enter a 10 digit phone number.'); this.classList.add('invalid');" oninput="this.value = this.value.replace(/\D+/g, '');setCustomValidity(''); this.classList.remove('invalid');" value="<?= htmlspecialchars($_POST['phoneNumber'] ?? '') ?>" placeholder="Enter your phone number" required>
+        <input maxlength="22" title="" style="flex: 2; margin-left: 10px;" type="tel" class="form-control phone-number-input" id="phoneNumber" name="phoneNumber"
+               onkeyup="updatePhoneNumber()" oninvalid="this.setCustomValidity('Please, enter phone number.'); this.classList.add('invalid');" oninput="this.value = this.value.replace(/\D+/g, '');setCustomValidity(''); this.classList.remove('invalid');" value="<?= htmlspecialchars($_POST['phoneNumber'] ?? '') ?>" placeholder="Enter your phone number" required>
     </div>
 </div>
 

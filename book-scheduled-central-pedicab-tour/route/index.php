@@ -92,7 +92,7 @@ function initMap() {
     var destinationAddress = <?php echo json_encode($destinationAddress); ?>;
 	var destinationAddress2 = <?php echo json_encode($destinationAddress2); ?>;
     var hub1Address = "40.766941088678855, -73.97899952992152";
-    var hub2Address = "6th Avenue and Central Park South New York, NY 10019";
+    var hub2Address = "40.76573818881908, -73.97621563604663";
 
     // Markers for start, hub and destination points
     addMarker(map, hub1Address, 'H1', 'Hub 1');
@@ -101,9 +101,9 @@ function initMap() {
     addMarker(map, destinationAddress, 'F', 'Finish');
 
     calculateAndDisplayRoute(directionsService, renderers[0], hub1Address, pickupAddress, 'H1', 'S');
-    calculateAndDisplayRoute(directionsService, renderers[1], pickupAddress2, hub2Address, 'S', 'H2');
-    calculateAndDisplayRoute(directionsService, renderers[2], hub1Address, destinationAddress2, 'F', 'H1');
-    calculateAndDisplayRoute(directionsService, renderers[3], destinationAddress2, hub2Address, 'F', 'H2');
+    calculateAndDisplayRoute(directionsService, renderers[1], pickupAddress, hub2Address, 'S', 'H2');
+    calculateAndDisplayRoute(directionsService, renderers[2], hub1Address, destinationAddress, 'F', 'H1');
+    calculateAndDisplayRoute(directionsService, renderers[3], destinationAddress, hub2Address, 'F', 'H2');
 }
 
 function calculateAndDisplayRoute(directionsService, directionsRenderer, origin, destination, labelOrigin, labelDestination) {

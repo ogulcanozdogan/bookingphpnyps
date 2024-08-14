@@ -102,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pdf->SetFont('Arial', '', 12);
 	$pdf->SetTextColor(0, 0, 0);
     $pdf->Cell(0, $lineHeight, 'Pedicab Driver Information:', 0, 1);
-    $pdf->Cell(50, $lineHeight, 'Pedicab Driver ID:');
+    $pdf->Cell(50, $lineHeight, 'Dashboard Identification:');
     $pdf->Cell(50, $lineHeight, $kisauuid, 0, 1);
     $pdf->Cell(50, $lineHeight, 'First Name:');
     $pdf->Cell(50, $lineHeight, $driverFirstName, 0, 1);

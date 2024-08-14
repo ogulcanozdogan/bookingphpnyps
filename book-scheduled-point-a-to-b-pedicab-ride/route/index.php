@@ -54,7 +54,7 @@ function initMap() {
         suppressMarkers: true,
         polylineOptions: {
             strokeColor: '#FF0000',
-            strokeOpacity: 0.8,
+			strokeOpacity: 0.5,     // Line opacity
             strokeWeight: 6
         }
     });
@@ -63,7 +63,7 @@ function initMap() {
         suppressMarkers: true,
         polylineOptions: {
             strokeColor: '#0000FF',
-            strokeOpacity: 0.8,
+			strokeOpacity: 0.5,     // Line opacity
             strokeWeight: 6
         }
     });
@@ -72,7 +72,7 @@ function initMap() {
         suppressMarkers: true,
         polylineOptions: {
             strokeColor: '#000000',
-            strokeOpacity: 0.8,
+			strokeOpacity: 0.5,     // Line opacity
             strokeWeight: 6
         }
     });

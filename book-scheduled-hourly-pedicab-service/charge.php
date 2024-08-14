@@ -227,6 +227,7 @@ if ($firstName != "" && $lastName != "") {
         "returnDuration" => $returnDuration,
         "pickUpDuration" => $pickUpDuration,
         "hub" => $hub,
+		"hubCoords" => $hubCoords,
         "baseFare" => $baseFare,
         "operationFare" => $operationFare,
         "pickUpCoords" => $pickUpCoords,
@@ -238,8 +239,8 @@ if ($firstName != "" && $lastName != "") {
 		"createdAt" => $createdAt,	
     ];
 
-    $sql = "INSERT INTO hourly (id, bookingNumber, firstName, lastName, emailAddress, phoneNumber, numberOfPassengers, date, hour, minutes, ampm, pickupAddress, destinationAddress, paymentMethod, duration, bookingFee, driverFee, totalFare, returnDuration, pickUpDuration, hub, baseFare, operationFare, pickUpCoords, destinationCoords, hubCoords, serviceDetails, serviceDuration, unique_id, totalMinutes, createdAt)
-    VALUES ('$uuid', '$bookingNumber', '$firstName', '$lastName', '$emailAddress', '$phoneNumber', '$numPassengers', '$pickUpDate', '$hours', '$minutes', '$ampm', '$pickUpAddress', '$destinationAddress', '$paymentMethod', '$rideDuration', '$bookingFee', '$driverFare', '$totalFare', '$returnDuration', '$pickUpDuration', '$hub', '$baseFare', '$operationFare', '$pickUpCoords', '$destinationCoords', '$hubCoords', '$serviceDetails', '$serviceDuration', '$unique_id', '$totalMinutes', '$createdAt')";
+    $sql = "INSERT INTO hourly (id, bookingNumber, firstName, lastName, emailAddress, phoneNumber, numberOfPassengers, date, hour, minutes, ampm, pickupAddress, destinationAddress, paymentMethod, duration, bookingFee, driverFee, totalFare, returnDuration, pickUpDuration, hub, hubCoords, baseFare, operationFare, pickUpCoords, destinationCoords, serviceDetails, serviceDuration, unique_id, totalMinutes, createdAt)
+    VALUES ('$uuid', '$bookingNumber', '$firstName', '$lastName', '$emailAddress', '$phoneNumber', '$numPassengers', '$pickUpDate', '$hours', '$minutes', '$ampm', '$pickUpAddress', '$destinationAddress', '$paymentMethod', '$rideDuration', '$bookingFee', '$driverFare', '$totalFare', '$returnDuration', '$pickUpDuration', '$hub', '$hubCoords', '$baseFare', '$operationFare', '$pickUpCoords', '$destinationCoords', '$serviceDetails', '$serviceDuration', '$unique_id', '$totalMinutes', '$createdAt')";
     $durum = $baglanti->prepare($sql)->execute();
 
     if ($durum) {

@@ -303,19 +303,19 @@ document.querySelectorAll('.scrolling-wrapper').forEach(wrapper => {
         wrapper.classList.add('active');
         startX = e.pageX - wrapper.offsetLeft;
         scrollLeft = wrapper.scrollLeft;
-        wrapper.style.cursor = 'grabbing'; // cursor değiştirme
+        wrapper.style.cursor = 'grabbing';
     });
 
     wrapper.addEventListener('mouseleave', () => {
         isDown = false;
         wrapper.classList.remove('active');
-        wrapper.style.cursor = 'default'; // cursor değiştirme
+        wrapper.style.cursor = 'default'; 
     });
 
     wrapper.addEventListener('mouseup', () => {
         isDown = false;
         wrapper.classList.remove('active');
-        wrapper.style.cursor = 'default'; // cursor değiştirme
+        wrapper.style.cursor = 'default';
     });
 
     wrapper.addEventListener('mousemove', (e) => {

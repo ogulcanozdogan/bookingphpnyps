@@ -20,7 +20,6 @@ $customerPhone = $sonuc["phoneNumber"];
 $customerName = $sonuc["firstName"];
 $customerEmail = $sonuc["emailAddress"];
 
-// Post işlemi gerçekleştiğinde çalışacak kodlar
 $driver = $user;
 $status = "pending";
 $id = $_POST['id'];
@@ -37,17 +36,15 @@ $satir = [
     'updated_at' => $updated_at,
 ];
 
-// Veri güncelleme sorgumuzu yazıyoruz.
 $sql = "UPDATE hourly SET status=:status, driver=:driver, updated_at=:updated_at WHERE id=:id";             
 $durum = $baglanti->prepare($sql)->execute($satir);
 
 if ($durum) {
     echo '<script>swal("Successful", "Job accepted.", "success").then((value) => { window.location.href = "pending.php" });</script>';     
-    // Eğer güncelleme sorgusu çalıştıysa urunler.php sayfasına yönlendiriyoruz.
+
 	
 	$action = "Hourly Accepted!";
 
-    // Logs tablosuna ekleme
     $log_satir = [
 	    'bookingNumber' => $bookingNumber,
         'driverUsername' => $user,
@@ -71,9 +68,8 @@ if ($durum) {
     $driverName = $sonuc["name"];
     $driverPhone = $sonuc["number"];
 
-    // Text mesajı göndermek için fonksiyonu çağır
     $to = $customerPhone;
-    $from = "+16468527935"; // Twilio telefon numarası
+    $from = "+16468527935"; 
     $message = "Hello " . $customerName .". " . $driverName . " is your assigned driver. Driver's phone number is +1" . $driverPhone . ". Thank you. -New York Pedicab Services";
     $messageSid = sendTextMessage($twilio, $to, $from, $message);
     
@@ -82,14 +78,12 @@ if ($durum) {
 
     $phoneNumbers = [];
     while ($sonuc = $sorgu->fetch()) { 
-        // Telefon numarasına uygun WhatsApp formatını ekleyin
         $formattedPhone = "whatsapp:+1" . $sonuc['number'];
         $phoneNumbers[] = $formattedPhone;
     }
     $message = "Hourly Pedicab Service assigned.
 {". $bookingNumber ."}";
 
-    // Her bir telefon numarasına mesaj gönder
     foreach ($phoneNumbers as $phoneNumber) {
         $messageSid = sendWhatsAppMessage($twilio, $phoneNumber, $message);
         echo "Mesaj gönderildi, SID: $messageSid<br>";
@@ -97,10 +91,9 @@ if ($durum) {
 	
 	
 } else {
-    echo 'Job error: '; // id bulunamadıysa veya sorguda hata varsa hata yazdırıyoruz.
+    echo 'Job error: ';
 }
 
-    // İlk E-posta
     $email1 = new \SendGrid\Mail\Mail(); 
     $email1->setFrom("info@newyorkpedicabservices.com", "NYPS");
     $email1->setSubject("DRIVER INFORMATION - On Demand Hourly Pedicab Service -" . $bookingNumber);
@@ -123,7 +116,6 @@ EOD;
     $sendgrid = new \SendGrid('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');
 
     try {
-        // İlk e-posta gönderimi
         $response1 = $sendgrid->send($email1);
         // print $response1->statusCode() . "\n";
         // print_r($response1->headers());

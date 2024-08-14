@@ -104,7 +104,7 @@
             <br>
             <div class="signature full-width">
                 <center><h2 style='color:red;'>Signature</h2></center>
-                <label for="signature-box">Please sign this box</label>
+                <label for="signature-box">Please, sign in the box below.</label>
                 <canvas id="signature-box" style="border:1px solid #ccc;"></canvas>
                 <input required type="hidden" id="signature-svg" name="signature">
                 <button type="button" onclick="clearCanvas()">Clear</button>
@@ -133,5 +133,6 @@
             document.getElementById('registration-form').reset();
         };
     </script>
+	
 </body>
 </html>

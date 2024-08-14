@@ -94,7 +94,7 @@ $pickUpDate = $_POST['pickUpDate'];
                      </select>
                   </div>
     <div class="form-group">
-        <label for="pickUpDate">Date of Service</label>
+        <label for="pickUpDate">Date of Pick Up</label>
         <input title="" autocomplete="off" type="date" required
                max="2025-12-31"
                oninvalid="this.setCustomValidity('Please, select the date of pick up.'); this.classList.add('invalid');"
@@ -243,6 +243,7 @@ $pickUpDate = $_POST['pickUpDate'];
             </div>
          </div>
       </form>
+	  
 <script>
     window.onload = function() {
         script = document.createElement("script");

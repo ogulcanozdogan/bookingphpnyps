@@ -35,7 +35,6 @@ $satir = [
 	'updated_at' => $updated_at,
 ];
 
-// Veri güncelleme sorgusu
 $sql = "UPDATE pointatob SET status=:status, driver=:driver, updated_at=:updated_at WHERE id=:id";
 $durum = $baglanti->prepare($sql)->execute($satir);
 
@@ -44,7 +43,6 @@ if ($durum) {
 	
 	$action = "Point A to B Accepted!";
 
-    // Logs tablosuna ekleme
     $log_satir = [
 	    'bookingNumber' => $bookingNumber,
         'driverUsername' => $user,
@@ -59,7 +57,6 @@ if ($durum) {
     $stmt = $baglanti->prepare($sql);
     $stmt->execute($log_satir);
 
-    // Mesaj gönderilecek telefon numaraları listesi
     $sorgu = $baglanti->prepare("SELECT * FROM users WHERE user=:user");
     $sorgu->execute(['user' => $user]);
     $sonuc = $sorgu->fetch();
@@ -67,13 +64,11 @@ if ($durum) {
     $driverName = $sonuc["name"];
     $driverPhone = $sonuc["number"];
 
-    // Text mesajı göndermek için fonksiyonu çağır
     $to = $customerPhone;
-    $from = "+16468527935"; // Twilio telefon numarası
+    $from = "+16468527935"; 
     $message = "Hello " . $customerName . ". " . $driverName . " is your assigned driver. Driver's phone number is +1" . $driverPhone . ". Thank you. -New York Pedicab Services";
     $messageSid = sendTextMessage($twilio, $to, $from, $message);
 
-    // Sürücüler için WhatsApp mesajı
     $sorgu = $baglanti->prepare("SELECT * FROM users WHERE perm = 'driver'");
     $sorgu->execute();
     $phoneNumbers = [];
@@ -88,7 +83,6 @@ if ($durum) {
         echo "Mesaj gönderildi, SID: $messageSid<br>";
     }
 
-    // Müşteriye E-posta gönderimi
     $email1 = new \SendGrid\Mail\Mail(); 
     $email1->setFrom("info@newyorkpedicabservices.com", "NYPS");
     $email1->setSubject("DRIVER INFORMATION - On Demand Point A to B Pedicab Ride -" . $bookingNumber);
@@ -115,6 +109,6 @@ EOD;
         echo 'Caught exception: '. $e->getMessage() . "\n";
     }
 } else {
-    echo 'Job error: '; // id bulunamadıysa veya sorguda hata varsa hata yazdırıyoruz.
+    echo 'Job error: '; 
 }
 ?>

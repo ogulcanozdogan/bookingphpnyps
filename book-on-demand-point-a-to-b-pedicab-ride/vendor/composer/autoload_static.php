@@ -52,7 +52,6 @@ class ComposerStaticInit8f13d8280afae0a18c7cc8a36b28dc1a
             'Psr\\Clock\\' => 10,
             'Psr\\Cache\\' => 10,
             'PhpOption\\' => 10,
-            'PHPMailer\\PHPMailer\\' => 20,
         ),
         'M' => 
         array (
@@ -199,10 +198,6 @@ class ComposerStaticInit8f13d8280afae0a18c7cc8a36b28dc1a
         'PhpOption\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpoption/phpoption/src/PhpOption',
-        ),
-        'PHPMailer\\PHPMailer\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
         ),
         'Monolog\\' => 
         array (

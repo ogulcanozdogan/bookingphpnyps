@@ -1,3 +1,14 @@
+/* Samsung tarayıcısındaki dark mode'u etkisiz hale getirmek için */
+@media (prefers-color-scheme: dark) {
+    body {
+  font-family: Arial, sans-serif;
+    background-color: #f0f8ff;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    }
+}
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f0f8ff;
@@ -5,6 +16,7 @@ body {
     margin: 0;
     padding: 20px;
 }
+
 .container {
     max-width: 800px;
     margin: 0 auto;
@@ -13,19 +25,23 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
 }
+
 h1, h2 {
     color: #0056b3;
 }
+
 form {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
 }
+
 form label {
     display: block;
     margin-bottom: 5px;
     color: #0056b3;
 }
+
 form input[type="text"],
 form input[type="email"],
 form input[type="password"],
@@ -40,6 +56,7 @@ form input[type="search"] {
     border-radius: 4px;
     box-sizing: border-box;
 }
+
 form canvas {
     padding: 8px;
     border: 1px solid #ccc;
@@ -48,25 +65,31 @@ form canvas {
     height: 250px;
     width: 100%;
 }
+
 .full-width {
     grid-column: span 2;
 }
+
 .declaration, .signature {
     margin-top: 20px;
     border-top: 1px solid #ccc;
     padding-top: 10px;
 }
+
 .checkboxes {
     display: grid;
     gap: 10px;
 }
+
 .checkboxes label {
-            display: block;
-            margin-bottom: 10px;
-        }
-        .checkboxes input {
-            margin-right: 10px;
-        }
+    display: block;
+    margin-bottom: 10px;
+}
+
+.checkboxes input {
+    margin-right: 10px;
+}
+
 .submit-btn {
     background-color: #0056b3;
     color: #fff;
@@ -77,18 +100,37 @@ form canvas {
     margin-top: 20px;
     grid-column: span 2;
 }
+
 .submit-btn:hover {
     background-color: #003d80;
 }
+
 .footer {
     margin-top: 20px;
     text-align: center;
     font-size: 0.9em;
 }
+
 .footer a {
     color: #0056b3;
     text-decoration: none;
 }
+
 .footer a:hover {
     text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    form {
+        grid-template-columns: 1fr;
+    }
+
+    .full-width {
+        grid-column: span 1;
+    }
+
+    .submit-btn {
+        grid-column: span 1;
+    }
 }

@@ -115,7 +115,7 @@ include('inc/navbar.php');
                                                                     visible: true,
                                                                     className: '',
                                                                     closeModal: true,
-                                                                    style: 'background-color: blue; color: white;' // Stil özelliklerini buraya ekledik
+                                                                    style: 'background-color: blue; color: white;'
                                                                 }
                                                             },
                                                             dangerMode: true,

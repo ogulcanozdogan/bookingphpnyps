@@ -1,33 +1,5 @@
 <?php
 include('inc/init.php');
-// PHP code to process form data
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Save data to session variables if the next button is clicked
-    if (isset($_POST["next"])) {
-        $_SESSION["firstName"] = $_POST["firstName"];
-        $_SESSION["lastName"] = $_POST["lastName"];
-        $_SESSION["email"] = $_POST["email"];
-        $_SESSION["phoneNumber"] = $_POST["phoneNumber"];
-        $_SESSION["numPassengers"] = $_POST["numPassengers"];
-        $_SESSION["pickUpDate"] = $_POST["pickUpDate"];
-        $_SESSION["hours"] = $_POST["hours"];
-        $_SESSION["minutes"] = $_POST["minutes"];
-        $_SESSION["ampm"] = $_POST["ampm"];
-        $_SESSION["pickUpAddress"] = $_POST["pickUpAddress"];
-        $_SESSION["destinationAddress"] = $_POST["destinationAddress"];
-        $_SESSION["paymentMethod"] = $_POST["paymentMethod"];
-    }
-    // Clear session variables if the back button is clicked
-    elseif (isset($_POST["back"])) {
-        session_unset();
-    }
-}
-
-$pickUpDate = $_POST['pickUpDate'] ?? '';
-$dateTime = DateTime::createFromFormat('m/d/Y', $pickUpDate);
-if ($dateTime && $dateTime->format('m/d/Y') === $pickUpDate) {
-    $pickUpDate = $dateTime->format('Y-m-d');
-}
 require "inc/countryselect.php";
 ?>
 <!DOCTYPE html>
@@ -46,7 +18,7 @@ require "inc/countryselect.php";
     <link type="text/css" href="css/style.css" rel="stylesheet">
 </head>
 <body>
-<form onsubmit="return validateForm()" method="post" id="myForm" action="process.php">
+<form method="post" id="myForm" action="process.php">
     <div class="container">
         <div class="row justify-content-center">
             <input title="" type="button" id="prevButton" class="btn btn-primary font-weight-bold" value="<">
@@ -56,27 +28,38 @@ require "inc/countryselect.php";
                 <div class="text-center mb-4">
                     <b>Scheduled<br>Point A to B Pedicab Ride<br>Request Form</b>
                 </div>
+								            <?php
+            if (!empty($captcha_error)) {
+                echo "<div class='alert alert-danger' role='alert'>$captcha_error</div>";
+            }
+            ?>
                 <div class="form-group">
                     <label for="firstName">First Name</label>
-                    <input title="" type="text" class="form-control" id="firstName" name="firstName" required placeholder="Enter your first name" value="<?php echo isset($_POST["firstName"]) ? htmlspecialchars($_POST["firstName"]) : ''; ?>">
+                    <input maxlength="50" title="" type="text" class="form-control" id="firstName" name="firstName" required placeholder="Enter your first name" oninvalid="this.setCustomValidity('Please, enter first name.'); this.classList.add('invalid');" 
+        oninput="this.setCustomValidity(''); this.classList.remove('invalid'); this.value = this.value.replace(/[^a-zA-Z\s]/g, '');">
                 </div>
                 <div class="form-group">
                     <label for="lastName">Last Name</label>
-                    <input title="" type="text" class="form-control" id="lastName" name="lastName" required placeholder="Enter your last name" value="<?php echo isset($_POST["lastName"]) ? htmlspecialchars($_POST["lastName"]) : ''; ?>">
+                    <input maxlength="50" title="" type="text" class="form-control" id="lastName" name="lastName" required placeholder="Enter your last name" oninvalid="this.setCustomValidity('Please, enter last name.'); this.classList.add('invalid');" 
+        oninput="this.setCustomValidity(''); this.classList.remove('invalid'); this.value = this.value.replace(/[^a-zA-Z\s]/g, '');">
                 </div>
                 <div class="form-group">
                     <label for="email">Email Address</label>
-                    <input title="" type="email" class="form-control" id="email" name="email" required placeholder="Enter your email address" value="<?php echo isset($_POST["email"]) ? htmlspecialchars($_POST["email"]) : ''; ?>">
+                    <input maxlength="50" title="" type="email" class="form-control" id="email" name="email" required placeholder="Enter your email address"  oninvalid="this.setCustomValidity('Please, enter a valid email address.'); this.classList.add('invalid');" 
+        oninput="setCustomValidity(''); this.classList.remove('invalid');" 
+        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" 
+        onchange="if(!this.value.match(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/)) { this.setCustomValidity('Please, enter a valid email address.'); this.classList.add('invalid'); } else { this.setCustomValidity(''); this.classList.remove('invalid'); }">
                 </div>
 <label for="countrySelect">Phone</label>
 <div style="display: flex;" class="form-group">
     <?= countrySelector() ?>
-    <input title="" style="flex: 2; margin-left: 10px;" type="tel" pattern=".{10,10}" class="form-control phone-number-input" id="phoneNumber" name="phoneNumber"
-           onkeyup="updatePhoneNumber()" oninvalid="this.setCustomValidity('Please, enter a 10 digit phone number.'); this.classList.add('invalid');" oninput="this.value = this.value.replace(/\D+/g, '');setCustomValidity(''); this.classList.remove('invalid');" value="<?php echo htmlspecialchars($_POST['phoneNumber'] ?? ''); ?>" placeholder="Enter your phone number" required >
+    <input maxlength="22" title="" style="flex: 2; margin-left: 10px;" type="tel" class="form-control phone-number-input" id="phoneNumber" name="phoneNumber"
+           oninvalid="this.setCustomValidity('Please, enter phone number.'); this.classList.add('invalid');" oninput="this.value = this.value.replace(/\D+/g, '');setCustomValidity(''); this.classList.remove('invalid');" placeholder="Enter your phone number" required >
 </div>
 <div class="form-group">
     <label for="numPassengers">Number of Passengers</label>
-    <select title="" class="form-control" id="numPassengers" name="numPassengers" required>
+    <select title="" class="form-control" id="numPassengers" name="numPassengers" required  oninvalid="this.setCustomValidity('Please, select the number of passengers.'); this.classList.add('invalid');" 
+            oninput="this.setCustomValidity(''); this.classList.remove('invalid');">
         <option value="">Select the number of passengers</option>
         <?php
         $passengerCounts = range(1, 12);
@@ -92,23 +75,23 @@ require "inc/countryselect.php";
     </select>
 </div>
 
-                <div class="form-group">
-                    <label for="pickUpDate">Date of Pick Up</label>
-                    <input title="" autocomplete="off" type="date" required max="2025-12-31" class="form-control" id="pickUpDate" name="pickUpDate" value="<?php echo isset($pickUpDate) ? htmlspecialchars($pickUpDate) : ''; ?>">
-                </div>
+    <div class="form-group">
+        <label for="pickUpDate">Date of Pick Up</label>
+        <input title="" autocomplete="off" type="date" required
+               max="2025-12-31"
+               oninvalid="this.setCustomValidity('Please, select the date of pick up.'); this.classList.add('invalid');"
+               oninput="this.setCustomValidity(''); this.classList.remove('invalid');"
+               class="form-control" id="pickUpDate" name="pickUpDate">
+    </div> <!--we use it to change the calendar -->
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="hours">Hour</label>
-                            <select title="" class="form-control" id="hours" name="hours" required>
+                            <select title="" class="form-control" id="hours" name="hours" oninvalid="this.setCustomValidity('Please, select the hour.'); this.classList.add('invalid');" oninput="setCustomValidity(''); this.classList.remove('invalid');" required>
                                 <option value="">Select the hour</option>
                                 <?php
                                 for ($i = 1; $i <= 12; $i++) {
-                                    echo '<option value="' . $i . '"';
-                                    if (isset($_POST["hours"]) && $_POST["hours"] == $i) {
-                                        echo " selected";
-                                    }
-                                    echo ">" . $i . "</option>";
+                                    echo '<option value="' . $i . '">' . $i . '</option>';
                                 }
                                 ?>
                             </select>
@@ -117,16 +100,12 @@ require "inc/countryselect.php";
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="minutes">Minute</label>
-                            <select title="" class="form-control" id="minutes" name="minutes" required>
+                            <select title="" class="form-control" id="minutes" name="minutes" oninvalid="this.setCustomValidity('Please, select the minute.'); this.classList.add('invalid');" oninput="setCustomValidity(''); this.classList.remove('invalid');" required>
                                 <option value="">Select the minute</option>
                                 <?php
                                 $minutes = ["00", "15", "30", "45"];
                                 foreach ($minutes as $minute) {
-                                    echo '<option value="' . $minute . '"';
-                                    if (isset($_POST["minutes"]) && $_POST["minutes"] == $minute) {
-                                        echo " selected";
-                                    }
-                                    echo ">" . $minute . "</option>";
+                                    echo '<option value="' . $minute . '">' . $minute . '</option>';
                                 }
                                 ?>
                             </select>
@@ -135,16 +114,12 @@ require "inc/countryselect.php";
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="ampm">AM/PM</label>
-                            <select title="" class="form-control" id="ampm" name="ampm" required>
+                            <select title="" class="form-control" id="ampm" name="ampm" oninvalid="this.setCustomValidity('Please, select AM or PM.'); this.classList.add('invalid');" oninput="setCustomValidity(''); this.classList.remove('invalid');" required>
                                 <option value="">AM/PM</option>
                                 <?php
                                 $am_pm_options = ["AM", "PM"];
                                 foreach ($am_pm_options as $option) {
-                                    echo '<option value="' . $option . '"';
-                                    if (isset($_POST["ampm"]) && $_POST["ampm"] == $option) {
-                                        echo " selected";
-                                    }
-                                    echo ">" . $option . "</option>";
+                                    echo '<option value="' . $option . '">' . $option . '</option>';
                                 }
                                 ?>
                             </select>
@@ -153,24 +128,24 @@ require "inc/countryselect.php";
                 </div>
                 <div class="form-group">
                     <label for="pickUpAddress">Pick Up Address</label>
-                    <input title="" type="text" class="form-control" id="pickUpAddress" name="pickUpAddress" required placeholder="Enter the pick up address" value="<?php echo isset($_POST["pickUpAddress"]) ? htmlspecialchars($_POST["pickUpAddress"]) : ''; ?>">
+                    <input title="" type="text" class="form-control" id="pickUpAddress" name="pickUpAddress" required placeholder="Enter the pick up address" oninvalid="this.setCustomValidity('Please, enter pick up address.'); this.classList.add('invalid');" oninput="setCustomValidity(''); this.classList.remove('invalid');">
                 </div>
                 <div class="form-group">
                     <label for="destinationAddress">Destination Address</label>
-                    <input title="" type="text" class="form-control" id="destinationAddress" name="destinationAddress" required placeholder="Enter the destination address" value="<?php echo isset($_POST["destinationAddress"]) ? htmlspecialchars($_POST["destinationAddress"]) : ''; ?>">
+                    <input title="" type="text" class="form-control" id="destinationAddress" name="destinationAddress" required placeholder="Enter the destination address" oninvalid="this.setCustomValidity('Please, enter destination address.'); this.classList.add('invalid');" oninput="setCustomValidity(''); this.classList.remove('invalid');"">
                 </div>
                 <div class="form-group">
                     <label>Driver Paid Separately</label>
                     <div class="form-check">
-                        <input title="" class="form-check-input" type="radio" name="paymentMethod" id="payCash" value="CASH" required <?php echo isset($_POST["paymentMethod"]) && $_POST["paymentMethod"] == "CASH" ? "checked" : ""; ?>>
+                        <input title="" class="form-check-input" type="radio" name="paymentMethod" id="payCash" value="CASH" required>
                         <label class="form-check-label" for="payCash">I will pay the driver cash</label>
                     </div>
                     <div class="form-check">
-                        <input title="" class="form-check-input" type="radio" name="paymentMethod" id="payCard" value="card" required <?php echo isset($_POST["paymentMethod"]) && $_POST["paymentMethod"] == "card" ? "checked" : ""; ?>>
+                        <input title="" class="form-check-input" type="radio" name="paymentMethod" id="payCard" value="card" required>
                         <label class="form-check-label" for="payCard">I will pay the driver with debit/credit card (10% fee applies to the driver fare)</label>
                     </div>
                     <div class="form-check">
-                        <input title="" class="form-check-input" type="radio" name="paymentMethod" id="payFullCard" value="fullcard" required <?php echo isset($_POST["paymentMethod"]) && $_POST["paymentMethod"] == "fullcard" ? "checked" : ""; ?>>
+                        <input title="" class="form-check-input" type="radio" name="paymentMethod" id="payFullCard" value="fullcard" required>
                         <label class="form-check-label" for="payFullCard">I will pay all upfront to New York Pedicab Services and New York Pedicab Services will pay the driver (20% fee applies to the full fare)</label>
                     </div>
                 </div>
@@ -270,5 +245,6 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFigWHFZKkoNdO0r6siMTgawuNxwlabRU&libraries=places&callback=initAutocomplete" async defer></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
 </body>
 </html>

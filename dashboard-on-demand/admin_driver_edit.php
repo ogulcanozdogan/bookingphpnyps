@@ -141,13 +141,13 @@ if ($_POST) {
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="input-group">
-                                                    <span class="input-group-text">Name</span>
+                                                    <span class="input-group-text">First Name</span>
                                                     <input type="text" class="form-control" name="name" value="<?=$sonuc['name']?>">
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="input-group">
-                                                    <span class="input-group-text">Surname</span>
+                                                    <span class="input-group-text">Last Name</span>
                                                     <input type="text" class="form-control" name="surname" value="<?=$sonuc['surname']?>">
                                                 </div>
                                             </div>

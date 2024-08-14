@@ -148,7 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="card-body">
             <div class="text-center mb-4">
                 <img src="https://newyorkpedicabservices.com/buttons_files/new-york-pedicab-services-banner.webp" style="width: 200px; height: 90px;" alt="logo">
-                <h3 class="mt-1 mb-5 pb-1">Login to Your Account</h3>
+
             </div>
             <?php
             if (!empty($captcha_error)) {
@@ -169,9 +169,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <label class="form-check-label" for="rememberMeondemand"> Remember me </label>
                 </div>
                 <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
-                <button type="submit" class="btn btn-primary btn-block gradient-custom-2 mb-3" id="btnGiris">Sign in</button>
+               <div style="text-align:center;"> <button style="text-align:center;" type="submit" class="btn btn-primary btn-block gradient-custom-2 mb-3" id="btnGiris">Login</button> </div>
             </form>
-            <a href="register.php" class="btn btn-primary">Create Driver Account</a>
+         
         </div>
     </div>
     <script>

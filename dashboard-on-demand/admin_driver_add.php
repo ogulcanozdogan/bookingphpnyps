@@ -115,14 +115,14 @@ if ($_POST) {
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="input-group">
-                                                    <span class="input-group-text">Name</span>
-                                                    <input type="text" class="form-control" name="name" autocomplete="new-password" required placeholder="Name">
+                                                    <span class="input-group-text">First Name</span>
+                                                    <input type="text" class="form-control" name="name" autocomplete="new-password" required placeholder="First Name">
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="input-group">
-                                                    <span class="input-group-text">Surname</span>
-                                                    <input type="text" class="form-control" name="surname" autocomplete="new-password" required placeholder="Surname">
+                                                    <span class="input-group-text">Last Name</span>
+                                                    <input type="text" class="form-control" name="surname" autocomplete="new-password" required placeholder="Last Name">
                                                 </div>
                                             </div>
                                             <div class="col-lg-12">
@@ -176,9 +176,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const phoneInput = document.querySelector('input[name="number"]');
 
     phoneInput.addEventListener('input', function() {
-        this.value = this.value.replace(/\D/g, ''); // Sadece rakamları kabul et
+        this.value = this.value.replace(/\D/g, '');
         if (this.value.length > 10) {
-            this.value = this.value.slice(0, 10); // Maksimum 10 karakter
+            this.value = this.value.slice(0, 10);
         }
     });
 });

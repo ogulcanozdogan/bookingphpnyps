@@ -152,7 +152,7 @@ $sendgrid = new \SendGrid('SG.8Qqi1W8MQRCWNmzcNHD4iw.PqfZxMPBxrPEBDcQKGqO1QyT5JL
 // NYPS için e-postayı gönder
 $email1 = new \SendGrid\Mail\Mail();
 $email1->setFrom("info@newyorkpedicabservices.com", "NYPS");
-$email1->setSubject("Scheduled Point A to B Pedicab Ride Request");
+$email1->setSubject("Scheduled Point A to B Pedicab Ride Request - " . $requestNumber);
 $email1->addTo("info@newyorkpedicabservices.com", "NYPS");
 $email1->addContent("text/html", $nypsContent);
 
@@ -165,7 +165,7 @@ try {
 // Müşteri için e-postayı gönder
 $email2 = new \SendGrid\Mail\Mail();
 $email2->setFrom("info@newyorkpedicabservices.com", "NYPS");
-$email2->setSubject("Scheduled Point A to B Pedicab Ride Request");
+$email2->setSubject("Scheduled Point A to B Pedicab Ride Request - " . $requestNumber);
 $email2->addTo($emailAddress, "$firstName $lastName");
 $email2->addContent("text/html", $customerContent);
 

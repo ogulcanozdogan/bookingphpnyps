@@ -109,7 +109,7 @@ include('inc/scripts.php');
                         visible: true,
                         className: '',
                         closeModal: true,
-                        style: 'background-color: blue; color: white;' // Stil özelliklerini buraya ekledik
+                        style: 'background-color: blue; color: white;'
                     }
                 },
                 dangerMode: true,
@@ -143,14 +143,14 @@ include('inc/scripts.php');
                 display.textContent = "Expired";
                 display.style.color = "red";
                 button.disabled = true;
-                card.style.display = "none"; // Zaman dolduğunda kartı gizle
+                card.style.display = "none";
             }
         }, 1000);
     }
 
     function loadData() {
         $.ajax({
-            url: 'load_pedicab_data.php', // Bu dosya yeni verileri almak için olacak
+            url: 'load_pedicab_data.php',
             method: 'GET',
             success: function(data) {
                 var response = JSON.parse(data);
@@ -158,7 +158,6 @@ include('inc/scripts.php');
                 $('#hourly-container').html(response.hourly);
                 $('#centralpark-container').html(response.centralpark);
 
-                // Kartlar yüklendikten sonra geri sayımı yeniden başlatmak
                 document.querySelectorAll("form[id^='accept-form-']").forEach(form => {
                     form.addEventListener("submit", function(event) {
                         event.preventDefault();
@@ -180,7 +179,7 @@ include('inc/scripts.php');
                                     visible: true,
                                     className: '',
                                     closeModal: true,
-                                    style: 'background-color: blue; color: white;' // Stil özelliklerini buraya ekledik
+                                    style: 'background-color: blue; color: white;'
                                 }
                             },
                             dangerMode: true,
@@ -205,8 +204,8 @@ include('inc/scripts.php');
     }
 
     $(document).ready(function() {
-        loadData(); // Sayfa yüklendiğinde ilk veriyi al
-        setInterval(loadData, 5000); // 5 saniyede bir veriyi güncelle
+        loadData(); 
+        setInterval(loadData, 5000); 
     });
 </script>
 
