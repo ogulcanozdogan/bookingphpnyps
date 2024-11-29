@@ -44,7 +44,7 @@ if ($_GET) {
             } elseif ($process == 'delete') {
 				$durum = $baglanti->prepare("DELETE FROM $table WHERE id=:driverid")->execute(['driverid' => $driverid]);
 			if ($durum) {
-			header("location:admin_verify_drivers.php"); // Eğer sorgu çalışırsa index.php sayfasına gönderiyoruz.
+			header("location:admin_verify_drivers.php");
 			}
             } else {
                 header('location: admin_drivers.php');
@@ -53,7 +53,7 @@ if ($_GET) {
              if ($process == 'delete') {
 				 $durum = $baglanti->prepare("DELETE FROM $table WHERE id=:driverid")->execute(['driverid' => $driverid]);
 			if ($durum) {
-			header("location:admin_drivers.php"); // Eğer sorgu çalışırsa index.php sayfasına gönderiyoruz.
+			header("location:admin_drivers.php");
 			}
             } else {
                 header('location: index.php');

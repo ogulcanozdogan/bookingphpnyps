@@ -59,15 +59,18 @@ canvas.addEventListener('touchcancel', stopDrawing);
 
 document.getElementById('registration-form').addEventListener('submit', function(e) {
     if (isCanvasBlank(canvas)) {
-        alert('Please provide your signature.');
-        e.preventDefault();
-        return false;
+        e.preventDefault(); // Formun gönderilmesini engelle
+        alert('Please provide your signature.'); // Uyarı göster, ancak form gönderimini tamamen durdur
+        return; // Burada return kullanarak formun geri kalan işlemlerine devam edilmemesini sağlıyoruz
     }
+    
+    // Eğer imza mevcutsa, formu işle
     const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${canvas.width}" height="${canvas.height}">
         <path d="${getPathData()}" fill="none" stroke="black" />
     </svg>`;
     document.getElementById('signature-svg').value = btoa(svg);  // Encode SVG to Base64
 });
+
 
 function getPathData() {
     const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;

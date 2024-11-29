@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f97a42a3171391d55142a4bcf5eefda2",
+    "content-hash": "0347d5facd42f4e8e731438ad1270975",
     "packages": [
         {
             "name": "sendgrid/php-http-client",
@@ -180,16 +180,16 @@
         },
         {
             "name": "twilio/sdk",
-            "version": "8.0.1",
+            "version": "8.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twilio/twilio-php.git",
-                "reference": "161fbeb588f367e35e70a86841406ff6f0810b14"
+                "reference": "da842421814abaacb1c57eaacd7e8de19bbdbee6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/161fbeb588f367e35e70a86841406ff6f0810b14",
-                "reference": "161fbeb588f367e35e70a86841406ff6f0810b14",
+                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/da842421814abaacb1c57eaacd7e8de19bbdbee6",
+                "reference": "da842421814abaacb1c57eaacd7e8de19bbdbee6",
                 "shasum": ""
             },
             "require": {
@@ -227,9 +227,9 @@
             ],
             "support": {
                 "issues": "https://github.com/twilio/twilio-php/issues",
-                "source": "https://github.com/twilio/twilio-php/tree/8.0.1"
+                "source": "https://github.com/twilio/twilio-php/tree/8.3.0"
             },
-            "time": "2024-04-18T11:15:50+00:00"
+            "time": "2024-09-05T13:01:28+00:00"
         }
     ],
     "packages-dev": [],
@@ -240,5 +240,5 @@
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }

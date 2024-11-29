@@ -66,6 +66,9 @@ $paymentIntent = $stripe->paymentIntents->create([
 
 // Get day value
 $pickUpDay = $date->format('l');
+
+        $pedicabCount = ceil($numPassengers / 3);
+		$driverFarePerDriver = number_format($driverFare/$pedicabCount, 2);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -81,6 +84,7 @@ $pickUpDay = $date->format('l');
       <link href="css/style.css" rel="stylesheet">
       <link href="css/step4.css" rel="stylesheet">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css">
+	  <!-- Google tag (gtag.js) --> <script async src=" https://www.googletagmanager.com/gtag/js?id=AW-16684451653 "></script> <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'AW-16684451653'); </script>
    </head>
    <body>
       <div class="top-controls">
@@ -116,10 +120,16 @@ $pickUpDay = $date->format('l');
                            <th scope="row">Phone Number</th>
                            <td>+<?=$countryCode . $phoneNumber?></td>
                         </tr>
-                        <tr>
-                           <th scope="row">Number of Passengers</th>
-                           <td><?=$numPassengers?></td>
-                        </tr>
+<tr>
+    <th scope="row">Number of Passengers</th>
+    <td>
+        <?php
+        $pedicabCount = ceil($numPassengers / 3);
+        $pedicabLabel = $pedicabCount == 1 ? 'Pedicab' : 'Pedicabs';
+        echo $numPassengers . ' (' . $pedicabCount . ' ' . $pedicabLabel . ')';
+        ?>
+    </td>
+</tr>
                         <tr>
                            <th scope="row">Date of Tour</th>
                            <td><?=$pickUpDate . ' ' . $pickUpDay?></td>
@@ -150,7 +160,10 @@ $pickUpDay = $date->format('l');
                             </tr>
                             <tr>
                                 <th scope="row">Driver Fare</th>
-                                 <td>$<?= number_format($driverFare, 2) ?> with <?= $paymentMethod == 'card' ? 'debit/credit card' : $paymentMethod ?></td>
+                                 <td>$<?= number_format($driverFare, 2) ?> 
+								 <?php if ($pedicabCount != 1) {?>
+								 ($<?= $driverFarePerDriver ?> per driver)
+								 <?php } ?> with <?= $paymentMethod == 'card' ? 'debit/credit card' : $paymentMethod ?></td>
                             </tr>
                             <tr style="background-color:green;">
                            <th scope="row" style="color:white;">Total Fare</th>
@@ -171,7 +184,7 @@ $pickUpDay = $date->format('l');
                     </div>
                   <input title="" type="hidden" name="firstName" value="<?=$firstName?>">
                   <input title="" type="hidden" name="lastName" value="<?=$lastName?>">
-                  <input title="" type="hidden" name="aq" value="<?=$email?>">
+                  <input title="" type="hidden" name="email" value="<?=$email?>">
                   <input title="" type="hidden" name="phoneNumber" value="<?=$phoneNumber?>">
                   <input title="" type="hidden" name="numPassengers" value="<?=$numPassengers?>">
                   <input title="" type="hidden" name="pickUpDate" value="<?=$pickUpDate?>">
@@ -201,6 +214,7 @@ $pickUpDay = $date->format('l');
             </div>
          </div>
       </div>
+
 <script>
     var stripe = Stripe('<?php echo $_ENV['STRIPE_PUBLIC_KEY']; ?>');
     var elements = stripe.elements({
@@ -217,66 +231,12 @@ $pickUpDay = $date->format('l');
             displayError.textContent = '';
         }
     });
-    
-    var numPassengers = <?php echo json_encode($_POST["numPassengers"] ?? 1); ?>;
-    var pickUpAddress = <?php echo json_encode($_POST["pickUpAddress"]); ?>;
-    var destinationAddress = <?php echo json_encode($_POST["destinationAddress"]); ?>;
-    var paymentMethod = <?php echo json_encode($_POST["paymentMethod"]); ?>;
-    var pickUpDate = <?php echo json_encode($_POST["pickUpDate"]); ?>;
-    var firstName = <?php echo json_encode($_POST["firstName"] ?? ''); ?>;
-    var lastName = <?php echo json_encode($_POST["lastName"] ?? ''); ?>;
-    var email = <?php echo json_encode($_POST["email"] ?? ''); ?>;
-    var phoneNumber = <?php echo json_encode($_POST["phoneNumber"] ?? ''); ?>;
-    var bookingFee = <?php echo json_encode($_POST["bookingFee"] ?? ''); ?>;
-    var driverFare = <?php echo json_encode($_POST["driverFare"] ?? ''); ?>;
-    var totalFare = <?php echo json_encode($_POST["totalFare"] ?? ''); ?>;
-    var returnDuration = <?php echo json_encode($_POST["returnDuration"] ?? ''); ?>;
-    var operationFare = <?php echo json_encode($_POST["operationFare"] ?? ''); ?>;
-    var rideDuration = <?php echo json_encode($_POST["rideDuration"] ?? ''); ?>;
-    var tourDuration = <?php echo json_encode($_POST["tourDuration"] ?? ''); ?>;
-    var return1 = <?php echo json_encode($_POST["return1"] ?? ''); ?>;
-    var return2 = <?php echo json_encode($_POST["return2"] ?? ''); ?>;
-    var pickup1 = <?php echo json_encode($_POST["pickup1"] ?? ''); ?>;
-    var pickup2 = <?php echo json_encode($_POST["pickup2"] ?? ''); ?>;
-    var toursuresi = <?php echo json_encode($_POST["toursuresi"] ?? ''); ?>;
-    var hours = <?php echo json_encode($_POST["hours"] ?? ''); ?>;
-    var minutes = <?php echo json_encode($_POST["minutes"] ?? ''); ?>;
-    var ampm = <?php echo json_encode($_POST["ampm"] ?? ''); ?>;
-    var baseFare = <?php echo json_encode($_POST["baseFare"] ?? ''); ?>;
-    var countryCode = <?php echo json_encode($_POST["countryCode"] ?? ''); ?>;
-
 
     var form = document.getElementById('payment-form');
     form.addEventListener('submit', function(event) {
         event.preventDefault();
 
         var formData = new FormData(form);
-        formData.append('numPassengers', numPassengers);
-        formData.append('pickUpAddress', pickUpAddress);
-        formData.append('destinationAddress', destinationAddress);
-        formData.append('paymentMethod', paymentMethod);
-        formData.append('pickUpDate', pickUpDate);
-        formData.append('firstName', firstName);
-        formData.append('lastName', lastName);
-        formData.append('email', email);
-        formData.append('phoneNumber', phoneNumber);
-        formData.append('bookingFee', bookingFee);
-        formData.append('driverFare', driverFare);
-        formData.append('totalFare', totalFare);
-        formData.append('rideDuration', rideDuration);
-        formData.append('returnDuration', returnDuration);
-        formData.append('operationFare', operationFare);
-        formData.append('pickup1', pickup1);
-        formData.append('pickup2', pickup2);
-        formData.append('return1', return1);
-        formData.append('return2', return2);
-        formData.append('toursuresi', toursuresi);
-        formData.append('tourDuration', tourDuration);
-        formData.append('hours', hours);
-        formData.append('minutes', minutes);
-        formData.append('ampm', ampm);
-        formData.append('baseFare', baseFare);
-		formData.append('countryCode', countryCode);
 
         fetch('saveit.php', {
             method: 'POST',

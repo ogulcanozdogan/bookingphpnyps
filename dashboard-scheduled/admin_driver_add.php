@@ -171,9 +171,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const phoneInput = document.querySelector('input[name="number"]');
 
     phoneInput.addEventListener('input', function() {
-        this.value = this.value.replace(/\D/g, ''); // Sadece rakamları kabul et
+        this.value = this.value.replace(/\D/g, '');
         if (this.value.length > 10) {
-            this.value = this.value.slice(0, 10); // Maksimum 10 karakter
+            this.value = this.value.slice(0, 10);
         }
     });
 });

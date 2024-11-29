@@ -6,6 +6,12 @@ use setasign\Fpdi\Fpdi;
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
 
+	$date = new DateTime('now', new DateTimeZone('America/New_York'));
+	$nyDateTime = $date->format('Y-m-d H:i:s');
+	
+	$nyDate = $date->format('m/d/Y');
+
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $driverLicenseFile = $_FILES['driverLicenseFile'];
     $driverFirstName = $_POST['driverFirstName'];
@@ -33,10 +39,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $svgData = $_POST['signature'];
     $uuid = generateUUID();
     $kisauuid = substr($uuid, 0, 16);
-	
 
     if (empty($svgData)) {
-        die('No signature data provided.');
+        die('No signature data provided. Please try again!');
     }
 
     // Decode Base64
@@ -54,53 +59,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Save the SVG data to a file
     if (file_put_contents($svgFilePath, $svgData) === false) {
-        die('Error saving the signature.');
+        die('Error saving the signature. Please try again!');
     }
-
-  //  echo 'Signature saved successfully: ' . $uniqueFilename . "<br>";
 
     // Convert SVG to PNG using Imagick
     $pngFilePath = $signsDir . '/' . uniqid('signature_', true) . '.png';
     if (!convertSvgToPng($svgFilePath, $pngFilePath)) {
-        die('Error converting SVG to PNG.');
+        die('Error converting SVG to PNG. Please try again!');
     }
-
-   // echo 'PNG file created successfully: ' . $pngFilePath . "<br>";
 
     // Save the uploaded driver license file
-    $driverLicenseFileName = uniqid('license_', true) . '.' . pathinfo($driverLicenseFile['name'], PATHINFO_EXTENSION);
+    $driverLicenseFileExtension = strtolower(pathinfo($driverLicenseFile['name'], PATHINFO_EXTENSION));
+    $driverLicenseFileName = uniqid('license_', true) . '.' . $driverLicenseFileExtension;
     $driverLicenseFilePath = $signsDir . '/' . $driverLicenseFileName;
-    if (!move_uploaded_file($driverLicenseFile['tmp_name'], $driverLicenseFilePath)) {
-        die('Error saving the driver license file.');
+	
+
+    // Convert the file to a supported format if necessary
+    if ($driverLicenseFileExtension === 'webp') {
+        $driverLicenseFilePath = convertWebpToPng($driverLicenseFile['tmp_name'], $signsDir);
+    } else {
+        if (!move_uploaded_file($driverLicenseFile['tmp_name'], $driverLicenseFilePath)) {
+            die('Error saving the driver license file. Please try again!');
+        }
     }
 
-  //  echo 'Driver license file saved successfully: ' . $driverLicenseFileName . "<br>";
-	
     // Generate QR Code
-    $qrCode = new QrCode('https://www.newyorkpedicabservices.com/driver/?id='.$kisauuid);
+    $qrCode = new QrCode('https://www.newyorkpedicabservices.com/driver/?id=' . $kisauuid);
     $writer = new PngWriter();
     $qrCodeData = $writer->write($qrCode)->getString();
     $qrCodeFilePath = $signsDir . '/' . uniqid('qrcode_', true) . '.png';
     file_put_contents($qrCodeFilePath, $qrCodeData);
 
-
     // Create a new PDF and add a page
     $pdf = new Fpdi();
     $pdf->AddPage();
     $pdf->SetFont('Arial', 'B', 16);
-	$pdf->SetTextColor(0, 0, 255);
+    $pdf->SetTextColor(0, 0, 255);
     $pdf->Cell(0, 10, 'New York Pedicab Services', 0, 1, 'C');
     $pdf->SetFont('Arial', 'B', 14);
-	$pdf->SetTextColor(255, 0, 0);
+    $pdf->SetTextColor(255, 0, 0);
     $pdf->Cell(0, 10, 'Pedicab Driver Registration', 0, 1, 'C');
-	
-	$pdf->Image($qrCodeFilePath, 160, 10, 25, 25); // x, y, width, height
-	
-	$lineHeight = 9;
+
+    $pdf->Image($qrCodeFilePath, 160, 10, 25, 25); // x, y, width, height
+
+    $lineHeight = 9;
     // Add form data to PDF
-	$pdf->Ln(5);
+    $pdf->Ln(5);
     $pdf->SetFont('Arial', '', 12);
-	$pdf->SetTextColor(0, 0, 0);
+    $pdf->SetTextColor(0, 0, 0);
     $pdf->Cell(0, $lineHeight, 'Pedicab Driver Information:', 0, 1);
     $pdf->Cell(50, $lineHeight, 'Dashboard Identification:');
     $pdf->Cell(50, $lineHeight, $kisauuid, 0, 1);
@@ -174,119 +180,100 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $pdf->Ln(5);
-    $pdf->Cell(15); // Sola yaslanmış isim için boşluk ekleyerek sağa çekiyoruz
+    $pdf->Cell(15);
     $pdf->Cell(0, $lineHeight, $driverFirstName . ' ' . $driverLastName, 0, 1, 'L');
 
     // Add the PNG signature to the PDF
-    $x = 10; // Sola yaslamak için x değerini değiştirdik
-    $y = $pdf->GetY() - 2; // İmzanın daha yakın olması için 2 piksel ekliyoruz.
+    $x = 10;
+    $y = $pdf->GetY() - 2;
     $width = 50;
     $height = 25;
-
-    $pdf->Image($pngFilePath, $x, $y, $width, $height); // x, y, width, height
+    $pdf->Image($pngFilePath, $x, $y, $width, $height);
+	$pdf->Ln(27);
+	$pdf->SetX(30);
+	$pdf->Cell(50, $lineHeight, $nyDate, 0, 1);
 
     // Add the driver license image to the PDF
-    $pdf->Ln(30); // İmza ile ehliyet fotoğrafı arasına boşluk bırakıyoruz
+    $pdf->Ln(30);
     $pdf->Cell(0, 10, 'Driver License:', 0, 1);
     $licenseX = 10;
     $licenseY = $pdf->GetY();
-    $licenseWidth = 80; // Ehliyet fotoğrafı genişliği
-    $licenseHeight = 40; // Ehliyet fotoğrafı yüksekliği
-
+    $licenseWidth = 80;
+    $licenseHeight = 40;
     $pdf->Image($driverLicenseFilePath, $licenseX, $licenseY, $licenseWidth, $licenseHeight);
 
-
-	$uniqidpdf = uniqid('output_', true);
+    $uniqidpdf = uniqid('output_', true);
     // Save the PDF
     $pdfFilePath = $signsDir . '/' . $uniqidpdf . '.pdf';
     $pdf->Output('F', $pdfFilePath);
 
-    echo 'PDF successfully created and signature placed.' . "<br>";
-    echo 'PDF file path: ' . $pdfFilePath . "<br>";
 
     // Remove the temporary PNG file
     unlink($pngFilePath);
 
-    echo 'Temporary PNG file removed.' . "<br>";
-	$uniqidpdf = $uniqidpdf . ".pdf";
-	header("location: signs/" . $uniqidpdf); 
-	
-	
-	
-$satir = [
-    "driverLicenseFile" => $driverLicenseFileName,
-    "driverFirstName" => $driverFirstName,
-    "driverLastName" => $driverLastName,
-    "driverLicenseNumber" => $driverLicenseNumber,
-    "driverLicenseExpiration" => $driverLicenseExpiration,
-    "driverPhone" => $driverPhone,
-    "driverEmail" => $driverEmail,
-    "driverStreetAddress" => $driverStreetAddress,
-    "driverApartmentNumber" => $driverApartmentNumber,
-    "driverCity" => $driverCity,
-    "driverState" => $driverState,
-    "driverZipCode" => $driverZipCode,
-    "businessName" => $businessName,
-    "businessLicenseNumber" => $businessLicenseNumber,
-    "businessRegistrationNumber" => $businessRegistrationNumber,
-    "businessLicenseExpiration" => $businessLicenseExpiration,
-    "businessPhone" => $businessPhone,
-    "businessEmail" => $businessEmail,
-    "businessStreetAddress" => $businessStreetAddress,
-    "businessApartmentNumber" => $businessApartmentNumber,
-    "businessCity" => $businessCity,
-    "businessState" => $businessState,
-    "businessZipCode" => $businessZipCode,
-    "signature_svg" => $uniqueFilename,
-    "uuid" => $kisauuid,
-    "pdf_link" => $uniqidpdf,	
-	
-];
+    //echo 'Temporary PNG file removed.' . "<br>";
+    $uniqidpdf = $uniqidpdf . ".pdf";
+    header("location: signs/" . $uniqidpdf);
 
-$sql = "INSERT INTO registration (id, driverLicenseFile, driverFirstName, driverLastName, driverLicenseNumber, driverLicenseExpiration, driverPhone, driverEmail, driverStreetAddress, driverApartmentNumber, driverCity, driverState, driverZipCode, businessName, businessLicenseNumber, businessRegistrationNumber, businessLicenseExpiration, businessPhone, businessEmail, businessStreetAddress, businessApartmentNumber, businessCity, businessState, businessZipCode, signature_svg, pdf_link) 
-VALUES ('$kisauuid', '$driverLicenseFileName', '$driverFirstName', '$driverLastName', '$driverLicenseNumber', '$driverLicenseExpiration', '$driverPhone', '$driverEmail', '$driverStreetAddress', '$driverApartmentNumber', '$driverCity', '$driverState', '$driverZipCode', '$businessName', '$businessLicenseNumber', '$businessRegistrationNumber', '$businessLicenseExpiration', '$businessPhone', '$businessEmail', '$businessStreetAddress', '$businessApartmentNumber', '$businessCity', '$businessState', '$businessZipCode', '$uniqueFilename', '$uniqidpdf')";
 
-$durum = $baglanti->prepare($sql)->execute();
+    $satir = [
+        "driverLicenseFile" => $driverLicenseFileName,
+        "driverFirstName" => $driverFirstName,
+        "driverLastName" => $driverLastName,
+        "driverLicenseNumber" => $driverLicenseNumber,
+        "driverLicenseExpiration" => $driverLicenseExpiration,
+        "driverPhone" => $driverPhone,
+        "driverEmail" => $driverEmail,
+        "driverStreetAddress" => $driverStreetAddress,
+        "driverApartmentNumber" => $driverApartmentNumber,
+        "driverCity" => $driverCity,
+        "driverState" => $driverState,
+        "driverZipCode" => $driverZipCode,
+        "businessName" => $businessName,
+        "businessLicenseNumber" => $businessLicenseNumber,
+        "businessRegistrationNumber" => $businessRegistrationNumber,
+        "businessLicenseExpiration" => $businessLicenseExpiration,
+        "businessPhone" => $businessPhone,
+        "businessEmail" => $businessEmail,
+        "businessStreetAddress" => $businessStreetAddress,
+        "businessApartmentNumber" => $businessApartmentNumber,
+        "businessCity" => $businessCity,
+        "businessState" => $businessState,
+        "businessZipCode" => $businessZipCode,
+        "signature_svg" => $uniqueFilename,
+        "uuid" => $kisauuid,
+        "pdf_link" => $uniqidpdf,
+		"timestamp" => $nyDateTime,
+    ];
 
+$sql = "INSERT INTO registration (id, driverLicenseFile, driverFirstName, driverLastName, driverLicenseNumber, driverLicenseExpiration, driverPhone, driverEmail, driverStreetAddress, driverApartmentNumber, driverCity, driverState, driverZipCode, businessName, businessLicenseNumber, businessRegistrationNumber, businessLicenseExpiration, businessPhone, businessEmail, businessStreetAddress, businessApartmentNumber, businessCity, businessState, businessZipCode, signature_svg, pdf_link, timestamp) 
+VALUES ('$kisauuid', '$driverLicenseFileName', '$driverFirstName', '$driverLastName', '$driverLicenseNumber', '$driverLicenseExpiration', '$driverPhone', '$driverEmail', '$driverStreetAddress', '$driverApartmentNumber', '$driverCity', '$driverState', '$driverZipCode', '$businessName', '$businessLicenseNumber', '$businessRegistrationNumber', '$businessLicenseExpiration', '$businessPhone', '$businessEmail', '$businessStreetAddress', '$businessApartmentNumber', '$businessCity', '$businessState', '$businessZipCode', '$uniqueFilename', '$uniqidpdf', '$nyDateTime')";
+
+    $durum = $baglanti->prepare($sql)->execute();
 
     if ($durum) {
-		
-		       // First email
+        // First email
         $email1 = new \SendGrid\Mail\Mail();
         $email1->setFrom("info@newyorkpedicabservices.com", "NYPS");
-        $email1->setSubject(
-            "Pedicab Driver Registration - " . $driverFirstName . " " . $driverLastName
-        );
+        $email1->setSubject("Pedicab Driver Registration - " . $driverFirstName . " " . $driverLastName);
         $email1->addTo("info@newyorkpedicabservices.com", "NYPS");
 
         $htmlContent1 = <<<EOD
 <html>
 <body>
     <h1>Pedicab Driver Registration - $driverFirstName $driverLastName</h1>
-   
 </body>
 </html>
 EOD;
-        
 
-
-		$dosyaadi = $driverFirstName . "-" . $driverLastName . "-" . $kisauuid . ".pdf";
+        $dosyaadi = $driverFirstName . "-" . $driverLastName . "-" . $kisauuid . ".pdf";
         $email1->addContent("text/html", $htmlContent1);
-		
-		 $email1->addAttachment(
-            file_get_contents($pdfFilePath),
-            "application/pdf",
-            $dosyaadi,
-            "attachment"
-        );
-		
-		
-			       // second email
+        $email1->addAttachment(file_get_contents($pdfFilePath), "application/pdf", $dosyaadi, "attachment");
+
+        // Second email
         $email2 = new \SendGrid\Mail\Mail();
         $email2->setFrom("info@newyorkpedicabservices.com", "NYPS");
-        $email2->setSubject(
-            "New York Pedicab Services Registration” - " . $driverFirstName . " " . $driverLastName
-        );
+        $email2->setSubject("New York Pedicab Services Registration - " . $driverFirstName . " " . $driverLastName);
         $email2->addTo($driverEmail, $driverFirstName . " " . $driverLastName);
 
         $htmlContent2 = <<<EOD
@@ -294,50 +281,35 @@ EOD;
 <body>
     <h1>Pedicab Driver Registration - $driverFirstName $driverLastName</h1>
     <p>Thank you for registering with New York Pedicab Services.</p>
-	<p>Attached is your services agreement with New York Pedicab Services.</p>
-	<p>Thank you,</p>
-	<p>New York Pedicab Services</p>
-	<p>(212) 961-7435</p>
-	<p>info@newyorkpedicabservices.com</p>
+    <p>Attached is your services agreement with New York Pedicab Services.</p>
+    <p>Thank you,</p>
+    <p>New York Pedicab Services</p>
+    <p>(212) 961-7435</p>
+    <p>info@newyorkpedicabservices.com</p>
 </body>
 </html>
 EOD;
-        }
-
         $email2->addContent("text/html", $htmlContent2);
-		
-		 $email2->addAttachment(
-            file_get_contents($pdfFilePath),
-            "application/pdf",
-            $dosyaadi,
-            "attachment"
-        );
- // SendGrid API key
-        $sendgrid = new \SendGrid(
-            "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"
-        );
+        $email2->addAttachment(file_get_contents($pdfFilePath), "application/pdf", $dosyaadi, "attachment");
+
+        $sendgrid = new \SendGrid("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");
 
         try {
             // Send the first email
             $response1 = $sendgrid->send($email1);
-            // print $response1->statusCode() . "\n";
-            //print_r($response1->headers());
-            // print $response1->body() . "\n";
-
             // Send the second email
-           $response2 = $sendgrid->send($email2);
-            // print $response2->statusCode() . "\n";
-            // print_r($response2->headers());
-            // print $response2->body() . "\n";
+            $response2 = $sendgrid->send($email2);
         } catch (Exception $e) {
-            // echo 'Caught exception: '. $e->getMessage() ."\n";
+//echo 'Caught exception: ' . $e->getMessage() . "\n";
         }
-		
-		
-	}
+    } else {
+        header("location: index.php");
+    }
+}
 
- else {
-    header("location: index.php");
+else {
+	        header("location: index.php");
+	
 }
 
 function convertSvgToPng($svgFilePath, $pngFilePath) {
@@ -351,8 +323,19 @@ function convertSvgToPng($svgFilePath, $pngFilePath) {
         $imagick->destroy();
         return true;
     } catch (Exception $e) {
-        echo 'Error: ', $e->getMessage(), "<br>";
+       // echo 'Error: ', $e->getMessage(), "<br>";
         return false;
     }
+}
+
+function convertWebpToPng($webpFilePath, $outputDir) {
+    $imagick = new Imagick();
+    $imagick->readImage($webpFilePath);
+    $imagick->setImageFormat('png');
+    $pngFilePath = $outputDir . '/' . uniqid('license_', true) . '.png';
+    $imagick->writeImage($pngFilePath);
+    $imagick->clear();
+    $imagick->destroy();
+    return $pngFilePath;
 }
 ?>

@@ -26,6 +26,19 @@ if ($_POST) {
     header("location: index.php");
 		exit;
 }
+
+
+date_default_timezone_set('America/New_York'); // New York saat dilimini ayarla
+$hour = (int)date('G');
+$minute = (int)date('i');
+
+if ($hour < 11 || ($hour == 18 && $minute > 0) || $hour > 18) {
+    // Eğer saat 11:00 AM'den küçükse veya 6:01 PM'den büyükse yönlendir
+    header("Location: index.php?error=unavailabletime");
+    exit;
+}
+
+
 $todayDay = date("m/d/Y");
 $todayDayName = date("l", strtotime($todayDay));
 ?>

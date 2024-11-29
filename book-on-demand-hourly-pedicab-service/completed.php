@@ -36,13 +36,6 @@ $current_time = htmlspecialchars($_POST["current_time"]);
 
 
 
-
-if ($serviceDuration == 30 || $serviceDuration == 90) {
-    $serviceDuration = $serviceDuration . " Minutes";
-} else {
-    $serviceDuration = $serviceDuration . " Hour";
-}
-
 $date = DateTime::createFromFormat("m/d/Y", $pickUpDate);
 
 if ($date) {

@@ -39,6 +39,8 @@ if ($date) {
     // Format to get the day name
     $pickUpDay = $date->format("l");
 }
+        $pedicabCount = ceil($numPassengers / 3);
+		$driverFarePerDriver = number_format($driverFare/$pedicabCount, 2);
 ?>
 
 <!DOCTYPE html>
@@ -52,6 +54,15 @@ if ($date) {
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+	<!-- Google tag (gtag.js) --> <script async src=" https://www.googletagmanager.com/gtag/js?id=AW-16684451653 "></script> <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'AW-16684451653'); </script>
+	<script>
+  gtag('event', 'conversion', {
+      'send_to': 'AW-16684451653/On57CNnx6s0ZEMWO4pM-',
+      'value': <?php echo $bookingFee; ?>,
+      'currency': 'USD',
+      'transaction_id': '<?php echo $bookingNumber; ?>'
+  });
+</script>
 </head>
 <body>
     <div class="top-controls">
@@ -91,10 +102,16 @@ if ($date) {
                             <th scope="row">Phone Number</th>
                             <td><?= $phoneNumber ?></td>
                         </tr>
-                        <tr>
-                            <th scope="row">Number of Passengers</th>
-                            <td><?= $numPassengers ?></td>
-                        </tr>
+<tr>
+    <th scope="row">Number of Passengers</th>
+    <td>
+        <?php
+        $pedicabCount = ceil($numPassengers / 3);
+        $pedicabLabel = $pedicabCount == 1 ? 'Pedicab' : 'Pedicabs';
+        echo $numPassengers . ' (' . $pedicabCount . ' ' . $pedicabLabel . ')';
+        ?>
+    </td>
+</tr>
                         <tr>
                             <th scope="row">Date of Tour</th>
                           <td><?php echo $pickUpDate . ' ' .$pickUpDay;?></td>
@@ -105,7 +122,7 @@ if ($date) {
                         </tr>
                         <tr>
                             <th scope="row">Duration of Tour</th>
-                            <td><?= $tourDuration ?> Minutes</td>
+                            <td><?= $tourDuration ?></td>
                         </tr>
                         <tr>
                             <th scope="row">Duration of Ride</th>
@@ -133,7 +150,9 @@ if ($date) {
 						?>
                         <tr>
                             <th scope="row">Driver Fare</th>
-                            <td>$<?= $driverFare ?> with <?= $paymentMethod ?> due on <?= $pickUpDate ?></td>
+                            <td>$<?= $driverFare ?>  <?php if ($pedicabCount != 1) {?>
+								 ($<?= $driverFarePerDriver ?> per driver)
+								 <?php } ?> with <?= $paymentMethod ?> due on <?= $pickUpDate ?></td>
                         </tr>
                         <tr style="background-color:green;">
                             <th scope="row" style="color:white;">Total Fare</th>

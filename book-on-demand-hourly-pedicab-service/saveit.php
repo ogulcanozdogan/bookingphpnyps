@@ -19,8 +19,8 @@ function generateUniqueId() {
 function saveBooking($data, $pdo) {
     try {
         $uniqueId = generateUniqueId();
-        $sql = "INSERT INTO temporaryBookings (unique_id, num_passengers, pick_up_address, destination_address, payment_method, first_name, last_name, email, phone_number, booking_fee, driver_fare, total_fare, ride_duration, return_duration, operation_fare, pick_up_duration, service_duration, hub, hourly_operation_fare, country_code) 
-                VALUES (:unique_id, :num_passengers, :pick_up_address, :destination_address, :payment_method, :first_name, :last_name, :email, :phone_number, :booking_fee, :driver_fare, :total_fare, :ride_duration, :return_duration, :operation_fare, :pick_up_duration, :service_duration, :hub, :hourly_operation_fare, :country_code)";
+        $sql = "INSERT INTO temporaryBookings (unique_id, num_passengers, pick_up_address, destination_address, payment_method, first_name, last_name, email, phone_number, booking_fee, driver_fare, total_fare, ride_duration, return_duration, operation_fare, pick_up_duration, service_duration, hub, hourly_operation_fare, country_code, service_details) 
+                VALUES (:unique_id, :num_passengers, :pick_up_address, :destination_address, :payment_method, :first_name, :last_name, :email, :phone_number, :booking_fee, :driver_fare, :total_fare, :ride_duration, :return_duration, :operation_fare, :pick_up_duration, :service_duration, :hub, :hourly_operation_fare, :country_code, :service_details)";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
             ':unique_id' => $uniqueId,
@@ -42,7 +42,8 @@ function saveBooking($data, $pdo) {
 			':service_duration' => $data['serviceDuration'],
             ':hub' => $data['hub'],
             ':hourly_operation_fare' => $data['hourlyOperationFare'],
-			':country_code' => $data['countryCode']
+			':country_code' => $data['countryCode'],
+			':service_details' => $data['serviceDetails']
         ]);
         return $uniqueId;
     } catch (PDOException $e) {
@@ -70,7 +71,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		'serviceDuration' => $_POST['serviceDuration'] ?? "",
         'hub' => $_POST['hub'] ?? "",
         'hourlyOperationFare' => $_POST['hourlyOperationFare'] ?? "",
-        'countryCode' => $_POST['countryCode'] ?? ""
+        'countryCode' => $_POST['countryCode'] ?? "",
+        'serviceDetails' => $_POST['serviceDetails'] ?? "",		
     ];
 
     $uniqueId = saveBooking($data, $pdo);

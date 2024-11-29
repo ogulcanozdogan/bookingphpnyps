@@ -1,6 +1,6 @@
 {
     "require": {
-        "twilio/sdk": "^8.0",
+        "twilio/sdk": "^8.3",
 		"sendgrid/sendgrid": "~7"
     }
 }

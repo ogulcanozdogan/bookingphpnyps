@@ -29,7 +29,7 @@ $pickUpDate = $_POST['pickUpDate'];
 	  <title>Book Scheduled Hourly Pedicab Service</title>
 	  <meta name="description" content="Scheduled Hourly Pedicab Service Booking Application">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	  	<meta name="robots" content="noindex,nofollow">
+	<meta name="robots" content="index, follow">
       <!-- Viewport meta tag added -->
 <link rel="preload" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"></noscript>
@@ -38,6 +38,15 @@ $pickUpDate = $_POST['pickUpDate'];
 <noscript><link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"></noscript>
 
       <link type="text/css" href="css/style.css" rel="stylesheet">
+	  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G3HDRQGC05"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-G3HDRQGC05');
+</script>
    </head>
    <body>
       <form onsubmit="return validateForm()" method="post" id="myForm" action="step2.php">
@@ -70,33 +79,39 @@ $pickUpDate = $_POST['pickUpDate'];
     </div>
 </div>
 
-                  <div class="form-group">
-                     <label for="numPassengers">Number of Passengers</label>
-                     <select title="" class="form-control" id="numPassengers" name="numPassengers" required  oninvalid="this.setCustomValidity('Please, select the number of passengers.'); this.classList.add('invalid');" 
-                        oninput="this.setCustomValidity(''); this.classList.remove('invalid');">
-                        <option value="" selected>Select the number of passengers</option>
-                        <?php
-                        $passengerCounts = [1, 2, 3];
-                        foreach ($passengerCounts as $count) {
-                            echo '<option value="' . $count . '"';
-                            if (
-                                isset($_POST["numPassengers"]) &&
-                                $_POST["numPassengers"] == $count
-                            ) {
-                                echo " selected";
-                            }
-                            echo ">" . $count . "</option>";
-                        }
-                        ?>
-                     </select>
-                  </div>
+<div class="form-group">
+    <label for="numPassengers">Number of Passengers</label>
+    <select title="" class="form-control" id="numPassengers" name="numPassengers" required oninvalid="this.setCustomValidity('Please, select the number of passengers.'); this.classList.add('invalid');" 
+    oninput="this.setCustomValidity(''); this.classList.remove('invalid');">
+        <option value="" selected>Select the number of passengers</option>
+        <?php
+        $passengerCounts = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+        $pedicabCount = 1;
+
+        foreach ($passengerCounts as $index => $count) {
+            if ($index % 3 == 0 && $index != 0) {
+                $pedicabCount++;
+            }
+            $pedicabLabel = $pedicabCount == 1 ? 'Pedicab' : 'Pedicabs';
+            echo '<option value="' . $count . '"';
+            if (
+                isset($_POST["numPassengers"]) &&
+                $_POST["numPassengers"] == $count
+            ) {
+                echo " selected";
+            }
+            echo ">" . $count . ' (' . $pedicabCount . ' ' . $pedicabLabel . ')' . "</option>";
+        }
+        ?>
+    </select>
+</div>
     <div class="form-group">
         <label for="pickUpDate">Date of Service</label>
         <input title="" autocomplete="off" type="date" required
                max="2025-12-31"
                oninvalid="this.setCustomValidity('Please, select the date of pick up.'); this.classList.add('invalid');"
                oninput="this.setCustomValidity(''); this.classList.remove('invalid');"
-               class="form-control" id="pickUpDate" name="pickUpDate" value="<?php echo isset($pickUpDate) ? htmlspecialchars($pickUpDate) : ''; ?>">
+               class="form-control" id="pickUpDate" name="pickUpDate" value="<?php echo isset($pickUpDate) ? htmlspecialchars($pickUpDate) : ''; ?>" onchange="checkDate(this)">
     </div> <!-- // we use it to change the calendar -->
                   <div class="row">
                      <div class="col-md-4">
@@ -310,6 +325,12 @@ $pickUpDate = $_POST['pickUpDate'];
         document.body.appendChild(script);
     };
 </script>
+<script>
+document.getElementById('prevButton').addEventListener('click', function() {
+    window.location.href = 'https://newyorkpedicabservices.com/hourly-pedicab-services.html';
+});
+
+</script>
 <script> 
     document.addEventListener('DOMContentLoaded', function() {
         var today = new Date().toISOString().split('T')[0];
@@ -379,11 +400,13 @@ $pickUpDate = $_POST['pickUpDate'];
                 return false;
             }
 
-            if ((isPM && hours === 11 && minutes > 0) || (isPM && hours > 11) ||
-                (!isPM && hours < 9) || (!isPM && hours === 12)) {
-                showError("Please, do not use this application to book a ride between 11:01 pm and 8:59 am.<br> Please, use the form below instead.<br><a target='_blank' href='https://newyorkpedicabservices.com/request-point-a-to-b-pedicab-ride.html'>Request Point A to B Pedicab Ride</a>");
-                return false;
-            }
+if ((isPM && hours === 11 && minutes > 0) || 
+    (isPM && hours > 11 && hours < 12) || // PM'de gece yarısı sonrası saatler
+    (!isPM && hours < 9) || // AM'de sabah 9'dan önce
+    (!isPM && hours === 12)) { // Gece yarısı 12:00 AM
+    showError("Please, do not use this application to book a ride between 11:01 pm and 8:59 am.<br> Please, use the form below instead.<br><a target='_blank' href='https://newyorkpedicabservices.com/request-scheduled-point-a-to-b-pedicab-ride/'>Request Scheduled Point A to B Pedicab Ride</a>");
+    return false;
+}
 
             return true; 
         }
@@ -395,11 +418,19 @@ $pickUpDate = $_POST['pickUpDate'];
         });
     });
 </script>
-
+	  <?php
+include('inc/db.php');
+$zipCodes = [];
+$sorgu = $baglanti->prepare("SELECT * FROM zip_codes WHERE app_id = 2");
+$sorgu->execute();
+while ($sonuc = $sorgu->fetch()) { 
+$zipCodes[] = $sonuc['zip_code'];
+}
+?>
 <script>
 function initAutocomplete() {
     var manhattanBounds = new google.maps.LatLngBounds(
-        new google.maps.LatLng(40.70172445894308, -74.02835332961955), // Southwest corner of Manhattan (Battery Park)
+        new google.maps.LatLng(40.699417303744625, -74.0283104499974), // Southwest corner of Manhattan (Battery Park)
         new google.maps.LatLng(40.81370673870937, -73.91583560578955)  // Northeast corner of Manhattan (Inwood)
     );
 
@@ -408,22 +439,7 @@ function initAutocomplete() {
         strictBounds: true // Restrict results within specified bounds
     };
 
-    var allowedZipCodes = [
-        '10000', '10001', '10002', '10003', '10004', '10005', '10006', '10007', '10008', '10009',
-        '10010', '10011', '10012', '10013', '10014', '10015', '10016', '10017', '10018', '10019',
-        '10020', '10021', '10022', '10023', '10024', '10025', '10026', '10028', '10029', '10036',
-        '10038', '10041', '10043', '10045', '10055', '10060', '10065', '10069', '10075', '10080',
-        '10081', '10087', '10090', '10101', '10102', '10103', '10104', '10105', '10106', '10107',
-        '10108', '10109', '10110', '10111', '10112', '10113', '10114', '10116', '10117', '10118',
-        '10119', '10120', '10121', '10122', '10123', '10124', '10126', '10128', '10129', '10130',
-        '10131', '10132', '10133', '10138', '10151', '10152', '10153', '10154', '10155', '10156',
-        '10157', '10158', '10159', '10160', '10162', '10163', '10164', '10165', '10166', '10167',
-        '10168', '10169', '10170', '10171', '10172', '10173', '10174', '10175', '10176', '10177',
-        '10178', '10179', '10185', '10199', '10203', '10211', '10212', '10242', '10249', '10256',
-        '10258', '10259', '10260', '10261', '10265', '10268', '10269', '10270', '10271', '10272',
-        '10273', '10274', '10275', '10276', '10277', '10278', '10279', '10280', '10281', '10282',
-        '10285', '10286'
-    ];
+var allowedZipCodes = <?php echo json_encode($zipCodes); ?>;
 
     var pickUpInput = document.getElementById('pickUpAddress');
     var destinationInput = document.getElementById('destinationAddress');
@@ -455,7 +471,7 @@ function initAutocomplete() {
             }
         } else {
             console.error("Invalid postal code.");
-            showError("You are trying to book a ride outside of our main service areas.<br> Please, use the form below instead.<br><a href='https://newyorkpedicabservices.com/request-book-scheduled-hourly-pedicab-service.html'>Request Hourly Pedicab Service</a>");
+            showError("You are trying to book a ride outside of our main service areas.<br> Please, use the form below instead.<br><a href='https://newyorkpedicabservices.com/request-scheduled-hourly-pedicab-service/'>Request Scheduled Hourly Pedicab Service</a>");
             inputField.value = ""; // Clear the address field
         }
     }
@@ -495,6 +511,18 @@ function initAutocomplete() {
     autocompleteDestination.addListener('place_changed', function() {
         handlePlaceChanged(autocompleteDestination, destinationInput);
     });
+}
+</script>
+<script>
+function checkDate(input) {
+    const disabledDate = '2024-11-03';
+    if (input.value === disabledDate) {
+        alert('We are not available on this date.');
+        input.value = '';  // Tarihi temizler
+        input.setCustomValidity('');
+    } else {
+        input.setCustomValidity('');
+    }
 }
 </script>
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>

@@ -92,10 +92,20 @@
                                 <i class="bx bxs-file-blank"></i> <span data-key="t-dashboards">Logs</span>
                             </a>
                         </li> <!-- end Dashboard Menu -->
+						<li class="nav-item">
+                            <a class="nav-link menu-link" href="SMSMessages.php">
+                                <i class="bx bxs-chat"></i> <span data-key="t-dashboards">Messages</span>
+                            </a>
+                        </li> <!-- end Dashboard Menu -->
 						
 						<li class="nav-item">
                             <a class="nav-link menu-link" href="admin_rate_management.php">
                                 <i class="bx bx-dollar"></i> <span data-key="t-dashboards">Rate Management</span>
+                            </a>
+                        </li> <!-- end Dashboard Menu -->
+						<li class="nav-item">
+                            <a class="nav-link menu-link" href="admin_zip_codes.php">
+                                <i class="bx bxs-edit-location"></i> <span data-key="t-dashboards">ZIP Codes</span>
                             </a>
                         </li> <!-- end Dashboard Menu -->
 						<li class="nav-item">

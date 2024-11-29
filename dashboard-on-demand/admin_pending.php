@@ -146,7 +146,10 @@ include('inc/navbar.php');
                                     </div>
                                     <div class="flex-grow-1 ms-3">
                                         <h6 class="mb-1">Date</h6>
-                                        <b class="pay-amount"><?=$sonuc["date"]?></b>
+                                        <b class="pay-amount"><?php
+										$date = DateTime::createFromFormat('m/d/Y', $sonuc["date"]);
+										$dayOfWeek = $date->format('l');
+										echo $sonuc["date"] . $dayOfWeek?> (Today)</b>
                                     </div>
                                 </div>
                                 <div class="d-flex align-items-center">
@@ -159,7 +162,9 @@ include('inc/navbar.php');
                                     </div>
                                     <div class="flex-grow-1 ms-3">
                                         <h6 class="mb-1">Time</h6>
-                                        <b class="pay-amount">Now!</b>
+                                        <b class="pay-amount">
+										<?php $time = new DateTime($sonuc["updated_at"]);
+										echo $time->format('h:i A'); ?></b>
                                     </div>
                                 </div>
                                 <div class="d-flex align-items-center">
@@ -185,7 +190,7 @@ include('inc/navbar.php');
                                     </div>
                                     <div class="flex-grow-1 ms-3">
                                         <h6 class="mb-1">Name</h6>
-                                        <b class="pay-amount"><?=$sonuc["firstName"] . ' ' . $sonuc["lastName"]?></b>
+                                        <b   class="pay-amount"><?=$sonuc["firstName"] . ' ' . $sonuc["lastName"]?></b>
                                     </div>
                                 </div>
                                 <div class="d-flex align-items-center">

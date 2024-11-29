@@ -1,0 +1,225 @@
+/* Genel Stil */
+body {
+    background-color: #f0f0f0;
+    color: #333;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+	animation: fadeIn 0.5s ease-in;
+}
+
+/* Fade-in animasyon tanımı */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Genel geçiş efektleri */
+* {
+    transition: all 0.3s ease;
+}
+
+
+/* Butonlar için animasyon */
+.btn {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Tıklama efekti */
+.btn:active {
+    transform: scale(0.95);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Hover efekti */
+.btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+
+
+/* Container */
+.container {
+    margin-top: 8%;
+    max-width: 90%;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+}
+
+/* Form Elemanları */
+.form-group, .form-check {
+    margin-bottom: 20px;
+}
+
+.form-control, button.btn {
+    height: auto;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+}
+
+.form-control:focus {
+    border-color: #0044cc;
+    box-shadow: 0 0 5px rgba(0, 68, 204, 0.5);
+}
+
+/* Medya Sorguları */
+@media (min-width: 600px) {
+    #map {
+        width: 50%;
+    }
+}
+
+@media (min-width: 900px) {
+    #map {
+        width: 30%;
+    }
+}
+
+@media (max-width: 576px) {
+    .container {
+        margin-top: 25%;
+        max-width: 100%;
+        padding: 20px;
+    }
+
+    button.btn {
+        width: 100%;
+    }
+}
+
+/* Geri ve İleri Butonları */
+#prevButton, #nextButton {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    padding: 8px 16px;
+    font-size: 16px;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+#prevButton:hover, #nextButton:hover {
+    background-color: #0056b3;
+    transform: scale(1.1);
+}
+
+#prevButton {
+    transform: translateX(-60%);
+    margin-left: -90px;
+}
+
+#nextButton {
+    transform: translateX(20%);
+    margin-left: 60px;
+}
+
+/* Harita */
+#map {
+    height: 400px;
+    width: 100%;
+}
+
+/* Hata Mesajları */
+.error-message, .error-message2 {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 15px;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-family: Arial, sans-serif;
+    position: relative;
+    opacity: 1;
+    transition: opacity 0.6s;
+}
+
+.closebtn {
+    position: absolute;
+    top: 10px;
+    right: 4px;
+    color: #721c24;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.closebtn:hover {
+    color: #000;
+}
+
+/* Geçersiz input için stil */
+.invalid {
+    border: 2px solid red;
+}
+
+/* Datepicker */
+.ui-datepicker {
+    font-size: 16px;
+    background: white;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.ui-datepicker-header {
+    background-color: white;
+    color: black;
+    padding: 10px;
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ui-datepicker-calendar td a {
+    color: black;
+    background-color: white;
+    display: block;
+    text-align: center;
+    border: none;
+}
+
+.ui-datepicker-calendar .ui-state-active {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Placeholder ve Option Stilleri */
+::placeholder {
+    font-size: 1em;
+    color: black !important;
+    opacity: 1;
+}
+
+option {
+    font-size: 0.85em;
+    color: black !important;
+}
+
+.form-label, .form-control, .form-check-label {
+    font-size: 0.85em;
+    color: black !important;
+}
+
+/* Otomatik Doldurma */
+input::-webkit-autofill, 
+input::-webkit-autofill:hover, 
+input::-webkit-autofill:focus, 
+input::-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+    -webkit-text-fill-color: black !important;
+}
+

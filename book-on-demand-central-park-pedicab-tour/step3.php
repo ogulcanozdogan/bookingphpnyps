@@ -29,6 +29,18 @@ if ($_POST) {
     header("location: index.php");
 		exit;
 }
+
+
+date_default_timezone_set('America/New_York'); // New York saat dilimini ayarla
+$hour = (int)date('G');
+$minute = (int)date('i');
+
+if ($hour < 11 || ($hour == 18 && $minute > 0) || $hour > 18) {
+    // Eğer saat 11:00 AM'den küçükse veya 6:01 PM'den büyükse yönlendir
+    header("Location: index.php?error=unavailabletime");
+    exit;
+}
+
 $todayDay = date("m/d/Y");
 $todayDayName = date("l", strtotime($todayDay));
 
@@ -60,6 +72,7 @@ $todayDayName = date("l", strtotime($todayDay));
          }
       </style>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css">
+	  <!-- Google tag (gtag.js) --> <script async src=" https://www.googletagmanager.com/gtag/js?id=AW-16684451653 "></script> <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'AW-16684451653'); </script>
    </head>
    <body>
       <form method="post" id="myform" action="step4.php">
@@ -114,7 +127,22 @@ $todayDayName = date("l", strtotime($todayDay));
                         </tr>
 						<tr>
                            <th scope="row">Duration of Tour</th>
-                           <td><?= $tourDuration ?> Minutes</td>
+                           <td><?php
+if ($tourDuration == 60){
+	$tourDuration = "1 Hour (Stop at Cherry Hill + Strawberry Fields + Bethesda Fountain)";
+}
+else{
+	if ($tourDuration == 50){
+		$tourDuration = $tourDuration . " Minutes (Stop at Cherry Hill + Strawberry Fields)";
+	}
+	else if ($tourDuration == 45){
+		$tourDuration = $tourDuration . " Minutes (Stop at Cherry Hill)";
+	}
+	else if ($tourDuration == 40){
+		$tourDuration = $tourDuration . " Minutes (Non Stop)";
+	}
+}
+								echo $tourDuration; ?></td>
                         </tr>
                         <tr>
                            <th scope="row">Duration of Ride</th>
@@ -242,7 +270,6 @@ $todayDayName = date("l", strtotime($todayDay));
          
          
          
-         			console.log("durationMinutes: " + durationMinutes);
          
          
                  } else {

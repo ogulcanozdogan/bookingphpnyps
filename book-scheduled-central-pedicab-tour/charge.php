@@ -17,7 +17,7 @@ include('inc/init.php');
     require_once('vendor/autoload.php');
     require_once('inc/db.php');
     require_once('whatsapp.php');
-	
+    require_once('text.php');	
 	
 
     if (
@@ -84,6 +84,18 @@ if ($unique_id === null) {
 	$currentDateTime = new DateTime('now', new DateTimeZone('America/New_York'));
 	$createdAt = $currentDateTime->format('Y-m-d H:i:s');
 	
+	        $pedicabCount = ceil($numPassengers / 3);
+		
+		$driverFarePerDriver = number_format($driverFare/$pedicabCount, 2);
+		
+		
+		if ($pedicabCount != 1) {
+		$driverFarePerDriverText = '($' . $driverFarePerDriver . ' per driver)';
+		}
+		else{
+		$driverFarePerDriverText = '';
+		}
+	
 	    $phoneNumber = "+" . $countryCode . $phoneNumber;
 	
 	$timeOfPickUp = $hours . ":" . $minutes . " " . $ampm;
@@ -121,7 +133,7 @@ if ($unique_id === null) {
     $formattedTimeOfOrder = $orderDateTime->format('H-i');
 	
 		
-	function generateUUID() {
+function generateUUID() {
     return bin2hex(random_bytes(16));
 }
 
@@ -185,15 +197,50 @@ $namesurname = $firstName. ' '  .$lastName;
             'returnDuration' => $returnDuration,
             'operationFare' => $operationFare,
             'pickUpCoords' => $pickUpCoords,
+			"tourDuration" => $tourDuration,
 			"totalMinutes" => $totalMinutes,
             'destinationCoords' => $destinationCoords,
 			"unique_id" => $unique_id,
 			"createdAt" => $createdAt,			
         ];
 
-        $sql = "INSERT INTO centralpark (id, bookingNumber, firstName, lastName, emailAddress, phoneNumber, numberOfPassengers, date, hour, minutes, ampm, pickupAddress, destinationAddress, paymentMethod, duration, bookingFee, driverFee, totalFare, returnDuration,  operationFare, pickUpCoords, destinationCoords, unique_id, totalMinutes, createdAt)
-                VALUES ('$uuid', '$bookingNumber', '$firstName', '$lastName', '$emailAddress', '$phoneNumber', '$numPassengers', '$pickUpDate', '$hours', '$minutes', '$ampm', '$pickUpAddress', '$destinationAddress', '$paymentMethod', '$rideDuration', '$bookingFee', '$driverFare', '$totalFare', '$returnDuration', '$operationFare', '$pickUpCoords', '$destinationCoords', '$unique_id', '$totalMinutes', '$createdAt')";
-        $durum = $baglanti->prepare($sql)->execute();
+
+$sql = "INSERT INTO centralpark (id, bookingNumber, firstName, lastName, emailAddress, phoneNumber, tourDuration, numberOfPassengers, date, hour, minutes, ampm, pickupAddress, destinationAddress, paymentMethod, duration, bookingFee, driverFee, totalFare, returnDuration,  operationFare, pickUpCoords, destinationCoords, unique_id, totalMinutes, createdAt)
+VALUES (:id, :bookingNumber, :firstName, :lastName, :emailAddress, :phoneNumber, :tourDuration, :numPassengers, :pickUpDate, :hours, :minutes, :ampm, :pickUpAddress, :destinationAddress, :paymentMethod, :rideDuration, :bookingFee, :driverFare, :totalFare, :returnDuration, :operationFare, :pickUpCoords, :destinationCoords, :unique_id, :totalMinutes, :createdAt)";
+
+$statement = $baglanti->prepare($sql);
+
+// Değişkenleri parametrelere bağlama
+$statement->bindParam(':id', $uuid);
+$statement->bindParam(':bookingNumber', $bookingNumber);
+$statement->bindParam(':firstName', $firstName);
+$statement->bindParam(':lastName', $lastName);
+$statement->bindParam(':emailAddress', $emailAddress);
+$statement->bindParam(':phoneNumber', $phoneNumber);
+$statement->bindParam(':tourDuration', $tourDuration);
+$statement->bindParam(':numPassengers', $numPassengers);
+$statement->bindParam(':pickUpDate', $pickUpDate);
+$statement->bindParam(':hours', $hours);
+$statement->bindParam(':minutes', $minutes);
+$statement->bindParam(':ampm', $ampm);
+$statement->bindParam(':pickUpAddress', $pickUpAddress);
+$statement->bindParam(':destinationAddress', $destinationAddress);
+$statement->bindParam(':paymentMethod', $paymentMethod);
+$statement->bindParam(':rideDuration', $rideDuration);
+$statement->bindParam(':bookingFee', $bookingFee);
+$statement->bindParam(':driverFare', $driverFare);
+$statement->bindParam(':totalFare', $totalFare);
+$statement->bindParam(':returnDuration', $returnDuration);
+$statement->bindParam(':operationFare', $operationFare);
+$statement->bindParam(':pickUpCoords', $pickUpCoords);
+$statement->bindParam(':destinationCoords', $destinationCoords);
+$statement->bindParam(':unique_id', $unique_id);
+$statement->bindParam(':totalMinutes', $totalMinutes);
+$statement->bindParam(':createdAt', $createdAt);
+
+
+    $durum = $statement->execute();
+
 
 		$operationFare = number_format($operationFare, 2);
 		$rideDuration = number_format($rideDuration , 2);
@@ -203,13 +250,26 @@ $namesurname = $firstName. ' '  .$lastName;
 
 		$rideDuration = number_format($rideDuration, 2);
 		
+		if ($tourDuration == 1){
+	$tourDuration = $tourDuration . " Hour";
+}
+else {
+		$tourDuration = $tourDuration . " Minutes";
+
+}
+		
 		if ($paymentMethod == "CARD" or $paymentMethod == "card"){
 			$paymentMethod2 = "debit/credit card";
 		}
 				if ($paymentMethod == "CASH" or $paymentMethod == "cash"){
 			$paymentMethod2 = "CASH";
 		}
-		
+		       $dateDriver = DateTime::createFromFormat("m/d/Y", $pickUpDate);
+
+        if ($dateDriver) {
+            // Format to get the date in the desired format
+            $driverDate = $dateDriver->format("F d l");
+        }
         if ($durum) {
             $email1 = new \SendGrid\Mail\Mail();
             $email1->setFrom("info@newyorkpedicabservices.com", "NYPS");
@@ -231,7 +291,7 @@ $namesurname = $firstName. ' '  .$lastName;
     <p><strong>Time of Tour:</strong> $timeOfPickUp</p>
     <p><strong>Pick Up 1 (Hub 1 to Start) Duration:</strong> {$pickup1} Minutes</p>
     <p><strong>Pick Up 2 (Start to Hub 2) Duration:</strong> {$pickup2} Minutes</p>
-    <p><strong>Duration of Tour:</strong> {$tourDuration} Minutes</p>
+    <p><strong>Duration of Tour:</strong> {$tourDuration}</p>
     <p><strong>Duration of Ride:</strong> {$rideDuration} Minutes</p>
     <p><strong>Return 1 (Hub 1 to Finish) Duration:</strong> {$return1} Minutes</p>
     <p><strong>Return 2 (Finish to Hub 2) Duration:</strong> {$return2} Minutes</p>
@@ -241,12 +301,12 @@ $namesurname = $firstName. ' '  .$lastName;
     <p><strong>Hub 1:</strong> West Drive and West 59th Street New York, NY 10019</p>
     <p><strong>Hub 2:</strong> 6th Avenue and Central Park South New York, NY 10019</p>
     <p><strong>Base Fare:</strong> \${$baseFare}</p>
-    <p><strong>Operation Fare:</strong> \${$operationFare} per hour</p>
+    <p><strong>Operation Fare:</strong> \${$operationFare}</p>
     <p><strong>Booking Fee:</strong> \$$bookingFee paid on $todayFormatted $todayDay</p>
-    <p><strong>Driver Fare:</strong> \${$driverFare} with $paymentMethod2 due on $pickUpDate $pickUpDay</p>
+    <p><strong>Driver Fare:</strong> \${$driverFare} $driverFarePerDriverText with $paymentMethod2 due on $pickUpDate $pickUpDay</p>
     <p><strong>Total Fare:</strong> \${$totalFare}</p>
     <h2>Driver Note</h2>
-    <strong>Type:</strong> Scheduled Central Park Pedicab Tour<br><strong>First:</strong> $firstName<br><strong>Last:</strong> $lastName<br><strong>Phone:</strong> $phoneNumber<br><strong>Passengers:</strong> $numPassengers<br><strong>Date: </strong>$pickUpDate $pickUpDay<br><strong>Time:</strong> $timeOfPickUp<br><strong>Tour Duration:</strong> {$tourDuration} Minutes<br><strong>Ride Duration:</strong> {$rideDuration} Minutes<br><strong>Start:</strong> $pickUpAddress<br><strong>Finish:</strong> $destinationAddress<br><strong>Pay:</strong> \${$driverFare} $paymentMethod2 by customer $firstName $lastName
+    <strong>Type:</strong> Scheduled Central Park Pedicab Tour<br><strong>Name:</strong> $firstName $lastName<br><strong>Phone:</strong> $phoneNumber<br><strong>Passengers:</strong> $numPassengers<br><strong>Date: </strong>$driverDate<br><strong>Time:</strong> $timeOfPickUp<br><strong>Tour Duration:</strong> {$tourDuration}<br><strong>Ride Duration:</strong> {$rideDuration} Minutes<br><strong>Start:</strong> $pickUpAddress<br><strong>Finish:</strong> $destinationAddress<br><strong>Pay:</strong> \$$driverFarePerDriver per driver with $paymentMethod2 by customer $firstName $lastName
 </body>
 </html>
 EOD;
@@ -271,12 +331,12 @@ EOD;
     <p><strong>Number of Passengers:</strong> $numPassengers</p>
     <p><strong>Date of Tour:</strong> $pickUpDate $pickUpDay</p>
     <p><strong>Time of Tour:</strong> $timeOfPickUp</p>
-    <p><strong>Duration of Tour:</strong> {$tourDuration} Minutes</p>
+    <p><strong>Duration of Tour:</strong> {$tourDuration}</p>
     <p><strong>Duration of Ride:</strong> {$rideDuration} Minutes</p>
     <p><strong>Start Address:</strong> $pickUpAddress</p>
     <p><strong>Finish Address:</strong> $destinationAddress</p>
     <p><strong>Booking Fee:</strong> \$$bookingFee paid on $todayFormatted $todayDay</p>
-    <p><strong>Driver Fare:</strong> \${$driverFare} with $paymentMethod2 due on $pickUpDate $pickUpDay</p>
+    <p><strong>Driver Fare:</strong> \${$driverFare} $driverFarePerDriverText with $paymentMethod2 due on $pickUpDate $pickUpDay</p>
 	<p><strong>Total Fare:</strong> \${$totalFare}</p>
     <p><strong>Thank you,</strong></p>
     <p><strong>New York Pedicab Services</strong></p>
@@ -287,15 +347,93 @@ EOD;
 EOD;
             $email2->addContent("text/html", $htmlContent2);
 
+// Saat AM ya da PM durumunu kontrol edip 24 saat formatına çeviriyoruz
+if ($ampm == 'PM' && $hours != 12) {
+    $hours += 12;
+} elseif ($ampm == 'AM' && $hours == 12) {
+    $hours = 0;
+}
+
+date_default_timezone_set('America/New_York');
+$timeString = $pickUpDate . ' ' . $hours . ':' . $minutes . ':00';
+$dateTime = new DateTime($timeString, new DateTimeZone('America/New_York'));
+
+$dateTimeEnd = clone $dateTime;
+// $totalMinutes değişkenini tam dakika ve saniye olarak ayrıştırıyoruz.
+$minutes = floor($totalMinutes); // Tam dakika kısmı (örn. 95)
+$seconds = ($totalMinutes - $minutes) * 60; // Saniye kısmı (örn. 0.8 * 60)
+
+// $dateTimeEnd nesnesine tam dakika ve saniyeleri ekliyoruz.
+$dateTimeEnd->modify("+$minutes minutes"); // Tam dakika ekleme
+
+
+$source = "Scheduled Central Park Pedicab Tour";
+
+// .ics dosyası oluşturma
+$icsContent = "BEGIN:VCALENDAR\r\n";
+$icsContent .= "VERSION:2.0\r\n";
+$icsContent .= "PRODID:-//New York Pedicab Services//EN\r\n";
+$icsContent .= "METHOD:REQUEST\r\n";
+$icsContent .= "BEGIN:VEVENT\r\n";
+$icsContent .= "UID:" . uniqid() . "\r\n";
+$icsContent .= "DTSTAMP:" . gmdate('Ymd\THis\Z') . "\r\n";
+$icsContent .= "DTSTART;TZID=America/New_York:" . $dateTime->format('Ymd\THis') . "\r\n";
+$icsContent .= "DTEND;TZID=America/New_York:" . $dateTimeEnd->format('Ymd\THis') . "\r\n";
+$icsContent .= "SUMMARY:" . $source . " " . $tourDuration . " " . $firstName . " " . $lastName . "\r\n";
+$icsContent .= "DESCRIPTION:" . $source . " " . $tourDuration . " " . $firstName . " " . $lastName . "\r\n";
+$icsContent .= "LOCATION:6th Avenue & 57th Street, New York, NY\r\n";
+
+// Hatırlatma bildirimleri
+$icsContent .= "BEGIN:VALARM\r\n";
+$icsContent .= "TRIGGER:-PT20H\r\n";
+$icsContent .= "ACTION:DISPLAY\r\n";
+$icsContent .= "DESCRIPTION:" . $source . " " . $tourDuration . " " . $firstName . " " . $lastName . " reminder\r\n";
+$icsContent .= "END:VALARM\r\n";
+$icsContent .= "END:VEVENT\r\n";
+$icsContent .= "END:VCALENDAR\r\n";
+
+$icsFile = tempnam(sys_get_temp_dir(), 'calendar') . '.ics';
+file_put_contents($icsFile, $icsContent);
+
+// SendGrid ile e-posta gönderme
+$email3 = new \SendGrid\Mail\Mail();
+$email3->setFrom("info@newyorkpedicabservices.com", "New York Pedicab Services");
+$email3->setSubject("REMINDER: " . $source . " " . $tourDuration . " - " . $firstName . " " . $lastName);
+$email3->addTo('info@newyorkpedicabservices.com', 'NYPS');
+$email3->addContent("text/html", "
+    <h2>Driver Note</h2>
+    <strong>Type:</strong> Scheduled Central Park Pedicab Tour<br>
+	<strong>Name:</strong> $firstName $lastName<br>
+    <strong>Phone:</strong> $phoneNumber<br>
+    <strong>Passengers:</strong> $numPassengers<br>
+    <strong>Date:</strong> $driverDate<br>
+    <strong>Time:</strong> $timeOfPickUp<br>
+    <strong>Tour Duration:</strong> {$tourDuration}<br>
+    <strong>Ride Duration:</strong> {$rideDuration} Minutes<br>
+    <strong>Start:</strong> $pickUpAddress<br>
+    <strong>Finish:</strong> $destinationAddress<br>
+    <strong>Pay:</strong> \$$driverFarePerDriver per driver with $paymentMethod2 by customer $firstName $lastName
+");
+
+
+    $email3->addAttachment(
+        base64_encode(file_get_contents($icsFile)),
+        "text/calendar; method=REQUEST",
+        "tour_reminder.ics",
+        "attachment"
+    );
+
+
+
             $sendgrid = new \SendGrid('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');
             try {
                 $response1 = $sendgrid->send($email1);
                 $response2 = $sendgrid->send($email2);
+				$response3 = $sendgrid->send($email3);
             } catch (Exception $e) {
                 echo 'Email sending error: ' . $e->getMessage();
             }
-
-       $sorgu = $baglanti->prepare("SELECT * FROM users WHERE perm = 'driver'");
+       $sorgu = $baglanti->prepare("SELECT * FROM users");
         $sorgu->execute();
 
         $phoneNumbers = [];
@@ -304,11 +442,23 @@ EOD;
             $phoneNumbers[] = $formattedPhone;
         }
 
-       $message = "Central Park Pedicab Tour available!
+       $message = "Scheduled Central Park Pedicab Tour available!
 {" . $bookingNumber . "}";
             foreach ($phoneNumbers as $phoneNumberwp) {
                 $messageSid = sendWhatsAppMessage($twilio, $phoneNumberwp, $message);
             }
+			
+       $sorgu = $baglanti->prepare("SELECT * FROM users");
+        $sorgu->execute();
+
+        $phoneNumbers = [];
+        while ($sonuc = $sorgu->fetch()) { 
+            $formattedPhone = "+1" . $sonuc['number'];
+            $phoneNumbers[] = $formattedPhone;
+        }
+	foreach ($phoneNumbers as $phoneNumberwp) {
+                $messageSid = sendTextMessage($twilio, $phoneNumberwp, $message);
+    }	
 
             // Redirect to completed.php with POST data
             $postData = [

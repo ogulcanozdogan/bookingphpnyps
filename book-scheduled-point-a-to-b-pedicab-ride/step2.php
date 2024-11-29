@@ -61,11 +61,11 @@ if ($hour24 >= 9 && $hour24 < 16) {
     $hub = "West Drive and West 59th Street New York, NY 10019";
 	$hubCoords = '40.766941088678855, -73.97899952992152';
 } elseif ($hour24 >= 16 && $hour24 < 19) {
-    $hub = "6th Avenue and West 48th Street New York, NY 10020";
-	$hubCoords = '6th Avenue and West 48th Street New York, NY 10020';	
+    $hub = "West Drive and West 59th Street New York, NY 10019";
+	$hubCoords = '40.766941088678855, -73.97899952992152';	
 } else {
-    $hub = "7th Avenue and West 48th Street New York, NY 10036";
-	$hubCoords = '7th Avenue and West 48th Street New York, NY 10036';	
+    $hub = "West Drive and West 59th Street New York, NY 10019";
+	$hubCoords = '40.766941088678855, -73.97899952992152';	
 }
 
 // Base Fare calculation
@@ -252,14 +252,23 @@ $minTotalFare = $minFares[$paymentMethod][$key]["Total Fare"];
 
 $bookingFee = max($bookingFee, $minBookingFee);
 $driverFare = max($driverFare, $minDriverFare);
+
+  $pedicabCount = ceil($numPassengers / 3);
+  $driverFare = $driverFare * $pedicabCount;
+  $bookingFee = $bookingFee * $pedicabCount;
+
+
+
 if ($paymentMethod == "card" or $paymentMethod == "CASH") {
     $totalFare = max($bookingFee + $driverFare, $minTotalFare);
 } else {
     $totalFare = ($baseFare + $operationFare) * 1.2;
+	$totalFare = $totalFare * $pedicabCount;
 	$bookingFee = 0.3 * $totalFare;
 	$driverFare = 0.7 * $totalFare;
     $totalFare = max($totalFare, $minTotalFare);
 }
+$driverFarePerDriver = number_format($driverFare/$pedicabCount, 2);
 require "inc/countryselect.php";
 ?>
 <!DOCTYPE html>
@@ -353,10 +362,16 @@ require "inc/countryselect.php";
 						<td>Return Duration: <?=$returnDuration?></td>
 						<td>Hub: <?=$hub?></td>
 						</tr> -->
-                            <tr>
-                                <th scope="row">Number of Passengers</th>
-                                <td><?= $numPassengers ?></td>
-                            </tr>
+<tr>
+    <th scope="row">Number of Passengers</th>
+    <td>
+        <?php
+        $pedicabCount = ceil($numPassengers / 3);
+        $pedicabLabel = $pedicabCount == 1 ? 'Pedicab' : 'Pedicabs';
+        echo $numPassengers . ' (' . $pedicabCount . ' ' . $pedicabLabel . ')';
+        ?>
+    </td>
+</tr>
                             <tr>
                                 <th scope="row">Date of Pick Up</th>
                                 <td><?= $pickUpDate . " " . $dayOfWeek ?></td>
@@ -388,7 +403,11 @@ require "inc/countryselect.php";
                             </tr>
                             <tr>
                                 <th scope="row">Driver Fare</th>
-                                 <td>$<?= number_format($driverFare, 2) ?> with <?= $paymentMethod == 'card' ? 'debit/credit card' : $paymentMethod ?></td>
+                                 <td>$<?= number_format($driverFare, 2) ?> 
+								 <?php if ($pedicabCount != 1) {?>
+								 ($<?= $driverFarePerDriver ?> per driver)
+								 <?php } ?>
+								 with <?= $paymentMethod == 'card' ? 'debit/credit card' : $paymentMethod ?></td>
                             </tr>
 							<?php } ?>
                             <tr style="background-color:green;">
@@ -403,7 +422,7 @@ require "inc/countryselect.php";
                     <h2 class="text-center mb-4 font-weight-bold" style="color:#0909ff;">Passenger Details</h2>
 <div class="form-group">
     <label for="firstName">First Name</label>
-    <input maxlength="50" title="" type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter your first name" 
+    <input maxlength="15" title="" type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter your first name" 
         <?php if (isset($_POST["firstName"]) && !empty($_POST["firstName"])) { ?>
             value="<?php echo htmlspecialchars($_POST["firstName"]); ?>"
         <?php } ?> 
@@ -413,7 +432,7 @@ require "inc/countryselect.php";
 
 <div class="form-group">
     <label for="lastName">Last Name</label>
-    <input maxlength="50" title="" type="text" class="form-control" id="lastName" name="lastName" placeholder="Enter your last name" 
+    <input maxlength="15" title="" type="text" class="form-control" id="lastName" name="lastName" placeholder="Enter your last name" 
         <?php if (isset($_POST["lastName"]) && !empty($_POST["lastName"])) { ?>
             value="<?php echo htmlspecialchars($_POST["lastName"]); ?>"
         <?php } ?> 
@@ -423,7 +442,7 @@ require "inc/countryselect.php";
 
 <div class="form-group">
     <label for="email">Email Address</label>
-    <input maxlength="50" title="" type="email" class="form-control" id="email" name="email" placeholder="Enter your email address" 
+    <input maxlength="30" title="" type="email" class="form-control" id="email" name="email" placeholder="Enter your email address" 
         <?php if (isset($_POST['email']) && !empty($_POST['email'])) { ?>
             value="<?php echo htmlspecialchars($_POST['email']); ?>"
         <?php } ?> 
@@ -475,6 +494,15 @@ require "inc/countryselect.php";
     </form>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput-jquery.min.js"></script>
+		<?php
+include('inc/db.php');
+$zipCodes = [];
+$sorgu = $baglanti->prepare("SELECT * FROM zip_codes WHERE app_id = 3");
+$sorgu->execute();
+while ($sonuc = $sorgu->fetch()) { 
+$zipCodes[] = $sonuc['zip_code'];
+}
+?>
 <script>
     function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
@@ -502,25 +530,36 @@ require "inc/countryselect.php";
 
         var geocoder = new google.maps.Geocoder();
         var pickupAddress = <?php echo json_encode($deneme2); ?>;
-        var destinationAddress = <?php echo json_encode(
-            $destinationAddress
-        ); ?>;
+        var destinationAddress = <?php echo json_encode($destinationAddress); ?>;
+        var allowedZipCodes = <?php echo json_encode($zipCodes); ?>; 
 
-        geocodeAddress(geocoder, pickupAddress, function(pickupLocation) {
-            geocodeAddress(geocoder, destinationAddress, function(destinationLocation) {
+        geocodeAndCheckAddress(geocoder, pickupAddress, allowedZipCodes, function(pickupLocation) {
+            geocodeAndCheckAddress(geocoder, destinationAddress, allowedZipCodes, function(destinationLocation) {
                 calculateAndDisplayRoute(directionsService, directionsRenderer, map, pickupLocation, destinationLocation);
             });
         });
     }
 
-    function geocodeAddress(geocoder, address, callback) {
+    function geocodeAndCheckAddress(geocoder, address, allowedZipCodes, callback) {
         geocoder.geocode({ 'address': address }, function(results, status) {
             if (status === 'OK') {
-                callback(results[0].geometry.location);
+                var zipCode = getZipCodeFromPlace(results[0]);
+                if (allowedZipCodes.includes(zipCode)) {
+                    callback(results[0].geometry.location);
+                } else {
+                    window.location.href = 'index.php?error=yes';
+                }
             } else {
-                alert('Geocode was not successful for the following reason: ' + status);
+                window.location.href = 'index.php?error=yes';
             }
         });
+    }
+
+    function getZipCodeFromPlace(place) {
+        var zipCodeComponent = place.address_components.find(function(component) {
+            return component.types.indexOf("postal_code") > -1;
+        });
+        return zipCodeComponent ? zipCodeComponent.long_name : null;
     }
 
     function calculateAndDisplayRoute(directionsService, directionsRenderer, map, pickupLocation, destinationLocation) {
@@ -538,10 +577,9 @@ require "inc/countryselect.php";
 
                 // Calculate the duration of the route
                 var durationMinutes = parseFloat(response.routes[shortestRouteIndex].legs.reduce((sum, leg) => sum + leg.duration.value, 0) / 60);
-
                 console.log("durationMinutes: " + durationMinutes);
             } else {
-                window.alert('Directions request failed due to ' + status);
+                window.location.href = 'index.php?error=yes';
             }
         });
     }

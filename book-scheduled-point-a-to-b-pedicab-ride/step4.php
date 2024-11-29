@@ -54,6 +54,7 @@ if ($paymentMethod != "fullcard") {
     $pay = $totalFareCent;
 }
 
+
 $paymentIntent = $stripe->paymentIntents->create([
     "automatic_payment_methods" => ["enabled" => true],
     "amount" => $pay,
@@ -61,7 +62,8 @@ $paymentIntent = $stripe->paymentIntents->create([
     "description" => "NYPS WEB Scheduled Point A to B Pedicab Ride",
     "receipt_email" => $email,
 ]);
-
+        $pedicabCount = ceil($numPassengers / 3);
+		$driverFarePerDriver = number_format($driverFare/$pedicabCount, 2);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -80,7 +82,6 @@ $paymentIntent = $stripe->paymentIntents->create([
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css">
 </head>
 <body>
-     
     <div class="top-controls">
         <input title="" type="button" id="prevButton" name="back" class="btn btn-primary font-weight-bold" value="<">
     </div>
@@ -115,10 +116,16 @@ $paymentIntent = $stripe->paymentIntents->create([
                                 <th scope="row">Phone Number</th>
                            <td>+<?= $countryCode . $phoneNumber ?></td>
                             </tr>
-                            <tr>
-                                <th scope="row">Number of Passengers</th>
-                                <td><?= $numPassengers ?></td>
-                            </tr>
+<tr>
+    <th scope="row">Number of Passengers</th>
+    <td>
+        <?php
+        $pedicabCount = ceil($numPassengers / 3);
+        $pedicabLabel = $pedicabCount == 1 ? 'Pedicab' : 'Pedicabs';
+        echo $numPassengers . ' (' . $pedicabCount . ' ' . $pedicabLabel . ')';
+        ?>
+    </td>
+</tr>
                             <tr>
                                 <th scope="row">Date of Pick Up</th>
                                 <td><?= $pickUpDate . " " . $dayOfWeek ?></td>
@@ -150,7 +157,10 @@ $paymentIntent = $stripe->paymentIntents->create([
                             </tr>
                             <tr>
                                 <th scope="row">Driver Fare</th>
-                                <td>$<?= number_format($driverFare, 2) ?> with <?= $paymentMethod == 'card' ? 'debit/credit card' : $paymentMethod ?></td>
+						    <td>$<?= number_format($driverFare, 2) ?> 								 
+								<?php if ($pedicabCount != 1) {?>
+								 ($<?= $driverFarePerDriver ?> per driver)
+								 <?php } ?> with <?= $paymentMethod == 'card' ? 'debit/credit card' : $paymentMethod ?></td>
                             </tr>
 							<?php } ?>
                             <tr style="background-color:green;">
@@ -192,6 +202,7 @@ $paymentIntent = $stripe->paymentIntents->create([
                     <input title="" type="hidden" name="baseFare" value="<?= $baseFare ?>">
                     <input title="" type="hidden" name="operationFare" value="<?= $operationFare ?>">
                     <input title="" type="hidden" name="countryName" value="<?= $countryName ?>">
+					<input title="" type="hidden" name="countryCode" value="<?= $countryCode ?>">
                     <center>  
                         <button type="submit">Pay $<?php if (
                             $paymentMethod != "fullcard"
@@ -205,7 +216,6 @@ $paymentIntent = $stripe->paymentIntents->create([
             </div>
         </div>
     </div>
-
 <script>
     var stripe = Stripe('<?php echo $_ENV['STRIPE_PUBLIC_KEY']; ?>');
     var elements = stripe.elements({
@@ -223,56 +233,11 @@ $paymentIntent = $stripe->paymentIntents->create([
         }
     });
 
-    var firstName = <?php echo json_encode($_POST["firstName"]); ?>;
-    var lastName = <?php echo json_encode($_POST["lastName"]); ?>;
-    var email = <?php echo json_encode($_POST["email"]); ?>;
-    var phoneNumber = <?php echo json_encode($_POST["phoneNumber"]); ?>;
-    var numPassengers = <?php echo json_encode($_POST["numPassengers"]); ?>;
-    var pickUpDate = <?php echo json_encode($_POST["pickUpDate"]); ?>;
-    var hours = <?php echo json_encode($_POST["hours"]); ?>;
-    var minutes = <?php echo json_encode($_POST["minutes"]); ?>;
-    var ampm = <?php echo json_encode($_POST["ampm"]); ?>;
-    var pickUpAddress = <?php echo json_encode($_POST["pickUpAddress"]); ?>;
-    var destinationAddress = <?php echo json_encode($_POST["destinationAddress"]); ?>;
-    var paymentMethod = <?php echo json_encode($_POST["paymentMethod"]); ?>;
-    var rideDuration = <?php echo json_encode($_POST["rideDuration"]); ?>;
-    var bookingFee = <?php echo json_encode($_POST["bookingFee"]); ?>;
-    var driverFare = <?php echo json_encode($_POST["driverFare"]); ?>;
-    var totalFare = <?php echo json_encode($_POST["totalFare"]); ?>;
-    var returnDuration = <?php echo json_encode($_POST["returnDuration"]); ?>;
-    var pickUpDuration = <?php echo json_encode($_POST["pickUpDuration"]); ?>;
-    var hub = <?php echo json_encode($_POST["hub"]); ?>;
-    var baseFare = <?php echo json_encode($_POST["baseFare"]); ?>;
-    var operationFare = <?php echo json_encode($_POST["operationFare"]); ?>;
-	var countryCode = <?php echo json_encode($_POST["countryCode"]); ?>;
-
     var form = document.getElementById('payment-form');
     form.addEventListener('submit', function(event) {
         event.preventDefault();
 
-        var formData = new FormData();
-        formData.append('firstName', firstName);
-        formData.append('lastName', lastName);
-        formData.append('email', email);
-        formData.append('phoneNumber', phoneNumber);
-        formData.append('numPassengers', numPassengers);
-        formData.append('pickUpDate', pickUpDate);
-        formData.append('hours', hours);
-        formData.append('minutes', minutes);
-        formData.append('ampm', ampm);
-        formData.append('pickUpAddress', pickUpAddress);
-        formData.append('destinationAddress', destinationAddress);
-        formData.append('paymentMethod', paymentMethod);
-        formData.append('rideDuration', rideDuration);
-        formData.append('bookingFee', bookingFee);
-        formData.append('driverFare', driverFare);
-        formData.append('totalFare', totalFare);
-        formData.append('returnDuration', returnDuration);
-        formData.append('pickUpDuration', pickUpDuration);
-        formData.append('hub', hub);
-        formData.append('baseFare', baseFare);
-        formData.append('operationFare', operationFare);
-        formData.append('countryCode', countryCode);
+        var formData = new FormData(form);
 
         fetch('saveit.php', {
             method: 'POST',
@@ -299,7 +264,6 @@ $paymentIntent = $stripe->paymentIntents->create([
         });
     });
 </script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput-jquery.min.js"></script>
 <script>

@@ -52,6 +52,23 @@ if ($perm != "admin") {
     header('location: index.php');
 }
 include('inc/navbar.php');
+
+// Sayfalama değişkenlerini tanımla
+$limit = 20; // Sayfa başına gösterilecek kayıt sayısı
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Şu anki sayfa numarası, default olarak 1
+$start = ($page - 1) * $limit; // Başlangıç noktası
+
+// Veritabanından kayıtları çek
+$sorgu = $baglanti->prepare("SELECT * FROM users WHERE verify=1 LIMIT :start, :limit");
+$sorgu->bindValue(':start', $start, PDO::PARAM_INT);
+$sorgu->bindValue(':limit', $limit, PDO::PARAM_INT);
+$sorgu->execute();
+
+// Toplam kayıt sayısını al
+$sorguToplam = $baglanti->prepare("SELECT COUNT(*) FROM users WHERE verify=1");
+$sorguToplam->execute();
+$total = $sorguToplam->fetchColumn();
+$total_pages = ceil($total / $limit);
 ?>
 
 <div class="main-content">
@@ -82,9 +99,6 @@ include('inc/navbar.php');
                                         </thead>
                                         <tbody>
                                         <?php 
-                                        $sorgu = $baglanti->prepare("SELECT * FROM users WHERE verify=1");
-                                        $sorgu->execute();
-
                                         while ($sonuc = $sorgu->fetch(PDO::FETCH_ASSOC)) {
                                         ?>
                                             <tr>
@@ -137,6 +151,22 @@ include('inc/navbar.php');
                             </div>
                         </div><!-- end card-body -->
                     </div><!-- end card -->
+                    
+                    <!-- Sayfalama -->
+                    <?php 
+                    if ($total_pages > 1) {
+                        echo '<nav>';
+                        echo '<ul class="pagination justify-content-center">';
+                        for ($i = 1; $i <= $total_pages; $i++) {
+                            echo '<li class="page-item ' . ($i == $page ? 'active' : '') . '">';
+                            echo '<a class="page-link" href="?page=' . $i . '">' . $i . '</a>';
+                            echo '</li>';
+                        }
+                        echo '</ul>';
+                        echo '</nav>';
+                    }
+                    ?>
+                    
                 </div>
             </div>
         </div>

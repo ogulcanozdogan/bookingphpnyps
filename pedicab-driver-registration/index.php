@@ -20,70 +20,70 @@
             <input required type="file" id="driverLicenseFile" name="driverLicenseFile" accept="image/*">
             
             <label for="driverFirstName">Pedicab Driver First Name</label>
-            <input required type="text" id="driverFirstName" name="driverFirstName" oninput="updateDeclaration()" class="text-only">
+            <input required type="text" id="driverFirstName" name="driverFirstName" oninput="updateDeclaration()" class="text-only" maxlength="20">
 
             <label for="driverLastName">Pedicab Driver Last Name</label>
-            <input required type="text" id="driverLastName" name="driverLastName" oninput="updateDeclaration()" class="text-only">
+            <input required type="text" id="driverLastName" name="driverLastName" oninput="updateDeclaration()" class="text-only" maxlength="20">
 
             <label for="driverLicenseNumber">Pedicab Driver License Number</label>
-            <input required type="text" id="driverLicenseNumber" name="driverLicenseNumber" class="number-allowed">
+            <input required type="text" id="driverLicenseNumber" name="driverLicenseNumber" class="number-allowed" maxlength="8">
 
             <label for="driverLicenseExpiration">Pedicab Driver License Expiration Date</label>
             <input required type="date" id="driverLicenseExpiration" name="driverLicenseExpiration" onkeydown="return false;">
 
             <label for="driverPhone">Pedicab Driver Phone</label>
-            <input required type="tel" id="driverPhone" name="driverPhone" class="phone-only">
+            <input required type="tel" id="driverPhone" name="driverPhone" class="phone-only" maxlength="12">
 
             <label for="driverEmail">Pedicab Driver Email Address</label>
-            <input required type="email" id="driverEmail" name="driverEmail">
+            <input required type="email" id="driverEmail" name="driverEmail" maxlength="35">
 
             <label for="driverStreetAddress">Pedicab Driver Street Address</label>
-            <input required type="text" id="driverStreetAddress" name="driverStreetAddress" class="number-allowed">
+            <input required type="text" id="driverStreetAddress" name="driverStreetAddress" class="number-allowed" maxlength="32">
 
             <label for="driverApartmentNumber">Pedicab Driver Apartment Number</label>
-            <input required type="text" id="driverApartmentNumber" name="driverApartmentNumber" class="number-allowed">
+            <input required type="text" id="driverApartmentNumber" name="driverApartmentNumber" class="number-allowed" maxlength="10">
 
             <label for="driverCity">Pedicab Driver City</label>
-            <input required type="text" id="driverCity" name="driverCity" class="text-only">
+            <input required type="text" id="driverCity" name="driverCity" class="text-only" maxlength="15">
 
             <label for="driverState">Pedicab Driver State</label>
-            <input required type="text" id="driverState" name="driverState" class="text-only">
+            <input required type="text" id="driverState" name="driverState" class="text-only" maxlength="15">
 
             <label for="driverZipCode">Pedicab Driver Zip Code</label>
-            <input required type="text" id="driverZipCode" name="driverZipCode" class="number-allowed">
+            <input required type="text" id="driverZipCode" name="driverZipCode" class="number-allowed" maxlength="10">
 
             <label for="businessName">Pedicab Business Name</label>
-            <input required type="text" id="businessName" name="businessName" class="number-allowed">
+            <input required type="text" id="businessName" name="businessName" class="number-allowed" maxlength="20">
 
             <label for="businessLicenseNumber">Pedicab Business License Number</label>
-            <input required type="text" id="businessLicenseNumber" name="businessLicenseNumber" class="number-allowed">
+            <input required type="text" id="businessLicenseNumber" name="businessLicenseNumber" class="number-allowed" maxlength="8">
 
             <label for="businessRegistrationNumber">Pedicab Business Registration Number</label>
-            <input required type="text" id="businessRegistrationNumber" name="businessRegistrationNumber" class="number-allowed">
+            <input required type="text" id="businessRegistrationNumber" name="businessRegistrationNumber" class="number-allowed" maxlength="5">
 
             <label for="businessLicenseExpiration">Pedicab Business License Expiration Date</label>
             <input required type="date" id="businessLicenseExpiration" name="businessLicenseExpiration" onkeydown="return false;">
 
             <label for="businessPhone">Pedicab Business Phone</label>
-            <input required type="tel" id="businessPhone" name="businessPhone" class="phone-only">
+            <input required type="tel" id="businessPhone" name="businessPhone" class="phone-only" maxlength="12">
 
             <label for="businessEmail">Pedicab Business Email Address</label>
-            <input required type="email" id="businessEmail" name="businessEmail">
+            <input required type="email" id="businessEmail" name="businessEmail" maxlength="35">
 
             <label for="businessStreetAddress">Pedicab Business Street Address</label>
-            <input required type="text" id="businessStreetAddress" name="businessStreetAddress" class="number-allowed">
+            <input required type="text" id="businessStreetAddress" name="businessStreetAddress" class="number-allowed" maxlength="32">
 
             <label for="businessApartmentNumber">Pedicab Business Apartment Number</label>
-            <input required type="text" id="businessApartmentNumber" name="businessApartmentNumber" class="number-allowed">
+            <input required type="text" id="businessApartmentNumber" name="businessApartmentNumber" class="number-allowed" maxlength="10">
 
             <label for="businessCity">Pedicab Business City</label>
-            <input required type="text" id="businessCity" name="businessCity" class="text-only">
+            <input required type="text" id="businessCity" name="businessCity" class="text-only" maxlength="15">
 
             <label for="businessState">Pedicab Business State</label>
-            <input required type="text" id="businessState" name="businessState" class="text-only">
+            <input required type="text" id="businessState" name="businessState" class="text-only" maxlength="15">
 
             <label for="businessZipCode">Pedicab Business Zip Code</label>
-            <input required type="text" id="businessZipCode" name="businessZipCode" class="number-allowed">
+            <input required type="text" id="businessZipCode" name="businessZipCode" class="number-allowed" maxlength="10">
 
             <div class="declaration full-width">
                 <center><h2 style='color:red;'>Declaration</h2></center>
@@ -100,6 +100,15 @@
                 <label><input required type="checkbox" name="declaration9"> I agree to indemnify, defend and hold harmless Ibrahim Donmez and New York Pedicab Services from any and all claims and/or lawsuits for personal injury (including death) and property damage, and all damages, liabilities, losses, expenses and costs, including reasonable attorneys' fees, incurred in connection with any claims (including, but not limited to, claims of negligence) arising out of or related in any way to all pedicab services that I provide.</label>
                 <label><input required type="checkbox" name="declaration10"> I acknowledge that this agreement may be executed in any number of counterparts and each such counterpart shall for all purposes be deemed an original. Delivery of an executed counterpart of a signature page to this agreement by facsimile, pdf or electronic signature shall be as effective as delivery of a manually executed counterpart of this Agreement.</label>
             </div>
+            </div>
+			<br>
+			
+			
+<div class="declaration full-width">
+                <center><h2 style='color:red;'>Your Pedicab Driver License Preview</h2></center>
+<div class="preview-container">
+    <img id="preview" src="" alt="Preview">
+</div>
             </div>
             <br>
             <div class="signature full-width">
@@ -133,6 +142,27 @@
             document.getElementById('registration-form').reset();
         };
     </script>
-	
+	<script>
+	document.getElementById('driverLicenseFile').addEventListener('change', function() {
+    if (this.files[0].size > 10485760) { // 10 MB in bytes
+        alert('File size must be less than 10 MB');
+        this.value = '';
+    }
+});
+	</script>
+		<script>
+document.getElementById('driverLicenseFile').addEventListener('change', function(event) {
+    var file = event.target.files[0];
+    if (file) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var preview = document.getElementById('preview');
+            preview.src = e.target.result;
+            preview.style.display = 'block';
+        }
+        reader.readAsDataURL(file);
+    }
+});
+</script>
 </body>
 </html>

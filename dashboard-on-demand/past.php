@@ -279,6 +279,7 @@ include('inc/navbar.php');
         <!-- container-fluid -->
     </div>
     <!-- End Page-content -->
+	    </div>
 <?php 
 include('inc/footer.php');
 include('inc/scripts.php');

@@ -77,16 +77,6 @@ if ($_POST) {
         $is_valid = false;
     }
 
-    $sorgu = $baglanti->prepare("SELECT * FROM users WHERE email=:email");
-    $sorgu->execute(['email' => $email]);
-    $sonuc3 = $sorgu->fetch();
-
-    if ($sonuc3 && $sonuc3["id"] != $driverid) {
-        echo '<script>swal("Error","This email address is already in use!","error");</script>';
-        $is_valid = false;
-    }
-
-
     if ($is_valid) {
         if (!empty($pass)) {
             $hashed_pass = password_hash($pass, PASSWORD_DEFAULT);

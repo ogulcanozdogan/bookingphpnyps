@@ -29,6 +29,19 @@ if ($_POST) {
     header("location: index.php");
 		exit;
 }
+
+
+date_default_timezone_set('America/New_York'); // New York saat dilimini ayarla
+$hour = (int)date('G');
+$minute = (int)date('i');
+
+if ($hour < 11 || ($hour == 18 && $minute > 0) || $hour > 18) {
+    // Eğer saat 11:00 AM'den küçükse veya 6:01 PM'den büyükse yönlendir
+    header("Location: index.php?error=unavailabletime");
+    exit;
+}
+
+
 $todayDay = date("m/d/Y");
 $todayDayName = date("l", strtotime($todayDay));
 ?>
@@ -113,14 +126,17 @@ $todayDayName = date("l", strtotime($todayDay));
                         </tr>
                         <tr>
                            <th scope="row">Duration of Service</th>
-                           <td><?php if (
-                               $serviceDuration == 90 or
-                               $serviceDuration == 30
-                           ) {
-                               echo $serviceDuration . " Minutes";
-                           } else {
-                               echo $serviceDuration . " Hour";
-                           } ?> </td>
+                           <td><?php if ($serviceDuration == 30 || $serviceDuration == 90) {
+    $serviceDuration = $serviceDuration . " Minutes";
+} 
+else if ($serviceDuration == 1){
+    $serviceDuration = $serviceDuration . " Hour";
+}
+else if ($serviceDuration == 2 or $serviceDuration == 3){
+    $serviceDuration = $serviceDuration . " Hours";
+} 
+
+echo $serviceDuration; ?> </td>
                         </tr>
                         <tr>
                            <th scope="row">Start Address</th>

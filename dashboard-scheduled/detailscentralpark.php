@@ -17,18 +17,18 @@ p {
 }
 #map {
     height: 400px;
-    width: 100%; /* Default olarak genişliği %100 yap */
+    width: 100%;
 }
 
 @media (min-width: 600px) {
     #map {
-        width: 50%; /* Orta boyutlu cihazlar için genişliği %50 yap */
+        width: 50%;
     }
 }
 
 @media (min-width: 900px) {
     #map {
-        width: 30%; /* Büyük cihazlar için genişliği %30 yap */
+        width: 30%;
     }
 }
 </style>
@@ -82,7 +82,6 @@ Please, confirm by typing the start time.&nbsp;<br>
      
      
 <?php
-// Post işlemi gerçekleştiğinde çalışacak kodlar
 if (isset($_POST['submit'])) {
     $driver = $_POST['driver'];
     $status = $_POST['status'];
@@ -96,13 +95,12 @@ if (isset($_POST['submit'])) {
         'driver' => $driver,
     ];
 
-    // Veri güncelleme sorgumuzu yazıyoruz.
     $sql = "UPDATE centralpark SET status=:status, driver=:driver WHERE id=:id";             
     $durum = $baglanti->prepare($sql)->execute($satir);
 
     if ($durum) {
         echo '<script>swal("Successful", "Job accepted.", "success").then((value) => { window.location.href = "pending.php" });</script>';     
-				// Mesaj gönderilecek telefon numaraları listesi
+
 				
 				
 				
@@ -111,7 +109,6 @@ if (isset($_POST['submit'])) {
 
 while ($sonuc = $sorgu->fetch()) { 
 
-  // Telefon numarasına uygun WhatsApp formatını ekleyin
     $formattedPhone = "whatsapp:+1" . $sonuc['number'];
     $phoneNumbers[] = $formattedPhone;
 
@@ -119,7 +116,6 @@ while ($sonuc = $sorgu->fetch()) {
 $message = "Central Park Pedicab Tour assigned.
 {". $bookingNumber ."}";
 
-// Her bir telefon numarasına mesaj gönder
 foreach ($phoneNumbers as $phoneNumber) {
     $messageSid = sendWhatsAppMessage($twilio, $phoneNumber, $message);
     echo "Mesaj gönderildi, SID: $messageSid<br>";
@@ -132,18 +128,16 @@ $sonuc = $sorgu->fetch();
 
 $driverName = $sonuc["name"];
 
-// Text mesajı göndermek için fonksiyonu çağır
 $to = $customerPhone;
-$from = "+16468527935"; // Twilio telefon numarası
+$from = "+16468527935";
 $message = "Hello " . $customerName .". " . $driverName . " is your assigned driver. Driver's phone number is +1" . $sonuc["number"] . ". Thank you. -New York Pedicab Services";
 $messageSid = sendTextMessage($twilio, $to, $from, $message);
 				
 
 
 
-     // Eğer güncelleme sorgusu çalıştıysa urunler.php sayfasına yönlendiriyoruz.
     } else {
-        echo 'Job error: '; // id bulunamadıysa veya sorguda hata varsa hata yazdırıyoruz.
+        echo 'Job error: ';
     }
 } 
 ?>
@@ -184,11 +178,11 @@ function initMap() {
     var directionsService = new google.maps.DirectionsService();
     var directionsRenderer = new google.maps.DirectionsRenderer({
         map: map,
-        suppressMarkers: true,  // Varsayılan işaretçileri kaldır
+        suppressMarkers: true,
         polylineOptions: {
-            strokeColor: '#FF0000',  // Çizgi rengini kırmızı yap
-            strokeOpacity: 0.8,      // Çizginin opaklığı
-            strokeWeight: 6          // Çizgi kalınlığı
+            strokeColor: '#FF0000',
+            strokeOpacity: 0.8,
+            strokeWeight: 6  
         }
     });
 
@@ -203,7 +197,7 @@ function calculateAndDisplayRoute(directionsService, directionsRenderer, map, pi
         origin: pickupAddress,
         destination: destinationAddress,
         travelMode: 'BICYCLING',
-        provideRouteAlternatives: true  // Alternatif rotaları sağla
+        provideRouteAlternatives: true
     }, function(response, status) {
         if (status === 'OK') {
             var fastestRouteIndex = findFastestRouteIndex(response.routes);
@@ -211,7 +205,6 @@ function calculateAndDisplayRoute(directionsService, directionsRenderer, map, pi
             directionsRenderer.setRouteIndex(fastestRouteIndex);
             addCustomMarkers(response.routes[fastestRouteIndex], map);
 
-            // Rotanın süresini hesapla
 var durationMinutes = parseFloat(response.routes[fastestRouteIndex].legs.reduce((sum, leg) => sum + leg.duration.value, 0) / 60);
 
 

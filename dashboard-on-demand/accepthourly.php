@@ -14,11 +14,35 @@ $sorgu = $baglanti->prepare("SELECT * FROM hourly WHERE id=:id");
 $sorgu->execute(['id' => $id]);
 $sonuc = $sorgu->fetch();
 
+
+$currentDateTime = new DateTime('now', new DateTimeZone('America/New_York'));
+$updated_at = $currentDateTime->format('Y-m-d H:i:s');
+
 $pickupAddress = $sonuc["pickupAddress"];
 $destinationAddress = $sonuc["destinationAddress"];
-$customerPhone = $sonuc["phoneNumber"];
 $customerName = $sonuc["firstName"];
+$customerLastName = $sonuc["lastName"];
+$customerPhone = $sonuc["phoneNumber"];
+$numberOfPassengers = $sonuc["numberOfPassengers"];
+$todayDay = $currentDateTime->format('m/d/Y');
+$pickUpTime = $sonuc["pickUpTime"];
+$serviceDetails = $sonuc["serviceDetails"];
+$serviceDuration = $sonuc["serviceDuration"];
+$driverFare = $sonuc["driverFee"];
+$paymentMethod = $sonuc["paymentMethod"];
 $customerEmail = $sonuc["emailAddress"];
+
+
+if ($serviceDuration == 30 || $serviceDuration == 90) {
+    $serviceDuration = $serviceDuration . " Minutes";
+} 
+else if ($serviceDuration == 1){
+    $serviceDuration = $serviceDuration . " Hour";
+}
+else {
+    $serviceDuration = $serviceDuration . " Hours";
+}
+
 
 $driver = $user;
 $status = "pending";
@@ -26,8 +50,6 @@ $id = $_POST['id'];
 $bookingNumber = $_POST['bookingNumber'];
 $hata = '';
 
-$currentDateTime = new DateTime('now', new DateTimeZone('America/New_York'));
-$updated_at = $currentDateTime->format('Y-m-d H:i:s');
 
 $satir = [
     'id' => $id,
@@ -65,8 +87,9 @@ if ($durum) {
     $sorgu->execute(['user' => $user]);
     $sonuc = $sorgu->fetch();
 
-    $driverName = $sonuc["name"];
-    $driverPhone = $sonuc["number"];
+$driverName = $sonuc["name"];
+$driverPhone = $sonuc["number"];
+$driverEmail = $sonuc["email"];
 
     $to = $customerPhone;
     $from = "+16468527935"; 
@@ -88,11 +111,7 @@ if ($durum) {
         $messageSid = sendWhatsAppMessage($twilio, $phoneNumber, $message);
         echo "Mesaj gönderildi, SID: $messageSid<br>";
     }
-	
-	
-} else {
-    echo 'Job error: ';
-}
+
 
     $email1 = new \SendGrid\Mail\Mail(); 
     $email1->setFrom("info@newyorkpedicabservices.com", "NYPS");
@@ -112,18 +131,57 @@ if ($durum) {
 </html>
 EOD;
     $email1->addContent("text/html", $htmlContent1);
+					        // Second email
+        $email2 = new \SendGrid\Mail\Mail();
+        $email2->setFrom("info@newyorkpedicabservices.com", "NYPS");
+        $email2->setSubject(
+            "RIDE INFORMATION: Hourly Pedicab Service - " . $bookingNumber
+        );
+        $email2->addTo($driverEmail, $driverName);
 
-    $sendgrid = new \SendGrid('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');
+        $htmlContent2 = <<<EOD
+        <html>
+        <body>
+<h2>Driver Note</h2>
+<strong>Type:</strong> On Demand Hourly Pedicab Service<br>
+<strong>First:</strong> $customerName<br>
+<strong>Last:</strong> $customerLastName<br>
+<strong>Cell:</strong> $customerPhone<br>
+<strong>Passengers:</strong> $numberOfPassengers<br>
+<strong>Date:</strong> $todayDay (Today)<br>
+<strong>Time:</strong> $pickUpTime<br>
+<strong>Duration:</strong> $serviceDuration<br>
+<strong>Start:</strong> $pickupAddress<br>
+<strong>Finish:</strong> $destinationAddress<br>
+<strong>Details:</strong> $serviceDetails<br>
+<strong>Pay:</strong> \${$driverFare} with $paymentMethod by customer $customerName $customerLastName
+</body>
+</html>
+EOD;
 
-    try {
-        $response1 = $sendgrid->send($email1);
-        // print $response1->statusCode() . "\n";
-        // print_r($response1->headers());
-        // print $response1->body() . "\n";
-        header("location:pending.php");
-    } catch (Exception $e) {
-        echo 'Caught exception: '. $e->getMessage() ."\n";
+        $email2->addContent("text/html", $htmlContent2);
+
+
+                    $sendgrid = new \SendGrid('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');
+                 
+        try {
+            // Send the first email
+            $response1 = $sendgrid->send($email1);
+            //print $response1->statusCode() . "\n";
+            // print_r($response1->headers());
+            // print $response1->body() . "\n";
+
+            // Send the second email
+            $response2 = $sendgrid->send($email2);
+            // print $response2->statusCode() . "\n";
+            // print_r($response2->headers());
+            // print $response2->body() . "\n";
+        } catch (Exception $e) {
+            // echo 'Caught exception: '. $e->getMessage() ."\n";
+        }
+		        header("Location: pending.php");
+		    } else {
+        echo 'Job error: ';
     }
-
 
 ?>

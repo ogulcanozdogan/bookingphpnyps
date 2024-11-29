@@ -84,7 +84,7 @@ while ($sonuc = $sorgu->fetch(PDO::FETCH_ASSOC)) {
                         visible: true,
                         className: '',
                         closeModal: true,
-                        style: 'background-color: blue; color: white;' // Stil özelliklerini buraya ekledik
+                        style: 'background-color: blue; color: white;'
                     }
                 },
                 dangerMode: true,

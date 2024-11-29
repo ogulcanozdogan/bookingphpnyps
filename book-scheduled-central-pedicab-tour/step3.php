@@ -41,6 +41,9 @@ include('inc/init.php');
 
 // Get day value
 $pickUpDay = $date->format('l');
+
+        $pedicabCount = ceil($numPassengers / 3);
+		$driverFarePerDriver = number_format($driverFare/$pedicabCount, 2);
    ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -68,6 +71,7 @@ $pickUpDay = $date->format('l');
          }
       </style>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css">
+	  <!-- Google tag (gtag.js) --> <script async src=" https://www.googletagmanager.com/gtag/js?id=AW-16684451653 "></script> <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'AW-16684451653'); </script>
    </head>
    <body>
       <form method="post" id="myform" action="step4.php">
@@ -106,10 +110,16 @@ $pickUpDay = $date->format('l');
                            <th scope="row">Phone Number</th>
                            <td>+<?=$countryCode . $phoneNumber?></td>
                         </tr>
-                        <tr>
-                           <th scope="row">Number of Passengers</th>
-                           <td><?=$numPassengers?></td>
-                        </tr>
+<tr>
+    <th scope="row">Number of Passengers</th>
+    <td>
+        <?php
+        $pedicabCount = ceil($numPassengers / 3);
+        $pedicabLabel = $pedicabCount == 1 ? 'Pedicab' : 'Pedicabs';
+        echo $numPassengers . ' (' . $pedicabCount . ' ' . $pedicabLabel . ')';
+        ?>
+    </td>
+</tr>
                         <tr>
                            <th scope="row">Date of Tour</th>
                            <td><?=$pickUpDate . ' ' . $pickUpDay?></td>
@@ -140,7 +150,10 @@ $pickUpDay = $date->format('l');
                             </tr>
                             <tr>
                                 <th scope="row">Driver Fare</th>
-                                 <td>$<?= number_format($driverFare, 2) ?> with <?= $paymentMethod == 'card' ? 'debit/credit card' : $paymentMethod ?></td>
+                                 <td>$<?= number_format($driverFare, 2) ?> 
+								 <?php if ($pedicabCount != 1) {?>
+								 ($<?= $driverFarePerDriver ?> per driver)
+								 <?php } ?> with <?= $paymentMethod == 'card' ? 'debit/credit card' : $paymentMethod ?></td>
                             </tr>
                             <tr style="background-color:green;">
                            <th scope="row" style="color:white;">Total Fare</th>

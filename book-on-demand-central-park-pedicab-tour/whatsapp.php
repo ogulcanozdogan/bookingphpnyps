@@ -8,9 +8,9 @@ $token = "0c5ad8bba4a765183fd3365dce5cb5cf";
 $twilio = new Client($sid, $token);
 
 function sendWhatsAppMessage($twilio, $to, $message) {
-    // Mesajı gönder
+    // sent messgae
     $sentMessage = $twilio->messages->create(
-        $to, // Alıcı WhatsApp Numarası
+        $to, // Recipient WhatsApp Number
         [
             "from" => "whatsapp:+16468527935", // Twilio WhatsApp Number
             "body" => $message // Message text to send

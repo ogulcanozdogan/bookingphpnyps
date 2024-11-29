@@ -211,48 +211,11 @@ $todayDayName = date("l", strtotime($todayDay));
         }
     });
 
-    var firstName = <?php echo json_encode($_POST["firstName"]); ?>;
-    var lastName = <?php echo json_encode($_POST["lastName"]); ?>;
-    var email = <?php echo json_encode($_POST["email"]); ?>;
-    var phoneNumber = <?php echo json_encode($_POST["phoneNumber"]); ?>;
-    var numPassengers = <?php echo json_encode($_POST["numPassengers"]); ?>;
-    var pickUpAddress = <?php echo json_encode($_POST["pickUpAddress"]); ?>;
-    var destinationAddress = <?php echo json_encode($_POST["destinationAddress"]); ?>;
-    var paymentMethod = <?php echo json_encode($_POST["paymentMethod"]); ?>;
-    var rideDuration = <?php echo json_encode($_POST["rideDuration"]); ?>;
-    var bookingFee = <?php echo json_encode($_POST["bookingFee"]); ?>;
-    var driverFare = <?php echo json_encode($_POST["driverFare"]); ?>;
-    var totalFare = <?php echo json_encode($_POST["totalFare"]); ?>;
-    var returnDuration = <?php echo json_encode($_POST["returnDuration"]); ?>;
-    var pickUpDuration = <?php echo json_encode($_POST["pickUpDuration"]); ?>;
-    var hub = <?php echo json_encode($_POST["hub"]); ?>;
-    var operationFare = <?php echo json_encode($_POST["operationFare"]); ?>;
-    var hourlyOperationFare = <?php echo json_encode($_POST["hourlyOperationFare"] ?? ""); ?>;
-    var countryCode = <?php echo json_encode($_POST["countryCode"] ?? ""); ?>;
-	
     var form = document.getElementById('payment-form');
     form.addEventListener('submit', function(event) {
         event.preventDefault();
 
         var formData = new FormData(form);
-        formData.append('firstName', firstName);
-        formData.append('lastName', lastName);
-        formData.append('email', email);
-        formData.append('phoneNumber', phoneNumber);
-        formData.append('numPassengers', numPassengers);
-        formData.append('pickUpAddress', pickUpAddress);
-        formData.append('destinationAddress', destinationAddress);
-        formData.append('paymentMethod', paymentMethod);
-        formData.append('rideDuration', rideDuration);
-        formData.append('bookingFee', bookingFee);
-        formData.append('driverFare', driverFare);
-        formData.append('totalFare', totalFare);
-        formData.append('returnDuration', returnDuration);
-        formData.append('pickUpDuration', pickUpDuration);
-        formData.append('hub', hub);
-        formData.append('operationFare', operationFare);
-        formData.append('hourlyOperationFare', hourlyOperationFare);
-		formData.append('countryCode', countryCode);
 
         fetch('saveit.php', {
             method: 'POST',

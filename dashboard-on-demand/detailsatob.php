@@ -68,7 +68,8 @@ $sonuc = $sorgu->fetch();
 $pickupAddress = $sonuc["pickupAddress"];
 $destinationAddress = $sonuc["destinationAddress"];
 $updatedAt = $sonuc["updated_at"];
-$dateTime = new DateTime($updatedAt, new DateTimeZone('America/New_York'));
+$createdAt = $sonuc["createdAt"];
+$dateTime = new DateTime($createdAt, new DateTimeZone('America/New_York'));
 $timeFormatted = $dateTime->format('h:i A');
 ?>
 <div class="main-content">

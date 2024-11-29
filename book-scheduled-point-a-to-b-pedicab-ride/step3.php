@@ -30,13 +30,15 @@ if ($_POST) {
     header("location: index.php");
 		exit;
 }
+        $pedicabCount = ceil($numPassengers / 3);
+		$driverFarePerDriver = number_format($driverFare/$pedicabCount, 2);
 ?>
 <!DOCTYPE html>
 <html lang="en">
    <head>
       <link rel="shortcut icon" href="vendor/favicon.ico">
       <meta charset="UTF-8">
-<title>Book Scheduled Point A to B Pedicab Ride</title>
+	<title>Book Scheduled Point A to B Pedicab Ride</title>
 	  <meta name="description" content="Scheduled Point A to B Pedicab Ride Booking Application">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <!-- Viewport meta tag added -->
@@ -97,10 +99,16 @@ if ($_POST) {
                            <th scope="row">Phone Number</th>
                            <td>+<?= $countryCode . $phoneNumber ?></td>
                         </tr>
-                        <tr>
-                           <th scope="row">Number of Passengers</th>
-                           <td><?= $numPassengers ?></td>
-                        </tr>
+<tr>
+    <th scope="row">Number of Passengers</th>
+    <td>
+        <?php
+        $pedicabCount = ceil($numPassengers / 3);
+        $pedicabLabel = $pedicabCount == 1 ? 'Pedicab' : 'Pedicabs';
+        echo $numPassengers . ' (' . $pedicabCount . ' ' . $pedicabLabel . ')';
+        ?>
+    </td>
+</tr>
                         <tr>
                            <th scope="row">Date of Pick Up</th>
                            <td><?= $pickUpDate . " " . $dayOfWeek ?></td>
@@ -132,7 +140,10 @@ if ($_POST) {
                         </tr>
                         <tr>
                            <th scope="row">Driver Fare</th>
-                           <td>$<?= number_format($driverFare, 2)  ?> with <?= $paymentMethod == 'card' ? 'debit/credit card' : $paymentMethod ?></td>
+						    <td>$<?= number_format($driverFare, 2) ?> 								 
+								<?php if ($pedicabCount != 1) {?>
+								 ($<?= $driverFarePerDriver ?> per driver)
+								 <?php } ?> with <?= $paymentMethod == 'card' ? 'debit/credit card' : $paymentMethod ?></td>
                         </tr>
 						<?php } ?>
                         <tr style="background-color:green;">

@@ -17,7 +17,8 @@ use PHPMailer\PHPMailer\Exception;
 require_once "vendor/autoload.php";
 require_once "inc/db.php";
 require_once "whatsapp.php";
-
+require_once('text.php');	
+	
     if (
         !isset(
             $_GET["unique_id"]
@@ -77,6 +78,17 @@ $countryCode = $booking["country_code"];
 
 	$currentDateTime = new DateTime('now', new DateTimeZone('America/New_York'));
 	$createdAt = $currentDateTime->format('Y-m-d H:i:s');
+	
+		        $pedicabCount = ceil($numPassengers / 3);
+		
+		$driverFarePerDriver = number_format($driverFare/$pedicabCount, 2);
+		
+		if ($pedicabCount != 1) {
+		$driverFarePerDriverText = '($' . $driverFarePerDriver . ' per driver)';
+		}
+		else{
+		$driverFarePerDriverText = '';
+		}
 
 $phoneNumber = "+" . $countryCode . $phoneNumber;
 
@@ -239,10 +251,46 @@ if ($firstName != "" && $lastName != "") {
 		"createdAt" => $createdAt,	
     ];
 
-    $sql = "INSERT INTO hourly (id, bookingNumber, firstName, lastName, emailAddress, phoneNumber, numberOfPassengers, date, hour, minutes, ampm, pickupAddress, destinationAddress, paymentMethod, duration, bookingFee, driverFee, totalFare, returnDuration, pickUpDuration, hub, hubCoords, baseFare, operationFare, pickUpCoords, destinationCoords, serviceDetails, serviceDuration, unique_id, totalMinutes, createdAt)
-    VALUES ('$uuid', '$bookingNumber', '$firstName', '$lastName', '$emailAddress', '$phoneNumber', '$numPassengers', '$pickUpDate', '$hours', '$minutes', '$ampm', '$pickUpAddress', '$destinationAddress', '$paymentMethod', '$rideDuration', '$bookingFee', '$driverFare', '$totalFare', '$returnDuration', '$pickUpDuration', '$hub', '$hubCoords', '$baseFare', '$operationFare', '$pickUpCoords', '$destinationCoords', '$serviceDetails', '$serviceDuration', '$unique_id', '$totalMinutes', '$createdAt')";
-    $durum = $baglanti->prepare($sql)->execute();
+$sql = "INSERT INTO hourly (id, bookingNumber, firstName, lastName, emailAddress, phoneNumber, numberOfPassengers, date, hour, minutes, ampm, pickupAddress, destinationAddress, paymentMethod, duration, bookingFee, driverFee, totalFare, returnDuration, pickUpDuration, hub, hubCoords, baseFare, operationFare, pickUpCoords, destinationCoords, serviceDetails, serviceDuration, unique_id, totalMinutes, createdAt)
+VALUES (:id, :bookingNumber, :firstName, :lastName, :emailAddress, :phoneNumber, :numPassengers, :pickUpDate, :hours, :minutes, :ampm, :pickUpAddress, :destinationAddress, :paymentMethod, :rideDuration, :bookingFee, :driverFare, :totalFare, :returnDuration, :pickUpDuration, :hub, :hubCoords, :baseFare, :operationFare, :pickUpCoords, :destinationCoords, :serviceDetails, :serviceDuration, :unique_id, :totalMinutes, :createdAt)";
 
+$statement = $baglanti->prepare($sql);
+
+// Değişkenleri parametrelere bağlama
+$statement->bindParam(':id', $uuid);
+$statement->bindParam(':bookingNumber', $bookingNumber);
+$statement->bindParam(':firstName', $firstName);
+$statement->bindParam(':lastName', $lastName);
+$statement->bindParam(':emailAddress', $emailAddress);
+$statement->bindParam(':phoneNumber', $phoneNumber);
+$statement->bindParam(':numPassengers', $numPassengers);
+$statement->bindParam(':pickUpDate', $pickUpDate);
+$statement->bindParam(':hours', $hours);
+$statement->bindParam(':minutes', $minutes);
+$statement->bindParam(':ampm', $ampm);
+$statement->bindParam(':pickUpAddress', $pickUpAddress);
+$statement->bindParam(':destinationAddress', $destinationAddress);
+$statement->bindParam(':paymentMethod', $paymentMethod);
+$statement->bindParam(':rideDuration', $rideDuration);
+$statement->bindParam(':bookingFee', $bookingFee);
+$statement->bindParam(':driverFare', $driverFare);
+$statement->bindParam(':totalFare', $totalFare);
+$statement->bindParam(':returnDuration', $returnDuration);
+$statement->bindParam(':pickUpDuration', $pickUpDuration);
+$statement->bindParam(':hub', $hub);
+$statement->bindParam(':hubCoords', $hubCoords);
+$statement->bindParam(':baseFare', $baseFare);
+$statement->bindParam(':operationFare', $operationFare);
+$statement->bindParam(':pickUpCoords', $pickUpCoords);
+$statement->bindParam(':destinationCoords', $destinationCoords);
+$statement->bindParam(':serviceDetails', $serviceDetails);
+$statement->bindParam(':serviceDuration', $serviceDuration);
+$statement->bindParam(':unique_id', $unique_id);
+$statement->bindParam(':totalMinutes', $totalMinutes);
+$statement->bindParam(':createdAt', $createdAt);
+
+    $durum = $statement->execute();
+	
     if ($durum) {
 		
 		$rideDuration = number_format($rideDuration, 2);
@@ -297,8 +345,15 @@ if ($paymentMethod == "cash" OR $paymentMethod == "CASH"){
 	$paymentMethod2 = "CASH";
 }
         $htmlContent1 .= <<<EOD
-            <p><strong>Driver Fare:</strong> \${$driverFare} with $paymentMethod2 due on $pickUpMonth/$pickUpDay/$pickUpYear $dayOfWeek</p>
+            <p><strong>Driver Fare:</strong> \${$driverFare} $driverFarePerDriverText with $paymentMethod2 due on $pickUpMonth/$pickUpDay/$pickUpYear $dayOfWeek</p>
 EOD;
+
+       $dateDriver = DateTime::createFromFormat("m/d/Y", $pickUpDate);
+
+        if ($dateDriver) {
+            // Format to get the date in the desired format
+            $driverDate = $dateDriver->format("F d l");
+        }
 
         if ($paymentMethod == "FULLCARD") {
 			if ($paymentMethod == "fullcard" OR $paymentMethod == "FULLCARD"){
@@ -315,7 +370,7 @@ EOD;
 
         $htmlContent1 .= <<<EOD
             <h2>Driver Note</h2>
-            <strong>Type:</strong> Hourly Pedicab Service<br><strong>First:</strong> $firstName<br><strong>Last:</strong> $lastName<br><strong>Cell:</strong> $phoneNumber<br><strong>Passengers:</strong> $numPassengers<br><strong>Date:</strong>$pickUpDate $dayOfWeek<br><strong>Time:</strong> $timeOfPickUp<br><strong>Duration:</strong> {$rideDuration} Minutes<br><strong>Start:</strong> $pickUpAddress<br><strong>Finish:</strong> $destinationAddress<br><strong>Details:</strong> $serviceDetails<br><strong>Pay:</strong> \${$driverFare} with $paymentMethod2 by customer $firstName $lastName
+            <strong>Type:</strong> Hourly Pedicab Service<br><strong>Name:</strong> $firstName $lastName<br><strong>Cell:</strong> $phoneNumber<br><strong>Passengers:</strong> $numPassengers<br><strong>Date:</strong> $driverDate<br><strong>Time:</strong> $timeOfPickUp<br><strong>Duration:</strong> {$serviceDuration}<br><strong>Start:</strong> $pickUpAddress<br><strong>Finish:</strong> $destinationAddress<br><strong>Details:</strong> $serviceDetails<br><strong>Pay:</strong> \$$driverFarePerDriver per driver with $paymentMethod2 by customer $firstName $lastName
         </body>
         </html>
 EOD;
@@ -365,7 +420,7 @@ if ($paymentMethod == "fullcard" OR $paymentMethod == "FULLCARD"){
 EOD;
 
             $htmlContent2 .= <<<EOD
-    <p><strong>Driver Fare:</strong> \${$driverFare} with $paymentMethod2 due on $pickUpMonth/$pickUpDay/$pickUpYear $dayOfWeek</p>
+    <p><strong>Driver Fare:</strong> \${$driverFare} $driverFarePerDriverText with $paymentMethod2 due on $pickUpMonth/$pickUpDay/$pickUpYear $dayOfWeek</p>
 EOD;
         }
 
@@ -389,29 +444,95 @@ EOD;
 
         $email2->addContent("text/html", $htmlContent2);
 
-        // SendGrid API key
-        $sendgrid = new \SendGrid(
-            "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"
-        );
+// Saat AM ya da PM durumunu kontrol edip 24 saat formatına çeviriyoruz
+if ($ampm == 'PM' && $hours != 12) {
+    $hours += 12;
+} elseif ($ampm == 'AM' && $hours == 12) {
+    $hours = 0;
+}
 
-        try {
-            // Send the first email
-            $response1 = $sendgrid->send($email1);
-            //print $response1->statusCode() . "\n";
-            // print_r($response1->headers());
-            // print $response1->body() . "\n";
+date_default_timezone_set('America/New_York');
+$timeString = $pickUpDate . ' ' . $hours . ':' . $minutes . ':00';
+$dateTime = new DateTime($timeString, new DateTimeZone('America/New_York'));
 
-            // Send the second email
-            $response2 = $sendgrid->send($email2);
-            // print $response2->statusCode() . "\n";
-            // print_r($response2->headers());
-            // print $response2->body() . "\n";
-        } catch (Exception $e) {
-            // echo 'Caught exception: '. $e->getMessage() ."\n";
-        }
+$dateTimeEnd = clone $dateTime;
+// $totalMinutes değişkenini tam dakika ve saniye olarak ayrıştırıyoruz.
+$minutes = floor($totalMinutes); // Tam dakika kısmı (örn. 95)
+$seconds = ($totalMinutes - $minutes) * 60; // Saniye kısmı (örn. 0.8 * 60)
+
+// $dateTimeEnd nesnesine tam dakika ve saniyeleri ekliyoruz.
+$dateTimeEnd->modify("+$minutes minutes"); // Tam dakika ekleme
+
+
+$source = "Scheduled Hourly Pedicab Service";
+
+// .ics dosyası oluşturma
+$icsContent = "BEGIN:VCALENDAR\r\n";
+$icsContent .= "VERSION:2.0\r\n";
+$icsContent .= "PRODID:-//New York Pedicab Services//EN\r\n";
+$icsContent .= "METHOD:REQUEST\r\n";
+$icsContent .= "BEGIN:VEVENT\r\n";
+$icsContent .= "UID:" . uniqid() . "\r\n";
+$icsContent .= "DTSTAMP:" . gmdate('Ymd\THis\Z') . "\r\n";
+$icsContent .= "DTSTART;TZID=America/New_York:" . $dateTime->format('Ymd\THis') . "\r\n";
+$icsContent .= "DTEND;TZID=America/New_York:" . $dateTimeEnd->format('Ymd\THis') . "\r\n";
+$icsContent .= "SUMMARY:" . $source . " " . $serviceDuration . " " . $firstName . " " . $lastName . "\r\n";
+$icsContent .= "DESCRIPTION:" . $source . " " . $serviceDuration . " " . $firstName . " " . $lastName . "\r\n";
+$icsContent .= "LOCATION:6th Avenue & 57th Street, New York, NY\r\n";
+
+// Hatırlatma bildirimleri
+$icsContent .= "BEGIN:VALARM\r\n";
+$icsContent .= "TRIGGER:-PT20H\r\n";
+$icsContent .= "ACTION:DISPLAY\r\n";
+$icsContent .= "DESCRIPTION:" . $source . " " . $serviceDuration . " " . $firstName . " " . $lastName . " reminder\r\n";
+$icsContent .= "END:VALARM\r\n";
+$icsContent .= "END:VEVENT\r\n";
+$icsContent .= "END:VCALENDAR\r\n";
+
+$icsFile = tempnam(sys_get_temp_dir(), 'calendar') . '.ics';
+file_put_contents($icsFile, $icsContent);
+
+// SendGrid ile e-posta gönderme
+$email3 = new \SendGrid\Mail\Mail();
+$email3->setFrom("info@newyorkpedicabservices.com", "New York Pedicab Services");
+$email3->setSubject("REMINDER: " . $source . " " . $serviceDuration . " - " . $firstName . " " . $lastName);
+$email3->addTo('info@newyorkpedicabservices.com', 'NYPS');
+$email3->addContent("text/html", "
+			<h2>Driver Note</h2>
+            <strong>Type:</strong> Hourly Pedicab Service<br>
+			<strong>Name:</strong> $firstName $lastName<br>
+			<strong>Cell:</strong> $phoneNumber<br><strong>
+			Passengers:</strong> $numPassengers<br><strong>
+			Date:</strong> $driverDate<br>
+			<strong>Time:</strong> $timeOfPickUp<br>
+			<strong>Duration:</strong> {$serviceDuration}<br>
+			<strong>Start:</strong> $pickUpAddress<br>
+			<strong>Finish:</strong> $destinationAddress<br>
+			<strong>Details:</strong> $serviceDetails<br>
+			<strong>Pay:</strong> \$$driverFarePerDriver per driver with $paymentMethod2 by customer $firstName $lastName
+");
+
+
+    $email3->addAttachment(
+        base64_encode(file_get_contents($icsFile)),
+        "text/calendar; method=REQUEST",
+        "tour_reminder.ics",
+        "attachment"
+    );
+
+
+
+            $sendgrid = new \SendGrid('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');
+            try {
+                $response1 = $sendgrid->send($email1);
+                $response2 = $sendgrid->send($email2);
+				$response3 = $sendgrid->send($email3);
+            } catch (Exception $e) {
+                echo 'Email sending error: ' . $e->getMessage();
+            }
 
         $sorgu = $baglanti->prepare(
-            "SELECT * FROM users WHERE perm = 'driver'"
+            "SELECT * FROM users"
         );
         $sorgu->execute();
 
@@ -422,12 +543,25 @@ EOD;
         }
 
         $message =
-            "Hourly Pedicab Service available!
+            "Scheduled Hourly Pedicab Service available!
 {" . $bookingNumber . "}";
         foreach ($phoneNumbers as $phoneNumberwp) {
             $messageSid = sendWhatsAppMessage($twilio, $phoneNumberwp, $message);
             // echo "Message sent, SID: $messageSid<br>";
         }
+		
+		       $sorgu = $baglanti->prepare("SELECT * FROM users");
+        $sorgu->execute();
+
+        $phoneNumbers = [];
+        while ($sonuc = $sorgu->fetch()) { 
+            $formattedPhone = "+1" . $sonuc['number'];
+            $phoneNumbers[] = $formattedPhone;
+        }
+	foreach ($phoneNumbers as $phoneNumberwp) {
+                $messageSid = sendTextMessage($twilio, $phoneNumberwp, $message);
+    }	
+
 
         // Redirect to completed.php with POST data
         $postData = [

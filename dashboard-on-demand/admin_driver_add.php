@@ -2,6 +2,8 @@
 ob_start();
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
+require_once "vendor/autoload.php";
+include('whatsapp.php');
 ?>
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
@@ -76,7 +78,41 @@ if ($_POST) {
             $durum = $stmt->execute($satir);
             if ($durum) {
                 echo '<script>swal("Successful","Driver add successful. Please go the verify menu to activate this driver account.","success").then((value)=>{ window.location.href = "admin_verify_drivers.php"});</script>';
-            } else {
+            
+			 $formattedPhone = "whatsapp:+1" . $number;
+
+    $message = "Your driver account registration is successful! -New York Pedicab Services";
+
+    $messageSid = sendWhatsAppMessage($twilio, $formattedPhone, $message);
+
+
+
+    $email1 = new \SendGrid\Mail\Mail(); 
+    $email1->setFrom("info@newyorkpedicabservices.com", "NYPS");
+    $email1->setSubject("Your registration is successful! - NYPS");
+    $email1->addTo($email, $name);
+    $htmlContent1 = <<<EOD
+<html>
+<body>
+    <p><strong>Hello $name.</strong></p>
+    <p>Your driver account registration is successful!</p>
+    <p>Thank you,</p>    
+    <p>New York Pedicab Services</p>   
+    <p>(212) 961-7435</p>   
+    <p>info@newyorkpedicabservices.com</p>       
+</body>
+</html>
+EOD;
+    $email1->addContent("text/html", $htmlContent1);
+    $sendgrid = new \SendGrid('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');
+    try {
+        $response1 = $sendgrid->send($email1);
+    } catch (Exception $e) {
+        echo 'Caught exception: '. $e->getMessage() . "\n";
+    }
+			
+			
+			} else {
                 echo "SQL Error: " . implode(", ", $stmt->errorInfo()) . "<br>";
             }
         } catch (PDOException $e) {

@@ -134,3 +134,33 @@ form canvas {
         grid-column: span 1;
     }
 }
+
+#declaration-text {
+    max-width: 100%; /* Bu değeri düzenleyebilirsiniz */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+
+/* Resim önizlemesi ve container stilini düzenleme */
+.preview-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* Önizleme için varsayılan stil */
+#preview {
+    display: none;
+    width: 500px;
+    height: auto;
+    max-width: 100%; /* Cihaz genişliğine göre otomatik ölçekleme */
+}
+
+/* Mobil cihazlar için resim boyutlarını küçültme */
+@media (max-width: 768px) {
+    #preview {
+        width: 100%;
+        height: auto;
+    }
+}

@@ -1,7 +1,13 @@
 <?php
 include('inc/init.php');
 include('inc/db.php');
-
+date_default_timezone_set('America/New_York');
+$currentDate = date('Y-m-d');
+$targetDate = '2024-11-03';
+if ($currentDate === $targetDate) {
+    header('Location: index.php?error=unavailable');
+    exit;
+}
 if ($_POST) {
     // Form data received
     $firstName = $_POST["firstName"]; // default value 1
@@ -101,6 +107,7 @@ $pickup2 = $pickup2suresi; // Pick Up 2 duration
 $toursuresi = $toursuresi; // Tour duration
 $return1 = $return1suresi; // Return 1 duration
 $return2 = $return2suresi; // Return 2 duration
+
 
 $pickup1 *= 2.5;
 $pickup2 *= 2.5;
@@ -270,6 +277,7 @@ require "inc/countryselect.php";
             box-sizing: border-box;
         }
       </style>
+	  <!-- Google tag (gtag.js) --> <script async src=" https://www.googletagmanager.com/gtag/js?id=AW-16684451653 "></script> <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'AW-16684451653'); </script>
    </head>
    <body>
       <form method="post" id="myform" autocomplete="off" action="step3.php">
@@ -294,12 +302,12 @@ require "inc/countryselect.php";
                   <div id="map" style="margin-top:30px;"></div>
                   <table class="table">
                      <tbody>
-					  <tr>
-					<!-- <th scope="row">hubs</th>
+					  <!--<tr>
+					 <th scope="row">hubs</th>
 					 <td>Hub1: West Drive and West 59th Street New York, NY 10019</td>
 					 <td>Hub2: 6th Avenue and Central Park South New York, NY 10019</td>
 					 </tr>
-						<tr>
+						 <tr>
 						<th scope="row">Debug Area</th>
 						<td>Pickup1 hub1 to pickup Duration: <?=$pickup1?></td>
 						<td>Pickup2 pcikup to hub2 Duration: <?=$pickup2?></td>
@@ -321,7 +329,22 @@ require "inc/countryselect.php";
                         </tr>
 						<tr>
                            <th scope="row">Duration of Tour</th>
-                           <td><?= $tourDuration ?> Minutes</td>
+                           <td><?php
+if ($tourDuration == 60){
+	$tourDuration = "1 Hour (Stop at Cherry Hill + Strawberry Fields + Bethesda Fountain)";
+}
+else{
+	if ($tourDuration == 50){
+		$tourDuration = $tourDuration . " Minutes (Stop at Cherry Hill + Strawberry Fields)";
+	}
+	else if ($tourDuration == 45){
+		$tourDuration = $tourDuration . " Minutes (Stop at Cherry Hill)";
+	}
+	else if ($tourDuration == 40){
+		$tourDuration = $tourDuration . " Minutes (Non Stop)";
+	}
+}
+								echo $tourDuration; ?></td>
                         </tr>
                         <tr>
                            <th scope="row">Duration of Ride</th>
@@ -355,23 +378,23 @@ require "inc/countryselect.php";
                   <h2 class="text-center mb-4 font-weight-bold" style="color:#0909ff;">Passenger Details</h2>
 <div class="form-group">
     <label for="firstName">First Name</label>
-    <input maxlength="50" title="" type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter your first name" 
+    <input title="" type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter your first name" 
         <?php if (isset($_POST["firstName"]) && !empty($_POST["firstName"])) { ?>
             value="<?php echo htmlspecialchars($_POST["firstName"]); ?>"
         <?php } ?> 
-        maxlength="20" required oninvalid="this.setCustomValidity('Please, enter first name.'); this.classList.add('invalid');" oninput="this.setCustomValidity(''); this.classList.remove('invalid'); this.value = this.value.replace(/[^a-zA-Z\s]/g, '');">
+        maxlength="15" required oninvalid="this.setCustomValidity('Please, enter first name.'); this.classList.add('invalid');" oninput="this.setCustomValidity(''); this.classList.remove('invalid'); this.value = this.value.replace(/[^a-zA-Z\s]/g, '');">
 </div>
 <div class="form-group">
     <label for="lastName">Last Name</label>
-    <input maxlength="50" title="" type="text" class="form-control" id="lastName" name="lastName" placeholder="Enter your last name" 
+    <input title="" type="text" class="form-control" id="lastName" name="lastName" placeholder="Enter your last name" 
         <?php if (isset($_POST["lastName"]) && !empty($_POST["lastName"])) { ?>
             value="<?php echo htmlspecialchars($_POST["lastName"]); ?>"
         <?php } ?> 
-        maxlength="20" required oninvalid="this.setCustomValidity('Please, enter last name.'); this.classList.add('invalid');" oninput="this.setCustomValidity(''); this.classList.remove('invalid'); this.value = this.value.replace(/[^a-zA-Z\s]/g, '');">
+        maxlength="15" required oninvalid="this.setCustomValidity('Please, enter last name.'); this.classList.add('invalid');" oninput="this.setCustomValidity(''); this.classList.remove('invalid'); this.value = this.value.replace(/[^a-zA-Z\s]/g, '');">
 </div>
 <div class="form-group">
     <label for="email">Email Address</label>
-    <input maxlength="50" title="" type="email" class="form-control" id="email" name="email" placeholder="Enter your email address" 
+    <input maxlength="30" title="" type="email" class="form-control" id="email" name="email" placeholder="Enter your email address" 
         <?php if (isset($_POST['email']) && !empty($_POST['email'])) { ?>
             value="<?php echo htmlspecialchars($_POST['email']); ?>"
         <?php } ?> 
@@ -430,112 +453,178 @@ require "inc/countryselect.php";
             errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
-        function checkTimeValidity() {
-            var now = new Date();
-            var utcHour = now.getUTCHours();
-            var nyHour = utcHour - 4; // New York Time (EST) is UTC-4
-
-            if (nyHour < 0) nyHour += 24;
-
-            if (nyHour < 10 || nyHour > 18) {
-                showError("<b>Please, do not use this application to book a tour between 6:01 pm and 9:59 am.</b>");
-                return false;
-            }
-            return true;
-        }
-
-        document.getElementById("myform").addEventListener("submit", function(event) {
-            if (!checkTimeValidity()) {
-                event.preventDefault();
+window.onload = function() {
+    if (!checkTimeValidity()) {
+        var headings = document.querySelectorAll('h2');
+        headings.forEach(function(heading) {
+            if (heading.textContent.trim() === "Passenger Details") {
+                heading.style.display = 'none';
             }
         });
+
+        var elementsToHide = [
+            document.querySelector('label[for="firstName"]'),
+            document.getElementById('firstName'),
+            document.querySelector('label[for="lastName"]'),
+            document.getElementById('lastName'),
+            document.querySelector('label[for="email"]'),
+            document.getElementById('email'),
+            document.querySelector('label[for="countrySelect"]'),
+            document.getElementById('phoneNumber'),
+            document.querySelector('.btn[value="Review"]'),
+            document.querySelector('select[name="countryCode"]')
+        ];
+        
+        elementsToHide.forEach(function(element) {
+            if (element) {
+                element.style.display = 'none';
+            }
+        });
+    }
+};
+
+function checkTimeValidity() {
+    var now = new Date();
+    var utcHour = now.getUTCHours();
+    var utcMinutes = now.getUTCMinutes();
+    var nyHour = utcHour - 4; // New York Time (EST) is UTC-4
+    var nyMinutes = utcMinutes;
+
+    if (nyHour < 0) nyHour += 24;
+
+    if ((nyHour < 10) || (nyHour === 18 && nyMinutes > 0) || (nyHour > 18)) {
+        showError("<b>You can book an On Demand Central Park Pedicab Tour only between 10:00 AM and 6:00 PM.</b>");
+        return false;
+    }
+    return true;
+}
+
+
     </script>
-      <script>
-         function initMap() {
-             var map = new google.maps.Map(document.getElementById('map'), {
-                 zoom: 14,
-                 center: {lat: 40.712776, lng: -74.005974},
-                 styles: [
-                     {
-                         featureType: 'road',
-                         elementType: 'geometry',
-                         stylers: [{color: '#f5f1e6'}]
-                     }
-                 ]
-             });
-         
-             var directionsService = new google.maps.DirectionsService();
-             var directionsRenderer = new google.maps.DirectionsRenderer({
-                 map: map,
-                 suppressMarkers: true,  // Remove default markers
-                 polylineOptions: {
-                     strokeColor: '#FF0000',  // Set line color to red
-                     strokeOpacity: 0,      // Line opacity
-                     strokeWeight: 6          // Line thickness
-                 }
-             });
-         
-             var pickupAddress = <?php echo json_encode($deneme2); ?>;
-             var destinationAddress = <?php echo json_encode(
-                 $destinationAddress
-             ); ?>;
-         
-             calculateAndDisplayRoute(directionsService, directionsRenderer, map, pickupAddress, destinationAddress);
-         }
-         
-         function calculateAndDisplayRoute(directionsService, directionsRenderer, map, pickupAddress, destinationAddress) {
-             directionsService.route({
-                 origin: pickupAddress,
-                 destination: destinationAddress,
-                 travelMode: 'BICYCLING',
-                 provideRouteAlternatives: true  // Provide alternative routes
-             }, function(response, status) {
-                 if (status === 'OK') {
-                     var fastestRouteIndex = findFastestRouteIndex(response.routes);
-                     directionsRenderer.setDirections(response);
-                     directionsRenderer.setRouteIndex(fastestRouteIndex);
-                     addCustomMarkers(response.routes[fastestRouteIndex], map);
-         
-                     // Calculate the duration of the route
-         var durationMinutes = parseFloat(response.routes[fastestRouteIndex].legs.reduce((sum, leg) => sum + leg.duration.value, 0) / 60);
-         			console.log("durationMinutes: " + durationMinutes);
-                 } else {
-                     window.alert('Directions request failed due to ' + status);
-                 }
-             });
-         }
-         
-         function findFastestRouteIndex(routes) {
-             var index = 0;
-             var minDuration = Number.MAX_VALUE;
-         
-             routes.forEach(function(route, i) {
-                 var routeDuration = route.legs.reduce((sum, leg) => sum + leg.duration.value, 0);
-                 if (routeDuration < minDuration) {
-                     minDuration = routeDuration;
-                     index = i;
-                 }
-             });
-         
-             return index;
-         }
-         
-         function addCustomMarkers(route, map) {
-             var startMarker = new google.maps.Marker({
-                 position: route.legs[0].start_location,
-                 map: map,
-                 label: 'S',
-                 title: 'Start: ' + route.legs[0].start_address
-             });
-         
-             var endMarker = new google.maps.Marker({
-                 position: route.legs[0].end_location,
-                 map: map,
-                 label: 'F',
-                 title: 'End: ' + route.legs[0].end_address
-             });
-         }
-      </script>
+	<?php
+include('inc/db.php');
+$zipCodes = [];
+$sorgu = $baglanti->prepare("SELECT * FROM zip_codes WHERE app_id = 1");
+$sorgu->execute();
+while ($sonuc = $sorgu->fetch()) { 
+$zipCodes[] = $sonuc['zip_code'];
+}
+?>
+<script>
+    function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 14,
+            center: {lat: 40.712776, lng: -74.005974},
+            styles: [
+                {
+                    featureType: 'road',
+                    elementType: 'geometry',
+                    stylers: [{color: '#f5f1e6'}]
+                }
+            ]
+        });
+
+        var directionsService = new google.maps.DirectionsService();
+        var directionsRenderer = new google.maps.DirectionsRenderer({
+            map: map,
+            suppressMarkers: true,  // Remove default markers
+            polylineOptions: {
+                strokeColor: '#FF0000',  // Set line color to red
+                strokeOpacity: 0,        // Line opacity
+                strokeWeight: 6          // Line thickness
+            }
+        });
+
+        var pickupAddress = <?php echo json_encode($deneme2); ?>;
+        var destinationAddress = <?php echo json_encode($destinationAddress); ?>;
+        var allowedZipCodes = <?php echo json_encode($zipCodes); ?>;
+
+        geocodeAndCheckAddress(pickupAddress, allowedZipCodes, function(pickupLocation) {
+            geocodeAndCheckAddress(destinationAddress, allowedZipCodes, function(destinationLocation) {
+                calculateAndDisplayRoute(directionsService, directionsRenderer, map, pickupLocation, destinationLocation);
+            });
+        });
+    }
+
+    function geocodeAndCheckAddress(address, allowedZipCodes, callback) {
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ 'address': address }, function(results, status) {
+            if (status === 'OK') {
+                var zipCode = getZipCodeFromPlace(results[0]);
+                if (allowedZipCodes.includes(zipCode)) {
+                    callback(results[0].geometry.location);
+                } else {
+                    // zip codes on database
+                    window.location.href = 'index.php?error=yes';
+                }
+            } else {
+                window.location.href = 'index.php?error=yes';
+            }
+        });
+    }
+
+    function getZipCodeFromPlace(place) {
+        // zip codes on database
+        var zipCodeComponent = place.address_components.find(function(component) {
+            return component.types.indexOf("postal_code") > -1;
+        });
+        return zipCodeComponent ? zipCodeComponent.long_name : null;
+    }
+
+    function calculateAndDisplayRoute(directionsService, directionsRenderer, map, pickupLocation, destinationLocation) {
+        directionsService.route({
+            origin: pickupLocation,
+            destination: destinationLocation,
+            travelMode: 'BICYCLING',
+            provideRouteAlternatives: true  // Provide alternative routes
+        }, function(response, status) {
+            if (status === 'OK') {
+                var fastestRouteIndex = findFastestRouteIndex(response.routes);
+                directionsRenderer.setDirections(response);
+                directionsRenderer.setRouteIndex(fastestRouteIndex);
+                addCustomMarkers(response.routes[fastestRouteIndex], map);
+
+                // Calculate the duration of the route
+                var durationMinutes = parseFloat(response.routes[fastestRouteIndex].legs.reduce((sum, leg) => sum + leg.duration.value, 0) / 60);
+                console.log("durationMinutes: " + durationMinutes);
+
+            } else {
+                window.location.href = 'index.php?error=yes';
+            }
+        });
+    }
+
+    function findFastestRouteIndex(routes) {
+        var index = 0;
+        var minDuration = Number.MAX_VALUE;
+
+        routes.forEach(function(route, i) {
+            var routeDuration = route.legs.reduce((sum, leg) => sum + leg.duration.value, 0);
+            if (routeDuration < minDuration) {
+                minDuration = routeDuration;
+                index = i;
+            }
+        });
+
+        return index;
+    }
+
+    function addCustomMarkers(route, map) {
+        var startMarker = new google.maps.Marker({
+            position: route.legs[0].start_location,
+            map: map,
+            label: 'S',
+            title: 'Start: ' + route.legs[0].start_address
+        });
+
+        var endMarker = new google.maps.Marker({
+            position: route.legs[0].end_location,
+            map: map,
+            label: 'F',
+            title: 'End: ' + route.legs[0].end_address
+        });
+    }
+</script>
       <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFigWHFZKkoNdO0r6siMTgawuNxwlabRU&callback=initMap"></script>  
       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
       <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>

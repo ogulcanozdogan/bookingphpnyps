@@ -22,11 +22,9 @@ function updatePastBookings2($pdo) {
             $totalMinutes = $booking['totalMinutes'];
 
             $minutes = floor($totalMinutes);
-            $seconds = ($totalMinutes - $minutes) * 60;
 
             $updatedAtDateTime = new DateTime($updatedAt, new DateTimeZone('America/New_York'));
             $updatedAtDateTime->modify("+$minutes minutes");
-            $updatedAtDateTime->modify("+" . round($seconds) . " seconds");
             $modifiedUpdatedAt = $updatedAtDateTime->format('Y-m-d H:i:s');
 
             if ($currentDateTime >= $modifiedUpdatedAt) {
@@ -127,8 +125,8 @@ EOD;
                     echo 'Caught exception: '. $e->getMessage() ."\n";
                 }
 
-                $updateStmt = $pdo->prepare("UPDATE $table SET sms_sent = 1 WHERE phoneNumber = :phoneNumber AND status = 'past'");
-                $updateStmt->execute([':phoneNumber' => $phoneNumber]);
+                $updateStmt = $pdo->prepare("UPDATE $table SET sms_sent = 1 WHERE bookingNumber = :bookingNumber AND status = 'failed'");
+                $updateStmt->execute([':bookingNumber' => $bookingNumber]);
 
             } catch (Exception $e) {
                 echo "Could not send SMS: " . $e->getMessage();
@@ -161,7 +159,7 @@ function sendScheduledSMS($pdo) {
                 // İlk E-posta
                 $email1 = new \SendGrid\Mail\Mail(); 
                 $email1->setFrom("info@newyorkpedicabservices.com", "NYPS");
-                $email1->setSubject("Pedicab Review Request");
+                $email1->setSubject("Pedicab Review Request - " . $bookingNumber);
                 $email1->addTo($emailAddress, $customerFirstName);
                 $htmlContent1 = <<<EOD
 <html>

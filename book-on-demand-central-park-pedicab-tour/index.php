@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <title>Book On Demand Central Park Pedicab Tour</title>
 	  <meta name="description" content=" On Demand Central Park Pedicab Tour Booking Application ">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="robots" content="noindex,nofollow">
+		<meta name="robots" content="index, follow">
 	     <link rel="shortcut icon" href="vendor/favicon.ico">
       <!-- Viewport meta tag added -->
   <link rel="preload" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -53,14 +53,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                      <span id="error-text"></span>
                   </div>
 				<div class="error-message2" id="error-message2" <?php if (
-                     $_POST["error"] != "yes"
+                     $_GET["error"] != "yes"
                  ) {
                      echo 'style="display: none;"';
                  } ?>>
     <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
     <div class="error-text">
     <?php if ($_GET["error"] == "yes") {
-        echo "You are trying to book a ride outside of our main service areas.<br>Please, use the form below instead.<br><a href='https://newyorkpedicabservices.com/request-on-demand-central-park-pedicab-tour/'>Request On Demand Central Park Pedicab Tour</a>";
+        echo "You are trying to book a ride outside of our main service areas.<br>Please, use the form below instead.<br><a href='https://newyorkpedicabservices.com/request-scheduled-central-park-pedicab-tour/'>Request Scheduled Central Park Pedicab Tour</a>";
+    } ?>
+    </div>
+</div>
+
+<div class="error-message2" id="error-message2" <?php if (
+                     $_GET["error"] != "unavailable"
+                 ) {
+                     echo 'style="display: none;"';
+                 } ?>>
+    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+    <div class="error-text">
+    <?php if ($_GET["error"] == "unavailable") {
+        echo "We are unavailable on this date.";
+    } ?>
+    </div>
+</div>
+
+<div class="error-message2" id="error-message2" <?php if (
+                     $_GET["error"] != "unavailabletime"
+                 ) {
+                     echo 'style="display: none;"';
+                 } ?>>
+    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+    <div class="error-text">
+    <?php if ($_GET["error"] == "unavailabletime") {
+        echo "We are unavailable on this time.";
     } ?>
     </div>
 </div>
@@ -133,18 +159,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                   : ""; ?>>
                               <label class="form-check-label" for="durationD">
                               1 Hour (Stop at Cherry Hill + Strawberry Fields + Bethesda Fountain)
-                              </label>
-                           </div>
-                        </div>
-						 <div class="col-12">
-                           <div class="form-check">
-                              <input title="" class="form-check-input" required type="radio" name="tourDuration" id="durationE" value="90" <?php echo isset(
-                                  $_POST["tourDuration"]
-                              ) && $_POST["tourDuration"] == "90"
-                                  ? "checked"
-                                  : ""; ?>>
-                              <label class="form-check-label" for="durationE">
-                              90 Minutes (Stop at Conservatory Water + Bethesda Fountain + Cherry Hill Plaza + Strawberry Fields + Belvedere Castle)
                               </label>
                            </div>
                         </div>
@@ -224,11 +238,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         document.body.appendChild(script);
     };
 </script>
+<script>
+document.getElementById('prevButton').addEventListener('click', function() {
+    window.location.href = 'https://newyorkpedicabservices.com/central-park-pedicab-tours.html';
+});
 
+</script>
+<?php
+include('inc/db.php');
+$zipCodes = [];
+$sorgu = $baglanti->prepare("SELECT * FROM zip_codes WHERE app_id = 1");
+$sorgu->execute();
+while ($sonuc = $sorgu->fetch()) { 
+$zipCodes[] = $sonuc['zip_code'];
+}
+?>
 <script>
 function initAutocomplete() {
     var manhattanBounds = new google.maps.LatLngBounds(
-        new google.maps.LatLng(40.70172445894308, -74.02835332961955), // Southwest corner of Manhattan (Battery Park)
+        new google.maps.LatLng(40.699417303744625, -74.0283104499974), // Southwest corner of Manhattan (Battery Park)
         new google.maps.LatLng(40.81370673870937, -73.91583560578955)  // Northeast corner of Manhattan (Inwood)
     );
 
@@ -237,14 +265,7 @@ function initAutocomplete() {
         strictBounds: true // Restricts results to within the specified bounds
     };
 
-    var allowedZipCodes = [
-        '10017', '10018', '10019', '10020', '10022', '10036', '10055',
-        '10101', '10102', '10103', '10104', '10105', '10106', '10107',
-        '10108', '10109', '10110', '10111', '10112', '10124', '10126',
-        '10129', '10151', '10152', '10153', '10154', '10155', '10163',
-        '10164', '10166', '10167', '10169', '10170', '10171', '10172',
-        '10173', '10174', '10175', '10176', '10177', '10179', '10185'
-    ];
+var allowedZipCodes = <?php echo json_encode($zipCodes); ?>;
 
     var pickUpInput = document.getElementById('pickUpAddress');
     var destinationInput = document.getElementById('destinationAddress');
@@ -266,12 +287,10 @@ function initAutocomplete() {
         });
 
         if (zipCode && allowedZipCodes.includes(zipCode.long_name)) {
-            console.log("Valid location: ", place.formatted_address);
             var addressWithoutCountry = place.formatted_address.replace(/, USA$/, '');
             inputField.value = customPlaceName && !addressWithoutCountry.includes(customPlaceName) ? `${addressWithoutCountry} (${customPlaceName})` : addressWithoutCountry;
         } else {
-            console.error("Invalid postal code.");
-            showError("You are trying to book a tour outside of our main service areas.<br> Please, use the form below instead.<br><a href='https://newyorkpedicabservices.com/request-scheduled-central-park-pedicab-tour.html'>Request Scheduled Central Park Pedicab Tour</a>");
+            showError("You are trying to book a tour outside of our main service areas.<br> Please, use the form below instead.<br><a href='https://newyorkpedicabservices.com/request-scheduled-central-park-pedicab-tour/'>Request Scheduled Central Park Pedicab Tour</a>");
             inputField.value = ""; // Clear the address field
         }
     }
@@ -288,7 +307,6 @@ function initAutocomplete() {
         // Columbus Circle check
         if (place.name.includes("Columbus Circle")) {
             inputField.value = "Columbus Circle, Columbus Circle, New York, NY, USA";
-            console.log("Address set to Columbus Circle, Columbus Circle, New York, NY, USA");
         } else {
             var formattedAddress = place.formatted_address.replace(/, USA$/, '');
             if (customPlaceName && !formattedAddress.includes(customPlaceName)) {
@@ -296,18 +314,17 @@ function initAutocomplete() {
             } else {
                 inputField.value = formattedAddress;
             }
-            console.log("Address set to ", formattedAddress);
             checkZipCode(place, inputField, customPlaceName);
         }
     }
+
 autocompletePickup.addListener('place_changed', function() {
-    handlePlaceChanged(autocompletePickup, pickUpInput);
+        handlePlaceChanged(autocompletePickup, pickUpInput);
 });
 
 autocompleteDestination.addListener('place_changed', function() {
-    handlePlaceChanged(autocompleteDestination, destinationInput);
+        handlePlaceChanged(autocompleteDestination, destinationInput);
 });
-
 }
 </script>
    </body>

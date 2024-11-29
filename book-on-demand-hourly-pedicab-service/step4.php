@@ -124,14 +124,17 @@ $todayDayName = date("l", strtotime($todayDay));
                         </tr>
                         <tr>
                            <th scope="row">Duration of Service</th>
-                           <td><?php if (
-                               $serviceDuration == 30 or
-                               $serviceDuration == 90
-                           ) {
-                               echo $serviceDuration . " Minutes";
-                           } else {
-                               echo $serviceDuration . " Hours";
-                           } ?> </td>
+                           <td><?php if ($serviceDuration == 30 || $serviceDuration == 90) {
+    $serviceDuration = $serviceDuration . " Minutes";
+} 
+else if ($serviceDuration == 1){
+    $serviceDuration = $serviceDuration . " Hour";
+}
+else if ($serviceDuration == 2 or $serviceDuration == 3){
+    $serviceDuration = $serviceDuration . " Hours";
+} 
+
+echo $serviceDuration; ?> </td>
                         </tr>
                         <tr>
                            <th scope="row">Start Address</th>
@@ -178,7 +181,7 @@ $todayDayName = date("l", strtotime($todayDay));
                     </div>
                     <input title="" type="hidden" name="firstName" value="<?= $firstName ?>">
 	                <input title="" type="hidden" name="lastName" value="<?= $lastName ?>">
-	                <input title="" type="hidden" name="aq" value="<?= $email ?>">
+	                <input title="" type="hidden" name="email" value="<?= $email ?>">
 	                <input title="" type="hidden" name="phoneNumber" value="<?= $phoneNumber ?>">
                     <input title="" type="hidden" name="numPassengers" value="<?= $numPassengers ?>">
                     <input title="" type="hidden" name="pickUpAddress" value="<?= $deneme2 ?>">
@@ -219,54 +222,11 @@ $todayDayName = date("l", strtotime($todayDay));
         }
     });
 
-    var numPassengers = <?php echo json_encode($numPassengers); ?>;
-    var pickUpAddress = <?php echo json_encode($deneme2); ?>;
-    var destinationAddress = <?php echo json_encode($destinationAddress); ?>;
-    var paymentMethod = <?php echo json_encode($paymentMethod); ?>;
-    var firstName = <?php echo json_encode($firstName); ?>;
-    var lastName = <?php echo json_encode($lastName); ?>;
-    var email = <?php echo json_encode($email); ?>;
-    var phoneNumber = <?php echo json_encode($phoneNumber); ?>;
-    var bookingFee = <?php echo json_encode($bookingFee); ?>;
-    var driverFare = <?php echo json_encode($driverFare); ?>;
-    var totalFare = <?php echo json_encode($totalFare); ?>;
-    var returnDuration = <?php echo json_encode($returnDuration); ?>;
-    var operationFare = <?php echo json_encode($operationFare); ?>;
-	var baseFare = <?php echo json_encode($baseFare); ?>;
-    var rideDuration = <?php echo json_encode($rideDuration); ?>;
-	var countryCode = <?php echo json_encode($countryCode); ?>;
-    var pickUpDuration = <?php echo json_encode($pickUpDuration); ?>;
-    var hub = <?php echo json_encode($hub); ?>;
-    var serviceDetails = <?php echo json_encode($serviceDetails); ?>;
-    var serviceDuration = <?php echo json_encode($serviceDuration); ?>;
-    var hourlyOperationFare = <?php echo json_encode($_POST["hourlyOperationFare"] ?? ""); ?>;
-
     var form = document.getElementById('payment-form');
     form.addEventListener('submit', function(event) {
         event.preventDefault();
 
         var formData = new FormData(form);
-        formData.append('numPassengers', numPassengers);
-        formData.append('pickUpAddress', pickUpAddress);
-        formData.append('destinationAddress', destinationAddress);
-        formData.append('paymentMethod', paymentMethod);
-        formData.append('firstName', firstName);
-        formData.append('lastName', lastName);
-        formData.append('email', email);
-        formData.append('phoneNumber', phoneNumber);
-        formData.append('bookingFee', bookingFee);
-        formData.append('driverFare', driverFare);
-        formData.append('totalFare', totalFare);
-        formData.append('rideDuration', rideDuration);
-		formData.append('countryCode', countryCode);
-        formData.append('returnDuration', returnDuration);
-        formData.append('operationFare', operationFare);
-		formData.append('baseFare', baseFare);
-        formData.append('pickUpDuration', pickUpDuration);
-        formData.append('hub', hub);
-        formData.append('serviceDetails', serviceDetails);
-        formData.append('serviceDuration', serviceDuration);
-        formData.append('hourlyOperationFare', hourlyOperationFare);
 
         fetch('saveit.php', {
             method: 'POST',

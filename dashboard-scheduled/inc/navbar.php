@@ -4,16 +4,16 @@
                 <!-- Dark Logo-->
                 <a href="index.php" class="logo logo-dark">
                     <span class="logo-sm">
-                        <img src="assets/images/logo-sm.png" alt="" height="22">
+                        <img src="https://newyorkpedicabservices.com/buttons_files/new-york-pedicab-services-banner.webp" alt="" height="22">
                     </span>
                     <span class="logo-lg">
-                        <img src="assets/images/logo-dark.png" alt="" height="17">
+                        <img src="https://newyorkpedicabservices.com/buttons_files/new-york-pedicab-services-banner.webp" alt="" height="17">
                     </span>
                 </a>
                 <!-- Light Logo-->
                 <a href="index.php" class="logo logo-light">
                     <span class="logo-sm">
-                        <img src="assets/images/logo-sm.png" alt="" height="22">
+                        <img src="https://newyorkpedicabservices.com/buttons_files/new-york-pedicab-services-banner.webp" alt="" height="22">
                     </span>
                     <span class="logo-lg">
                         <img src="https://newyorkpedicabservices.com/buttons_files/new-york-pedicab-services-banner.webp" style="margin-left:-10%;" alt="" height="57">
@@ -85,9 +85,21 @@
                                 <i class="bx bx-money-withdraw"></i> <span data-key="t-dashboards">Admin Earnings</span>
                             </a>
                         </li> <!-- end Dashboard Menu -->
+						<li class="nav-item">
+                            <a class="nav-link menu-link" href="admin_zip_codes.php">
+                                <i class="bx bxs-edit-location"></i> <span data-key="t-dashboards">ZIP Codes</span>
+                            </a>
+                        </li> <!-- end Dashboard Menu -->
                     </ul>
 					
 					<?php } ?>
+					<ul class="navbar-nav" id="navbar-nav">
+						<li class="nav-item">
+                            <a class="nav-link menu-link" href="logout.php">
+                                <i class="bx bx-log-out"></i> <span data-key="t-dashboards">Logout</span>
+                            </a>
+                        </li> <!-- end Dashboard Menu -->
+                    </ul>
                 </div>
                 <!-- Sidebar -->
             </div>

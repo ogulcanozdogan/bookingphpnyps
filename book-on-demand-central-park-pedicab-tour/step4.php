@@ -67,6 +67,7 @@ $todayDayName = date("l", strtotime($todayDay));
     <link href="css/style.css" rel="stylesheet">
     <link href="css/step4.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css">
+	<!-- Google tag (gtag.js) --> <script async src=" https://www.googletagmanager.com/gtag/js?id=AW-16684451653 "></script> <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'AW-16684451653'); </script>
 </head>
 <body>
     <div class="top-controls">
@@ -117,7 +118,22 @@ $todayDayName = date("l", strtotime($todayDay));
                         </tr>
                             <tr>
                            <th scope="row">Duration of Tour</th>
-                           <td><?= $tourDuration ?> Minutes</td>
+                           <td><?php
+if ($tourDuration == 60){
+	$tourDuration = "1 Hour (Stop at Cherry Hill + Strawberry Fields + Bethesda Fountain)";
+}
+else{
+	if ($tourDuration == 50){
+		$tourDuration = $tourDuration . " Minutes (Stop at Cherry Hill + Strawberry Fields)";
+	}
+	else if ($tourDuration == 45){
+		$tourDuration = $tourDuration . " Minutes (Stop at Cherry Hill)";
+	}
+	else if ($tourDuration == 40){
+		$tourDuration = $tourDuration . " Minutes (Non Stop)";
+	}
+}
+								echo $tourDuration; ?></td>
                         </tr>
                             <tr>
                                 <th scope="row">Duration of Ride</th>
@@ -153,6 +169,12 @@ $todayDayName = date("l", strtotime($todayDay));
                 oninput="this.setCustomValidity('')">
             I confirm that I am ready to get picked up now.
                 </label>
+                <label>
+                <input required type="checkbox" name="declaration2"
+                oninvalid="this.setCustomValidity('Please, check this box to proceed.')"
+                oninput="this.setCustomValidity('')">
+            I confirm that I am not booking a guided tour.
+                </label>				
                     <div class="form-row">
                         <div id="card-element">
                             <!-- Stripe.js injects the Card Element -->

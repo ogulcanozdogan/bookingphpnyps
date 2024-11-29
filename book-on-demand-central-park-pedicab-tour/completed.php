@@ -80,6 +80,16 @@ if ($dateOrder) {
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+	<script>
+  gtag('event', 'conversion', {
+      'send_to': 'AW-16684451653/On57CNnx6s0ZEMWO4pM-',
+      'value': <?php echo $bookingFee; ?>,
+      'currency': 'USD',
+      'transaction_id': '<?php echo $bookingNumber; ?>'
+  });
+</script>
+<!-- Google tag (gtag.js) --> <script async src=" https://www.googletagmanager.com/gtag/js?id=AW-16684451653 "></script> <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'AW-16684451653'); </script>
+
 </head>
 <body>
     <div class="top-controls">
@@ -137,7 +147,7 @@ if ($dateOrder) {
                         </tr>
                         <tr>
                             <th scope="row">Duration of Tour</th>
-                            <td><?= $tourDuration ?> Minutes</td>
+                            <td><?= $tourDuration ?></td>
                         </tr>
                         <tr>
                             <th scope="row">Duration of Ride</th>

@@ -33,8 +33,8 @@ include('inc/navbar.php');
         $surname = $_POST['surname'];
         $email = $_POST['email'];		
         $perm = $_POST['perm'];
-        $number = $_POST['number'];  // Bu satır eklenmeli
-        $pass = $_POST['pass'];      // Bu satır eklenmeli
+        $number = $_POST['number'];
+        $pass = $_POST['pass']; 
 
         $satir = [
             'id' => $driverid,
@@ -45,7 +45,6 @@ include('inc/navbar.php');
             'perm' => $perm,
         ];
 
-        // Kullanıcı adı kontrolü
         $sorgu = $baglanti->prepare("SELECT * FROM users WHERE user=:user");
         $sorgu->execute(['user' => $user]);
         $sonuc2 = $sorgu->fetch();
@@ -56,7 +55,6 @@ include('inc/navbar.php');
             $is_valid = false;
         }
 
-        // Email kontrolü
         $sorgu = $baglanti->prepare("SELECT * FROM users WHERE email=:email");
         $sorgu->execute(['email' => $email]);
         $sonuc3 = $sorgu->fetch();
@@ -66,7 +64,6 @@ include('inc/navbar.php');
             $is_valid = false;
         }
 
-        // Telefon numarası kontrolü
         $sorgu = $baglanti->prepare("SELECT * FROM users WHERE number=:number");
         $sorgu->execute(['number' => $number]);
         $sonuc4 = $sorgu->fetch();

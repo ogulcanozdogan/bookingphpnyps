@@ -102,19 +102,65 @@ if ($_POST){
                                         </div>
                                         <div class="flex-grow-1 ms-3">
                                             <h6 class="mb-1">Type</h6>
-                                            <b class="pay-amount"><?=$table == 'centralpark' ? 'Central Park Ride' : ($table == 'hourly' ? 'Hourly Pedicab Ride' : 'Point A to B Pedicab Ride')?></b>
+                                            <b class="pay-amount"><?=$table == 'centralpark' ? 'Central Park Tour' : ($table == 'hourly' ? 'Hourly  Service' : 'Point A to B Ride')?></b>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="booking-details">
                                 <br><br>
-                                <b>Type:</b> <?=$table == 'centralpark' ? 'Central Park Ride' : ($table == 'hourly' ? 'Hourly Pedicab Ride' : 'Point A to B Pedicab Ride')?><br>
-                                <b>Start Location:</b> <?=$sonuc["pickupAddress"]?><br>
-                                <b>Finish Location:</b> <?=$sonuc["destinationAddress"]?><br>
-                                <b>Date:</b> <?=$sonuc["date"]?><br>
-                                <b>Time:</b> Now!<br>
-                                <b>Duration:</b> <?=$sonuc["duration"]?><br>
+                                <b>Type:</b> <?=$table == 'centralpark' ? 'Central Park Tour' : ($table == 'hourly' ? 'Hourly Service' : 'Point A to B Ride')?><br>
+                                <b>Start Address:</b> <?=$sonuc["pickupAddress"]?><br>
+                                <b>Finish Address:</b> <?=$sonuc["destinationAddress"]?><br>
+<?php
+$date = DateTime::createFromFormat('m/d/Y', $sonuc["date"]);
+$dayOfWeek = $date->format('l'); // Günü yazdırır (Monday, Tuesday, vb.)
+
+echo "<b>Date:</b> " . $sonuc["date"] . " " . $dayOfWeek . " (Today)";
+?>
+
+                            </br>    <b>Time:</b> <?php
+echo $sonuc["pickUpTime"];
+?><br>
+<?php 
+if ($table == 'centralpark'){
+	$tourDuration = $sonuc["tourDuration"];
+if ($tourDuration == 1){
+	$tourDuration = $tourDuration . " Hour (Stop at Cherry Hill + Strawberry Fields + Bethesda Fountain)";
+}
+else {
+	if ($tourDuration == 50){
+		$tourDuration = $tourDuration . " Minutes (Stop at Cherry Hill + Strawberry Fields)";
+	}
+	else if ($tourDuration == 45){
+		$tourDuration = $tourDuration . " Minutes (Stop at Cherry Hill)";
+	}
+	else if ($tourDuration == 40){
+		$tourDuration = $tourDuration . " Minutes (Non Stop)";
+	}
+}
+?>
+
+                                <b>Tour Duration:</b> <?=$tourDuration?><br>
+						<?php } ?>
+						
+<?php 
+if ($table == 'hourly'){
+	$serviceDuration = $sonuc["serviceDuration"];
+	if ($serviceDuration == 30 || $serviceDuration == 90) {
+    $serviceDuration = $serviceDuration . " Minutes";
+} 
+else if ($serviceDuration == 1){
+    $serviceDuration = $serviceDuration . " Hour";
+}
+else if ($serviceDuration == 2 or $serviceDuration == 3){
+    $serviceDuration = $serviceDuration . " Hours";
+}
+?>
+
+                                <b>Service Duration:</b> <?=$serviceDuration?><br>
+						<?php } ?>
+                                <b>Ride Duration:</b> <?=$sonuc["duration"]?> Minutes<br>
                                 <b>Passengers:</b> <?=$sonuc["numberOfPassengers"]?><br>
                                 <b>Name:</b> <?=$sonuc["firstName"] . ' ' . $sonuc["lastName"]?><br>
                                 <b>Phone:</b> <?=$sonuc["phoneNumber"];?><br>
@@ -129,7 +175,7 @@ if ($_POST){
                             <form method='POST'>
                                 <input type="hidden" name="bookingNumber" value="<?=$sonuc["bookingNumber"]?>">
                                 <input type="hidden" name="table" value="<?=$table?>">
-                                <input type="submit" class="btn btn-danger" value="Bitir">     
+                               <!-- <input type="submit" class="btn btn-danger" value="Bitir">     -->
                             </form>
                         </div>
                         <!-- end card body -->

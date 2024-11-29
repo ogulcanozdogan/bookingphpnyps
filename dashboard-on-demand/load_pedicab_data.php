@@ -62,7 +62,7 @@ while ($sonuc = $sorgu->fetch()) {
                                 </div>
                             </div>
                             <div class="flex-grow-1 ms-3">
-                                <h6 class="mb-1">Date Of Tour</h6>
+                                <h6 class="mb-1">Date Of Ride</h6>
                                 <b class="pay-amount">
                                     <?php
                                     $date = new DateTime($sonuc['date']);
@@ -81,7 +81,7 @@ while ($sonuc = $sorgu->fetch()) {
                                 </div>
                             </div>
                             <div class="flex-grow-1 ms-3">
-                                <h6 class="mb-1">Time of Tour</h6>
+                                <h6 class="mb-1">Time of Ride</h6>
                                 <b class="pay-amount">
 <?= htmlspecialchars($sonuc["pickUpTime"]) ?>
                                 </b>
@@ -237,8 +237,22 @@ while ($sonuc = $sorgu->fetch()) {
                                 </div>
                             </div>
                             <div class="flex-grow-1 ms-3">
-                                <h6 class="mb-1">Duration of Ride</h6>
-                                <b class="pay-amount"><?= htmlspecialchars(number_format($sonuc['duration'], 2)) ?> Minutes</b>
+                                <h6 class="mb-1">Duration of Service</h6>
+                                <b class="pay-amount"><?php
+								
+$serviceDuration = $sonuc['serviceDuration'];
+
+if ($serviceDuration == 30 || $serviceDuration == 90) {
+    $serviceDuration = $serviceDuration . " Minutes";
+} 
+else if ($serviceDuration == 1){
+    $serviceDuration = $serviceDuration . " Hour";
+}
+else if ($serviceDuration == 2 or $serviceDuration == 3){
+    $serviceDuration = $serviceDuration . " Hours";
+}
+echo $serviceDuration;
+?></b>
                             </div>
                         </div>
                         <div class="d-flex align-items-center">
@@ -296,11 +310,7 @@ while ($sonuc = $sorgu->fetch()) {
     }
 
     $tourDuration = $sonuc["tourDuration"];
-    if ($tourDuration == 60) {
-        $tourDuration = "1 Hour";
-    } else {
-        $tourDuration = $tourDuration . " Minutes";
-    }
+
 
     $createdAt = new DateTime($sonuc['createdAt'], new DateTimeZone('America/New_York'));
     $expiryTime = clone $createdAt;
@@ -372,7 +382,7 @@ while ($sonuc = $sorgu->fetch()) {
                             <div class="flex-grow-1 ms-3">
                                 <h6 class="mb-1">Time of Tour</h6>
                                 <b class="pay-amount">
-<?= htmlspecialchars($sonuc["pickUpTime"]) ?>
+							<?= htmlspecialchars($sonuc["pickUpTime"]) ?>
                                 </b>
                             </div>
                         </div>
@@ -386,7 +396,22 @@ while ($sonuc = $sorgu->fetch()) {
                             </div>
                             <div class="flex-grow-1 ms-3">
                                 <h6 class="mb-1">Duration of Tour</h6>
-                                <b class="pay-amount"><?= htmlspecialchars($tourDuration) ?></b>
+                                <b class="pay-amount"><?php
+if ($tourDuration == 1){
+	$tourDuration = $tourDuration . " Hour (Stop at Cherry Hill + Strawberry Fields + Bethesda Fountain)";
+}
+else{
+	if ($tourDuration == 50){
+		$tourDuration = $tourDuration . " Minutes (Stop at Cherry Hill + Strawberry Fields)";
+	}
+	else if ($tourDuration == 45){
+		$tourDuration = $tourDuration . " Minutes (Stop at Cherry Hill)";
+	}
+	else if ($tourDuration == 40){
+		$tourDuration = $tourDuration . " Minutes (Non Stop)";
+	}
+}
+								echo htmlspecialchars($tourDuration); ?></b>
                             </div>
                         </div>
                         <div class="d-flex align-items-center">

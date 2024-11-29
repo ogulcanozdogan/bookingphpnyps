@@ -68,7 +68,8 @@ $sonuc = $sorgu->fetch();
 $pickupAddress = $sonuc["pickupAddress"];
 $destinationAddress = $sonuc["destinationAddress"];
 $updatedAt = $sonuc["updated_at"];
-$dateTime = new DateTime($updatedAt, new DateTimeZone('America/New_York'));
+$createdAt = $sonuc["createdAt"];
+$dateTime = new DateTime($createdAt, new DateTimeZone('America/New_York'));
 $timeFormatted = $dateTime->format('h:i A');
 ?>
 <div class="main-content">
@@ -80,7 +81,7 @@ $timeFormatted = $dateTime->format('h:i A');
                         <div class="card-body">
                             <h5 style="color:red;">Booking Number: <?=$bookingNumber?></h5>
                             <div class="booking-details mt-3">
-                                <p>Type: Hourly Pedicab Ride</p>
+                                <p>Type: Hourly Pedicab Service</p>
                                 <p>Start Location: <?=$pickupAddress?></p>
                                 <p>Finish Location: <?=$destinationAddress?></p>
                                 <p>Date: <?=$sonuc["date"]?></p>

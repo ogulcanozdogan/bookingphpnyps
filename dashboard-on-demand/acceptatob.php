@@ -15,18 +15,26 @@ $sorgu = $baglanti->prepare("SELECT * FROM pointatob WHERE id=:id");
 $sorgu->execute(['id' => $id]);
 $sonuc = $sorgu->fetch();
 
+$currentDateTime = new DateTime('now', new DateTimeZone('America/New_York'));
+$updated_at = $currentDateTime->format('Y-m-d H:i:s');
+
 $pickupAddress = $sonuc["pickupAddress"];
 $destinationAddress = $sonuc["destinationAddress"];
-$customerPhone = $sonuc["phoneNumber"];
 $customerName = $sonuc["firstName"];
+$customerLastName = $sonuc["lastName"];
+$customerPhone = $sonuc["phoneNumber"];
+$numberOfPassengers = $sonuc["numberOfPassengers"];
+$todayDay = $currentDateTime->format('m/d/Y');
+$pickUpTime = $sonuc["pickUpTime"];
+$rideDuration = $sonuc["duration"];
+$driverFare = $sonuc["driverFee"];
+$paymentMethod = $sonuc["paymentMethod"];
 $customerEmail = $sonuc["emailAddress"];
 
 $driver = $user;
 $status = "pending";
 $hata = '';
 
-$currentDateTime = new DateTime('now', new DateTimeZone('America/New_York'));
-$updated_at = $currentDateTime->format('Y-m-d H:i:s');
 
 $satir = [
     'id' => $id,
@@ -61,8 +69,9 @@ if ($durum) {
     $sorgu->execute(['user' => $user]);
     $sonuc = $sorgu->fetch();
 
-    $driverName = $sonuc["name"];
-    $driverPhone = $sonuc["number"];
+$driverName = $sonuc["name"];
+$driverPhone = $sonuc["number"];
+$driverEmail = $sonuc["email"];
 
     $to = $customerPhone;
     $from = "+16468527935"; 
@@ -101,14 +110,55 @@ if ($durum) {
 </html>
 EOD;
     $email1->addContent("text/html", $htmlContent1);
-    $sendgrid = new \SendGrid('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');
-    try {
-        $response1 = $sendgrid->send($email1);
-        header("location:pending.php");
-    } catch (Exception $e) {
-        echo 'Caught exception: '. $e->getMessage() . "\n";
+					        // Second email
+        $email2 = new \SendGrid\Mail\Mail();
+        $email2->setFrom("info@newyorkpedicabservices.com", "NYPS");
+        $email2->setSubject(
+            "RIDE INFORMATION: Point A to B Ride - " . $bookingNumber
+        );
+        $email2->addTo($driverEmail, $driverName);
+
+        $htmlContent2 = <<<EOD
+        <html>
+        <body>
+<h2>Driver Note</h2>
+<strong>Type:</strong> On Demand Point A to B Pedicab Ride<br>
+<strong>First:</strong> $customerName<br>
+<strong>Last:</strong> $customerLastName<br>
+<strong>Cell:</strong> $customerPhone<br>
+<strong>Passengers:</strong> $numberOfPassengers<br>
+<strong>Date:</strong> $todayDay (Today)<br>
+<strong>Time:</strong> $pickUpTime<br>
+<strong>Ride Duration:</strong> {$rideDuration} Minutes<br>
+<strong>Pickup:</strong> $pickupAddress<br>
+<strong>Destination:</strong> $destinationAddress<br>
+<strong>Pay:</strong> \${$driverFare} with $paymentMethod by customer $customerName $customerLastName
+</body>
+</html>
+EOD;
+
+        $email2->addContent("text/html", $htmlContent2);
+
+
+                    $sendgrid = new \SendGrid('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');
+                 
+        try {
+            // Send the first email
+            $response1 = $sendgrid->send($email1);
+            //print $response1->statusCode() . "\n";
+            // print_r($response1->headers());
+            // print $response1->body() . "\n";
+
+            // Send the second email
+            $response2 = $sendgrid->send($email2);
+            // print $response2->statusCode() . "\n";
+            // print_r($response2->headers());
+            // print $response2->body() . "\n";
+        } catch (Exception $e) {
+            // echo 'Caught exception: '. $e->getMessage() ."\n";
+        }
+		        header("Location: pending.php");
+		    } else {
+        echo 'Job error: ';
     }
-} else {
-    echo 'Job error: '; 
-}
 ?>

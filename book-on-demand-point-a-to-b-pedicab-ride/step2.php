@@ -1,6 +1,14 @@
 <?php
 include('inc/init.php');
 include('inc/db.php');
+date_default_timezone_set('America/New_York');
+$currentDate = date('Y-m-d');
+$targetDate = '2024-11-03';
+if ($currentDate === $targetDate) {
+    header('Location: index.php?error=unavailable');
+    exit;
+}
+
 if ($_POST) {
     // Information received from the form
     $firstName = $_POST["firstName"]; // default value 1
@@ -332,27 +340,25 @@ $todayDayName = date("l", strtotime($todayDay));
                     <h2 class="text-center mb-4 font-weight-bold" style="color:#0909ff;">Passenger Details</h2>
 <div class="form-group">
     <label for="firstName">First Name</label>
-    <input maxlength="50" title="" type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter your first name" 
+    <input maxlength="15" title="" type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter your first name" 
         <?php if (isset($_POST["firstName"]) && !empty($_POST["firstName"])) { ?>
             value="<?php echo htmlspecialchars($_POST["firstName"]); ?>"
-        <?php } ?> 
-       maxlength="20" required oninvalid="this.setCustomValidity('Please, enter first name.'); this.classList.add('invalid');" 
+        <?php } ?>  required oninvalid="this.setCustomValidity('Please, enter first name.'); this.classList.add('invalid');" 
         oninput="this.setCustomValidity(''); this.classList.remove('invalid'); this.value = this.value.replace(/[^a-zA-Z\s]/g, '');">
 </div>
 
 <div class="form-group">
     <label for="lastName">Last Name</label>
-    <input maxlength="50" title="" type="text" class="form-control" id="lastName" name="lastName" placeholder="Enter your last name" 
+    <input maxlength="15" title="" type="text" class="form-control" id="lastName" name="lastName" placeholder="Enter your last name" 
         <?php if (isset($_POST["lastName"]) && !empty($_POST["lastName"])) { ?>
             value="<?php echo htmlspecialchars($_POST["lastName"]); ?>"
-        <?php } ?> 
-       maxlength="20" required oninvalid="this.setCustomValidity('Please, enter last name.'); this.classList.add('invalid');" 
+        <?php } ?> required oninvalid="this.setCustomValidity('Please, enter last name.'); this.classList.add('invalid');" 
         oninput="this.setCustomValidity(''); this.classList.remove('invalid'); this.value = this.value.replace(/[^a-zA-Z\s]/g, '');">
 </div>
 
 <div class="form-group">
     <label for="email">Email Address</label>
-    <input maxlength="50" title="" type="email" class="form-control" id="email" name="email" placeholder="Enter your email address" 
+    <input maxlength="30" title="" type="email" class="form-control" id="email" name="email" placeholder="Enter your email address" 
         <?php if (isset($_POST['email']) && !empty($_POST['email'])) { ?>
             value="<?php echo htmlspecialchars($_POST['email']); ?>"
         <?php } ?> 
@@ -402,7 +408,16 @@ $todayDayName = date("l", strtotime($todayDay));
     </form>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput-jquery.min.js"></script>
-		    <script>
+		<?php
+include('inc/db.php');
+$zipCodes = [];
+$sorgu = $baglanti->prepare("SELECT * FROM zip_codes WHERE app_id = 3");
+$sorgu->execute();
+while ($sonuc = $sorgu->fetch()) { 
+$zipCodes[] = $sonuc['zip_code'];
+}
+?>
+    <script>
         function showError(message) {
             var errorMessage = document.getElementById('error-message');
             var errorText = document.getElementById('error-text');
@@ -412,25 +427,53 @@ $todayDayName = date("l", strtotime($todayDay));
             errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
-        function checkTimeValidity() {
-            var now = new Date();
-            var utcHour = now.getUTCHours();
-            var nyHour = utcHour - 4; // New York Time (EST) is UTC-4
-
-            if (nyHour < 0) nyHour += 24;
-
-            if (nyHour < 10 || nyHour > 18) {
-                showError("<b>Please, do not use this application to book a tour between 6:01 pm and 9:59 am.</b>");
-                return false;
-            }
-            return true;
-        }
-
-        document.getElementById("myform").addEventListener("submit", function(event) {
-            if (!checkTimeValidity()) {
-                event.preventDefault();
+window.onload = function() {
+    if (!checkTimeValidity()) {
+        var headings = document.querySelectorAll('h2');
+        headings.forEach(function(heading) {
+            if (heading.textContent.trim() === "Passenger Details") {
+                heading.style.display = 'none';
             }
         });
+
+        var elementsToHide = [
+            document.querySelector('label[for="firstName"]'),
+            document.getElementById('firstName'),
+            document.querySelector('label[for="lastName"]'),
+            document.getElementById('lastName'),
+            document.querySelector('label[for="email"]'),
+            document.getElementById('email'),
+            document.querySelector('label[for="countrySelect"]'),
+            document.getElementById('phoneNumber'),
+            document.querySelector('.btn[value="Review"]'),
+            document.querySelector('select[name="countryCode"]')
+        ];
+        
+        elementsToHide.forEach(function(element) {
+            if (element) {
+                element.style.display = 'none';
+            }
+        });
+    }
+};
+
+function checkTimeValidity() {
+    var now = new Date();
+    var utcHour = now.getUTCHours();
+    var utcMinutes = now.getUTCMinutes();
+    var nyHour = utcHour - 4; // New York Time (EST) is UTC-4
+    var nyMinutes = utcMinutes;
+
+    if (nyHour < 0) nyHour += 24;
+
+    if ((nyHour < 10) || (nyHour === 18 && nyMinutes > 0) || (nyHour > 18)) {
+        showError("<b>You can book an On Demand Point A to B Pedicab Ride only between 10:00 AM and 6:00 PM.</b>");
+        return false;
+    }
+    return true;
+}
+
+
     </script>
 <script>
 function initMap() {
@@ -459,23 +502,38 @@ function initMap() {
 
     var pickupAddress = <?php echo json_encode($deneme2); ?>;
     var destinationAddress = <?php echo json_encode($destinationAddress); ?>;
+    var allowedZipCodes = <?php echo json_encode($zipCodes); ?>; // zip codes on database
 
     var geocoder = new google.maps.Geocoder();
-    geocodeAddress(geocoder, pickupAddress, function(pickupLocation) {
-        geocodeAddress(geocoder, destinationAddress, function(destinationLocation) {
+    geocodeAddress(geocoder, pickupAddress, allowedZipCodes, function(pickupLocation) {
+        geocodeAddress(geocoder, destinationAddress, allowedZipCodes, function(destinationLocation) {
             calculateAndDisplayRoute(directionsService, directionsRenderer, map, pickupLocation, destinationLocation);
         });
     });
 }
 
-function geocodeAddress(geocoder, address, callback) {
+function geocodeAddress(geocoder, address, allowedZipCodes, callback) {
     geocoder.geocode({ 'address': address }, function(results, status) {
         if (status === 'OK') {
-            callback(results[0].geometry.location);
+            var zipCode = getZipCodeFromPlace(results[0]);
+            if (allowedZipCodes.includes(zipCode)) {
+                callback(results[0].geometry.location);
+            } else {
+                // zip codes on database
+                window.location.href = 'index.php?error=yes';
+            }
         } else {
-            alert('Geocode was not successful for the following reason: ' + status);
+            window.location.href = 'index.php?error=yes';
         }
     });
+}
+
+function getZipCodeFromPlace(place) {
+    // zip codes on database
+    var zipCodeComponent = place.address_components.find(function(component) {
+        return component.types.indexOf("postal_code") > -1;
+    });
+    return zipCodeComponent ? zipCodeComponent.long_name : null;
 }
 
 function calculateAndDisplayRoute(directionsService, directionsRenderer, map, pickupLocation, destinationLocation) {
@@ -497,7 +555,7 @@ function calculateAndDisplayRoute(directionsService, directionsRenderer, map, pi
             console.log("durationMinutes: " + durationMinutes);
 
         } else {
-            window.alert('Directions request failed due to ' + status);
+            window.location.href = 'index.php?error=yes';
         }
     });
 }

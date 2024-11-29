@@ -57,7 +57,7 @@ $phoneNumber = $booking["phone_number"];
 $numPassengers = $booking["num_passengers"];
 $pickUpAddress = $booking["pick_up_address"];
 $destinationAddress = $booking["destination_address"];
-$paymentMethod = $booking["	payment_method"];
+$paymentMethod = $booking["payment_method"];
 $rideDuration = $booking["ride_duration"];
 $bookingFee = $booking["booking_fee"];
 $driverFare = $booking["driver_fare"];
@@ -236,9 +236,53 @@ if ($firstName != "" && $lastName != "") {
 		"unique_id" => $unique_id,
     ];
 
-    $sql = "INSERT INTO hourly (id, pickUpTime, totalMinutes, createdAt, bookingNumber, firstName, lastName, emailAddress, phoneNumber, numberOfPassengers, date, pickupAddress, destinationAddress, paymentMethod, duration, bookingFee, driverFee, totalFare, returnDuration, pickUpDuration, hub, operationFare, pickUpCoords, destinationCoords, hubCoords, serviceDetails, serviceDuration, unique_id)
-    VALUES ('$uuid', '$tourTimeFormatted', '$totalMinutes', '$createdAt', '$bookingNumber', '$firstName', '$lastName', '$emailAddress', '$phoneNumber', '$numPassengers', '$formattedDate', '$pickUpAddress', '$destinationAddress', '$paymentMethod', '$rideDuration', '$bookingFee', '$driverFare', '$totalFare', '$returnDuration', '$pickUpDuration', '$hub', '$operationFare', '$pickUpCoords', '$destinationCoords', '$hubCoords', '$serviceDetails', '$serviceDuration', '$unique_id')";
-    $durum = $baglanti->prepare($sql)->execute();
+$sql = "INSERT INTO hourly (id, pickUpTime, totalMinutes, createdAt, bookingNumber, firstName, lastName, emailAddress, phoneNumber, numberOfPassengers, date, pickupAddress, destinationAddress, paymentMethod, duration, bookingFee, driverFee, totalFare, returnDuration, pickUpDuration, hub, operationFare, pickUpCoords, destinationCoords, hubCoords, serviceDetails, serviceDuration, unique_id)
+VALUES (:id, :pickUpTime, :totalMinutes, :createdAt, :bookingNumber, :firstName, :lastName, :emailAddress, :phoneNumber, :numPassengers, :date, :pickupAddress, :destinationAddress, :paymentMethod, :duration, :bookingFee, :driverFee, :totalFare, :returnDuration, :pickUpDuration, :hub, :operationFare, :pickUpCoords, :destinationCoords, :hubCoords, :serviceDetails, :serviceDuration, :unique_id)";
+
+$statement = $baglanti->prepare($sql);
+
+// Değişkenleri parametrelere bağlama
+$statement->bindParam(':id', $uuid);
+$statement->bindParam(':pickUpTime', $tourTimeFormatted);
+$statement->bindParam(':totalMinutes', $totalMinutes);
+$statement->bindParam(':createdAt', $createdAt);
+$statement->bindParam(':bookingNumber', $bookingNumber);
+$statement->bindParam(':firstName', $firstName);
+$statement->bindParam(':lastName', $lastName);
+$statement->bindParam(':emailAddress', $emailAddress);
+$statement->bindParam(':phoneNumber', $phoneNumber);
+$statement->bindParam(':numPassengers', $numPassengers);
+$statement->bindParam(':date', $formattedDate);
+$statement->bindParam(':pickupAddress', $pickUpAddress);
+$statement->bindParam(':destinationAddress', $destinationAddress);
+$statement->bindParam(':paymentMethod', $paymentMethod);
+$statement->bindParam(':duration', $rideDuration);
+$statement->bindParam(':bookingFee', $bookingFee);
+$statement->bindParam(':driverFee', $driverFare);
+$statement->bindParam(':totalFare', $totalFare);
+$statement->bindParam(':returnDuration', $returnDuration);
+$statement->bindParam(':pickUpDuration', $pickUpDuration);
+$statement->bindParam(':hub', $hub);
+$statement->bindParam(':operationFare', $operationFare);
+$statement->bindParam(':pickUpCoords', $pickUpCoords);
+$statement->bindParam(':destinationCoords', $destinationCoords);
+$statement->bindParam(':hubCoords', $hubCoords);
+$statement->bindParam(':serviceDetails', $serviceDetails);
+$statement->bindParam(':serviceDuration', $serviceDuration);
+$statement->bindParam(':unique_id', $unique_id);
+
+
+    $durum = $statement->execute();
+	
+if ($serviceDuration == 30 || $serviceDuration == 90) {
+    $serviceDuration = $serviceDuration . " Minutes";
+} 
+else if ($serviceDuration == 1){
+    $serviceDuration = $serviceDuration . " Hour";
+}
+else if ($serviceDuration == 2 or $serviceDuration == 3){
+    $serviceDuration = $serviceDuration . " Hours";
+}
 
 if ($paymentMethod == "CARD" or $paymentMethod == "card"){
 				$paymentMethod2 = "debit/credit card";
@@ -246,6 +290,14 @@ if ($paymentMethod == "CARD" or $paymentMethod == "card"){
 			if ($paymentMethod == "CASH" or $paymentMethod == "cash"){
 				$paymentMethod2 = "CASH";
 			}
+			
+			        $dateDriver = DateTime::createFromFormat("m/d/Y", $formattedDate);
+
+        if ($dateDriver) {
+            // Format to get the date in the desired format
+            $driverDate = $dateDriver->format("F d l");
+        }
+		
     if ($durum) {
         // First email
         $email1 = new \SendGrid\Mail\Mail();
@@ -281,7 +333,7 @@ if ($paymentMethod == "CARD" or $paymentMethod == "card"){
             <p><strong>Driver Fare:</strong> \${$driverFare} with $paymentMethod2 due on $todayFormatted $todayDay</p>
             <p><strong>Total Fare:</strong> \${$totalFare}</p>
             <h2>Driver Note</h2>
-            <strong>Type:</strong> On Demand Hourly Pedicab Service<br><strong>First:</strong> $firstName<br><strong>Last:</strong> $lastName<br><strong>Cell:</strong> $phoneNumber<br><strong>Passengers:</strong> $numPassengers<br><strong>Date:</strong>$formattedDate (Today)<br><strong>Time:</strong> $tourTimeFormatted<br><strong>Duration:</strong> {$rideDuration} Minutes<br><strong>Start:</strong> $pickUpAddress<br><strong>Finish:</strong> $destinationAddress<br><strong>Details:</strong> $serviceDetails<br><strong>Pay:</strong> \${$driverFare} with $paymentMethod2 by customer $firstName $lastName
+            <strong>Type:</strong> On Demand Hourly Pedicab Service<br><strong>Name:</strong> $firstName $lastName<br><strong>Cell:</strong> $phoneNumber<br><strong>Passengers:</strong> $numPassengers<br><strong>Date:</strong> $driverDate (Today)<br><strong>Time:</strong> $tourTimeFormatted<br><strong>Duration:</strong> {$serviceDuration} Minutes<br><strong>Start:</strong> $pickUpAddress<br><strong>Finish:</strong> $destinationAddress<br><strong>Details:</strong> $serviceDetails<br><strong>Pay:</strong> \${$driverFare} with $paymentMethod2 by customer $firstName $lastName
         </body>
         </html>
 EOD;
@@ -349,7 +401,7 @@ EOD;
         }
 
         $sorgu = $baglanti->prepare(
-            "SELECT * FROM users WHERE perm = 'driver'"
+            "SELECT * FROM users"
         );
         $sorgu->execute();
 
@@ -360,7 +412,7 @@ EOD;
         }
 
         $message =
-            "Hourly Pedicab Service available!
+            "On Demand Hourly Pedicab Service available!
 {" . $bookingNumber .  "}";
         foreach ($phoneNumbers as $phoneNumberwp) {
             $messageSid = sendWhatsAppMessage($twilio, $phoneNumberwp, $message);

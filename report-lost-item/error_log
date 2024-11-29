@@ -1,0 +1,86 @@
+[31-Oct-2024 19:37:41 UTC] PHP Warning:  Undefined variable $lostItemYol in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 128
+[31-Oct-2024 19:41:37 UTC] PHP Warning:  Undefined variable $passengerFaceYol in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 122
+[31-Oct-2024 19:42:23 UTC] PHP Warning:  Undefined variable $passengerFaceYol in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 122
+[31-Oct-2024 20:01:02 UTC] PHP Parse error:  syntax error, unexpected token ":" in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 58
+[31-Oct-2024 20:01:23 UTC] PHP Warning:  Undefined variable $lostItemYol in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 60
+[31-Oct-2024 20:01:23 UTC] PHP Warning:  Undefined variable $lostItemMail in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 87
+[31-Oct-2024 20:01:23 UTC] PHP Warning:  Undefined variable $lostItemMail in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 113
+[31-Oct-2024 20:01:24 UTC] PHP Warning:  Undefined variable $lostItemYol in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 223
+[31-Oct-2024 20:02:28 UTC] PHP Warning:  Undefined variable $lostItemYol in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 61
+[31-Oct-2024 20:02:29 UTC] PHP Warning:  Undefined variable $lostItemYol in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 223
+[31-Oct-2024 20:03:53 UTC] PHP Warning:  Undefined variable $lostItemYol in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 56
+[31-Oct-2024 20:03:53 UTC] PHP Warning:  Undefined variable $lostItemMail in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 80
+[31-Oct-2024 20:03:53 UTC] PHP Warning:  Undefined variable $lostItemMail in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 106
+[31-Oct-2024 20:03:53 UTC] PHP Warning:  Undefined variable $lostItemYol in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 216
+[31-Oct-2024 20:05:05 UTC] PHP Warning:  Undefined variable $lostItemYol in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 56
+[31-Oct-2024 20:05:05 UTC] PHP Warning:  Undefined variable $lostItemMail in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 80
+[31-Oct-2024 20:05:05 UTC] PHP Warning:  Undefined variable $lostItemMail in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 106
+[31-Oct-2024 20:05:06 UTC] PHP Warning:  Undefined variable $lostItemYol in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 216
+[31-Oct-2024 20:35:13 UTC] PHP Warning:  Undefined array key "firstName" in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 4
+[31-Oct-2024 20:35:13 UTC] PHP Warning:  Undefined array key "lastName" in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 5
+[31-Oct-2024 20:35:13 UTC] PHP Warning:  Undefined array key "email" in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 6
+[31-Oct-2024 20:35:13 UTC] PHP Warning:  Undefined array key "phoneNumber" in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 7
+[31-Oct-2024 20:35:13 UTC] PHP Warning:  Undefined array key "pickUpDate" in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 8
+[31-Oct-2024 20:35:13 UTC] PHP Warning:  Undefined array key "hours" in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 9
+[31-Oct-2024 20:35:13 UTC] PHP Warning:  Undefined array key "minutes" in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 10
+[31-Oct-2024 20:35:13 UTC] PHP Warning:  Undefined array key "ampm" in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 11
+[31-Oct-2024 20:35:13 UTC] PHP Warning:  Undefined array key "pickUpAddress" in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 12
+[31-Oct-2024 20:35:13 UTC] PHP Warning:  Undefined array key "destinationAddress" in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 13
+[31-Oct-2024 20:35:13 UTC] PHP Warning:  Undefined array key "countryCode" in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 45
+[31-Oct-2024 20:35:13 UTC] PHP Warning:  Undefined variable $passengerFaceYol in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 54
+[31-Oct-2024 20:35:13 UTC] PHP Warning:  Undefined variable $lostItemYol in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 56
+[31-Oct-2024 20:35:13 UTC] PHP Warning:  Undefined variable $passengerFaceMail in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 79
+[31-Oct-2024 20:35:13 UTC] PHP Warning:  Undefined variable $lostItemMail in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 80
+[31-Oct-2024 20:35:13 UTC] PHP Fatal error:  Uncaught SendGrid\Mail\TypeException: "$emailAddress" must be a valid email address. Got:  in /home/zlds82bav5q4/public_html/report-lost-item/vendor/sendgrid/sendgrid/lib/helper/Assert.php:61
+Stack trace:
+#0 /home/zlds82bav5q4/public_html/report-lost-item/vendor/sendgrid/sendgrid/lib/mail/EmailAddress.php(69): SendGrid\Helper\Assert::email()
+#1 /home/zlds82bav5q4/public_html/report-lost-item/vendor/sendgrid/sendgrid/lib/mail/EmailAddress.php(47): SendGrid\Mail\EmailAddress->setEmailAddress()
+#2 /home/zlds82bav5q4/public_html/report-lost-item/vendor/sendgrid/sendgrid/lib/mail/Mail.php(190): SendGrid\Mail\EmailAddress->__construct()
+#3 /home/zlds82bav5q4/public_html/report-lost-item/vendor/sendgrid/sendgrid/lib/mail/Mail.php(383): SendGrid\Mail\Mail->addRecipientEmail()
+#4 /home/zlds82bav5q4/public_html/report-lost-item/completed.php(92): SendGrid\Mail\Mail->addTo()
+#5 {main}
+  thrown in /home/zlds82bav5q4/public_html/report-lost-item/vendor/sendgrid/sendgrid/lib/helper/Assert.php on line 61
+[31-Oct-2024 20:35:17 UTC] PHP Warning:  Undefined array key "firstName" in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 4
+[31-Oct-2024 20:35:17 UTC] PHP Warning:  Undefined array key "lastName" in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 5
+[31-Oct-2024 20:35:17 UTC] PHP Warning:  Undefined array key "email" in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 6
+[31-Oct-2024 20:35:17 UTC] PHP Warning:  Undefined array key "phoneNumber" in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 7
+[31-Oct-2024 20:35:17 UTC] PHP Warning:  Undefined array key "pickUpDate" in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 8
+[31-Oct-2024 20:35:17 UTC] PHP Warning:  Undefined array key "hours" in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 9
+[31-Oct-2024 20:35:17 UTC] PHP Warning:  Undefined array key "minutes" in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 10
+[31-Oct-2024 20:35:17 UTC] PHP Warning:  Undefined array key "ampm" in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 11
+[31-Oct-2024 20:35:17 UTC] PHP Warning:  Undefined array key "pickUpAddress" in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 12
+[31-Oct-2024 20:35:17 UTC] PHP Warning:  Undefined array key "destinationAddress" in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 13
+[31-Oct-2024 20:35:17 UTC] PHP Warning:  Undefined array key "countryCode" in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 45
+[31-Oct-2024 20:35:17 UTC] PHP Warning:  Undefined variable $passengerFaceYol in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 54
+[31-Oct-2024 20:35:17 UTC] PHP Warning:  Undefined variable $lostItemYol in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 56
+[31-Oct-2024 20:35:17 UTC] PHP Warning:  Undefined variable $passengerFaceMail in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 79
+[31-Oct-2024 20:35:17 UTC] PHP Warning:  Undefined variable $lostItemMail in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 80
+[31-Oct-2024 20:35:17 UTC] PHP Fatal error:  Uncaught SendGrid\Mail\TypeException: "$emailAddress" must be a valid email address. Got:  in /home/zlds82bav5q4/public_html/report-lost-item/vendor/sendgrid/sendgrid/lib/helper/Assert.php:61
+Stack trace:
+#0 /home/zlds82bav5q4/public_html/report-lost-item/vendor/sendgrid/sendgrid/lib/mail/EmailAddress.php(69): SendGrid\Helper\Assert::email()
+#1 /home/zlds82bav5q4/public_html/report-lost-item/vendor/sendgrid/sendgrid/lib/mail/EmailAddress.php(47): SendGrid\Mail\EmailAddress->setEmailAddress()
+#2 /home/zlds82bav5q4/public_html/report-lost-item/vendor/sendgrid/sendgrid/lib/mail/Mail.php(190): SendGrid\Mail\EmailAddress->__construct()
+#3 /home/zlds82bav5q4/public_html/report-lost-item/vendor/sendgrid/sendgrid/lib/mail/Mail.php(383): SendGrid\Mail\Mail->addRecipientEmail()
+#4 /home/zlds82bav5q4/public_html/report-lost-item/completed.php(92): SendGrid\Mail\Mail->addTo()
+#5 {main}
+  thrown in /home/zlds82bav5q4/public_html/report-lost-item/vendor/sendgrid/sendgrid/lib/helper/Assert.php on line 61
+[31-Oct-2024 20:44:28 UTC] PHP Warning:  Undefined variable $passengerFaceYol in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 54
+[31-Oct-2024 20:44:28 UTC] PHP Warning:  Undefined variable $lostItemYol in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 56
+[31-Oct-2024 20:44:28 UTC] PHP Warning:  Undefined variable $passengerFaceMail in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 79
+[31-Oct-2024 20:44:28 UTC] PHP Warning:  Undefined variable $lostItemMail in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 80
+[31-Oct-2024 20:44:28 UTC] PHP Warning:  Undefined variable $passengerFaceMail in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 105
+[31-Oct-2024 20:44:28 UTC] PHP Warning:  Undefined variable $lostItemMail in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 106
+[31-Oct-2024 20:44:29 UTC] PHP Warning:  Undefined variable $passengerFaceYol in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 210
+[31-Oct-2024 20:44:29 UTC] PHP Warning:  Undefined variable $lostItemYol in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 216
+[31-Oct-2024 20:46:51 UTC] PHP Warning:  Undefined variable $lostItemYol in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 56
+[31-Oct-2024 20:46:51 UTC] PHP Warning:  Undefined variable $lostItemMail in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 80
+[31-Oct-2024 20:46:51 UTC] PHP Warning:  Undefined variable $lostItemMail in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 106
+[31-Oct-2024 20:46:51 UTC] PHP Warning:  Undefined variable $lostItemYol in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 216
+[31-Oct-2024 20:53:22 UTC] PHP Warning:  Undefined variable $lostItemYol in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 56
+[31-Oct-2024 20:53:22 UTC] PHP Warning:  Undefined variable $lostItemMail in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 80
+[31-Oct-2024 20:53:22 UTC] PHP Warning:  Undefined variable $lostItemMail in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 106
+[31-Oct-2024 20:53:23 UTC] PHP Warning:  Undefined variable $lostItemYol in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 216
+[31-Oct-2024 20:55:03 UTC] PHP Warning:  Undefined variable $passengerFaceYol in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 54
+[31-Oct-2024 20:55:03 UTC] PHP Warning:  Undefined variable $passengerFaceMail in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 79
+[31-Oct-2024 20:55:03 UTC] PHP Warning:  Undefined variable $passengerFaceMail in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 105
+[31-Oct-2024 20:55:04 UTC] PHP Warning:  Undefined variable $passengerFaceYol in /home/zlds82bav5q4/public_html/report-lost-item/completed.php on line 210

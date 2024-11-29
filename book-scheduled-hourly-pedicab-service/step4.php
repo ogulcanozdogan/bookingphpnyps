@@ -66,6 +66,9 @@ $paymentIntent = $stripe->paymentIntents->create([
 
 $pickUpDateTime = DateTime::createFromFormat("m/d/Y", $pickUpDate);
 $dayOfWeek = $pickUpDateTime->format("l");
+
+        $pedicabCount = ceil($numPassengers / 3);
+		$driverFarePerDriver = number_format($driverFare/$pedicabCount, 2);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -119,10 +122,17 @@ $dayOfWeek = $pickUpDateTime->format("l");
                            <th scope="row">Phone Number</th>
                            <td>+<?= $countryCode . $phoneNumber ?></td>
                         </tr>
-                        <tr>
-                           <th scope="row">Number of Passengers</th>
-                           <td><?= $numPassengers ?></td>
-                        </tr>
+<tr>
+    <th scope="row">Number of Passengers</th>
+    <td>
+        <?php
+        $pedicabCount = ceil($numPassengers / 3);
+        $pedicabLabel = $pedicabCount == 1 ? 'Pedicab' : 'Pedicabs';
+        echo $numPassengers . ' (' . $pedicabCount . ' ' . $pedicabLabel . ')';
+        ?>
+    </td>
+</tr>
+
                         <tr>
                            <th scope="row">Date of Service</th>
                            <td><?php echo $pickUpDate . ' ' .$dayOfWeek;?></td>
@@ -165,7 +175,9 @@ $dayOfWeek = $pickUpDateTime->format("l");
                             </tr>
                             <tr>
                                 <th scope="row">Driver Fare</th>
-                                <td>$<?= number_format($driverFare, 2) ?> with <?= $paymentMethod == 'card' ? 'debit/credit card' : $paymentMethod ?></td>
+                                <td>$<?= number_format($driverFare, 2) ?> <?php if ($pedicabCount != 1) {?>
+								 ($<?= $driverFarePerDriver ?> per driver)
+								 <?php } ?> with <?= $paymentMethod == 'card' ? 'debit/credit card' : $paymentMethod ?></td>
                             </tr>
 							<?php } ?>
                             <tr style="background-color:green;">
@@ -187,7 +199,7 @@ $dayOfWeek = $pickUpDateTime->format("l");
                     </div>
                     <input title="" type="hidden" name="firstName" value="<?= $firstName ?>">
 	                <input title="" type="hidden" name="lastName" value="<?= $lastName ?>">
-	                <input title="" type="hidden" name="aq" value="<?= $email ?>">
+	                <input title="" type="hidden" name="email" value="<?= $email ?>">
 	                <input title="" type="hidden" name="phoneNumber" value="<?= $phoneNumber ?>">
                     <input title="" type="hidden" name="numPassengers" value="<?= $numPassengers ?>">
                     <input title="" type="hidden" name="pickUpDate" value="<?= $pickUpDate ?>">
@@ -237,59 +249,11 @@ $dayOfWeek = $pickUpDateTime->format("l");
         }
     });
 
-    var numPassengers = <?php echo json_encode($numPassengers); ?>;
-    var pickUpAddress = <?php echo json_encode($deneme2); ?>;
-    var destinationAddress = <?php echo json_encode($destinationAddress); ?>;
-    var paymentMethod = <?php echo json_encode($paymentMethod); ?>;
-    var firstName = <?php echo json_encode($firstName); ?>;
-    var lastName = <?php echo json_encode($lastName); ?>;
-    var email = <?php echo json_encode($email); ?>;
-    var phoneNumber = <?php echo json_encode($phoneNumber); ?>;
-    var bookingFee = <?php echo json_encode($bookingFee); ?>;
-    var driverFare = <?php echo json_encode($driverFare); ?>;
-    var totalFare = <?php echo json_encode($totalFare); ?>;
-    var returnDuration = <?php echo json_encode($returnDuration); ?>;
-    var operationFare = <?php echo json_encode($operationFare); ?>;
-    var rideDuration = <?php echo json_encode($rideDuration); ?>;
-    var pickUpDuration = <?php echo json_encode($pickUpDuration); ?>;
-    var hub = <?php echo json_encode($hub); ?>;
-    var baseFare = <?php echo json_encode($baseFare); ?>;
-    var serviceDetails = <?php echo json_encode($serviceDetails); ?>;
-    var serviceDuration = <?php echo json_encode($serviceDuration); ?>;
-    var pickUpDate = <?php echo json_encode($pickUpDate); ?>;
-    var hours = <?php echo json_encode($hours); ?>;
-    var minutes = <?php echo json_encode($minutes); ?>;
-    var ampm = <?php echo json_encode($ampm); ?>;
-	var countryCode = <?php echo json_encode($countryCode); ?>;
-
     var form = document.getElementById('payment-form');
     form.addEventListener('submit', function(event) {
         event.preventDefault();
 
-        var formData = new FormData();
-        formData.append('firstName', firstName);
-        formData.append('lastName', lastName);
-        formData.append('email', email);
-        formData.append('phoneNumber', phoneNumber);
-        formData.append('numPassengers', numPassengers);
-        formData.append('pickUpAddress', pickUpAddress);
-        formData.append('destinationAddress', destinationAddress);
-        formData.append('paymentMethod', paymentMethod);
-        formData.append('rideDuration', rideDuration);
-        formData.append('bookingFee', bookingFee);
-        formData.append('driverFare', driverFare);
-        formData.append('totalFare', totalFare);
-        formData.append('returnDuration', returnDuration);
-        formData.append('pickUpDuration', pickUpDuration);
-        formData.append('hub', hub);
-        formData.append('baseFare', baseFare);
-        formData.append('serviceDetails', serviceDetails);
-        formData.append('serviceDuration', serviceDuration);
-        formData.append('pickUpDate', pickUpDate);
-        formData.append('hours', hours);
-        formData.append('minutes', minutes);
-        formData.append('ampm', ampm);
-        formData.append('countryCode', countryCode);
+        var formData = new FormData(form);
 
         fetch('saveit.php', {
             method: 'POST',

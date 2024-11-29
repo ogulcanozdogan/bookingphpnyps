@@ -1,5 +1,6 @@
 <?php  
 include('inc/init.php');
+include('inc/db.php');
    if ($_POST){
    $firstName = $_POST["firstName"]; // default value 1
    $lastName = $_POST["lastName"]; // default value 1
@@ -34,6 +35,51 @@ include('inc/init.php');
 		exit;
 }
 
+// New York saat dilimini kullanarak bugünün tarihini al
+date_default_timezone_set('America/New_York');
+$currentNewYorkDate = date('Y-m-d');
+
+// Saat, dakika ve AM/PM değerlerini birleştirerek saat formatını oluştur
+$formattedTime = $hours . ":" .  $minutes . " " . $ampm;
+
+// Saat dilimi bloklarını tanımla
+$blockedTimeSlots = [
+    '10:00 AM' => ['10:00 AM', '10:15 AM', '10:30 AM', '10:45 AM', '11:00 AM', '11:15 AM'],
+    '11:30 AM' => ['11:30 AM', '11:45 AM', '12:00 PM', '12:15 PM', '12:30 PM', '12:45 PM'],
+    '1:00 PM'  => ['1:00 PM', '1:15 PM', '1:30 PM', '1:45 PM', '2:00 PM', '2:15 PM'],
+    '2:30 PM'  => ['2:30 PM', '2:45 PM', '3:00 PM', '3:15 PM', '3:30 PM', '3:45 PM'],
+    '4:00 PM'  => ['4:00 PM', '4:15 PM', '4:30 PM', '4:45 PM', '5:00 PM', '5:15 PM']
+];
+
+$sorgu = $baglanti->prepare("SELECT * FROM unavailable_times");
+$sorgu->execute();
+
+while ($sonuc = $sorgu->fetch(PDO::FETCH_ASSOC)) {
+    $datecheck = $sonuc['date'];
+    $timeSlotCheck = strtoupper(trim($sonuc['time_slot'])); // Büyük/küçük harf ve boşluk kontrolü
+	$status = $sonuc['status'];
+
+if ($status == 'unavailable')	{
+    // Geçmiş tarihleri atla ve sadece bugünden sonraki tarihleri kontrol et
+    if ($datecheck >= $currentNewYorkDate) {
+        // Tarih aynıysa ve saat dilimi bloklanmışsa yönlendirme yap
+        if ($pickUpDate == $datecheck) {
+            // Saat dilimini kontrol etmeden önce bloklanan zaman dilimlerini düzenle
+            if (isset($blockedTimeSlots[$timeSlotCheck])) {
+                // Bloklanan zaman dilimlerini büyük harf yaparak kontrol et
+                $blockedTimes = array_map('strtoupper', $blockedTimeSlots[$timeSlotCheck]);
+
+                // Mevcut saat dilimi bloklanmış zaman dilimleri arasındaysa yönlendirme yap
+                if (in_array(strtoupper($formattedTime), $blockedTimes)) {
+					$postData = http_build_query($_POST); // Tüm POST verilerini query string'e çevir
+					header("location: index.php?unavailable_time=yes&$postData");
+                    exit;
+                }
+            }
+        }
+    }
+}
+}
    
 $hub1 = "40.766941088678855, -73.97899952992152";
 $hub2 = "6th Avenue and Central Park South New York, NY 10019";
@@ -51,18 +97,18 @@ $hour24 = (int) $pickupDateTime->format('G'); // 24-hour format
 // Define hourly operation fares
 $operationFareRates = [
     'default' => [
-        'weekday' => 30,
-        'weekend' => 35
+        'weekday' => 25,
+        'weekend' => 30
     ],
     'december' => [
-        'weekday' => 40,
-        'weekend' => 45
+        'weekday' => 35,
+        'weekend' => 40
     ]
 ];
 
 // Base Fare calculation
 $isWeekend = in_array($dayOfWeek, ["Friday", "Saturday", "Sunday"]);
-$baseFare = $isWeekend ? 35 : 30;
+$baseFare = $isWeekend ? 30 : 25;
 if ($month == "December") {
     $baseFare += 10;
 }
@@ -174,14 +220,21 @@ if ($paymentMethod == "card") {
     $driverFare *= 1.1;
 }
 
+  $pedicabCount = ceil($numPassengers / 3);
+  $driverFare = $driverFare * $pedicabCount;
+  $bookingFee = $bookingFee * $pedicabCount;
+  
 // Calculate Total Fare
 $totalFare = $baseFare + $bookingFee + $driverFare;
+
+$bookingFee = 0.2 * $totalFare;
+$driverFare = 0.8 * $totalFare;
    
 $date = DateTime::createFromFormat('m/d/Y', $pickUpDate);
 
 // Get day value
 $pickUpDay = $date->format('l');
-
+$driverFarePerDriver = number_format($driverFare/$pedicabCount, 2);
 require('inc/countryselect.php');
    ?>
 <!DOCTYPE html>
@@ -254,6 +307,7 @@ require('inc/countryselect.php');
             box-sizing: border-box;
         }
       </style>
+	  <!-- Google tag (gtag.js) --> <script async src=" https://www.googletagmanager.com/gtag/js?id=AW-16684451653 "></script> <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'AW-16684451653'); </script>
    </head>
    <body>
       <form method="post" id="myform" autocomplete="off" action="step3.php">
@@ -272,12 +326,12 @@ require('inc/countryselect.php');
                   <div id="map" style="margin-top:30px;"></div>
                   <table class="table">
                      <tbody>
-					 <tr>
+					<!--  <tr>
 					 <th scope="row">hubs</th>
 					 <td>Hub1: West Drive and West 59th Street New York, NY 10019</td>
 					 <td>Hub2: 6th Avenue and Central Park South New York, NY 10019</td>
 					 </tr>
-					<!-- 	<tr>
+						<tr>
 						<th scope="row">Debug Area</th>
 						<td>Pickup1 hub1 to pickup Duration: <?=$pickup1?></td>
 						<td>Pickup2 pcikup to hub2 Duration: <?=$pickup2?></td>
@@ -285,10 +339,17 @@ require('inc/countryselect.php');
 						<td>Return1 hub1 to destination Duration: <?=$return1?></td>
 						<td>Return2 destination to hub 2 Duration: <?=$return2?></td>
 						</tr> -->
-                        <tr>
-                           <th scope="row">Number of Passengers</th>
-                           <td><?=$numPassengers?></td>
-                        </tr>
+<tr>
+    <th scope="row">Number of Passengers</th>
+    <td>
+        <?php
+        $pedicabCount = ceil($numPassengers / 3);
+        $pedicabLabel = $pedicabCount == 1 ? 'Pedicab' : 'Pedicabs';
+        echo $numPassengers . ' (' . $pedicabCount . ' ' . $pedicabLabel . ')';
+        ?>
+    </td>
+</tr>
+
                         <tr>
                            <th scope="row">Date of Tour</th>
                            <td><?=$pickUpDate . ' ' . $pickUpDay?></td>
@@ -319,7 +380,10 @@ require('inc/countryselect.php');
                             </tr>
                             <tr>
                                 <th scope="row">Driver Fare</th>
-                                 <td>$<?= number_format($driverFare, 2) ?> with <?= $paymentMethod == 'card' ? 'debit/credit card' : $paymentMethod ?></td>
+                                 <td>$<?= number_format($driverFare, 2) ?> 								 
+								 <?php if ($pedicabCount != 1) {?>
+								 ($<?= $driverFarePerDriver ?> per driver)
+								 <?php } ?> with <?= $paymentMethod == 'card' ? 'debit/credit card' : $paymentMethod ?></td>
                             </tr>
                             <tr style="background-color:green;">
                            <th scope="row" style="color:white;">Total Fare</th>
@@ -333,7 +397,7 @@ require('inc/countryselect.php');
                   <h2 class="text-center mb-4 font-weight-bold" style="color:#0909ff;">Passenger Details</h2>
 <div class="form-group">
     <label for="firstName">First Name</label>
-    <input maxlength="50" title="" type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter your first name" 
+    <input maxlength="15" title="" type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter your first name" 
         <?php if (isset($_POST['firstName']) && !empty($_POST['firstName'])) { ?>
             value="<?php echo htmlspecialchars($_POST['firstName']); ?>"
         <?php } ?> 
@@ -342,7 +406,7 @@ require('inc/countryselect.php');
 </div>
 <div class="form-group">
     <label for="lastName">Last Name</label>
-    <input maxlength="50" title="" type="text" class="form-control" id="lastName" name="lastName" placeholder="Enter your last name" 
+    <input maxlength="15" title="" type="text" class="form-control" id="lastName" name="lastName" placeholder="Enter your last name" 
         <?php if (isset($_POST['lastName']) && !empty($_POST['lastName'])) { ?>
             value="<?php echo htmlspecialchars($_POST['lastName']); ?>"
         <?php } ?> 
@@ -351,7 +415,7 @@ require('inc/countryselect.php');
 </div>
 <div class="form-group">
     <label for="email">Email Address</label>
-    <input maxlength="50" title="" type="email" class="form-control" id="email" name="email" placeholder="Enter your email address" 
+    <input maxlength="30" title="" type="email" class="form-control" id="email" name="email" placeholder="Enter your email address" 
         <?php if (isset($_POST['email']) && !empty($_POST['email'])) { ?>
             value="<?php echo htmlspecialchars($_POST['email']); ?>"
         <?php } ?> 
@@ -403,98 +467,128 @@ require('inc/countryselect.php');
       </div>
       </form>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<?php
+include('inc/db.php');
+$zipCodes = [];
+$sorgu = $baglanti->prepare("SELECT * FROM zip_codes WHERE app_id = 1");
+$sorgu->execute();
+while ($sonuc = $sorgu->fetch()) { 
+$zipCodes[] = $sonuc['zip_code'];
+}
+?>
+<script>
+    function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 14,
+            center: {lat: 40.712776, lng: -74.005974},
+            styles: [
+                {
+                    featureType: 'road',
+                    elementType: 'geometry',
+                    stylers: [{color: '#f5f1e6'}]
+                }
+            ]
+        });
 
-      <script>
-         function initMap() {
-             var map = new google.maps.Map(document.getElementById('map'), {
-                 zoom: 14,
-                 center: {lat: 40.712776, lng: -74.005974},
-                 styles: [
-                     {
-                         featureType: 'road',
-                         elementType: 'geometry',
-                         stylers: [{color: '#f5f1e6'}]
-                     }
-                 ]
-             });
-         
-             var directionsService = new google.maps.DirectionsService();
-             var directionsRenderer = new google.maps.DirectionsRenderer({
-                 map: map,
-                 suppressMarkers: true,  // Remove default markers
-                 polylineOptions: {
-                     strokeColor: '#FF0000',  // Set line color to red
-                     strokeOpacity: 0,      // Line opacity
-                     strokeWeight: 6          // Line thickness
-                 }
-             });
-         
-             var pickupAddress = <?php echo json_encode($deneme2); ?>;
-             var destinationAddress = <?php echo json_encode($destinationAddress); ?>;
-         
-             calculateAndDisplayRoute(directionsService, directionsRenderer, map, pickupAddress, destinationAddress);
-         }
-         
-         function calculateAndDisplayRoute(directionsService, directionsRenderer, map, pickupAddress, destinationAddress) {
-             directionsService.route({
-                 origin: pickupAddress,
-                 destination: destinationAddress,
-                 travelMode: 'BICYCLING',
-                 provideRouteAlternatives: true  // Provide alternative routes
-             }, function(response, status) {
-                 if (status === 'OK') {
-                     var fastestRouteIndex = findFastestRouteIndex(response.routes);
-                     directionsRenderer.setDirections(response);
-                     directionsRenderer.setRouteIndex(fastestRouteIndex);
-                     addCustomMarkers(response.routes[fastestRouteIndex], map);
-         
-                     // Calculate the duration of the route
-         var durationMinutes = parseFloat(response.routes[fastestRouteIndex].legs.reduce((sum, leg) => sum + leg.duration.value, 0) / 60);
-         
-         
-         
-         			console.log("durationMinutes: " + durationMinutes);
-         			
-         
-         
-                 } else {
-                     window.alert('Directions request failed due to ' + status);
-                 }
-             });
-         }
-         
-         
-         function findFastestRouteIndex(routes) {
-             var index = 0;
-             var minDuration = Number.MAX_VALUE;
-         
-             routes.forEach(function(route, i) {
-                 var routeDuration = route.legs.reduce((sum, leg) => sum + leg.duration.value, 0);
-                 if (routeDuration < minDuration) {
-                     minDuration = routeDuration;
-                     index = i;
-                 }
-             });
-         
-             return index;
-         }
-         
-         function addCustomMarkers(route, map) {
-             var startMarker = new google.maps.Marker({
-                 position: route.legs[0].start_location,
-                 map: map,
-                 label: 'S',
-                 title: 'Start: ' + route.legs[0].start_address
-             });
-         
-             var endMarker = new google.maps.Marker({
-                 position: route.legs[0].end_location,
-                 map: map,
-                 label: 'F',
-                 title: 'End: ' + route.legs[0].end_address
-             });
-         }
-      </script>
+        var directionsService = new google.maps.DirectionsService();
+        var directionsRenderer = new google.maps.DirectionsRenderer({
+            map: map,
+            suppressMarkers: true,  // Remove default markers
+            polylineOptions: {
+                strokeColor: '#FF0000',  // Set line color to red
+                strokeOpacity: 0,        // Line opacity
+                strokeWeight: 6          // Line thickness
+            }
+        });
+
+        var pickupAddress = <?php echo json_encode($deneme2); ?>;
+        var destinationAddress = <?php echo json_encode($destinationAddress); ?>;
+        var allowedZipCodes = <?php echo json_encode($zipCodes); ?>; 
+
+        geocodeAndCheckAddress(pickupAddress, allowedZipCodes, function(pickupLocation) {
+            geocodeAndCheckAddress(destinationAddress, allowedZipCodes, function(destinationLocation) {
+                calculateAndDisplayRoute(directionsService, directionsRenderer, map, pickupLocation, destinationLocation);
+            });
+        });
+    }
+
+    function geocodeAndCheckAddress(address, allowedZipCodes, callback) {
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ 'address': address }, function(results, status) {
+            if (status === 'OK') {
+                var zipCode = getZipCodeFromPlace(results[0]);
+                if (allowedZipCodes.includes(zipCode)) {
+                    callback(results[0].geometry.location);
+                } else {
+                    window.location.href = 'index.php?error=yes';
+                }
+            } else {
+                window.location.href = 'index.php?error=yes';
+            }
+        });
+    }
+
+    function getZipCodeFromPlace(place) {
+        var zipCodeComponent = place.address_components.find(function(component) {
+            return component.types.indexOf("postal_code") > -1;
+        });
+        return zipCodeComponent ? zipCodeComponent.long_name : null;
+    }
+
+    function calculateAndDisplayRoute(directionsService, directionsRenderer, map, pickupLocation, destinationLocation) {
+        directionsService.route({
+            origin: pickupLocation,
+            destination: destinationLocation,
+            travelMode: 'BICYCLING',
+            provideRouteAlternatives: true  // Provide alternative routes
+        }, function(response, status) {
+            if (status === 'OK') {
+                var fastestRouteIndex = findFastestRouteIndex(response.routes);
+                directionsRenderer.setDirections(response);
+                directionsRenderer.setRouteIndex(fastestRouteIndex);
+                addCustomMarkers(response.routes[fastestRouteIndex], map);
+
+                // Calculate the duration of the route
+                var durationMinutes = parseFloat(response.routes[fastestRouteIndex].legs.reduce((sum, leg) => sum + leg.duration.value, 0) / 60);
+                console.log("durationMinutes: " + durationMinutes);
+
+            } else {
+                window.location.href = 'index.php?error=yes';
+            }
+        });
+    }
+
+    function findFastestRouteIndex(routes) {
+        var index = 0;
+        var minDuration = Number.MAX_VALUE;
+
+        routes.forEach(function(route, i) {
+            var routeDuration = route.legs.reduce((sum, leg) => sum + leg.duration.value, 0);
+            if (routeDuration < minDuration) {
+                minDuration = routeDuration;
+                index = i;
+            }
+        });
+
+        return index;
+    }
+
+    function addCustomMarkers(route, map) {
+        var startMarker = new google.maps.Marker({
+            position: route.legs[0].start_location,
+            map: map,
+            label: 'S',
+            title: 'Start: ' + route.legs[0].start_address
+        });
+
+        var endMarker = new google.maps.Marker({
+            position: route.legs[0].end_location,
+            map: map,
+            label: 'F',
+            title: 'End: ' + route.legs[0].end_address
+        });
+    }
+</script>
       <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFigWHFZKkoNdO0r6siMTgawuNxwlabRU&callback=initMap"></script>  
       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
       <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>

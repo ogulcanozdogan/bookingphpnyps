@@ -3,7 +3,7 @@ $host = 'localhost';
 $dbname = 'PedicabsOnDemand';
 $username = 'dashboard';
 $password = 'Ogulcan07!?!';
-$charset = 'utf8';
+$charset = 'utf8mb4';
 //$collate = 'utf8_unicode_ci';
 $dsn = "mysql:host=$host;dbname=$dbname;charset=$charset";
 $options = [

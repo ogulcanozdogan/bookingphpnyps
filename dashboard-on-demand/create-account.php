@@ -7,6 +7,8 @@ if (isset($_SESSION["Oturum"]) && $_SESSION["Oturum"] == "6789") {
     header("location:index.php");
     exit();
 }
+require_once "vendor/autoload.php";
+include('whatsapp.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -111,22 +113,22 @@ if (isset($_SESSION["Oturum"]) && $_SESSION["Oturum"] == "6789") {
             </div>
             <form id="registerForm" method="post">
                 <div class="form-outline mb-4">
-                    <input type="text" name="name" id="form2Example11" class="form-control" placeholder="First Name" aria-label="First Name" required/>
+                    <input type="text" name="name" id="form2Example11" class="form-control" maxlength="20" placeholder="First Name" aria-label="First Name" required oninput="validateInput(this)"/>
                 </div>
                 <div class="form-outline mb-4">
-                    <input type="text" name="surname" id="form2Example12" class="form-control" placeholder="Last Name" aria-label="Last Name" required/>
+                    <input type="text" name="surname" id="form2Example12" class="form-control" maxlength="20" placeholder="Last Name" aria-label="Last Name" required oninput="validateInput(this)"/>
                 </div>
                 <div class="form-outline mb-4">
-                    <input type="text" name="user" id="form2Example13" class="form-control" placeholder="Username" aria-label="Username" required/>
+                    <input type="text" name="user" id="form2Example13" class="form-control" maxlength="35" placeholder="Username" aria-label="Username" required />
                 </div>
                 <div class="form-outline mb-4">
-                    <input type="password" name="pass" id="form2Example14" class="form-control" placeholder="Password" aria-label="Password" required/>
+                    <input type="password" name="pass" id="form2Example14" class="form-control" placeholder="Password" aria-label="Password" required />
                 </div>
                 <div class="form-outline mb-4">
-                    <input type="email" name="email" id="form2Example15" class="form-control" placeholder="Email Address" aria-label="Email Address" required/>
+                    <input type="email" name="email" id="form2Example15" class="form-control" maxlength="35" placeholder="Email Address" aria-label="Email Address" required oninput="validateEmail(this)"/>
                 </div>
                 <div class="form-outline mb-4">
-                    <input type="text" name="pdf_id" id="form2Example16" class="form-control" placeholder="Dashboard Identification" aria-label="Dashboard Identification" required/>
+                    <input type="text" name="pdf_id" id="form2Example16" class="form-control" placeholder="Dashboard Identification" aria-label="Dashboard Identification" required />
                 </div>
                 <div class="form-outline mb-4">
                     <div class="phone-container">
@@ -134,7 +136,7 @@ if (isset($_SESSION["Oturum"]) && $_SESSION["Oturum"] == "6789") {
                             <img src="https://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_States.svg" class="flag-img" alt="USA Flag">
                             +1
                         </div>
-                        <input type="tel" id="phoneNumber" name="number" class="form-control" placeholder="U.S. Whatsapp Phone Number" aria-label="U.S. Whatsapp Phone Number" required/>
+                        <input type="tel" id="phoneNumber" name="number" class="form-control" placeholder="U.S. Whatsapp Phone Number" aria-label="U.S. Whatsapp Phone Number" required />
                     </div>
                 </div>
                 <div style="text-align:center;"><input style="text-align:center;" type="submit" class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" value="Create Account"/></div>
@@ -151,35 +153,35 @@ if (isset($_SESSION["Oturum"]) && $_SESSION["Oturum"] == "6789") {
 
                 // Check if name and surname contain only letters and no special characters
                 if (!preg_match("/^[a-zA-Z]+$/", $name)) {
-                    echo '<script>swal("Error", "Name can only contain letters.", "error").then((value)=>{ window.location.href = "register.php"});</script>';
+                    echo '<script>swal("Error", "Name can only contain letters.", "error").then((value)=>{ window.location.href = "create-account.php"});</script>';
                     exit();
                 }
                 if (!preg_match("/^[a-zA-Z]+$/", $surname)) {
-                    echo '<script>swal("Error", "Surname can only contain letters.", "error").then((value)=>{ window.location.href = "register.php"});</script>';
+                    echo '<script>swal("Error", "Surname can only contain letters.", "error").then((value)=>{ window.location.href = "create-account.php"});</script>';
                     exit();
                 }
                 
                 // Check if username is at least 5 characters and does not contain special characters
                 if (strlen($user) < 5 || preg_match("/[\'^£$%&*()}{@#~?><>,|=_+¬-]/", $user)) {
-                    echo '<script>swal("Error", "Username must be at least 5 characters long and cannot contain special characters.", "error").then((value)=>{ window.location.href = "register.php"});</script>';
+                    echo '<script>swal("Error", "Username must be at least 5 characters long and cannot contain special characters.", "error").then((value)=>{ window.location.href = "create-account.php"});</script>';
                     exit();
                 }
 
                 // Check if password is at least 8 characters long, contains at least one letter and one number, and does not contain special characters
                 if (!preg_match("/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/", $pass) || preg_match("/[\'^£$%&*()}{@#~?><>,|=_+¬-]/", $pass)) {
-                    echo '<script>swal("Error", "Password must be at least 8 characters long, contain at least one letter and one number, and cannot contain special characters.", "error").then((value)=>{ window.location.href = "register.php"});</script>';
+                    echo '<script>swal("Error", "Password must be at least 8 characters long, contain at least one letter and one number, and cannot contain special characters.", "error").then((value)=>{ window.location.href = "create-account.php"});</script>';
                     exit();
                 }
 
                 // Check if phone number is at least 10 digits long
                 if (strlen($number) < 10) {
-                    echo '<script>swal("Error", "Phone number must be at least 10 digits long.", "error").then((value)=>{ window.location.href = "register.php"});</script>';
+                    echo '<script>swal("Error", "Phone number must be at least 10 digits long.", "error").then((value)=>{ window.location.href = "create-account.php"});</script>';
                     exit();
                 }
 
                 // Validate email
-                if (!filter_var($email, FILTER_VALIDATE_EMAIL) || preg_match("/[\'^£$%&*()}{#~?><>,|=_+¬-]/", $email)) {
-                    echo '<script>swal("Error", "Invalid email address.", "error").then((value)=>{ window.location.href = "register.php"});</script>';
+                if (!filter_var($email, FILTER_VALIDATE_EMAIL) || preg_match("/[\'^£$%&*()}{#~?><>,|=+]/", $email)) {
+                    echo '<script>swal("Error", "Invalid email address.", "error").then((value)=>{ window.location.href = "create-account.php"});</script>';
                     exit();
                 }
 
@@ -187,9 +189,26 @@ if (isset($_SESSION["Oturum"]) && $_SESSION["Oturum"] == "6789") {
                 $sorgu = $baglanti->prepare("SELECT * FROM users WHERE user=:user");
                 $sorgu->execute(['user' => $user]);
                 if ($sorgu->rowCount() > 0) {
-                    echo '<script>swal("Error","This username is already in use!","error").then((value)=>{ window.location.href = "register.php"});</script>';
+                    echo '<script>swal("Error","This username is already in use!","error").then((value)=>{ window.location.href = "create-account.php"});</script>';
                     exit();
                 }
+				
+				// Check phone
+                $sorgu = $baglanti->prepare("SELECT * FROM users WHERE number=:number");
+                $sorgu->execute(['number' => $number]);
+                if ($sorgu->rowCount() > 0) {
+                    echo '<script>swal("Error","This phone number is already in use!","error").then((value)=>{ window.location.href = "create-account.php"});</script>';
+                    exit();
+                }
+				
+				// Check email
+                $sorgu = $baglanti->prepare("SELECT * FROM users WHERE email=:email");
+                $sorgu->execute(['email' => $email]);
+                if ($sorgu->rowCount() > 0) {
+                    echo '<script>swal("Error","This email is already in use!","error").then((value)=>{ window.location.href = "create-account.php"});</script>';
+                    exit();
+                }
+
 
                 include("inc/registrationdb.php"); // Additional Database connection
                 
@@ -197,9 +216,9 @@ if (isset($_SESSION["Oturum"]) && $_SESSION["Oturum"] == "6789") {
                 $sorgu = $baglanti2->prepare("SELECT * FROM registration WHERE id=:pdf_id");
                 $sorgu->execute(['pdf_id' => $pdf_id]);
                 if ($sorgu->rowCount() <= 0) {
-                    echo '<script>swal("Error","This Pedicab Driver Registration ID is invalid!","error").then((value)=>{ window.location.href = "register.php"});</script>';
+                    echo '<script>swal("Error","This Pedicab Driver Registration ID is invalid!","error").then((value)=>{ window.location.href = "create-account.php"});</script>';
                     exit();
-                }
+                } 
 
                 $hashed_password = password_hash($pass, PASSWORD_DEFAULT);
                 $satir = [
@@ -219,7 +238,43 @@ if (isset($_SESSION["Oturum"]) && $_SESSION["Oturum"] == "6789") {
                     $durum = $stmt->execute($satir);
                     if ($durum) {
                         echo '<script>swal("Successful","Registration successful. Please contact the administrator to activate your driver account.","success").then((value)=>{ window.location.href = "login.php"});</script>';
-                    } else {
+                   
+    $formattedPhone = "whatsapp:+1" . $number;
+
+    $message = "Your driver account registration is successful! -New York Pedicab Services";
+
+    $messageSid = sendWhatsAppMessage($twilio, $formattedPhone, $message);
+
+
+
+    $email1 = new \SendGrid\Mail\Mail(); 
+    $email1->setFrom("info@newyorkpedicabservices.com", "NYPS");
+    $email1->setSubject("Your registration is successful! - NYPS");
+    $email1->addTo($email, $name);
+    $htmlContent1 = <<<EOD
+<html>
+<body>
+    <p><strong>Hello $name.</strong></p>
+    <p>Your driver account registration is successful!</p>
+    <p>Thank you,</p>    
+    <p>New York Pedicab Services</p>   
+    <p>(212) 961-7435</p>   
+    <p>info@newyorkpedicabservices.com</p>       
+</body>
+</html>
+EOD;
+    $email1->addContent("text/html", $htmlContent1);
+    $sendgrid = new \SendGrid('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');
+    try {
+        $response1 = $sendgrid->send($email1);
+    } catch (Exception $e) {
+        echo 'Caught exception: '. $e->getMessage() . "\n";
+    }
+
+
+
+
+				   } else {
                         echo "SQL Error: " . implode(", ", $stmt->errorInfo()) . "<br>";
                     }
                 } catch (PDOException $e) {
@@ -258,6 +313,14 @@ if (isset($_SESSION["Oturum"]) && $_SESSION["Oturum"] == "6789") {
             phoneNumberInput.value = rawNumber;
         });
     </script>
+	<script>
+function validateInput(input) {
+    input.value = input.value.replace(/[^a-zA-Z\s]/g, '');
+}
+function validateEmail(input) {
+    input.value = input.value.replace(/[^a-zA-Z0-9@._-]/g, '');
+}
+</script>
 </body>
 </html>
 <?php ob_flush(); ?>

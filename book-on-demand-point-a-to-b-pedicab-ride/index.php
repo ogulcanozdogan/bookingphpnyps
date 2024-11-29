@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	  <title>Book On Demand Point A to B Pedicab Ride</title>
 	  <meta name="description" content="On Demand Point A to B Pedicab Ride Booking Application">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	  	<meta name="robots" content="noindex,nofollow">
+	<meta name="robots" content="index, follow">
       <!-- Added viewport meta tag -->
   <link rel="preload" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"></noscript>
@@ -31,6 +31,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <noscript><link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"></noscript>
 
       <link type="text/css" href="css/style.css" rel="stylesheet">
+	  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G3HDRQGC05"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-G3HDRQGC05');
+</script>
    </head>
    <body>
       <form onsubmit="return validateForm()" method="post" id="myForm" action="step2.php">
@@ -58,7 +67,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
     <div class="error-text">
     <?php if ($_GET["error"] == "yes") {
-        echo "You are trying to book a ride outside of our main service areas.<br>Please, use the form below instead.<br><a href='https://newyorkpedicabservices.com/request-on-demand-central-park-pedicab-tour/'>Request On Demand Central Park Pedicab Tour</a>";
+        echo "You are trying to book a ride outside of our main service areas.<br>Please, use the form below instead.<br><a href='https://newyorkpedicabservices.com/request-scheduled-point-a-to-b-pedicab-ride/'>Request Scheduled Point A to B Pedicab ride</a>";
+    } ?>
+    </div>
+</div>
+
+				<div class="error-message2" id="error-message2" <?php if (
+                     $_GET["error"] != "unavailable"
+                 ) {
+                     echo 'style="display: none;"';
+                 } ?>>
+    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+    <div class="error-text">
+    <?php if ($_GET["error"] == "unavailable") {
+        echo "We are unavailable on this date.";
+    } ?>
+    </div>
+</div>
+
+
+<div class="error-message2" id="error-message2" <?php if (
+                     $_GET["error"] != "unavailabletime"
+                 ) {
+                     echo 'style="display: none;"';
+                 } ?>>
+    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+    <div class="error-text">
+    <?php if ($_GET["error"] == "unavailabletime") {
+        echo "We are unavailable on this time.";
     } ?>
     </div>
 </div>
@@ -159,9 +195,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     };
 </script>
 <script>
+document.getElementById('prevButton').addEventListener('click', function() {
+    window.location.href = 'https://newyorkpedicabservices.com/point-a-to-point-b-pedicab-rides.html';
+});
+
+</script>
+<?php
+include('inc/db.php');
+$zipCodes = [];
+$sorgu = $baglanti->prepare("SELECT * FROM zip_codes WHERE app_id = 3");
+$sorgu->execute();
+while ($sonuc = $sorgu->fetch()) { 
+$zipCodes[] = $sonuc['zip_code'];
+}
+?>
+<script>
 function initAutocomplete() {
     var manhattanBounds = new google.maps.LatLngBounds(
-        new google.maps.LatLng(40.70172445894308, -74.02835332961955), // Southwest corner of Manhattan (Battery Park)
+        new google.maps.LatLng(40.699417303744625, -74.0283104499974), // Southwest corner of Manhattan (Battery Park)
         new google.maps.LatLng(40.81370673870937, -73.91583560578955)  // Northeast corner of Manhattan (Inwood)
     );
 
@@ -170,22 +221,8 @@ function initAutocomplete() {
         strictBounds: true // Restricts results to within the specified bounds
     };
 
- var allowedZipCodes = [
-        '10000', '10001', '10002', '10003', '10004', '10005', '10006', '10007', '10008', '10009',
-        '10010', '10011', '10012', '10013', '10014', '10015', '10016', '10017', '10018', '10019',
-        '10020', '10021', '10022', '10023', '10024', '10025', '10026', '10028', '10029', '10036',
-        '10038', '10041', '10043', '10045', '10055', '10060', '10065', '10069', '10075', '10080',
-        '10081', '10087', '10090', '10101', '10102', '10103', '10104', '10105', '10106', '10107',
-        '10108', '10109', '10110', '10111', '10112', '10113', '10114', '10116', '10117', '10118',
-        '10119', '10120', '10121', '10122', '10123', '10124', '10126', '10128', '10129', '10130',
-        '10131', '10132', '10133', '10138', '10151', '10152', '10153', '10154', '10155', '10156',
-        '10157', '10158', '10159', '10160', '10162', '10163', '10164', '10165', '10166', '10167',
-        '10168', '10169', '10170', '10171', '10172', '10173', '10174', '10175', '10176', '10177',
-        '10178', '10179', '10185', '10199', '10203', '10211', '10212', '10242', '10249', '10256',
-        '10258', '10259', '10260', '10261', '10265', '10268', '10269', '10270', '10271', '10272',
-        '10273', '10274', '10275', '10276', '10277', '10278', '10279', '10280', '10281', '10282',
-        '10285', '10286'
-    ];
+var allowedZipCodes = <?php echo json_encode($zipCodes); ?>;
+
 
     var pickUpInput = document.getElementById('pickUpAddress');
     var destinationInput = document.getElementById('destinationAddress');
@@ -212,7 +249,7 @@ function initAutocomplete() {
             inputField.value = customPlaceName && !addressWithoutCountry.includes(customPlaceName) ? `${addressWithoutCountry} (${customPlaceName})` : addressWithoutCountry;
         } else {
             console.error("Invalid postal code.");
-            showError("You are trying to book a tour outside of our main service areas.<br> Please, use the form below instead.<br><a href='https://newyorkpedicabservices.com/request-point-a-to-b-pedicab-tour.html'>Request Point A to B Pedicab Tour</a>");
+            showError("You are trying to book a tour outside of our main service areas.<br> Please, use the form below instead.<br><a href='https://newyorkpedicabservices.com/request-scheduled-point-a-to-b-pedicab-ride/'>Request Scheduled Point A to B Pedicab ride</a>");
             inputField.value = ""; // Clear the address field
         }
     }
@@ -250,26 +287,12 @@ function initAutocomplete() {
     }
 
 
-    function checkTimeValidity() {
-        var now = new Date();
-        var utcHour = now.getUTCHours();
-        var nyHour = utcHour - 4; // New York Time (EST) is UTC-4
-
-        if (nyHour < 0) nyHour += 24;
-
-        if (nyHour < 9 || nyHour > 22) {
-            showError("Please, do not use this application to book a tour between 5:01 pm and 8:59 am.");
-            return false;
-        }
-        return true;
-    }
-
- autocompletePickup.addListener('place_changed', function() {
-    handlePlaceChanged(autocompletePickup, pickUpInput);
+autocompletePickup.addListener('place_changed', function() {
+        handlePlaceChanged(autocompletePickup, pickUpInput);
 });
 
 autocompleteDestination.addListener('place_changed', function() {
-    handlePlaceChanged(autocompleteDestination, destinationInput);
+        handlePlaceChanged(autocompleteDestination, destinationInput);
 });
 }
 </script>

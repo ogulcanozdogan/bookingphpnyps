@@ -53,9 +53,9 @@
             'dev_requirement' => false,
         ),
         'twilio/sdk' => array(
-            'pretty_version' => '8.0.1',
-            'version' => '8.0.1.0',
-            'reference' => '161fbeb588f367e35e70a86841406ff6f0810b14',
+            'pretty_version' => '8.3.0',
+            'version' => '8.3.0.0',
+            'reference' => 'da842421814abaacb1c57eaacd7e8de19bbdbee6',
             'type' => 'library',
             'install_path' => __DIR__ . '/../twilio/sdk',
             'aliases' => array(),

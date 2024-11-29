@@ -48,8 +48,8 @@ if ($dateOrder) {
     // Format to get the day name
     $dayOfOrder = $dateOrder->format("l");
 }
-
-
+        $pedicabCount = ceil($numPassengers / 3);
+		$driverFarePerDriver = number_format($driverFare/$pedicabCount, 2);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -101,10 +101,17 @@ if ($dateOrder) {
                             <th scope="row">Phone Number</th>
                             <td><?= $phoneNumber ?></td>
                         </tr>
-                        <tr>
-                            <th scope="row">Number of Passengers</th>
-                            <td><?= $numPassengers ?></td>
-                        </tr>
+<tr>
+    <th scope="row">Number of Passengers</th>
+    <td>
+        <?php
+        $pedicabCount = ceil($numPassengers / 3);
+        $pedicabLabel = $pedicabCount == 1 ? 'Pedicab' : 'Pedicabs';
+        echo $numPassengers . ' (' . $pedicabCount . ' ' . $pedicabLabel . ')';
+        ?>
+    </td>
+</tr>
+
                         <tr>
                             <th scope="row">Date of Service</th>
                           <td><?php echo $pickUpDate . ' ' .$pickUpDay;?></td>
@@ -163,7 +170,9 @@ if ($paymentMethod == "CASH"){
                         </tr>
                         <tr>
                             <th scope="row">Driver Fare</th>
-                            <td>$<?= number_format($driverFare, 2) ?>  with <?= $paymentMethod ?> due on <?= $pickUpDate .
+                            <td>$<?= number_format($driverFare, 2) ?> <?php if ($pedicabCount != 1) {?>
+								 ($<?= $driverFarePerDriver ?> per driver)
+								 <?php } ?> with <?= $paymentMethod ?> due on <?= $pickUpDate .
      " " .
      $pickUpDay ?></td>
                         </tr>
